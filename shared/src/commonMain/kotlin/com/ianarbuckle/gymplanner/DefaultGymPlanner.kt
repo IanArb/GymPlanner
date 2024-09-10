@@ -1,20 +1,20 @@
 package com.ianarbuckle.gymplanner
 
 import com.ianarbuckle.gymplanner.data.GymPlannerRepository
-import com.ianarbuckle.gymplanner.model.GymPlan
+import com.ianarbuckle.gymplanner.model.Client
 import kotlinx.coroutines.flow.Flow
 
 class DefaultGymPlanner(private val repository: GymPlannerRepository) : GymPlanner {
 
-    override suspend fun fetchAllGymPlans(): Flow<List<GymPlan>> {
-        return repository.fetchGymPlans()
+    override suspend fun fetchAllClients(): Flow<List<Client>> {
+        return repository.fetchClients()
     }
 
-    override suspend fun saveGymPlan(gymPlan: GymPlan) {
-        repository.saveGymPlan(gymPlan = gymPlan)
+    override suspend fun saveClient(client: Client) {
+        repository.saveClient(client = client)
     }
 
-    override fun findGymPlanById(id: String): GymPlan {
-        return repository.findGymPlan(id)
+    override fun findClientById(id: String): Client {
+        return repository.findClient(id)
     }
 }

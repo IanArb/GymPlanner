@@ -3,67 +3,94 @@ package com.ianarbuckle.gymplanner.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.workout.ClientWorkoutUiState
+import com.ianarbuckle.gymplanner.android.workout.WorkoutViewModel
+import com.ianarbuckle.gymplanner.android.workout.ui.EmptyPlansWorkout
+import com.ianarbuckle.gymplanner.android.workout.ui.WorkoutContent
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: WorkoutViewModel by viewModels()
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
         setContent {
             MyApplicationTheme {
                 Scaffold(
-                    topBar = { TopAppBar(title = { Text("Workouts") }) },
-                    floatingActionButton = {
-                        FloatingActionButton(onClick = {
-                           // TODO
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "Add"
-                            )
-                        }
-                    },
+                    topBar = { TopAppBar(title = { Text("Gym Plan") }) },
                 ) { contentPadding ->
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(contentPadding),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        Text("Workouts",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.padding(10.dp))
-                        LazyColumn {
-                            items(5) {
+                    val state = viewModel.uiState.collectAsState()
 
+                    when (val uiState = state.value) {
+                        ClientWorkoutUiState.Failure -> {
+
+                        }
+                        ClientWorkoutUiState.Idle -> {
+
+                        }
+                        ClientWorkoutUiState.Loading -> {
+                            
+                        }
+                        is ClientWorkoutUiState.ClientClientWorkout -> {
+                            if (uiState.clients.isNotEmpty()) {
+                                WorkoutContent(
+                                    contentPadding,
+                                    uiState.clients.first(),
+                                ) {
+
+                                }
+                            } else {
+                                EmptyPlansWorkout()
                             }
                         }
-                    }
-                }
 
+                        ClientWorkoutUiState.ClientWorkoutExpired -> TODO()
+                    }
+
+                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
+        Scaffold(
+            topBar = { TopAppBar(title = { Text("Gym Plan") }) },
+            floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    // TODO
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add"
+                    )
+                }
+            }
+        ) {
+            WorkoutContent(
+                it,
+                DataProvider.client()
+            ) {
 
+            }
+        }
     }
 }

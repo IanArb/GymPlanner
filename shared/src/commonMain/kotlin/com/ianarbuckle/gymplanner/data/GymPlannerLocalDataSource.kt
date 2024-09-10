@@ -1,96 +1,62 @@
 package com.ianarbuckle.gymplanner.data
 
-import com.ianarbuckle.gymplanner.model.GymPlan
-import com.ianarbuckle.gymplanner.model.Workout
+import com.ianarbuckle.gymplanner.mapper.ClientMapper
+import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
-import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.notifications.InitialResults
-import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.UpdatedResults
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GymPlannerLocalDataSource(private val realm: Realm) {
+class GymPlannerLocalDataSource(private val realm: Realm, private val mapper: ClientMapper) {
 
-    suspend fun saveGymPlan(gymPlan: GymPlan) {
-        val gymDb = GymPlanRealmDto().apply {
-            name = gymPlan.name
-            startDate = gymPlan.startDate
-            endDate = gymPlan.endDate
-            workouts = mapWorkouts(gymPlan.workouts)
+    suspend fun saveGymPlan(client: Client) {
+        val realmClient = ClientRealmDto().apply {
+            firstName = client.firstName
+            surname = client.surname
+            strengthLevel = client.strengthLevel
+            gymPlan = mapper.mapGymPlan(client.gymPlan)
         }
 
         realm.write {
-            this.copyToRealm(gymDb)
+            this.copyToRealm(realmClient)
         }
     }
 
-    private fun mapWorkouts(workouts: List<Workout>): List<WorkoutRealmDto> {
-        return workouts.map { workout ->
-            WorkoutRealmDto().apply {
-                name = workout.name
-                sets = workout.sets
-                repetitions = workout.repetitions
-                weight = workout.weight
-                note = workout.note
-            }
-        }
+    fun findClientById(id: String): Client {
+        val filterByPrimaryKey = realm.query<ClientRealmDto>("_id == $id")
+        val findPrimaryKey = filterByPrimaryKey.find().first()
+
+        return mapper.transformToClientPlan(findPrimaryKey)
     }
 
-    fun findAllGymPlans(): Flow<List<GymPlan>> {
-        return realm.query<GymPlanRealmDto>().asFlow()
+    fun findAllClients(): Flow<List<Client>> {
+        return realm.query<ClientRealmDto>().asFlow()
             .map {
                 when (it) {
                     is InitialResults -> {
-                        transformToGymPlanModel(model = it)
+                        mapper.transformClientDto(clients = it)
                     }
                     is UpdatedResults -> {
-                        transformToGymPlanModel(model = it)
+                        mapper.transformClientDto(clients = it)
                     }
                 }
             }
     }
 
-    fun findGymPlanById(id: String): GymPlan {
-        val filterByPrimaryKey = realm.query<GymPlanRealmDto>("_id == $id")
-        val findPrimaryKey = filterByPrimaryKey.find().first()
+    suspend fun deleteAllClients() {
+        realm.write {
+            val query = this.query<ClientRealmDto>()
 
-        return transformToGymPlan(findPrimaryKey)
-    }
+            val results = query.find()
+            delete(results)
 
-    private fun transformToGymPlan(gymPlanRealmDto: GymPlanRealmDto): GymPlan {
-        return GymPlan(
-            id = gymPlanRealmDto.id.toString(),
-            name = gymPlanRealmDto.name,
-            startDate = gymPlanRealmDto.startDate,
-            endDate = gymPlanRealmDto.endDate,
-            workouts = transformWorkouts(gymPlanRealmDto.workouts)
-        )
-    }
-
-    private fun transformToGymPlanModel(model: ResultsChange<GymPlanRealmDto>): List<GymPlan> {
-        return model.list.map { plan ->
-            GymPlan(
-                id = plan.id.toString(),
-                name = plan.name,
-                startDate = plan.startDate,
-                endDate = plan.endDate,
-                workouts = transformWorkouts(plan.workouts)
-            )
-        }
-    }
-
-    private fun transformWorkouts(workouts: List<WorkoutRealmDto>): List<Workout> {
-        return workouts.map { workout ->
-            Workout(
-                name = workout.name,
-                sets = workout.sets,
-                repetitions = workout.repetitions,
-                weight = workout.weight,
-                note = workout.note,
-            )
+            results.forEach { clients ->
+                delete(clients)
+            }
         }
     }
 

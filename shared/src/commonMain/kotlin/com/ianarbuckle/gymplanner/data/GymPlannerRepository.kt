@@ -1,16 +1,20 @@
 package com.ianarbuckle.gymplanner.data
 
-import com.ianarbuckle.gymplanner.model.GymPlan
+import com.ianarbuckle.gymplanner.model.Client
 import kotlinx.coroutines.flow.Flow
 
 class GymPlannerRepository(private val localDataSource: GymPlannerLocalDataSource) {
 
-    suspend fun saveGymPlan(gymPlan: GymPlan) {
-        return localDataSource.saveGymPlan(gymPlan)
+    suspend fun saveClient(client: Client) {
+        return localDataSource.saveGymPlan(client)
     }
 
-    fun fetchGymPlans(): Flow<List<GymPlan>> = localDataSource.findAllGymPlans()
+    fun fetchClients(): Flow<List<Client>> = localDataSource.findAllClients()
 
-    fun findGymPlan(id: String): GymPlan = localDataSource.findGymPlanById(id)
+    fun findClient(id: String): Client = localDataSource.findClientById(id)
+
+    suspend fun deleteAllClients() {
+        localDataSource.deleteAllClients()
+    }
 
 }

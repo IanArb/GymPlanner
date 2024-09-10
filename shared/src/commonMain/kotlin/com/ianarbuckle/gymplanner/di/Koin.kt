@@ -5,8 +5,12 @@ import com.ianarbuckle.gymplanner.GymPlanner
 import com.ianarbuckle.gymplanner.data.GymPlannerLocalDataSource
 import com.ianarbuckle.gymplanner.data.GymPlannerRemoteDataSource
 import com.ianarbuckle.gymplanner.data.GymPlannerRepository
+import com.ianarbuckle.gymplanner.mapper.ClientMapper
+import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
+import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
+import com.ianarbuckle.gymplanner.realm.SessionRealmDto
 import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -70,14 +74,24 @@ fun createHttpClient(
 
 fun gymPlannerModule() = module {
     single { GymPlannerRemoteDataSource(httpClient = get()) }
-    single { GymPlannerLocalDataSource(realm = get()) }
+    single { GymPlannerLocalDataSource(realm = get(), mapper = get()) }
     single { GymPlannerRepository(localDataSource = get()) }
+    single { ClientMapper() }
     single<GymPlanner> { DefaultGymPlanner(repository = get() ) }
 }
 
 fun databaseModule() = module {
     val realm: Realm by lazy {
-        val configuration = RealmConfiguration.create(schema = setOf(GymPlanRealmDto::class, WorkoutRealmDto::class, ExercisesRealmDto::class, ))
+        val configuration = RealmConfiguration.create(
+            schema = setOf(
+                GymPlanRealmDto::class,
+                WorkoutRealmDto::class,
+                ExercisesRealmDto::class,
+                SessionRealmDto::class,
+                ClientRealmDto::class,
+                PersonalTrainerRealmDto::class
+            )
+        )
         Realm.open(configuration)
     }
     single { realm }
