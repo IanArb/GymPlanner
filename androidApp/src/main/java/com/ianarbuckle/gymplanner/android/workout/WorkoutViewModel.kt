@@ -23,18 +23,21 @@ class WorkoutViewModel @Inject constructor(
     private val coroutineDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ClientWorkoutUiState>(ClientWorkoutUiState.Idle)
+    private val _uiState = MutableStateFlow<ClientWorkoutUiState>(ClientWorkoutUiState.Loading)
 
     val uiState = _uiState.asStateFlow()
 
-    init {
+    fun fetchClients() {
         viewModelScope.launch(coroutineDispatcherProvider.io) {
-            gymPlanner.fetchAllClients()
-                .distinctUntilChanged()
-                .collect { client ->
-                    _uiState.value = ClientWorkoutUiState.ClientClientWorkout(client)
-                }
+            val result = gymPlanner.fetchAllClients()
 
+            result.onSuccess { clients ->
+                _uiState.value = ClientWorkoutUiState.ClientClientWorkout(clients)
+            }
+
+            result.onFailure {
+                _uiState.value = ClientWorkoutUiState.Failure
+            }
         }
     }
 

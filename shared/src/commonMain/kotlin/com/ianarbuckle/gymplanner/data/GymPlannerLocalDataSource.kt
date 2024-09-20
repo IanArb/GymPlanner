@@ -11,7 +11,10 @@ import io.realm.kotlin.notifications.UpdatedResults
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GymPlannerLocalDataSource(private val realm: Realm, private val mapper: ClientMapper) {
+class GymPlannerLocalDataSource(
+    private val realm: Realm,
+    private val mapper: ClientMapper
+) {
 
     suspend fun saveGymPlan(client: Client) {
         val realmClient = ClientRealmDto().apply {
@@ -28,9 +31,9 @@ class GymPlannerLocalDataSource(private val realm: Realm, private val mapper: Cl
 
     fun findClientById(id: String): Client {
         val filterByPrimaryKey = realm.query<ClientRealmDto>("_id == $id")
-        val findPrimaryKey = filterByPrimaryKey.find().first()
+        val client = filterByPrimaryKey.find().first()
 
-        return mapper.transformToClientPlan(findPrimaryKey)
+        return mapper.transformToClientPlan(client)
     }
 
     fun findAllClients(): Flow<List<Client>> {
@@ -45,6 +48,15 @@ class GymPlannerLocalDataSource(private val realm: Realm, private val mapper: Cl
                     }
                 }
             }
+    }
+
+    suspend fun deleteClient(id: String) {
+        val filterByPrimaryKey = realm.query<ClientRealmDto>("_id == $id")
+        val client = filterByPrimaryKey.find().first()
+
+        realm.write {
+            delete(client)
+        }
     }
 
     suspend fun deleteAllClients() {

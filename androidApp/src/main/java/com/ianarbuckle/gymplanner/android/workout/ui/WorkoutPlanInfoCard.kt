@@ -57,7 +57,7 @@ fun WorkoutPlanInfo(
             modifier = modifier.padding(16.dp)
         ) {
             Text(
-                "Trainer - ${gymPlan.personalTrainer.name}",
+                "Trainer - ${gymPlan.personalTrainer.firstName}",
                 fontSize = 14.sp
             )
             val start = "$startDayOfWeek ${startTime.dayOfMonth} $startMonth"

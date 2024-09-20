@@ -12,5 +12,9 @@ import dagger.hilt.components.SingletonComponent
 class GymPlannerModule {
 
     @Provides
-    fun provideGymPlanner(): GymPlanner = GymPlannerFactory.create("")
+    fun provideGymPlanner(): GymPlanner = GymPlannerFactory.create(BASE_URL)
+
+    companion object {
+        private const val BASE_URL = "https://86c3-86-45-28-173.ngrok-free.app"
+    }
 }

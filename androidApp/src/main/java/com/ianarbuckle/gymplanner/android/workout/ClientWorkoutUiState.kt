@@ -12,7 +12,5 @@ sealed interface ClientWorkoutUiState {
 
     data object Loading : ClientWorkoutUiState
 
-    data object Idle : ClientWorkoutUiState
-
     data object ClientWorkoutExpired : ClientWorkoutUiState
 }

@@ -29,7 +29,8 @@ class GymPlanRealmDto : EmbeddedRealmObject {
 
 class PersonalTrainerRealmDto : EmbeddedRealmObject {
     var id: String = ""
-    var name: String = ""
+    var firstName: String = ""
+    var surname: String = ""
     @Ignore
     var socials: RealmMap<String, String> = realmDictionaryOf()
 }
@@ -44,7 +45,12 @@ class WorkoutRealmDto : EmbeddedRealmObject {
     var name: String = ""
     var sets: Int = 0
     var repetitions: Int = 0
-    var weight: Float = 0f
+    var weight: WeightRealmDto? = null
     var note: String = ""
+}
+
+class WeightRealmDto : EmbeddedRealmObject {
+    var value: Double = 0.0
+    var unit: String = ""
 }
 

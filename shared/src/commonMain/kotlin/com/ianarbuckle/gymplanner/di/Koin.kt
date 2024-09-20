@@ -11,6 +11,7 @@ import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
 import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
 import com.ianarbuckle.gymplanner.realm.SessionRealmDto
+import com.ianarbuckle.gymplanner.realm.WeightRealmDto
 import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -35,7 +36,7 @@ fun initKoin(
         modules(
             networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
             databaseModule(),
-            gymPlannerModule()
+            gymPlannerModule(baseUrl)
         )
     }
 }
@@ -51,7 +52,10 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     }
 }
 
-fun createJson() = Json { ignoreUnknownKeys = true }
+fun createJson() = Json {
+    ignoreUnknownKeys = true
+    isLenient = true
+}
 
 fun createHttpClient(
     json: Json,
@@ -72,10 +76,10 @@ fun createHttpClient(
     }
 }
 
-fun gymPlannerModule() = module {
-    single { GymPlannerRemoteDataSource(httpClient = get()) }
+fun gymPlannerModule(baseUrl: String) = module {
+    single { GymPlannerRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
     single { GymPlannerLocalDataSource(realm = get(), mapper = get()) }
-    single { GymPlannerRepository(localDataSource = get()) }
+    single { GymPlannerRepository(localDataSource = get(), remoteDataSource = get()) }
     single { ClientMapper() }
     single<GymPlanner> { DefaultGymPlanner(repository = get() ) }
 }
@@ -89,7 +93,8 @@ fun databaseModule() = module {
                 ExercisesRealmDto::class,
                 SessionRealmDto::class,
                 ClientRealmDto::class,
-                PersonalTrainerRealmDto::class
+                PersonalTrainerRealmDto::class,
+                WeightRealmDto::class
             )
         )
         Realm.open(configuration)

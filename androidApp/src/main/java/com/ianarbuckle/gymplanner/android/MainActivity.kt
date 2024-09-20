@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
+import com.ianarbuckle.gymplanner.android.ui.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.workout.ClientWorkoutUiState
 import com.ianarbuckle.gymplanner.android.workout.WorkoutViewModel
@@ -28,6 +29,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        viewModel.fetchClients()
+
         setContent {
             MyApplicationTheme {
                 Scaffold(
@@ -37,13 +40,12 @@ class MainActivity : ComponentActivity() {
 
                     when (val uiState = state.value) {
                         ClientWorkoutUiState.Failure -> {
-
-                        }
-                        ClientWorkoutUiState.Idle -> {
-
+                            RetryErrorScreen {
+                                viewModel.fetchClients()
+                            }
                         }
                         ClientWorkoutUiState.Loading -> {
-                            
+                            CircularProgressIndicator()
                         }
                         is ClientWorkoutUiState.ClientClientWorkout -> {
                             if (uiState.clients.isNotEmpty()) {

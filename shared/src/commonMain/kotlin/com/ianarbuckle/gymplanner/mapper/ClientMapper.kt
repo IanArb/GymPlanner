@@ -4,11 +4,13 @@ import com.ianarbuckle.gymplanner.model.Client
 import com.ianarbuckle.gymplanner.model.GymPlan
 import com.ianarbuckle.gymplanner.model.PersonalTrainer
 import com.ianarbuckle.gymplanner.model.Session
+import com.ianarbuckle.gymplanner.model.Weight
 import com.ianarbuckle.gymplanner.model.Workout
 import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
 import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
 import com.ianarbuckle.gymplanner.realm.SessionRealmDto
+import com.ianarbuckle.gymplanner.realm.WeightRealmDto
 import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
 import io.realm.kotlin.ext.toRealmDictionary
 import io.realm.kotlin.ext.toRealmList
@@ -31,7 +33,8 @@ class ClientMapper {
     private fun mapPersonalTrainer(personalTrainer: PersonalTrainer?): PersonalTrainerRealmDto {
         return PersonalTrainerRealmDto().apply {
             id = personalTrainer?.id ?: ""
-            name = personalTrainer?.name ?: ""
+            firstName = personalTrainer?.firstName ?: ""
+            surname = personalTrainer?.surname ?: ""
             socials = mapSocials(personalTrainer?.socials ?: emptyMap())
         }
     }
@@ -55,10 +58,17 @@ class ClientMapper {
                 name = workout.name
                 sets = workout.sets
                 repetitions = workout.repetitions
-                weight = workout.weight
+                weight = mapWeight(workout.weight)
                 note = workout.note
             }
         }.toRealmList()
+    }
+
+    private fun mapWeight(weight: Weight): WeightRealmDto {
+        return WeightRealmDto().apply {
+            value = weight.value
+            unit = weight.unit
+        }
     }
 
     fun transformToClientPlan(clientDto: ClientRealmDto): Client {
@@ -93,7 +103,8 @@ class ClientMapper {
     private fun transformToPersonalTrainerModel(personalTrainer: PersonalTrainerRealmDto?): PersonalTrainer {
         return PersonalTrainer(
             id = personalTrainer?.id ?: "",
-            name = personalTrainer?.name ?: "",
+            firstName = personalTrainer?.firstName ?: "",
+            surname = personalTrainer?.surname ?: "",
             socials = personalTrainer?.socials ?: emptyMap()
         )
     }
@@ -116,9 +127,16 @@ class ClientMapper {
                 name = workout.name,
                 sets = workout.sets,
                 repetitions = workout.repetitions,
-                weight = workout.weight,
+                weight = mapWeight(weight = workout.weight),
                 note = workout.note,
             )
         }
+    }
+
+    private fun mapWeight(weight: WeightRealmDto?): Weight {
+        return Weight(
+            value = weight?.value ?: 0.0,
+            unit = weight?.unit ?: ""
+        )
     }
 }

@@ -77,7 +77,7 @@ fun WorkoutContent(
 
         val sessions = client.gymPlan?.sessions ?: emptyList()
         if (sessions.isEmpty()) {
-            EmptyWorkout(personalTrainerName = client.gymPlan?.personalTrainer?.name ?: "")
+            EmptyWorkout(personalTrainerName = client.gymPlan?.personalTrainer?.firstName ?: "")
         } else {
             WorkoutsCard(sessions) {
 
