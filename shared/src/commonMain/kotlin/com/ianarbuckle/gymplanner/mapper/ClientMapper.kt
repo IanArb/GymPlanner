@@ -1,38 +1,52 @@
 package com.ianarbuckle.gymplanner.mapper
 
 import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.model.dto.ClientDto
 import com.ianarbuckle.gymplanner.model.GymPlan
+import com.ianarbuckle.gymplanner.model.dto.GymPlanDto
 import com.ianarbuckle.gymplanner.model.PersonalTrainer
+import com.ianarbuckle.gymplanner.model.dto.PersonalTrainerDto
 import com.ianarbuckle.gymplanner.model.Session
+import com.ianarbuckle.gymplanner.model.dto.SessionDto
 import com.ianarbuckle.gymplanner.model.Weight
+import com.ianarbuckle.gymplanner.model.dto.WeightDto
 import com.ianarbuckle.gymplanner.model.Workout
-import com.ianarbuckle.gymplanner.realm.ClientRealmDto
-import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
-import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
-import com.ianarbuckle.gymplanner.realm.SessionRealmDto
-import com.ianarbuckle.gymplanner.realm.WeightRealmDto
-import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
+import com.ianarbuckle.gymplanner.model.dto.WorkoutDto
+import com.ianarbuckle.gymplanner.model.realm.ClientRealmDto
+import com.ianarbuckle.gymplanner.model.realm.GymPlanRealmDto
+import com.ianarbuckle.gymplanner.model.realm.PersonalTrainerRealmDto
+import com.ianarbuckle.gymplanner.model.realm.SessionRealmDto
+import com.ianarbuckle.gymplanner.model.realm.WeightRealmDto
+import com.ianarbuckle.gymplanner.model.realm.WorkoutRealmDto
 import io.realm.kotlin.ext.toRealmDictionary
 import io.realm.kotlin.ext.toRealmList
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmMap
 
-class ClientMapper {
+object ClientMapper {
 
-    fun mapGymPlan(gymPlan: GymPlan?): GymPlanRealmDto {
+    fun mapClient(client: Client): ClientRealmDto {
+        return ClientRealmDto().apply {
+            firstName = client.firstName
+            surname = client.surname
+            strengthLevel = client.strengthLevel
+            gymPlan = mapGymPlan(client.gymPlan)
+        }
+    }
+
+    private fun mapGymPlan(gymPlan: GymPlan?): GymPlanRealmDto {
         return GymPlanRealmDto().apply {
             name = gymPlan?.name ?: ""
             personalTrainer = mapPersonalTrainer(gymPlan?.personalTrainer)
             startDate = gymPlan?.startDate ?: ""
             endDate = gymPlan?.endDate ?: ""
-            sessions = mapSessions(sessions = gymPlan?.sessions ?: emptyList())
+            sessions = mapSessions(session = gymPlan?.sessions ?: emptyList())
         }
     }
 
     private fun mapPersonalTrainer(personalTrainer: PersonalTrainer?): PersonalTrainerRealmDto {
         return PersonalTrainerRealmDto().apply {
-            id = personalTrainer?.id ?: ""
             firstName = personalTrainer?.firstName ?: ""
             surname = personalTrainer?.surname ?: ""
             socials = mapSocials(personalTrainer?.socials ?: emptyMap())
@@ -43,17 +57,17 @@ class ClientMapper {
         return socials.toRealmDictionary()
     }
 
-    private fun mapSessions(sessions: List<Session>): RealmList<SessionRealmDto> {
-        return sessions.map { session ->
+    private fun mapSessions(session: List<Session>): RealmList<SessionRealmDto> {
+        return session.map { session ->
             SessionRealmDto().apply {
                 name = session.name
-                workouts = mapWorkouts(session.workouts)
+                workouts = mapWorkouts(session.workout)
             }
         }.toRealmList()
     }
 
-    private fun mapWorkouts(workouts: List<Workout>): RealmList<WorkoutRealmDto> {
-        return workouts.map { workout ->
+    private fun mapWorkouts(workout: List<Workout>): RealmList<WorkoutRealmDto> {
+        return workout.map { workout ->
             WorkoutRealmDto().apply {
                 name = workout.name
                 sets = workout.sets
@@ -71,8 +85,8 @@ class ClientMapper {
         }
     }
 
-    fun transformToClientPlan(clientDto: ClientRealmDto): Client {
-        return Client(
+    fun transformToClientPlan(clientDto: ClientRealmDto): ClientDto {
+        return ClientDto(
             id = clientDto.id.toString(),
             firstName = clientDto.firstName,
             surname = clientDto.surname,
@@ -81,17 +95,17 @@ class ClientMapper {
         )
     }
 
-    private fun transformToSession(sessions: List<SessionRealmDto>): List<Session> {
+    private fun transformToSession(sessions: List<SessionRealmDto>): List<SessionDto> {
         return sessions.map { session ->
-            Session(
+            SessionDto(
                 name = session.name,
                 workouts = transformWorkouts(session.workouts)
             )
         }
     }
 
-    private fun transformToGymPlanModel(plan: GymPlanRealmDto?): GymPlan {
-        return GymPlan(
+    private fun transformToGymPlanModel(plan: GymPlanRealmDto?): GymPlanDto {
+        return GymPlanDto(
             name = plan?.name ?: "",
             personalTrainer = transformToPersonalTrainerModel(plan?.personalTrainer),
             startDate = plan?.startDate ?: "",
@@ -100,8 +114,8 @@ class ClientMapper {
         )
     }
 
-    private fun transformToPersonalTrainerModel(personalTrainer: PersonalTrainerRealmDto?): PersonalTrainer {
-        return PersonalTrainer(
+    private fun transformToPersonalTrainerModel(personalTrainer: PersonalTrainerRealmDto?): PersonalTrainerDto {
+        return PersonalTrainerDto(
             id = personalTrainer?.id ?: "",
             firstName = personalTrainer?.firstName ?: "",
             surname = personalTrainer?.surname ?: "",
@@ -109,9 +123,9 @@ class ClientMapper {
         )
     }
 
-    fun transformClientDto(clients: ResultsChange<ClientRealmDto>): List<Client> {
+    fun transformClientDto(clients: ResultsChange<ClientRealmDto>): List<ClientDto> {
         return clients.list.map { client ->
-            Client(
+            ClientDto(
                 id = client.id.toString(),
                 firstName = client.firstName,
                 surname = client.surname,
@@ -121,9 +135,9 @@ class ClientMapper {
         }
     }
 
-    private fun transformWorkouts(workouts: List<WorkoutRealmDto>): List<Workout> {
+    private fun transformWorkouts(workouts: List<WorkoutRealmDto>): List<WorkoutDto> {
         return workouts.map { workout ->
-            Workout(
+            WorkoutDto(
                 name = workout.name,
                 sets = workout.sets,
                 repetitions = workout.repetitions,
@@ -133,8 +147,8 @@ class ClientMapper {
         }
     }
 
-    private fun mapWeight(weight: WeightRealmDto?): Weight {
-        return Weight(
+    private fun mapWeight(weight: WeightRealmDto?): WeightDto {
+        return WeightDto(
             value = weight?.value ?: 0.0,
             unit = weight?.unit ?: ""
         )

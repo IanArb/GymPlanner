@@ -2,17 +2,21 @@ package com.ianarbuckle.gymplanner.di
 
 import com.ianarbuckle.gymplanner.DefaultGymPlanner
 import com.ianarbuckle.gymplanner.GymPlanner
-import com.ianarbuckle.gymplanner.data.GymPlannerLocalDataSource
-import com.ianarbuckle.gymplanner.data.GymPlannerRemoteDataSource
-import com.ianarbuckle.gymplanner.data.GymPlannerRepository
-import com.ianarbuckle.gymplanner.mapper.ClientMapper
-import com.ianarbuckle.gymplanner.realm.ClientRealmDto
-import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
-import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
-import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
-import com.ianarbuckle.gymplanner.realm.SessionRealmDto
-import com.ianarbuckle.gymplanner.realm.WeightRealmDto
-import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
+import com.ianarbuckle.gymplanner.data.clients.clients.ClientsLocalDataSource
+import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRemoteDataSource
+import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassLocalDataSource
+import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRemoteDataSource
+import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
+import com.ianarbuckle.gymplanner.model.realm.ClientRealmDto
+import com.ianarbuckle.gymplanner.model.realm.DurationRealmDto
+import com.ianarbuckle.gymplanner.model.realm.ExercisesRealmDto
+import com.ianarbuckle.gymplanner.model.realm.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.model.realm.GymPlanRealmDto
+import com.ianarbuckle.gymplanner.model.realm.PersonalTrainerRealmDto
+import com.ianarbuckle.gymplanner.model.realm.SessionRealmDto
+import com.ianarbuckle.gymplanner.model.realm.WeightRealmDto
+import com.ianarbuckle.gymplanner.model.realm.WorkoutRealmDto
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -22,6 +26,7 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
+import org.koin.core.error.KoinAppAlreadyStartedException
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -31,14 +36,21 @@ fun initKoin(
     appDeclaration: KoinAppDeclaration = {},
     baseUrl: String,
 ) {
-    startKoin {
-        appDeclaration()
-        modules(
-            networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
-            databaseModule(),
-            gymPlannerModule(baseUrl)
-        )
+    try {
+        startKoin {
+            appDeclaration()
+            modules(
+                networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
+                databaseModule(),
+                gymPlannerModule(),
+                clientsModule(baseUrl),
+                fitnessClassModule(baseUrl),
+            )
+        }
+    } catch (ex: KoinAppAlreadyStartedException) {
+        println("Koin app is already started.")
     }
+
 }
 
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
@@ -76,12 +88,20 @@ fun createHttpClient(
     }
 }
 
-fun gymPlannerModule(baseUrl: String) = module {
-    single { GymPlannerRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
-    single { GymPlannerLocalDataSource(realm = get(), mapper = get()) }
-    single { GymPlannerRepository(localDataSource = get(), remoteDataSource = get()) }
-    single { ClientMapper() }
-    single<GymPlanner> { DefaultGymPlanner(repository = get() ) }
+fun gymPlannerModule() = module {
+    single<GymPlanner> { DefaultGymPlanner(clientsRepository = get(), fitnessClassRepository = get() ) }
+}
+
+fun clientsModule(baseUrl: String) = module {
+    single { ClientsRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
+    single { ClientsLocalDataSource(realm = get()) }
+    single { ClientsRepository(localDataSource = get(), remoteDataSource = get()) }
+}
+
+fun fitnessClassModule(baseUrl: String) = module {
+    single { FitnessClassLocalDataSource(realm = get()) }
+    single { FitnessClassRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
+    single { FitnessClassRepository(localDataSource = get(), remoteDataSource = get()) }
 }
 
 fun databaseModule() = module {
@@ -94,7 +114,9 @@ fun databaseModule() = module {
                 SessionRealmDto::class,
                 ClientRealmDto::class,
                 PersonalTrainerRealmDto::class,
-                WeightRealmDto::class
+                WeightRealmDto::class,
+                FitnessClassRealmDto::class,
+                DurationRealmDto::class
             )
         )
         Realm.open(configuration)

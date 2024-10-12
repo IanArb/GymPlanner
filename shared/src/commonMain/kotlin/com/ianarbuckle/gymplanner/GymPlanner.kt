@@ -1,8 +1,7 @@
 package com.ianarbuckle.gymplanner
 
 import com.ianarbuckle.gymplanner.model.Client
-import com.ianarbuckle.gymplanner.model.GymPlan
-import kotlinx.coroutines.flow.Flow
+import com.ianarbuckle.gymplanner.model.FitnessClass
 
 interface GymPlanner {
 
@@ -13,4 +12,8 @@ interface GymPlanner {
     suspend fun findClientById(id: String): Result<Client>
 
     suspend fun deleteClient(id: String): Result<Unit>
+
+    suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>>
+
+    suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>>
 }

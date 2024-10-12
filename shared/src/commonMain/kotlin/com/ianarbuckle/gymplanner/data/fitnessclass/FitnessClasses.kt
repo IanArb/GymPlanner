@@ -1,8 +1,5 @@
-package com.ianarbuckle.gymplanner
+package com.ianarbuckle.gymplanner.data.fitnessclass
 
-import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
-import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
-import com.ianarbuckle.gymplanner.model.Client
 import com.ianarbuckle.gymplanner.model.FitnessClass
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
@@ -11,26 +8,12 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class DefaultGymPlanner(
-    private val clientsRepository: ClientsRepository,
-    private val fitnessClassRepository: FitnessClassRepository
-    ) : GymPlanner {
+interface FitnessClasses {
+    suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>>
+    suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>>
+}
 
-    override suspend fun fetchAllClients(): Result<List<Client>> {
-        return clientsRepository.fetchClients()
-    }
-
-    override suspend fun saveClient(client: Client): Result<Client> {
-        return clientsRepository.saveClient(client = client)
-    }
-
-    override suspend fun findClientById(id: String): Result<Client> {
-        return clientsRepository.findClient(id)
-    }
-
-    override suspend fun deleteClient(id: String): Result<Unit> {
-        return clientsRepository.deleteClient(id)
-    }
+class DefaultFitnessClasses(private val repository: FitnessClassRepository) : FitnessClasses {
 
     override suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>> {
         val currentMoment: Instant = Clock.System.now()
@@ -67,10 +50,10 @@ class DefaultGymPlanner(
     }
 
     private suspend fun fetchClassesByDayOfWeek(dayOfWeek: String): Result<List<FitnessClass>> {
-        return fitnessClassRepository.fetchFitnessClasses(dayOfWeek)
+        return repository.fetchFitnessClasses(dayOfWeek)
     }
 
     override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>> {
-        return fitnessClassRepository.fetchFitnessClasses(dayOfWeek)
+        return repository.fetchFitnessClasses(dayOfWeek)
     }
 }

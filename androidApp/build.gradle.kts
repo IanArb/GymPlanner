@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.utils.addToStdlib.butIf
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -42,18 +45,28 @@ android {
 
 dependencies {
     implementation(projects.shared)
+
+    platform(libs.compose.bom)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.coil)
+
     implementation(libs.kotlinx.datetime)
     debugImplementation(libs.compose.ui.tooling)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
+    implementation(libs.kotlinx.immutable.collections)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
     compileOnly(libs.realm.base)
+
+    implementation(libs.kotlinx.serialization.json)
 }
