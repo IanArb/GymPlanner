@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.model.dto
+package com.ianarbuckle.gymplanner.data.fitnessclass.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

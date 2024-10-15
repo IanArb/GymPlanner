@@ -1,9 +1,13 @@
 package com.ianarbuckle.gymplanner.android
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -22,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -35,6 +41,10 @@ import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardUiStat
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.core.presentation.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.core.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
+import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
+import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormContent
+import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormResponse
 import com.ianarbuckle.gymplanner.android.workout.data.WorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
@@ -45,6 +55,9 @@ class MainActivity : ComponentActivity() {
     private val workoutViewModel: WorkoutViewModel by viewModels()
 
     private val dashboardViewModel: DashboardViewModel by viewModels()
+
+    private val reportingViewModel: ReportingViewModel by viewModels()
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,6 +162,76 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<ReportMachineBroken> {
+                            var imageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+                            var resetForm by remember { mutableStateOf(false) }
+
+                            val launchCamera = rememberLauncherForActivityResult(
+                                contract = ActivityResultContracts.TakePicturePreview()
+                            ) { bitmap ->
+                                imageBitmap = bitmap
+                            }
+
+                            when (val value = reportingViewModel.uiState.collectAsState().value) {
+                                is FormFaultReportUiState.FormLoading -> {
+                                    ReportingFormContent(
+                                        innerPadding = contentPadding,
+                                        imageBitmap = imageBitmap?.asImageBitmap(),
+                                        isLoading = true,
+                                        onPhotoClick = {
+                                            launchCamera.launch()
+                                        },
+                                        onSendClick = { },
+                                    )
+                                }
+                                is FormFaultReportUiState.FormSuccess -> {
+                                    if (resetForm) {
+                                        ReportingFormContent(
+                                            innerPadding = contentPadding,
+                                            imageBitmap = imageBitmap?.asImageBitmap(),
+                                            onPhotoClick = {
+                                                launchCamera.launch()
+                                            },
+                                            isLoading = false,
+                                            onSendClick = { data ->
+                                                resetForm = false
+                                                reportingViewModel.submitFault(data)
+                                            },
+                                        )
+                                    } else {
+                                        ReportingFormResponse(innerPadding = contentPadding, faultReport = value.data) {
+                                            imageBitmap = null
+                                            resetForm = true
+                                        }
+                                    }
+                                }
+                                is FormFaultReportUiState.FormError -> {
+                                    ReportingFormContent(
+                                        innerPadding = contentPadding,
+                                        imageBitmap = imageBitmap?.asImageBitmap(),
+                                        isLoading = false,
+                                        hasFailed = true,
+                                        onPhotoClick = {
+                                            launchCamera.launch()
+                                        },
+                                        onSendClick = { data ->
+                                            reportingViewModel.submitFault(data)
+                                        },
+                                    )
+                                }
+
+                                FormFaultReportUiState.FormIdle -> {
+                                    ReportingFormContent(
+                                        innerPadding = contentPadding,
+                                        imageBitmap = imageBitmap?.asImageBitmap(),
+                                        onPhotoClick = {
+                                            launchCamera.launch()
+                                        },
+                                        onSendClick = { data ->
+                                            reportingViewModel.submitFault(data)
+                                        },
+                                    )
+                                }
+                            }
 
                         }
 

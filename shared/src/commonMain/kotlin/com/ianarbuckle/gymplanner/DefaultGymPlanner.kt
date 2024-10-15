@@ -1,8 +1,10 @@
 package com.ianarbuckle.gymplanner
 
 import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.model.FaultReport
 import com.ianarbuckle.gymplanner.model.FitnessClass
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
@@ -13,7 +15,8 @@ import kotlinx.datetime.toLocalDateTime
 
 class DefaultGymPlanner(
     private val clientsRepository: ClientsRepository,
-    private val fitnessClassRepository: FitnessClassRepository
+    private val fitnessClassRepository: FitnessClassRepository,
+    private val faultReportingRepository: FaultReportingRepository,
     ) : GymPlanner {
 
     override suspend fun fetchAllClients(): Result<List<Client>> {
@@ -72,5 +75,9 @@ class DefaultGymPlanner(
 
     override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>> {
         return fitnessClassRepository.fetchFitnessClasses(dayOfWeek)
+    }
+
+    override suspend fun submitFault(fault: FaultReport): Result<FaultReport> {
+        return faultReportingRepository.saveFaultReport(fault)
     }
 }

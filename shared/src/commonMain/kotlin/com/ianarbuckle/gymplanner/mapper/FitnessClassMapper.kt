@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.mapper
 
 import com.ianarbuckle.gymplanner.model.Duration
 import com.ianarbuckle.gymplanner.model.FitnessClass
-import com.ianarbuckle.gymplanner.model.realm.DurationRealmDto
-import com.ianarbuckle.gymplanner.model.realm.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.realm.DurationRealmDto
+import com.ianarbuckle.gymplanner.realm.FitnessClassRealmDto
 import io.realm.kotlin.notifications.ResultsChange
 
 object FitnessClassMapper {

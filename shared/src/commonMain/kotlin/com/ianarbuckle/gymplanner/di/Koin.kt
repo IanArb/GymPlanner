@@ -5,18 +5,20 @@ import com.ianarbuckle.gymplanner.GymPlanner
 import com.ianarbuckle.gymplanner.data.clients.clients.ClientsLocalDataSource
 import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRemoteDataSource
 import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRemoteDataSource
+import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassLocalDataSource
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRemoteDataSource
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
-import com.ianarbuckle.gymplanner.model.realm.ClientRealmDto
-import com.ianarbuckle.gymplanner.model.realm.DurationRealmDto
-import com.ianarbuckle.gymplanner.model.realm.ExercisesRealmDto
-import com.ianarbuckle.gymplanner.model.realm.FitnessClassRealmDto
-import com.ianarbuckle.gymplanner.model.realm.GymPlanRealmDto
-import com.ianarbuckle.gymplanner.model.realm.PersonalTrainerRealmDto
-import com.ianarbuckle.gymplanner.model.realm.SessionRealmDto
-import com.ianarbuckle.gymplanner.model.realm.WeightRealmDto
-import com.ianarbuckle.gymplanner.model.realm.WorkoutRealmDto
+import com.ianarbuckle.gymplanner.realm.ClientRealmDto
+import com.ianarbuckle.gymplanner.realm.DurationRealmDto
+import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
+import com.ianarbuckle.gymplanner.realm.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
+import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
+import com.ianarbuckle.gymplanner.realm.SessionRealmDto
+import com.ianarbuckle.gymplanner.realm.WeightRealmDto
+import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -45,6 +47,7 @@ fun initKoin(
                 gymPlannerModule(),
                 clientsModule(baseUrl),
                 fitnessClassModule(baseUrl),
+                faultReportingModule(baseUrl)
             )
         }
     } catch (ex: KoinAppAlreadyStartedException) {
@@ -89,7 +92,13 @@ fun createHttpClient(
 }
 
 fun gymPlannerModule() = module {
-    single<GymPlanner> { DefaultGymPlanner(clientsRepository = get(), fitnessClassRepository = get() ) }
+    single<GymPlanner> {
+        DefaultGymPlanner(
+            clientsRepository = get(),
+            fitnessClassRepository = get(),
+            faultReportingRepository = get(),
+        )
+    }
 }
 
 fun clientsModule(baseUrl: String) = module {
@@ -102,6 +111,11 @@ fun fitnessClassModule(baseUrl: String) = module {
     single { FitnessClassLocalDataSource(realm = get()) }
     single { FitnessClassRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
     single { FitnessClassRepository(localDataSource = get(), remoteDataSource = get()) }
+}
+
+fun faultReportingModule(baseUrl: String) = module {
+    single { FaultReportingRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
+    single { FaultReportingRepository(remoteDataSource = get()) }
 }
 
 fun databaseModule() = module {

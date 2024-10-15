@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.model.realm
+package com.ianarbuckle.gymplanner.realm
 
 import io.realm.kotlin.ext.realmDictionaryOf
 import io.realm.kotlin.ext.realmListOf

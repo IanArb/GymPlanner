@@ -15,6 +15,6 @@ class GymPlannerModule {
     fun provideGymPlanner(): GymPlanner = GymPlannerFactory.create(BASE_URL)
 
     companion object {
-        private const val BASE_URL = "https://db41-86-45-28-173.ngrok-free.app"
+        private const val BASE_URL = "https://5a7d-86-45-28-173.ngrok-free.app"
     }
 }

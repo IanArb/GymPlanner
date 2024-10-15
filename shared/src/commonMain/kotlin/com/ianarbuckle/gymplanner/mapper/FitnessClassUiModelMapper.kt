@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.mapper
 
 import com.ianarbuckle.gymplanner.model.Duration
 import com.ianarbuckle.gymplanner.model.FitnessClass
-import com.ianarbuckle.gymplanner.model.dto.DurationDto
-import com.ianarbuckle.gymplanner.model.dto.FitnessClassDto
+import com.ianarbuckle.gymplanner.data.fitnessclass.dto.DurationDto
+import com.ianarbuckle.gymplanner.data.fitnessclass.dto.FitnessClassDto
 
 object FitnessClassUiModelMapper {
 

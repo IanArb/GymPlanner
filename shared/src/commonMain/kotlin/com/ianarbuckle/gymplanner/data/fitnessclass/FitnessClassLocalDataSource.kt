@@ -3,7 +3,7 @@ package com.ianarbuckle.gymplanner.data.fitnessclass
 import com.ianarbuckle.gymplanner.mapper.FitnessClassMapper.transformClientDto
 import com.ianarbuckle.gymplanner.mapper.FitnessClassMapper.transformToFitnessRealm
 import com.ianarbuckle.gymplanner.model.FitnessClass
-import com.ianarbuckle.gymplanner.model.realm.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.realm.FitnessClassRealmDto
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.notifications.InitialResults

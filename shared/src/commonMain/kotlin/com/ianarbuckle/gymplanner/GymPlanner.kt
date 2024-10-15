@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner
 
 import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.model.FaultReport
 import com.ianarbuckle.gymplanner.model.FitnessClass
 
 interface GymPlanner {
@@ -16,4 +17,6 @@ interface GymPlanner {
     suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>>
 
     suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>>
+
+    suspend fun submitFault(fault: FaultReport): Result<FaultReport>
 }

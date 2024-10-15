@@ -8,8 +8,6 @@ import com.ianarbuckle.gymplanner.model.PersonalTrainer
 import com.ianarbuckle.gymplanner.model.Session
 import com.ianarbuckle.gymplanner.model.Weight
 import com.ianarbuckle.gymplanner.model.Workout
-import com.ianarbuckle.gymplanner.model.dto.PersonalTrainerDto
-import com.ianarbuckle.gymplanner.model.dto.SessionDto
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.random.Random

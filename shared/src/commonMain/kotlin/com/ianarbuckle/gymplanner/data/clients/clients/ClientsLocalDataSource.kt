@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.data.clients.clients
 
 import com.ianarbuckle.gymplanner.mapper.ClientMapper
 import com.ianarbuckle.gymplanner.model.Client
-import com.ianarbuckle.gymplanner.model.dto.ClientDto
-import com.ianarbuckle.gymplanner.model.realm.ClientRealmDto
+import com.ianarbuckle.gymplanner.data.clients.clients.dto.ClientDto
+import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.notifications.InitialResults

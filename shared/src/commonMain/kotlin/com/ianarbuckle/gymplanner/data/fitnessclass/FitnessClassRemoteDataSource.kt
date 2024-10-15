@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner.data.fitnessclass
 
-import com.ianarbuckle.gymplanner.model.dto.FitnessClassDto
+import com.ianarbuckle.gymplanner.data.fitnessclass.dto.FitnessClassDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
