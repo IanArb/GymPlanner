@@ -2,9 +2,9 @@ package com.ianarbuckle.gymplanner.di
 
 import com.ianarbuckle.gymplanner.DefaultGymPlanner
 import com.ianarbuckle.gymplanner.GymPlanner
-import com.ianarbuckle.gymplanner.data.clients.clients.ClientsLocalDataSource
-import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRemoteDataSource
-import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.data.clients.ClientsLocalDataSource
+import com.ianarbuckle.gymplanner.data.clients.ClientsRemoteDataSource
+import com.ianarbuckle.gymplanner.data.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRemoteDataSource
 import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassLocalDataSource

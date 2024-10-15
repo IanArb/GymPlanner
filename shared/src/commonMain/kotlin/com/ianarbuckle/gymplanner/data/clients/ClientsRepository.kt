@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.data.clients.clients
+package com.ianarbuckle.gymplanner.data.clients
 
 import com.ianarbuckle.gymplanner.mapper.ClientUiModelMapper.transformToClient
 import com.ianarbuckle.gymplanner.model.Client

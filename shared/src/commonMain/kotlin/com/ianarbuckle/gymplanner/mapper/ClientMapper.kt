@@ -1,17 +1,17 @@
 package com.ianarbuckle.gymplanner.mapper
 
 import com.ianarbuckle.gymplanner.model.Client
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.ClientDto
+import com.ianarbuckle.gymplanner.data.clients.dto.ClientDto
 import com.ianarbuckle.gymplanner.model.GymPlan
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.GymPlanDto
+import com.ianarbuckle.gymplanner.data.clients.dto.GymPlanDto
 import com.ianarbuckle.gymplanner.model.PersonalTrainer
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.PersonalTrainerDto
+import com.ianarbuckle.gymplanner.data.clients.dto.PersonalTrainerDto
 import com.ianarbuckle.gymplanner.model.Session
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.SessionDto
+import com.ianarbuckle.gymplanner.data.clients.dto.SessionDto
 import com.ianarbuckle.gymplanner.model.Weight
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.WeightDto
+import com.ianarbuckle.gymplanner.data.clients.dto.WeightDto
 import com.ianarbuckle.gymplanner.model.Workout
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.WorkoutDto
+import com.ianarbuckle.gymplanner.data.clients.dto.WorkoutDto
 import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
 import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto

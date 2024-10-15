@@ -1,7 +1,7 @@
-package com.ianarbuckle.gymplanner.data.clients.clients
+package com.ianarbuckle.gymplanner.data.clients
 
 import com.ianarbuckle.gymplanner.model.Client
-import com.ianarbuckle.gymplanner.data.clients.clients.dto.ClientDto
+import com.ianarbuckle.gymplanner.data.clients.dto.ClientDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete

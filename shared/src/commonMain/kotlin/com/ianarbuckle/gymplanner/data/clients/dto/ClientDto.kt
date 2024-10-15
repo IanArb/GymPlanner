@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.data.clients.clients.dto
+package com.ianarbuckle.gymplanner.data.clients.dto
 
 import kotlinx.serialization.Serializable
 

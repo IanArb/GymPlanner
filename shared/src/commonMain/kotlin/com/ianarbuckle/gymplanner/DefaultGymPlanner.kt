@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner
 
-import com.ianarbuckle.gymplanner.data.clients.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.data.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.model.Client
