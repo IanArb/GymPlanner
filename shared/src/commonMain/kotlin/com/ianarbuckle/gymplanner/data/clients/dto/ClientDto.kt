@@ -24,9 +24,20 @@ data class GymPlanDto(
 data class PersonalTrainerDto(
     val id: String? = null,
     val firstName: String,
-    val surname: String,
-    val socials: Map<String, String>
+    val lastName: String,
+    val imageUrl: String,
+    val bio: String,
+    val socials: Map<String, String>,
+    val gymLocation: GymLocationDto,
 )
+
+enum class GymLocationDto {
+    CLONTARF,
+    ASTONQUAY,
+    LEOPARDSTOWN,
+    DUNLOAGHAIRE,
+    UNKNOWN,
+}
 
 @Serializable
 data class SessionDto(

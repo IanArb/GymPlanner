@@ -10,10 +10,19 @@ import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassLocalDataSource
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRemoteDataSource
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
+import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsLocalDataSource
+import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsRemoteDataSource
+import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsRepository
+import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersLocalDataSource
+import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersRemoteDataSource
+import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.realm.ClientRealmDto
 import com.ianarbuckle.gymplanner.realm.DurationRealmDto
 import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
 import com.ianarbuckle.gymplanner.realm.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.realm.GymLocationEnumRealm
+import com.ianarbuckle.gymplanner.realm.GymLocationRealmDto
+import com.ianarbuckle.gymplanner.realm.GymLocationsRealmDto
 import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
 import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
 import com.ianarbuckle.gymplanner.realm.SessionRealmDto
@@ -47,7 +56,9 @@ fun initKoin(
                 gymPlannerModule(),
                 clientsModule(baseUrl),
                 fitnessClassModule(baseUrl),
-                faultReportingModule(baseUrl)
+                faultReportingModule(baseUrl),
+                personalTrainersModule(baseUrl),
+                gymLocationsModule(baseUrl)
             )
         }
     } catch (ex: KoinAppAlreadyStartedException) {
@@ -97,6 +108,8 @@ fun gymPlannerModule() = module {
             clientsRepository = get(),
             fitnessClassRepository = get(),
             faultReportingRepository = get(),
+            personalTrainersRepository = get(),
+            gymLocationsRepository = get()
         )
     }
 }
@@ -118,6 +131,18 @@ fun faultReportingModule(baseUrl: String) = module {
     single { FaultReportingRepository(remoteDataSource = get()) }
 }
 
+fun personalTrainersModule(baseUrl: String) = module {
+    single { PersonalTrainersRemoteDataSource(baseUrl = baseUrl, httpClient = get()) }
+    single { PersonalTrainersLocalDataSource(realm = get()) }
+    single { PersonalTrainersRepository(remoteDataSource = get(), localDataSource = get()) }
+}
+
+fun gymLocationsModule(baseUrl: String) = module {
+    single { GymLocationsRemoteDataSource(baseUrl = baseUrl, httpClient = get()) }
+    single { GymLocationsLocalDataSource(realm = get()) }
+    single { GymLocationsRepository(remoteDataSource = get(), localDataSource = get()) }
+}
+
 fun databaseModule() = module {
     val realm: Realm by lazy {
         val configuration = RealmConfiguration.create(
@@ -130,7 +155,9 @@ fun databaseModule() = module {
                 PersonalTrainerRealmDto::class,
                 WeightRealmDto::class,
                 FitnessClassRealmDto::class,
-                DurationRealmDto::class
+                DurationRealmDto::class,
+                GymLocationRealmDto::class,
+                GymLocationsRealmDto::class
             )
         )
         Realm.open(configuration)

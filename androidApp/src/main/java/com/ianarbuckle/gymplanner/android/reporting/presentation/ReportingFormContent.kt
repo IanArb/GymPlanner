@@ -51,9 +51,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ianarbuckle.gymplanner.android.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.core.presentation.GymPlannerTheme
-import com.ianarbuckle.gymplanner.android.core.presentation.LoadingButton
+import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
+import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
+import com.ianarbuckle.gymplanner.android.commonUi.LoadingButton
 import com.ianarbuckle.gymplanner.android.core.utils.imageBitmapToUri
 import com.ianarbuckle.gymplanner.model.FaultReport
 import kotlinx.datetime.Clock

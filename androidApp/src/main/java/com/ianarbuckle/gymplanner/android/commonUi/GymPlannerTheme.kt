@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.core.presentation
+package com.ianarbuckle.gymplanner.android.commonUi
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape

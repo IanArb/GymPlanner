@@ -30,11 +30,34 @@ class GymPlanRealmDto : EmbeddedRealmObject {
 class PersonalTrainerRealmDto : EmbeddedRealmObject {
     var id: String = ""
     var firstName: String = ""
-    var surname: String = ""
+    var lastName: String = ""
+    var bio: String = ""
+    var imageUrl: String = ""
     @Ignore
     var socials: RealmMap<String, String> = realmDictionaryOf()
+    var gymLocation: GymLocationRealmDto? = null
 }
 
+class GymLocationRealmDto : RealmObject {
+    private var enumDescription: String? = null
+
+    fun saveEnum(value: GymLocationEnumRealm) {
+        this.enumDescription = value.toString()
+    }
+
+    val enum: GymLocationEnumRealm?
+        get() = if ((enumDescription != null)) GymLocationEnumRealm.valueOf(
+            enumDescription!!
+        ) else null
+}
+
+enum class GymLocationEnumRealm {
+    CLONTARF,
+    ASTONQUAY,
+    LEOPARDSTOWN,
+    DUNLOAGHAIRE,
+    UNKNOWN
+}
 
 class SessionRealmDto : EmbeddedRealmObject {
     var name: String = ""

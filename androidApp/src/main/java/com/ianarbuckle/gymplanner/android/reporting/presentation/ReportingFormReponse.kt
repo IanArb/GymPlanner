@@ -41,8 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.ianarbuckle.gymplanner.android.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.core.presentation.GymPlannerTheme
+import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
+import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
 import com.ianarbuckle.gymplanner.model.FaultReport
 
 @Composable

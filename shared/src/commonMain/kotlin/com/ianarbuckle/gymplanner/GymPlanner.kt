@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner
 import com.ianarbuckle.gymplanner.model.Client
 import com.ianarbuckle.gymplanner.model.FaultReport
 import com.ianarbuckle.gymplanner.model.FitnessClass
+import com.ianarbuckle.gymplanner.model.GymLocation
+import com.ianarbuckle.gymplanner.model.GymLocations
+import com.ianarbuckle.gymplanner.model.PersonalTrainer
 
 interface GymPlanner {
 
@@ -19,4 +22,8 @@ interface GymPlanner {
     suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>>
 
     suspend fun submitFault(fault: FaultReport): Result<FaultReport>
+
+    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<List<PersonalTrainer>>
+
+    suspend fun fetchGymLocations(): Result<List<GymLocations>>
 }

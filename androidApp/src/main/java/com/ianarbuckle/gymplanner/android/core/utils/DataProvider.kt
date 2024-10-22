@@ -3,6 +3,8 @@ package com.ianarbuckle.gymplanner.android.core.utils
 import com.ianarbuckle.gymplanner.model.Client
 import com.ianarbuckle.gymplanner.model.Duration
 import com.ianarbuckle.gymplanner.model.FitnessClass
+import com.ianarbuckle.gymplanner.model.GymLocation
+import com.ianarbuckle.gymplanner.model.GymLocations
 import com.ianarbuckle.gymplanner.model.GymPlan
 import com.ianarbuckle.gymplanner.model.PersonalTrainer
 import com.ianarbuckle.gymplanner.model.Session
@@ -50,13 +52,19 @@ object DataProvider {
         )
     }
 
-    fun personalTrainer(
-        name: String = "Vini Feynda",
+    private fun personalTrainer(
+        firstName: String = "Vini",
+        lastName: String = "Feynda",
+        bio: String = "Hey, I'm Vini. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+        imageUrl: String = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
         socials: Map<String, String> = mapOf()
     ) = PersonalTrainer(
-        firstName = name,
-        surname = name,
-        socials = socials
+        firstName = firstName,
+        lastName = lastName,
+        bio = bio,
+        imageUrl = imageUrl,
+        socials = socials,
+        gymLocation = GymLocation.CLONTARF,
     )
 
     fun sessions(): List<Session> {
@@ -342,6 +350,47 @@ object DataProvider {
                     unit = "SECONDS"
                 )
             )
+        )
+    }
+
+    fun gymLocations(): List<GymLocations> {
+        return listOf(
+            GymLocations(
+                title = "Clontarf",
+                subTitle = "Personal Trainers Dublin 3",
+                description = "Clontarf is a beautiful location with a great view of the sea.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+            GymLocations(
+                title = "Aston Quay",
+                subTitle = "Personal Trainers Dublin 2",
+                description = "Aston Quay where the Brits invaded Ireland",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+            GymLocations(
+                title = "Leopardstown",
+                subTitle = "Personal Trainers Dublin 18",
+                description = "Leopardstown? Where the races happen!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+            GymLocations(
+                title = "Westmantown",
+                subTitle = "Personal Trainers Dublin 15",
+                description = "Westmantown? Who cares!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+            GymLocations(
+                title = "Sandymount",
+                subTitle = "Personal Trainers Dublin 4",
+                description = "Where the posh people live",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+            GymLocations(
+                title = "Dun Laoghaire",
+                subTitle = "Personal Trainers Dublin 4",
+                description = "Where the posh people live",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
         )
     }
 }

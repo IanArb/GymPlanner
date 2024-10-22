@@ -16,9 +16,13 @@ data class GymPlan(
 )
 
 data class PersonalTrainer(
+    val id: String? = null,
     val firstName: String,
-    val surname: String,
-    val socials: Map<String, String>
+    val lastName: String,
+    val imageUrl: String,
+    val bio: String,
+    val socials: Map<String, String>,
+    val gymLocation: GymLocation,
 )
 
 data class Session(

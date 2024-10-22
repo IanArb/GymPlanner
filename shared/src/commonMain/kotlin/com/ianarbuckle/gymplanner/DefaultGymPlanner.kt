@@ -3,9 +3,14 @@ package com.ianarbuckle.gymplanner
 import com.ianarbuckle.gymplanner.data.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
+import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsRepository
+import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.model.Client
 import com.ianarbuckle.gymplanner.model.FaultReport
 import com.ianarbuckle.gymplanner.model.FitnessClass
+import com.ianarbuckle.gymplanner.model.GymLocation
+import com.ianarbuckle.gymplanner.model.GymLocations
+import com.ianarbuckle.gymplanner.model.PersonalTrainer
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
@@ -17,6 +22,8 @@ class DefaultGymPlanner(
     private val clientsRepository: ClientsRepository,
     private val fitnessClassRepository: FitnessClassRepository,
     private val faultReportingRepository: FaultReportingRepository,
+    private val personalTrainersRepository: PersonalTrainersRepository,
+    private val gymLocationsRepository: GymLocationsRepository,
     ) : GymPlanner {
 
     override suspend fun fetchAllClients(): Result<List<Client>> {
@@ -79,5 +86,13 @@ class DefaultGymPlanner(
 
     override suspend fun submitFault(fault: FaultReport): Result<FaultReport> {
         return faultReportingRepository.saveFaultReport(fault)
+    }
+
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<List<PersonalTrainer>> {
+        return personalTrainersRepository.fetchPersonalTrainers(gymLocation)
+    }
+
+    override suspend fun fetchGymLocations(): Result<List<GymLocations>> {
+        return gymLocationsRepository.fetchGymLocations()
     }
 }
