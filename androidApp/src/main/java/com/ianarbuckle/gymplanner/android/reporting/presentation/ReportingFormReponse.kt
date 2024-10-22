@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.FaultReport
 
 @Composable

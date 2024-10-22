@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.commonUi.LoadingButton
 import com.ianarbuckle.gymplanner.android.core.utils.imageBitmapToUri
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.FaultReport
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

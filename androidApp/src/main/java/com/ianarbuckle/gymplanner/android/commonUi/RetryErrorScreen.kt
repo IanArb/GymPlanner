@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 
 @Composable
 fun RetryErrorScreen(

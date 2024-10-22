@@ -16,7 +16,7 @@ import com.ianarbuckle.gymplanner.android.core.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.ReportMachineBroken
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

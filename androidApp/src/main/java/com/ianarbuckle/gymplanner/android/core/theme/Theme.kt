@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.theme
+package com.ianarbuckle.gymplanner.android.core.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

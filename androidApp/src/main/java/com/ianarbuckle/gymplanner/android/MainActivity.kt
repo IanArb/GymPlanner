@@ -52,7 +52,7 @@ import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormContent
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormResponse
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.GymLocation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.persistentListOf

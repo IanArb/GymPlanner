@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.theme
+package com.ianarbuckle.gymplanner.android.core.theme
 
 import androidx.compose.material3.Typography
 

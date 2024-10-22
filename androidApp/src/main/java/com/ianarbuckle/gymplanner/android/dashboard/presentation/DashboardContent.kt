@@ -35,7 +35,7 @@ import coil.compose.AsyncImage
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.core.utils.displayTime
 import com.ianarbuckle.gymplanner.android.core.utils.toLocalTime
-import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.Duration
 import com.ianarbuckle.gymplanner.model.FitnessClass
 import kotlinx.collections.immutable.ImmutableList

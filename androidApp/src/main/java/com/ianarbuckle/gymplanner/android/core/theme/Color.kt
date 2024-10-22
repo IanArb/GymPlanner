@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.theme
+package com.ianarbuckle.gymplanner.android.core.theme
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF4C662B)
