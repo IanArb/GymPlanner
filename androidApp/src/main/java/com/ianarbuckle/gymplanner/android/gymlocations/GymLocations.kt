@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
 import com.ianarbuckle.gymplanner.android.core.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.GymLocations
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -103,7 +103,7 @@ fun GymLocationCard(
 @Preview
 @Composable
 fun GymLocationsSelectionPreview() {
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text("Westwood Gym") })

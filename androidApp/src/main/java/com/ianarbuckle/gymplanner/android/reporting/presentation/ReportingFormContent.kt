@@ -52,9 +52,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
 import com.ianarbuckle.gymplanner.android.commonUi.LoadingButton
 import com.ianarbuckle.gymplanner.android.core.utils.imageBitmapToUri
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.FaultReport
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -305,7 +305,7 @@ fun Preview() {
         mutableIntStateOf(0)
     }
 
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Gym Plan") }) },
             floatingActionButton = {

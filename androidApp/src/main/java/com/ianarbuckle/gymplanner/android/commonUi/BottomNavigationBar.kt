@@ -20,6 +20,7 @@ import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.core.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.ReportMachineBroken
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -100,7 +101,7 @@ fun BottomNavigationBarPreview() {
         )
     )
 
-    GymPlannerTheme {
+    GymAppTheme {
         BottomNavigationBar(
             navController = rememberNavController(),
             navigationItems = navigationItems,

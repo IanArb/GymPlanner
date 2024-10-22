@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 
 @Composable
 fun RetryErrorScreen(
@@ -46,7 +47,7 @@ fun RetryErrorScreen(
 @Preview
 @Composable
 fun EmptyWorkoutPreview() {
-    GymPlannerTheme {
+    GymAppTheme {
         Column(
             modifier = Modifier.background(Color.White)
         ) {

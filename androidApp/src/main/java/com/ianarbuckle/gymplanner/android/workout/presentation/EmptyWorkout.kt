@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 
 @Composable
 fun EmptyWorkout(
@@ -33,7 +33,7 @@ fun EmptyWorkout(
 @Preview
 @Composable
 fun EmptyWorkoutPreview() {
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Workouts") }) },
         ) { padding ->

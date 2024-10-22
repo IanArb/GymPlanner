@@ -16,13 +16,13 @@ import com.ianarbuckle.gymplanner.android.core.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.ReportMachineBroken
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopNavigationBar(
     currentRoute: String?,
     titleColor: Color = Color.Black,
-    backgroundColor: Color = Color.White,
     enableBackButton: Boolean = false,
     onBackClick: (() -> Unit)? = null,
 ) {
@@ -40,9 +40,6 @@ fun TopNavigationBar(
                 fontWeight = FontWeight.Bold
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = backgroundColor
-        ),
         navigationIcon = {
             if (enableBackButton) {
                 IconButton(onClick = { onBackClick?.invoke() }) {
@@ -59,7 +56,7 @@ fun TopNavigationBar(
 @Preview
 @Composable
 fun NavigationBarPreview() {
-    GymPlannerTheme {
+    GymAppTheme {
         TopNavigationBar(
             currentRoute = DashboardScreen::class.qualifiedName,
             enableBackButton = true,

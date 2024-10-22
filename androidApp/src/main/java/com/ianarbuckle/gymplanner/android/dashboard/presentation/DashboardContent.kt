@@ -24,6 +24,7 @@ import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ianarbuckle.gymplanner.android.R
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
 import com.ianarbuckle.gymplanner.android.core.utils.displayTime
 import com.ianarbuckle.gymplanner.android.core.utils.toLocalTime
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.Duration
 import com.ianarbuckle.gymplanner.model.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
@@ -96,9 +97,11 @@ fun DashboardContent(
                 )
             }
 
+            Spacer(modifier = modifier.padding(6.dp))
+
             Card(
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp
+                    defaultElevation = 8.dp
                 ),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White,
@@ -107,9 +110,12 @@ fun DashboardContent(
                     .fillMaxWidth()
             ) {
                 AsyncImage(
-                    modifier = Modifier.height(200.dp),
+                    modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth(),
                     model = PERSONAL_TRAINER_BACKSHOT_URL,
                     contentDescription = null,
+                    contentScale = ContentScale.Crop
                 )
                 Column(modifier = modifier.padding(16.dp)) {
                     Text(
@@ -124,6 +130,8 @@ fun DashboardContent(
                     }
                 }
             }
+
+            Spacer(modifier = modifier.padding(6.dp))
         }
     }
 }
@@ -150,16 +158,16 @@ fun GymClassesContent(
             colors = CardDefaults.cardColors(
                 containerColor = Color.White,
             ),
-            modifier = modifier
-                .fillMaxWidth()
+            modifier = modifier.fillMaxHeight()
         ) {
 
             AsyncImage(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .height(200.dp)
                     .fillMaxWidth(),
                 model = item.imageUrl,
                 contentDescription = null,
+                contentScale = ContentScale.Crop
             )
             Column(
                 modifier = modifier.padding(16.dp)
@@ -234,7 +242,7 @@ fun DashboardPreview() {
         )
     )
 
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text("Westwood Gym") })

@@ -39,7 +39,6 @@ import com.ianarbuckle.gymplanner.android.core.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.core.navigation.ReportMachineBroken
 import com.ianarbuckle.gymplanner.android.commonUi.BottomNavigationBar
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardContent
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -53,6 +52,7 @@ import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormContent
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormResponse
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.GymLocation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.persistentListOf
@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 
-            GymPlannerTheme {
+            GymAppTheme {
                 Scaffold(
                     topBar = {
                         if (currentRoute == PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")) {
@@ -328,7 +328,7 @@ fun DefaultPreview() {
 
     val navController = rememberNavController()
 
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Gym Plan") }) },
             bottomBar = {

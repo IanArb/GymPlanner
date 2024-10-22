@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.commonUi.GymPlannerTheme
+import com.ianarbuckle.gymplanner.android.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.model.FaultReport
 
 @Composable
@@ -163,7 +163,7 @@ fun ReportingFormResponsePreview() {
         mutableIntStateOf(0)
     }
 
-    GymPlannerTheme {
+    GymAppTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Gym Plan") }) },
             floatingActionButton = {
