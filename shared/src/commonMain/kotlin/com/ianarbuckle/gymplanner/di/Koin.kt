@@ -1,33 +1,30 @@
 package com.ianarbuckle.gymplanner.di
 
-import com.ianarbuckle.gymplanner.DefaultGymPlanner
-import com.ianarbuckle.gymplanner.GymPlanner
-import com.ianarbuckle.gymplanner.data.clients.ClientsLocalDataSource
-import com.ianarbuckle.gymplanner.data.clients.ClientsRemoteDataSource
-import com.ianarbuckle.gymplanner.data.clients.ClientsRepository
-import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRemoteDataSource
-import com.ianarbuckle.gymplanner.data.faultreporting.FaultReportingRepository
-import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassLocalDataSource
-import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRemoteDataSource
-import com.ianarbuckle.gymplanner.data.fitnessclass.FitnessClassRepository
-import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsLocalDataSource
-import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsRemoteDataSource
-import com.ianarbuckle.gymplanner.data.gymlocations.GymLocationsRepository
-import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersLocalDataSource
-import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersRemoteDataSource
-import com.ianarbuckle.gymplanner.data.personaltrainers.PersonalTrainersRepository
-import com.ianarbuckle.gymplanner.realm.ClientRealmDto
-import com.ianarbuckle.gymplanner.realm.DurationRealmDto
-import com.ianarbuckle.gymplanner.realm.ExercisesRealmDto
-import com.ianarbuckle.gymplanner.realm.FitnessClassRealmDto
-import com.ianarbuckle.gymplanner.realm.GymLocationEnumRealm
-import com.ianarbuckle.gymplanner.realm.GymLocationRealmDto
-import com.ianarbuckle.gymplanner.realm.GymLocationsRealmDto
-import com.ianarbuckle.gymplanner.realm.GymPlanRealmDto
-import com.ianarbuckle.gymplanner.realm.PersonalTrainerRealmDto
-import com.ianarbuckle.gymplanner.realm.SessionRealmDto
-import com.ianarbuckle.gymplanner.realm.WeightRealmDto
-import com.ianarbuckle.gymplanner.realm.WorkoutRealmDto
+import com.ianarbuckle.gymplanner.api.DefaultGymPlanner
+import com.ianarbuckle.gymplanner.api.GymPlanner
+import com.ianarbuckle.gymplanner.clients.ClientsRemoteDataSource
+import com.ianarbuckle.gymplanner.clients.ClientsRepository
+import com.ianarbuckle.gymplanner.clients.dto.ClientRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.GymLocationRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.GymPlanRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.PersonalTrainerRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.SessionRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.WeightRealmDto
+import com.ianarbuckle.gymplanner.clients.dto.WorkoutRealmDto
+import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRemoteDataSource
+import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
+import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassLocalDataSource
+import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRemoteDataSource
+import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
+import com.ianarbuckle.gymplanner.fitnessclass.dto.DurationRealmDto
+import com.ianarbuckle.gymplanner.fitnessclass.dto.FitnessClassRealmDto
+import com.ianarbuckle.gymplanner.gymlocations.GymLocationsLocalDataSource
+import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRemoteDataSource
+import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
+import com.ianarbuckle.gymplanner.gymlocations.dto.GymLocationsRealmDto
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersLocalDataSource
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -116,7 +113,7 @@ fun gymPlannerModule() = module {
 
 fun clientsModule(baseUrl: String) = module {
     single { ClientsRemoteDataSource(httpClient = get(), baseurl = baseUrl) }
-    single { ClientsLocalDataSource(realm = get()) }
+    single { com.ianarbuckle.gymplanner.clients.ClientsLocalDataSource(realm = get()) }
     single { ClientsRepository(localDataSource = get(), remoteDataSource = get()) }
 }
 
@@ -149,7 +146,6 @@ fun databaseModule() = module {
             schema = setOf(
                 GymPlanRealmDto::class,
                 WorkoutRealmDto::class,
-                ExercisesRealmDto::class,
                 SessionRealmDto::class,
                 ClientRealmDto::class,
                 PersonalTrainerRealmDto::class,

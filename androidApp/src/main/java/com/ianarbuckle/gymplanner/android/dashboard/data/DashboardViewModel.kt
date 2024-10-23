@@ -2,9 +2,9 @@ package com.ianarbuckle.gymplanner.android.dashboard.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.GymPlanner
+import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardUiState
-import com.ianarbuckle.gymplanner.android.core.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow

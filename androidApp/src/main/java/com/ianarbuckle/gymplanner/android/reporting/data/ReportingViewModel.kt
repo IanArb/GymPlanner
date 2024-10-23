@@ -2,10 +2,10 @@ package com.ianarbuckle.gymplanner.android.reporting.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.GymPlanner
-import com.ianarbuckle.gymplanner.android.core.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.api.GymPlanner
+import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
-import com.ianarbuckle.gymplanner.model.FaultReport
+import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

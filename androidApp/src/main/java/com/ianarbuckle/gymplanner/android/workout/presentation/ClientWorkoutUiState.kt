@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.workout.presentation
 
-import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.clients.domain.Client
+
 
 sealed interface ClientWorkoutUiState {
 

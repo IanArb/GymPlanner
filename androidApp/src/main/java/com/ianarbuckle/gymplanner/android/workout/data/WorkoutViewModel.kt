@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.android.workout.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.GymPlanner
-import com.ianarbuckle.gymplanner.android.core.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.api.GymPlanner
+import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.workout.presentation.ClientWorkoutUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

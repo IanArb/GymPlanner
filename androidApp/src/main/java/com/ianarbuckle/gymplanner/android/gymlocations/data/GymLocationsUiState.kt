@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.gymlocations.data
 
-import com.ianarbuckle.gymplanner.model.GymLocations
+import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
+
 
 sealed interface GymLocationsUiState {
 

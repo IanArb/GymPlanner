@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.reporting.presentation
 
-import com.ianarbuckle.gymplanner.model.FaultReport
+import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
+
 
 sealed interface FormFaultReportUiState {
 

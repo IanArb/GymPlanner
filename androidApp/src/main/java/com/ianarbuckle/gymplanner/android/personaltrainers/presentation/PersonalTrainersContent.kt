@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ianarbuckle.gymplanner.model.PersonalTrainer
+import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

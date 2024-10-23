@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner.android.dashboard.presentation
 
-import com.ianarbuckle.gymplanner.model.FitnessClass
+import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface DashboardUiState {

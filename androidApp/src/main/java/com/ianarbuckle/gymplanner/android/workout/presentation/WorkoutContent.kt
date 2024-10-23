@@ -20,9 +20,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ianarbuckle.gymplanner.android.core.utils.DataProvider
-import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.model.Client
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.clients.domain.Client
 
 @Composable
 fun WorkoutContent(

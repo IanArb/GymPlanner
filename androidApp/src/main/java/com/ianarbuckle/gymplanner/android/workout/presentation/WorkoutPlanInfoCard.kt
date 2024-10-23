@@ -15,12 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ianarbuckle.gymplanner.android.core.utils.DataProvider
-import com.ianarbuckle.gymplanner.android.core.utils.dayOfWeekDisplayName
-import com.ianarbuckle.gymplanner.android.core.utils.differenceInDays
-import com.ianarbuckle.gymplanner.android.core.utils.monthDisplayName
-import com.ianarbuckle.gymplanner.android.core.utils.parseToLocalDateTime
-import com.ianarbuckle.gymplanner.model.GymPlan
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.dayOfWeekDisplayName
+import com.ianarbuckle.gymplanner.android.utils.differenceInDays
+import com.ianarbuckle.gymplanner.android.utils.monthDisplayName
+import com.ianarbuckle.gymplanner.android.utils.parseToLocalDateTime
+import com.ianarbuckle.gymplanner.clients.domain.GymPlan
 import java.time.format.TextStyle
 
 @Composable

@@ -41,9 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.ianarbuckle.gymplanner.android.core.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.core.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.model.FaultReport
+import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
+import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 @Composable
 fun ReportingFormResponse(
@@ -206,7 +206,8 @@ fun ReportingFormResponsePreview() {
                 description = "The machine is broken",
                 photoUri = "https://www.google.com",
                 date = "2022-01-01"
-            )) {
+            )
+            ) {
 
             }
         }

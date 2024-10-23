@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.personaltrainers.data
 
-import com.ianarbuckle.gymplanner.model.PersonalTrainer
+import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+
 
 sealed interface PersonalTrainersState {
 
