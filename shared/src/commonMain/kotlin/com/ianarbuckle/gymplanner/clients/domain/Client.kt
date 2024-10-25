@@ -24,6 +24,7 @@ data class PersonalTrainer(
     val lastName: String,
     val imageUrl: String,
     val bio: String,
+    val qualifications: List<String>,
     val socials: Map<String, String>,
     val gymLocation: GymLocation,
 )

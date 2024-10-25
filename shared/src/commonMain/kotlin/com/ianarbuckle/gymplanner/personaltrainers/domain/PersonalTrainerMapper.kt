@@ -19,7 +19,8 @@ object PersonalTrainerMapper {
             lastName = lastName,
             imageUrl = imageUrl,
             bio = bio,
-            socials = socials,
+            socials = socials ?: emptyMap(),
+            qualifications = qualifications,
             gymLocation = gymLocation.toGymLocation()
         )
     }
@@ -31,6 +32,8 @@ object PersonalTrainerMapper {
                 GymLocationDto.ASTONQUAY -> GymLocation.ASTONQUAY
                 GymLocationDto.LEOPARDSTOWN -> GymLocation.LEOPARDSTOWN
                 GymLocationDto.DUNLOAGHAIRE -> GymLocation.DUNLOAGHAIRE
+                GymLocationDto.SANDYMOUNT -> GymLocation.SANDYMOUNT
+                GymLocationDto.WESTMANSTOWN -> GymLocation.WESTMANSTOWN
                 GymLocationDto.UNKNOWN -> GymLocation.UNKNOWN
             }
         }
@@ -80,6 +83,7 @@ object PersonalTrainerMapper {
             bio = personalTrainer?.bio ?: "",
             imageUrl = personalTrainer?.imageUrl ?: "",
             socials = personalTrainer?.socials ?: emptyMap(),
+            qualifications = personalTrainer?.qualifications ?: emptyList(),
             gymLocation = transformGymLocationDtoToEnum(gymLocationRealm = personalTrainer?.gymLocation) ?: GymLocationDto.UNKNOWN
         )
     }
@@ -93,6 +97,7 @@ object PersonalTrainerMapper {
                 bio = it.bio ?: "",
                 imageUrl = it.imageUrl,
                 socials = it.socials,
+                qualifications = it.qualifications,
                 gymLocation = transformGymLocationToEnum(gymLocationRealm = it.gymLocation) ?: GymLocation.UNKNOWN
             )
         }

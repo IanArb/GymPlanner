@@ -39,7 +39,8 @@ object ClientUiModelMapper {
             bio = bio,
             imageUrl = imageUrl,
             gymLocation = gymLocation.transformToGymLocation(),
-            socials = socials
+            qualifications = qualifications,
+            socials = socials ?: emptyMap()
         )
     }
 
@@ -49,6 +50,8 @@ object ClientUiModelMapper {
             GymLocationDto.ASTONQUAY -> GymLocation.ASTONQUAY
             GymLocationDto.LEOPARDSTOWN -> GymLocation.LEOPARDSTOWN
             GymLocationDto.DUNLOAGHAIRE -> GymLocation.DUNLOAGHAIRE
+            GymLocationDto.SANDYMOUNT -> GymLocation.SANDYMOUNT
+            GymLocationDto.WESTMANSTOWN -> GymLocation.WESTMANSTOWN
             GymLocationDto.UNKNOWN -> GymLocation.UNKNOWN
         }
     }

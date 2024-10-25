@@ -35,6 +35,7 @@ class PersonalTrainerRealmDto : EmbeddedRealmObject {
     var imageUrl: String = ""
     @Ignore
     var socials: RealmMap<String, String> = realmDictionaryOf()
+    var qualifications: RealmList<String> = realmListOf()
     var gymLocation: GymLocationRealmDto? = null
 }
 

@@ -27,7 +27,8 @@ data class PersonalTrainerDto(
     val lastName: String,
     val imageUrl: String,
     val bio: String,
-    val socials: Map<String, String>,
+    val socials: Map<String, String>? = null,
+    val qualifications: List<String>,
     val gymLocation: GymLocationDto,
 )
 
@@ -36,6 +37,8 @@ enum class GymLocationDto {
     ASTONQUAY,
     LEOPARDSTOWN,
     DUNLOAGHAIRE,
+    SANDYMOUNT,
+    WESTMANSTOWN,
     UNKNOWN,
 }
 

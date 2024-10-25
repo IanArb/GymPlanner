@@ -25,6 +25,7 @@ import com.ianarbuckle.gymplanner.gymlocations.dto.GymLocationsRealmDto
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersLocalDataSource
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
+import com.ianarbuckle.gymplanner.personaltrainers.dto.PersonalTrainersRealmDto
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -153,7 +154,8 @@ fun databaseModule() = module {
                 FitnessClassRealmDto::class,
                 DurationRealmDto::class,
                 GymLocationRealmDto::class,
-                GymLocationsRealmDto::class
+                GymLocationsRealmDto::class,
+                PersonalTrainersRealmDto::class
             )
         )
         Realm.open(configuration)

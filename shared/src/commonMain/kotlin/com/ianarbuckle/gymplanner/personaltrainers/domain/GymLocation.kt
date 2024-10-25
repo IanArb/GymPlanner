@@ -4,7 +4,8 @@ enum class GymLocation {
     CLONTARF,
     ASTONQUAY,
     LEOPARDSTOWN,
+    SANDYMOUNT,
     DUNLOAGHAIRE,
-    WESTSMANTWOWN,
+    WESTMANSTOWN,
     UNKNOWN,
 }

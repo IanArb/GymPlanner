@@ -11,6 +11,7 @@ import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.random.Random
 
@@ -64,6 +65,7 @@ object DataProvider {
         bio = bio,
         imageUrl = imageUrl,
         socials = socials,
+        qualifications = listOf("Level 3 Personal Trainer", "Nutritionist"),
         gymLocation = GymLocation.CLONTARF,
     )
 
@@ -390,6 +392,81 @@ object DataProvider {
                 subTitle = "Personal Trainers Dublin 4",
                 description = "Where the posh people live",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            ),
+        )
+    }
+
+    fun personalTrainers(): PersistentList<PersonalTrainer> {
+        val socials = mapOf(
+            "instagram" to "https://www.instagram.com/vinifeynda",
+            "tiktok" to "https://www.tiktok.com/@crash.gear"
+        )
+        return persistentListOf(
+            PersonalTrainer(
+                firstName = "Vini",
+                lastName = "Feynda",
+                bio = "Hey, I'm Vini. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = socials,
+                qualifications = listOf("Level 3 Personal Trainer", "Nutritionist"),
+                gymLocation = GymLocation.CLONTARF,
+            ),
+            PersonalTrainer(
+                firstName = "Sinead",
+                lastName = "Darcy",
+                bio = "Hey, I'm Sinead. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = socials,
+                qualifications = listOf("LesMillis BodyAttack",
+                    "LesMillis BodyPump",
+                    "LesMillis The Trip",
+                    "LesMillis BodyBalance",
+                    "LesMillis Dance",
+                    "LesMillis Sprint",
+                    "LesMillis BodyCombat"),
+                gymLocation = GymLocation.CLONTARF,
+            ),
+            PersonalTrainer(
+                firstName = "Aine",
+                lastName = "Darcy",
+                bio = "Hey, I'm Aine. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = mapOf(),
+                qualifications = listOf("Level 3 Personal Trainer", "Nutritionist"),
+                gymLocation = GymLocation.CLONTARF,
+            ),
+            PersonalTrainer(
+                firstName = "John",
+                lastName = "Doe",
+                bio = "Hey, I'm John. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = mapOf(),
+                qualifications = listOf("Level 3 Personal Trainer", "Nutritionist"),
+                gymLocation = GymLocation.ASTONQUAY,
+            ),
+            PersonalTrainer(
+                firstName = "Jane",
+                lastName = "Doe",
+                bio = "Hey, I'm Jane. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = mapOf(),
+                qualifications = listOf("LesMillis BodyAttack",
+                    "LesMillis BodyPump",
+                    "LesMillis The Trip",
+                    "LesMillis BodyBalance",
+                    "LesMillis Dance",
+                    "LesMillis Sprint",
+                    "LesMillis BodyCombat"),
+                gymLocation = GymLocation.LEOPARDSTOWN,
+            ),
+            PersonalTrainer(
+                firstName = "Alice",
+                lastName = "Doe",
+                bio = "Hey, I'm Alice. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+                socials = mapOf(),
+                qualifications = listOf("Level 3 Personal Trainer", "Nutritionist"),
+                gymLocation = GymLocation.WESTMANSTOWN,
             ),
         )
     }

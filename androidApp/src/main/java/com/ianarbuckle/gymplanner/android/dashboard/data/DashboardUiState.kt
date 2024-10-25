@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.dashboard.presentation
+package com.ianarbuckle.gymplanner.android.dashboard.data
 
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
