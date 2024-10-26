@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Home
+import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -24,6 +25,13 @@ object GymLocationsScreen
 @Serializable
 data class PersonalTrainersScreen(
     val gymLocation: GymLocation,
+)
+
+@Serializable
+data class PersonalTrainersDetailScreen(
+    val name: String,
+    val bio: String,
+    val imageUrl: String,
 )
 
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {

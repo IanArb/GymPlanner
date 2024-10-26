@@ -41,6 +41,7 @@ fun PersonalTrainersContent(
     modifier: Modifier = Modifier,
     onSocialLinkClick: (String) -> Unit,
     onBookTrainerClick: (String) -> Unit,
+    onItemClick: (Triple<String, String, String>) -> Unit,
 ) {
     Column(
         modifier = modifier.padding(innerPadding)
@@ -50,7 +51,8 @@ fun PersonalTrainersContent(
                 PersonalTrainerItem(
                     personalTrainer = personalTrainer,
                     onSocialLinkClick = onSocialLinkClick,
-                    onBookTrainerClick = onBookTrainerClick
+                    onBookTrainerClick = onBookTrainerClick,
+                    onItemClick = onItemClick
                 )
             }
         }
@@ -63,11 +65,21 @@ fun PersonalTrainerItem(
     modifier: Modifier = Modifier,
     onSocialLinkClick: (String) -> Unit,
     onBookTrainerClick: (String) -> Unit,
+    onItemClick: (Triple<String, String, String>) -> Unit,
 ) {
     Card(
         modifier = modifier
             .padding(16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onItemClick(
+                    Triple(
+                        personalTrainer.firstName + " " + personalTrainer.lastName,
+                        personalTrainer.bio,
+                        personalTrainer.imageUrl
+                    )
+                )
+            },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
@@ -174,7 +186,8 @@ fun GymLocationsPreview() {
                 innerPadding = PaddingValues(16.dp),
                 personalTrainers = DataProvider.personalTrainers(),
                 onSocialLinkClick = { },
-                onBookTrainerClick = { }
+                onBookTrainerClick = { },
+                onItemClick = { }
             )
         }
 

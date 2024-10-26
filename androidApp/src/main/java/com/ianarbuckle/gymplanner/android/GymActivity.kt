@@ -50,10 +50,12 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.gymlocations.GymLocationsSelection
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
+import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
 import com.ianarbuckle.gymplanner.android.navigation.createBottomNavigationItems
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersContent
+import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersDetail
 import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportingFormContent
@@ -90,14 +92,13 @@ class MainActivity : ComponentActivity() {
             GymAppTheme {
                 Scaffold(
                     topBar = {
-                        if (currentRoute == PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")) {
+                        if (currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(("/{name}/{bio}/{imageUrl}"))) {
                             TopNavigationBar(
                                 currentRoute = currentRoute,
-                                enableBackButton = true) {
+                                enableBackButton = currentRoute == PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")
+                            ) {
                                 navController.popBackStack()
                             }
-                        } else {
-                            TopNavigationBar(currentRoute)
                         }
                     },
                     bottomBar = {
@@ -105,7 +106,9 @@ class MainActivity : ComponentActivity() {
                             mutableIntStateOf(0)
                         }
 
-                        if (currentRoute != PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")) {
+                        if (currentRoute != PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")
+                            && currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(("/{name}/{bio}/{imageUrl}"))
+                        ) {
                             BottomNavigationBar(
                                 navController = navController,
                                 navigationItems = createBottomNavigationItems(),
@@ -128,7 +131,9 @@ class MainActivity : ComponentActivity() {
 
                         gymLocationsScreenGraph(contentPadding, navController)
 
-                        personalTrainersScreenGraph(contentPadding)
+                        personalTrainersScreenGraph(contentPadding, navController)
+
+                        personalTrainerDetailScreen(contentPadding, navController)
                     }
                 }
             }
@@ -329,7 +334,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun NavGraphBuilder.personalTrainersScreenGraph(contentPadding: PaddingValues) {
+    private fun NavGraphBuilder.personalTrainersScreenGraph(
+        contentPadding: PaddingValues,
+        navController: NavHostController,
+    ) {
         composable<PersonalTrainersScreen> {
             val args = it.toRoute<PersonalTrainersScreen>()
             personalTrainersViewModel.fetchPersonalTrainers(args.gymLocation)
@@ -350,7 +358,16 @@ class MainActivity : ComponentActivity() {
                         onSocialLinkClick = {
 
                         },
-                        onBookTrainerClick = { }
+                        onBookTrainerClick = { },
+                        onItemClick = { item ->
+                            navController.navigate(
+                                PersonalTrainersDetailScreen(
+                                    item.first,
+                                    item.second,
+                                    item.third
+                                )
+                            )
+                        }
                     )
                 }
 
@@ -358,6 +375,23 @@ class MainActivity : ComponentActivity() {
                     CircularProgressIndicator()
                 }
             }
+        }
+    }
+
+    private fun NavGraphBuilder.personalTrainerDetailScreen(contentPadding: PaddingValues, navController: NavHostController) {
+        composable<PersonalTrainersDetailScreen> {
+            val args = it.toRoute<PersonalTrainersDetailScreen>()
+
+            PersonalTrainersDetail(
+                contentPadding = contentPadding,
+                name = args.name,
+                bio = args.bio,
+                imageUrl = args.imageUrl,
+                onBookClick = {},
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

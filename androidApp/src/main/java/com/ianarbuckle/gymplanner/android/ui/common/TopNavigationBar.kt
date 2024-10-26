@@ -31,9 +31,9 @@ fun TopNavigationBar(
                 text = when (currentRoute) {
                     DashboardScreen::class.qualifiedName -> "Dashboard"
                     ReportMachineBroken::class.qualifiedName -> "Report Machine"
-                    GymLocationsScreen::class.qualifiedName -> "Personal Trainers"
-                    PersonalTrainersScreen::class.qualifiedName -> "Personal Trainers Profiles"
-                    else -> "Gym Plan"
+                    GymLocationsScreen::class.qualifiedName -> "Gym Locations"
+                    PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") -> "Personal Trainers"
+                    else -> ""
                 },
                 color = titleColor,
                 fontWeight = FontWeight.Bold
