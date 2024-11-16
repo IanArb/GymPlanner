@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class FitnessClassRepository(
     private val localDataSource: FitnessClassLocalDataSource,
-    private val remoteDataSource: FitnessClassRemoteDataSource
+    private val remoteDataSource: FitnessClassRemoteDataSource,
 ) {
 
     suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>> {

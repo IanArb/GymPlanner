@@ -34,6 +34,9 @@ data class PersonalTrainersDetailScreen(
     val imageUrl: String,
 )
 
+@Serializable
+object LoginScreen
+
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
     return persistentListOf(
         BottomNavigationItem(

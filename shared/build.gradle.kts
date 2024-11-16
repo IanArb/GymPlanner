@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.realm)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -35,6 +36,7 @@ kotlin {
             implementation(libs.ktor.client.json)
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.serialization.kotlinx.json)
+            implementation(libs.ktor.client.cio)
 
             // Kotlinx
             implementation(libs.kotlinx.coroutines.core)
@@ -47,7 +49,11 @@ kotlin {
             implementation(libs.kotlinx.datetime)
 
             //Koin
-            implementation(libs.koin.core)
+            api(libs.koin.core)
+
+            //Datastore
+            api(libs.androidx.datastore.preferences)
+            api(libs.androidx.datastore.preferences.core)
         }
 
         androidMain.dependencies {

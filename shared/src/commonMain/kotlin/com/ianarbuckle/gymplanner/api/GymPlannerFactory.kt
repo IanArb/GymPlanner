@@ -1,7 +1,10 @@
 package com.ianarbuckle.gymplanner.api
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+
+
 expect object GymPlannerFactory {
 
-    public fun create(baseUrl: String): GymPlanner
-
+    fun create(baseUrl: String, dataStore: DataStore<Preferences>): GymPlanner
 }

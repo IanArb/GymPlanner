@@ -1,5 +1,7 @@
 package com.ianarbuckle.gymplanner.api
 
+import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
@@ -26,4 +28,14 @@ interface GymPlanner {
     suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<List<PersonalTrainer>>
 
     suspend fun fetchGymLocations(): Result<List<GymLocations>>
+
+    suspend fun login(login: Login): Result<LoginResponse>
+
+    suspend fun saveAuthToken(token: String)
+
+    suspend fun saveRememberMe(rememberMe: Boolean)
+
+    suspend fun fetchAuthToken(): String
+
+    suspend fun fetchRememberMe(): Boolean
 }

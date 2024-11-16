@@ -65,23 +65,22 @@ import kotlinx.datetime.toLocalDateTime
 fun ReportingFormContent(
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    machineNumber: String,
+    description: String,
+    isMachineNumberValid: Boolean,
+    isDescriptionValid: Boolean,
+    isImageBitMapValid: Boolean,
+    hasMachineNumberInteracted: Boolean,
+    hasDescriptionInteracted: Boolean,
+    hasPhotoInteracted: Boolean,
     imageBitmap: ImageBitmap? = null,
     isLoading: Boolean = false,
     hasFailed: Boolean = false,
+    onMachineNumberChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
     onPhotoClick: () -> Unit,
-    onSendClick: (FaultReport) -> Unit,
+    onSendClick: () -> Unit,
 ) {
-    var machineNumber by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-
-    var isMachineNumberValid by remember { mutableStateOf(false) }
-    var isDescriptionValid by remember { mutableStateOf(false) }
-    var isImageBitMapValid by remember { mutableStateOf(false) }
-
-    var hasMachineNumberInteracted by remember { mutableStateOf(false) }
-    var hasDescriptionInteracted by remember { mutableStateOf(false) }
-    var hasPhotoInteracted by remember { mutableStateOf(false) }
-
     Column(modifier = Modifier
         .padding(innerPadding)
         .padding(16.dp)) {
@@ -118,11 +117,7 @@ fun ReportingFormContent(
 
                 OutlinedTextField(
                     value = machineNumber,
-                    onValueChange = {
-                        machineNumber = it
-                        isMachineNumberValid = it.isNotEmpty()
-                        hasMachineNumberInteracted = true
-                    },
+                    onValueChange = onMachineNumberChange,
                     label = { Text("Machine number") },
                     modifier = Modifier.fillMaxWidth(),
                     isError = !isMachineNumberValid && hasMachineNumberInteracted,
@@ -149,11 +144,7 @@ fun ReportingFormContent(
 
                 OutlinedTextField(
                     value = description,
-                    onValueChange = {
-                        description = it
-                        isDescriptionValid = it.isNotEmpty()
-                        hasDescriptionInteracted = true
-                    },
+                    onValueChange = onDescriptionChange,
                     label = { Text("Describe the fault of the machine") },
                     modifier = Modifier.fillMaxWidth(),
                     isError = !isDescriptionValid && hasDescriptionInteracted
@@ -173,7 +164,6 @@ fun ReportingFormContent(
                 ImagePlaceholder(
                     imageBitmap = imageBitmap,
                     isImageError = !isImageBitMapValid && hasPhotoInteracted) {
-                    hasPhotoInteracted = true
                     onPhotoClick()
                 }
 
@@ -185,29 +175,11 @@ fun ReportingFormContent(
                         .padding(top = 16.dp),
                     text = if (isLoading) "" else "Send",
                     isLoading = isLoading,
-                    onClick = {
-                        hasMachineNumberInteracted = true
-                        hasDescriptionInteracted = true
-                        hasPhotoInteracted = true
-
-                        isMachineNumberValid = machineNumber.isNotEmpty()
-                        isDescriptionValid = description.isNotEmpty()
-                        isImageBitMapValid = imageBitmap != null
-
-                        if (isMachineNumberValid && isDescriptionValid && isImageBitMapValid) {
-                            val report = FaultReport(
-                                machineNumber = machineNumber.toInt(),
-                                description = description,
-                                photoUri = imageBitmap?.imageBitmapToUri(context, "photo.jgp").toString(),
-                                date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).toString(),
-                            )
-                            onSendClick(report)
-                        }
-                    }
+                    onClick = onSendClick
                 )
 
                 Spacer(modifier = Modifier.padding(4.dp))
-                
+
                 if (hasFailed) {
                     Text(text ="Failed to send report", color = Color.Red)
                 }
@@ -283,74 +255,62 @@ private fun ImageSelection(onPhotoClick: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun Preview() {
-    val navigationItems = listOf(
-        BottomNavigationItem(
-            title = "Dashboard",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-        ),
-        BottomNavigationItem(
-            title = "Chat",
-            selectedIcon = Icons.Filled.Email,
-            unselectedIcon = Icons.Outlined.Email,
-        ),
-        BottomNavigationItem(
-            title = "Trainers",
-            selectedIcon = Icons.Filled.Face,
-            unselectedIcon = Icons.Outlined.Face,
-        )
-    )
-
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+fun ReportingFormContentPreview() {
+    var machineNumber by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    var imageBitmap by rememberSaveable { mutableStateOf<ImageBitmap?>(null) }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+    var hasFailed by rememberSaveable { mutableStateOf(false) }
+    var isMachineNumberValid by rememberSaveable { mutableStateOf(false) }
+    var isDescriptionValid by rememberSaveable { mutableStateOf(false) }
+    var isImageBitMapValid by rememberSaveable { mutableStateOf(false) }
+    var hasMachineNumberInteracted by rememberSaveable { mutableStateOf(false) }
+    var hasDescriptionInteracted by rememberSaveable { mutableStateOf(false) }
+    var hasPhotoInteracted by rememberSaveable { mutableStateOf(false) }
 
     GymAppTheme {
         Scaffold(
-            topBar = { TopAppBar(title = { Text("Gym Plan") }) },
-            floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    // TODO
-                }) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Add"
-                    )
-                }
-            },
-            bottomBar = {
-                NavigationBar {
-                    navigationItems.forEachIndexed { index, item ->
-                        NavigationBarItem(
-                            selected = selectedItemIndex == index,
-                            onClick = {
-                                selectedItemIndex = index
-                            },
-                            label = {
-                                Text(item.title)
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (index == selectedItemIndex) {
-                                        item.selectedIcon
-                                    } else {
-                                        item.unselectedIcon
-                                    },
-                                    contentDescription = item.title)
-                            }
-                        )
-                    }
-                }
-            }
-        ) {
+            topBar = { TopAppBar(title = { Text("Report Machine") }) }
+        ) { innerPadding ->
             ReportingFormContent(
-                innerPadding = it,
-                imageBitmap = null,
-                onPhotoClick = {
-
+                innerPadding = innerPadding,
+                machineNumber = machineNumber,
+                onMachineNumberChange = {
+                    machineNumber = it
+                    isMachineNumberValid = it.isNotEmpty()
+                    hasMachineNumberInteracted = true
                 },
-                onSendClick = { data ->
+                description = description,
+                onDescriptionChange = {
+                    description = it
+                    isDescriptionValid = it.isNotEmpty()
+                    hasDescriptionInteracted = true
+                },
+                imageBitmap = imageBitmap,
+                isLoading = isLoading,
+                hasFailed = hasFailed,
+                isMachineNumberValid = isMachineNumberValid,
+                isDescriptionValid = isDescriptionValid,
+                isImageBitMapValid = isImageBitMapValid,
+                hasMachineNumberInteracted = hasMachineNumberInteracted,
+                hasDescriptionInteracted = hasDescriptionInteracted,
+                hasPhotoInteracted = hasPhotoInteracted,
+                onPhotoClick = {
+                    hasPhotoInteracted = true
+                    // Handle photo click
+                },
+                onSendClick = {
+                    hasMachineNumberInteracted = true
+                    hasDescriptionInteracted = true
+                    hasPhotoInteracted = true
+
+                    isMachineNumberValid = machineNumber.isNotEmpty()
+                    isDescriptionValid = description.isNotEmpty()
+                    isImageBitMapValid = imageBitmap != null
+
+                    if (isMachineNumberValid && isDescriptionValid && isImageBitMapValid) {
+                        // Handle send click
+                    }
                 }
             )
         }

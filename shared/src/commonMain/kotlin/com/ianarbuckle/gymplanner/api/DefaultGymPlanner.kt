@@ -1,5 +1,8 @@
 package com.ianarbuckle.gymplanner.api
 
+import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
@@ -11,6 +14,9 @@ import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
+import com.ianarbuckle.gymplanner.storage.DataStoreRepository
+import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
@@ -24,6 +30,8 @@ class DefaultGymPlanner(
     private val faultReportingRepository: FaultReportingRepository,
     private val personalTrainersRepository: PersonalTrainersRepository,
     private val gymLocationsRepository: GymLocationsRepository,
+    private val authenticationRepository: AuthenticationRepository,
+    private val dataStoreRepository: DataStoreRepository,
     ) : GymPlanner {
 
     override suspend fun fetchAllClients(): Result<List<Client>> {
@@ -94,5 +102,25 @@ class DefaultGymPlanner(
 
     override suspend fun fetchGymLocations(): Result<List<GymLocations>> {
         return gymLocationsRepository.fetchGymLocations()
+    }
+
+    override suspend fun login(login: Login): Result<LoginResponse> {
+        return authenticationRepository.login(login)
+    }
+
+    override suspend fun saveAuthToken(token: String) {
+        return dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = token)
+    }
+
+    override suspend fun saveRememberMe(rememberMe: Boolean) {
+        return dataStoreRepository.saveData(key = REMEMBER_ME_KEY, value = rememberMe)
+    }
+
+    override suspend fun fetchAuthToken(): String {
+        return dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
+    }
+
+    override suspend fun fetchRememberMe(): Boolean {
+        return dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) ?: false
     }
 }

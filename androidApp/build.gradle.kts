@@ -69,4 +69,14 @@ dependencies {
     compileOnly(libs.realm.base)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.datastore.preferences)
+
+    ksp(libs.koin.ksp)
+    implementation(libs.koin.annotations)
+}
+
+// Compile time check
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
 }
