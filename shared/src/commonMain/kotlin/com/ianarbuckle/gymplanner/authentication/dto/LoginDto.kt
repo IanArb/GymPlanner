@@ -10,6 +10,7 @@ data class LoginDto(
 
 @Serializable
 data class LoginResponseDto(
+    val userId: String,
     val token: String,
     val expiration: Long,
 )

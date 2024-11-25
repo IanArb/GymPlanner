@@ -54,6 +54,16 @@ kotlin {
             //Datastore
             api(libs.androidx.datastore.preferences)
             api(libs.androidx.datastore.preferences.core)
+
+            implementation(libs.kotlinx.immutable.collections)
+        }
+
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.junit)
+                implementation(libs.kotest.assertions.core)
+            }
         }
 
         androidMain.dependencies {

@@ -12,7 +12,11 @@ object AuthenticationMapper {
     }
 
     fun LoginResponseDto.toLoginResponse(): LoginResponse {
-        return LoginResponse(token, expiration)
+        return LoginResponse(
+            userId = userId,
+            token = token,
+            expiration = expiration
+        )
     }
 
     fun RegisterDto.toRegister(): Register {

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
-import com.ianarbuckle.gymplanner.android.reporting.presentation.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

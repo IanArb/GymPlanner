@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.gymlocations
+package com.ianarbuckle.gymplanner.android.gymlocations.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

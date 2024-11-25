@@ -26,10 +26,10 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavController,
     navigationItems: ImmutableList<BottomNavigationItem>,
     selectedItemIndex: Int,
     onItemSelected: (Int) -> Unit,
+    onNavigateTo: (Int) -> Unit,
 ) {
     NavigationBar {
         navigationItems.forEachIndexed { index, item ->
@@ -38,19 +38,13 @@ fun BottomNavigationBar(
                 onClick = {
                     when (index) {
                         0 -> {
-                            navController.navigate(DashboardScreen) {
-                                restoreState()
-                            }
+                            onNavigateTo(0)
                         }
                         1 -> {
-                            navController.navigate(ReportMachineBroken) {
-                                restoreState()
-                            }
+                            onNavigateTo(1)
                         }
                         2 -> {
-                            navController.navigate(GymLocationsScreen) {
-                                restoreState()
-                            }
+                            onNavigateTo(2)
                         }
                     }
                     onItemSelected(index)
@@ -70,14 +64,6 @@ fun BottomNavigationBar(
             )
         }
     }
-}
-
-private fun NavOptionsBuilder.restoreState() {
-    // Avoid multiple copies of the same destination when
-    // reselecting the same item
-    launchSingleTop = true
-    // Restore state when reselecting a previously selected item
-    restoreState = true
 }
 
 @Preview
@@ -103,10 +89,10 @@ fun BottomNavigationBarPreview() {
 
     GymAppTheme {
         BottomNavigationBar(
-            navController = rememberNavController(),
             navigationItems = navigationItems,
             selectedItemIndex = 0,
-            onItemSelected = { }
+            onItemSelected = { },
+            onNavigateTo = { }
         )
     }
 }

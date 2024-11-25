@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner.api
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
+import com.ianarbuckle.gymplanner.booking.BookingRepository
+import com.ianarbuckle.gymplanner.booking.domain.Booking
+import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
@@ -14,9 +17,13 @@ import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.profile.ProfileRepository
+import com.ianarbuckle.gymplanner.profile.domain.Profile
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
+import com.ianarbuckle.gymplanner.storage.USER_ID
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
@@ -31,10 +38,12 @@ class DefaultGymPlanner(
     private val personalTrainersRepository: PersonalTrainersRepository,
     private val gymLocationsRepository: GymLocationsRepository,
     private val authenticationRepository: AuthenticationRepository,
+    private val bookingRepository: BookingRepository,
+    private val profileRepository: ProfileRepository,
     private val dataStoreRepository: DataStoreRepository,
     ) : GymPlanner {
 
-    override suspend fun fetchAllClients(): Result<List<Client>> {
+    override suspend fun fetchAllClients(): Result<ImmutableList<Client>> {
         return clientsRepository.fetchClients()
     }
 
@@ -50,7 +59,7 @@ class DefaultGymPlanner(
         return clientsRepository.deleteClient(id)
     }
 
-    override suspend fun fetchTodaysFitnessClasses(): Result<List<FitnessClass>> {
+    override suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
         val currentMoment: Instant = Clock.System.now()
         val datetimeInSystemZone: LocalDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -84,11 +93,11 @@ class DefaultGymPlanner(
         }
     }
 
-    private suspend fun fetchClassesByDayOfWeek(dayOfWeek: String): Result<List<FitnessClass>> {
+    private suspend fun fetchClassesByDayOfWeek(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
         return fitnessClassRepository.fetchFitnessClasses(dayOfWeek)
     }
 
-    override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<List<FitnessClass>> {
+    override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
         return fitnessClassRepository.fetchFitnessClasses(dayOfWeek)
     }
 
@@ -96,11 +105,11 @@ class DefaultGymPlanner(
         return faultReportingRepository.saveFaultReport(fault)
     }
 
-    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<List<PersonalTrainer>> {
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
         return personalTrainersRepository.fetchPersonalTrainers(gymLocation)
     }
 
-    override suspend fun fetchGymLocations(): Result<List<GymLocations>> {
+    override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> {
         return gymLocationsRepository.fetchGymLocations()
     }
 
@@ -120,7 +129,27 @@ class DefaultGymPlanner(
         return dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
     }
 
+    override suspend fun saveUserId(userId: String) {
+        dataStoreRepository.saveData(key = USER_ID, value = userId)
+    }
+
+    override suspend fun fetchUserId(): String {
+        return dataStoreRepository.getStringData(USER_ID) ?: ""
+    }
+
     override suspend fun fetchRememberMe(): Boolean {
         return dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) ?: false
+    }
+
+    override suspend fun fetchProfile(userId: String): Result<Profile> {
+        return profileRepository.fetchProfile(userId)
+    }
+
+    override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
+        return bookingRepository.saveBooking(booking)
+    }
+
+    override suspend fun fetchBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
+        return bookingRepository.findBookingsByUserId(userId)
     }
 }

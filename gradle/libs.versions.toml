@@ -3,19 +3,26 @@ agp = "8.7.2"
 androidx-activityCompose = "1.9.3"
 androidx-navigation = "2.8.3"
 compose = "1.6.8"
+compose-plugin = "1.7.1"
 compose-material3 = "1.3.1"
 compose-bom = "androidx.compose:compose-bom:2024.09.02"
 coroutines = "1.8.1"
 coil = "2.7.0"
 datastore = "1.1.1"
 desugar_jdk_libs = "2.1.3"
+google-truth = "1.1.3"
 hilt = "2.48"
+hilt-navigation = "1.2.0"
+kotest = "5.0.0"
 kotlin = "2.0.0"
 kotlin-datetime = "0.6.0"
 kotlinx-immutable-collections = "0.3.8"
 ktor = "2.3.12"
 koin = "4.0.0"
 koin-annotations = "2.0.0-Beta1"
+junit = "4.13.2"
+mockk = "1.13.2"
+mockative = "3.0.0"
 libraryBase = "2.1.0"
 realm = "2.1.0"
 serialization = "1.7.1"
@@ -27,6 +34,7 @@ androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-p
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom"}
+compose-compiler = { module = "org.jetbrains.kotlinx:kotlinx-compiler-compose", version.ref = "kotlin" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"  }
@@ -34,8 +42,10 @@ compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
+google-truth = { module = "com.google.truth:truth", version.ref = "google-truth" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation"}
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
@@ -45,6 +55,8 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-client-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime"}
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -54,11 +66,16 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
 koin-ksp = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotations" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
+mockative-test = { module = "io.mockative:mockative-test", version.ref = "mockative" }
+junit = { module = "junit:junit", version.ref = "junit" }
 realm-base = { module = "io.realm.kotlin:library-base", version.ref = "libraryBase" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

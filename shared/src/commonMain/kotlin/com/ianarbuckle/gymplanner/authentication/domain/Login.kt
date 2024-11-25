@@ -9,6 +9,7 @@ data class Login(
 )
 
 data class LoginResponse(
+    val userId: String,
     val token: String,
     val expiration: Long,
 )

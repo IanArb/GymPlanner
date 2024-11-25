@@ -2,6 +2,8 @@ package com.ianarbuckle.gymplanner.clients
 
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.ClientUiModelMapper.transformToClient
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 class ClientsRepository(
     private val localDataSource: ClientsLocalDataSource,
@@ -18,7 +20,7 @@ class ClientsRepository(
         }
     }
 
-    suspend fun fetchClients(): Result<List<Client>> {
+    suspend fun fetchClients(): Result<ImmutableList<Client>> {
         try {
             val remoteClients = remoteDataSource.clients()
             val clients = remoteClients.map { client ->
@@ -26,7 +28,7 @@ class ClientsRepository(
                 localDataSource.saveGymPlan(transformToClient)
                 transformToClient
             }
-            return Result.success(clients)
+            return Result.success(clients.toImmutableList())
         } catch (exception: Exception) {
             return Result.failure(exception)
         }

@@ -1,8 +1,8 @@
 package com.ianarbuckle.gymplanner.android.login.data
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.android.login.presentation.LoginState
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.authentication.domain.Login
@@ -32,6 +32,7 @@ class LoginViewModel @Inject constructor(
             gymPlanner.login(login).fold(
                 onSuccess = { response ->
                     gymPlanner.saveAuthToken(response.token)
+                    gymPlanner.saveUserId(response.userId)
                     _loginState.update {
                         LoginState.Success(
                             response = response

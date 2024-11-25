@@ -6,6 +6,8 @@ import com.ianarbuckle.gymplanner.api.DefaultGymPlanner
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRemoteDataSource
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.booking.BookingRemoteDataSource
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.clients.ClientsRemoteDataSource
 import com.ianarbuckle.gymplanner.clients.ClientsRepository
 import com.ianarbuckle.gymplanner.clients.dto.ClientRealmDto
@@ -30,6 +32,8 @@ import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersLocalDataSour
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.dto.PersonalTrainersRealmDto
+import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
+import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -65,13 +69,14 @@ fun initKoin(
                 personalTrainersModule(baseUrl),
                 gymLocationsModule(baseUrl),
                 authenticationModule(baseUrl),
-                dataStoreModule(dataStore)
+                dataStoreModule(dataStore),
+                profileModule(baseUrl),
+                bookingModule(baseUrl),
             )
         }
     } catch (ex: KoinApplicationAlreadyStartedException) {
         println("Koin app is already started.")
     }
-
 }
 
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
@@ -94,7 +99,7 @@ fun createHttpClient(
     json: Json,
     enableNetworkLogs: Boolean,
     baseUrl: String,
-) = HttpClient(CIO) {
+) = HttpClient {
     install(ContentNegotiation) {
         json(json)
     }
@@ -118,7 +123,9 @@ fun gymPlannerModule() = module {
             personalTrainersRepository = get(),
             gymLocationsRepository = get(),
             authenticationRepository = get(),
-            dataStoreRepository = get()
+            dataStoreRepository = get(),
+            bookingRepository = get(),
+            profileRepository = get(),
         )
     }
 }
@@ -152,6 +159,21 @@ fun gymLocationsModule(baseUrl: String) = module {
     single { GymLocationsRepository(remoteDataSource = get(), localDataSource = get()) }
 }
 
+fun profileModule(baseUrl: String) = module {
+    single {
+        ProfileRemoteDataSource(
+            httpClient = get(),
+            baseUrl = baseUrl,
+            dataStoreRepository = get()
+        )
+    }
+    single {
+        ProfileRepository(
+            remoteDataSource = get()
+        )
+    }
+}
+
 fun authenticationModule(baseUrl: String) = module {
     single {
         AuthenticationRemoteDataSource(
@@ -164,6 +186,11 @@ fun authenticationModule(baseUrl: String) = module {
             remoteDataSource = get()
         )
     }
+}
+
+fun bookingModule(baseUrl: String) = module {
+    single { BookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
+    single { BookingRepository(remoteDataSource = get()) }
 }
 
 fun dataStoreModule(dataStore: DataStore<Preferences>) = module {

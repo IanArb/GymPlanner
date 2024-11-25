@@ -45,9 +45,10 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun DashboardContent(
     innerPadding: PaddingValues,
-    classesCarouselItems: ImmutableList<FitnessClass>,
+    items: ImmutableList<FitnessClass>,
     modifier: Modifier = Modifier,
     onViewScheduleClick: () -> Unit,
+    onBookPersonalTrainerClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -79,7 +80,7 @@ fun DashboardContent(
             Spacer(modifier = modifier.padding(10.dp))
 
             GymClassesContent(
-                classesCarouselItems = classesCarouselItems,
+                classesCarouselItems = items,
                 modifier = modifier,
             )
         }
@@ -114,7 +115,7 @@ fun DashboardContent(
                     modifier = Modifier
                         .height(200.dp)
                         .fillMaxWidth(),
-                    model = PERSONAL_TRAINER_BACKSHOT_URL,
+                    model = PERSONAL_TRAINER_BACKDROP_URL,
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -126,7 +127,9 @@ fun DashboardContent(
                     )
                     Text(text = "Book a 6 week personal training program today")
                     Spacer(modifier = modifier.padding(10.dp))
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {
+                        onBookPersonalTrainerClick()
+                    }) {
                         Text("Book now!")
                     }
                 }
@@ -210,10 +213,10 @@ fun DashboardPreview() {
             name = "Pilates Class",
             description = "Come join our pilates class today!",
             imageUrl = "",
-            startTime = "",
-            endTime = "",
+            startTime = "07:00:00",
+            endTime = "08:00:00",
             duration = Duration(
-                value = 0,
+                value = 3600,
                 unit = "SECONDS"
             )
         ),
@@ -222,10 +225,10 @@ fun DashboardPreview() {
             name = "Strength training",
             description = "We will be focusing on lower body today!",
             imageUrl = "",
-            startTime = "",
-            endTime = "",
+            startTime = "07:00:00",
+            endTime = "08:00:00",
             duration = Duration(
-                value = 0,
+                value = 3600,
                 unit = "SECONDS"
             )
         ),
@@ -234,10 +237,10 @@ fun DashboardPreview() {
             name = "Body pump",
             description = "Come join us for body bump!",
             imageUrl = "",
-            startTime = "",
-            endTime = "",
+            startTime = "07:00:00",
+            endTime = "08:00:00",
             duration = Duration(
-                value = 0,
+                value = 3600,
                 unit = "SECONDS"
             )
         )
@@ -251,8 +254,11 @@ fun DashboardPreview() {
         ) { innerPadding ->
             DashboardContent(
                 innerPadding = innerPadding,
-                classesCarouselItems = carouselItems,
+                items = carouselItems,
                 onViewScheduleClick = {
+
+                },
+                onBookPersonalTrainerClick = {
 
                 }
             )
@@ -261,4 +267,4 @@ fun DashboardPreview() {
     }
 }
 
-const val PERSONAL_TRAINER_BACKSHOT_URL = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.libm.co.uk%2Fwp-content%2Fuploads%2F2017%2F09%2F35-Personal-Trainer-Fitness-Instructor-Course.jpg&f=1&nofb=1&ipt=4a7dd2591bf00e81d8ef2268a91853c3d8d7d4eee73c567d6230fd5a44711716&ipo=images"
+const val PERSONAL_TRAINER_BACKDROP_URL = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.libm.co.uk%2Fwp-content%2Fuploads%2F2017%2F09%2F35-Personal-Trainer-Fitness-Instructor-Course.jpg&f=1&nofb=1&ipt=4a7dd2591bf00e81d8ef2268a91853c3d8d7d4eee73c567d6230fd5a44711716&ipo=images"

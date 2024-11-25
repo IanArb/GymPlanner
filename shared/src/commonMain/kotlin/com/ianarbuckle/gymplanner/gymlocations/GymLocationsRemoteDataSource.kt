@@ -9,6 +9,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
+import kotlinx.collections.immutable.ImmutableList
 
 class GymLocationsRemoteDataSource(
     private val httpClient: HttpClient,

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.first
 
 val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
 val REMEMBER_ME_KEY = booleanPreferencesKey("remember_me")
+val USER_ID = stringPreferencesKey("user_id")
 
 class DataStoreRepository(private val dataStore: DataStore<Preferences>) {
 

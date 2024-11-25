@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.kotlinx.immutable.collections)
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
     compileOnly(libs.realm.base)
@@ -79,4 +80,9 @@ dependencies {
 // Compile time check
 ksp {
     arg("KOIN_CONFIG_CHECK","true")
+}
+
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }

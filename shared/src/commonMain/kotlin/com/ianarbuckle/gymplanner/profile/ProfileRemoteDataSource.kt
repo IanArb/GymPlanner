@@ -1,6 +1,6 @@
-package com.ianarbuckle.gymplanner.fitnessclass
+package com.ianarbuckle.gymplanner.profile
 
-import com.ianarbuckle.gymplanner.fitnessclass.dto.FitnessClassDto
+import com.ianarbuckle.gymplanner.profile.dto.ProfileDto
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import io.ktor.client.HttpClient
@@ -9,21 +9,19 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
-import kotlinx.collections.immutable.ImmutableList
 
-class FitnessClassRemoteDataSource(
-    private val baseurl: String,
+class ProfileRemoteDataSource(
     private val httpClient: HttpClient,
+    private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
 ) {
 
-    suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
+    suspend fun fetchProfile(userId: String): ProfileDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
-        val response = httpClient.get(baseurl) {
+        val response = httpClient.get(baseUrl) {
             url {
                 protocol = URLProtocol.HTTPS
-                path(ENDPOINT)
-                parameters.append("dayOfWeek", dayOfWeek)
+                path(ENDPOINT.plus("/$userId"))
             }
             headers {
                 append("Authorization", "Bearer $token")
@@ -34,6 +32,6 @@ class FitnessClassRemoteDataSource(
     }
 
     companion object {
-        private const val ENDPOINT = "/api/v1/fitness_class"
+        private const val ENDPOINT = "/api/v1/user_profile"
     }
 }
