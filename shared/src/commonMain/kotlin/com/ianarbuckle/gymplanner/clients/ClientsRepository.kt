@@ -2,6 +2,10 @@ package com.ianarbuckle.gymplanner.clients
 
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.ClientUiModelMapper.transformToClient
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -29,8 +33,17 @@ class ClientsRepository(
                 transformToClient
             }
             return Result.success(clients.toImmutableList())
-        } catch (exception: Exception) {
-            return Result.failure(exception)
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
+            return Result.failure(ex)
         }
     }
 
@@ -48,8 +61,17 @@ class ClientsRepository(
             remoteDataSource.deleteClient(id)
             localDataSource.deleteClient(id)
             return Result.success(Unit)
-        } catch (exception: Exception) {
-            return Result.failure(exception)
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
+            return Result.failure(ex)
         }
     }
 

@@ -2,6 +2,10 @@ package com.ianarbuckle.gymplanner.gymlocations
 
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocationsMapper.transformToGymLocations
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableSet
@@ -20,8 +24,17 @@ class GymLocationsRepository(
             }
             val gymLocations = remoteGymLocations.map { it.transformToGymLocations() }.toImmutableList()
             return Result.success(gymLocations)
-        } catch (exception: Exception) {
-            return Result.failure(exception)
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
+            return Result.failure(ex)
         }
     }
 }

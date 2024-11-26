@@ -4,6 +4,10 @@ import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingDto
 import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableSet
@@ -30,8 +34,17 @@ class BookingRepository(
             }.toImmutableList()
 
             return Result.success(bookingResponse)
-        } catch (exception: Exception) {
-            return Result.failure(exception)
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
+            return Result.failure(ex)
         }
     }
 

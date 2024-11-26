@@ -33,7 +33,29 @@ fun LoginScreen(
         }
 
         is LoginState.Error -> {
-            // Show error message
+            LoginScreenContent(
+                innerPaddingValues = contentPadding,
+                username = username,
+                onUsernameChange = { username = it },
+                password = password,
+                onPasswordChange = { password = it },
+                onLoginClick = {
+                    if (username.isNotEmpty() && password.isNotEmpty()) {
+                        loginViewModel.login(Login(username, password))
+                    } else {
+                        isUsernameValid = username.isNotEmpty()
+                        isPasswordValid = password.isNotEmpty()
+                    }
+                },
+                isUsernameValid = isUsernameValid,
+                isPasswordValid = isPasswordValid,
+                onUsernameInvalid = { isUsernameValid = it },
+                onPasswordInvalid = { isPasswordValid = it },
+                rememberMe = rememberMe,
+                onRememberMeChange = { rememberMe = it },
+                isLoading = false,
+                showError = true,
+            )
         }
 
         LoginState.Idle -> {
@@ -57,7 +79,7 @@ fun LoginScreen(
                 onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
                 onRememberMeChange = { rememberMe = it },
-                isLoading = false
+                isLoading = false,
             )
         }
         LoginState.Loading -> {

@@ -2,6 +2,10 @@ package com.ianarbuckle.gymplanner.faultreporting
 
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReportMapper.toFaultReport
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
 
 
 class FaultReportingRepository(private val remoteDataSource: FaultReportingRemoteDataSource) {
@@ -13,7 +17,16 @@ class FaultReportingRepository(private val remoteDataSource: FaultReportingRemot
                 it.toFaultReport()
             }
             return Result.success(faultReports)
-        } catch (ex: Exception) {
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
             return Result.failure(ex)
         }
     }
@@ -22,7 +35,16 @@ class FaultReportingRepository(private val remoteDataSource: FaultReportingRemot
         try {
             val faultReport = remoteDataSource.saveReport(report)
             return Result.success(faultReport.toFaultReport())
-        } catch (ex: Exception) {
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
             return Result.failure(ex)
         }
     }

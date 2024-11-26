@@ -37,6 +37,7 @@ fun LoginScreenContent(
     onUsernameInvalid: (Boolean) -> Unit = {},
     onPasswordInvalid: (Boolean) -> Unit = {},
     isLoading: Boolean = false,
+    showError: Boolean = false,
     rememberMe: Boolean,
     onRememberMeChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -111,6 +112,18 @@ fun LoginScreenContent(
                     modifier = modifier.padding(start = 4.dp)
                 )
             }
+
+            if (showError) {
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Error logging in. Please try again.",
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+
+
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -162,6 +175,7 @@ fun LoginScreenPreview() {
                 onUsernameInvalid = { isUsernameValid = it },
                 onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
+                showError = true,
                 onRememberMeChange = { rememberMe = it }
             )
         }

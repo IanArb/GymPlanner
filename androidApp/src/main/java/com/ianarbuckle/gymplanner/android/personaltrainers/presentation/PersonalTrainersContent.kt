@@ -99,7 +99,7 @@ fun PersonalTrainerItem(
                         .clip(CircleShape)
                 )
 
-                Column(modifier = modifier.padding(10.dp)) {
+                Column(modifier = modifier.padding(start = 16.dp)) {
                     Text(
                         text = personalTrainer.firstName + " " + personalTrainer.lastName,
                         style = MaterialTheme.typography.titleMedium
@@ -114,43 +114,58 @@ fun PersonalTrainerItem(
                         style = MaterialTheme.typography.bodySmall
                     )
 
-                }
-            }
+                    Spacer(modifier = modifier.padding(2.dp))
 
-            Spacer(modifier = Modifier.padding(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = { personalTrainer.id?.let { onBookTrainerClick(it) } }) {
-                    Text("Book now")
-                }
-
-                Row(modifier = Modifier.padding(top = 10.dp, end = 6.dp)) {
                     val socials = personalTrainer.socials
-                    socials.entries.forEachIndexed { index, social ->
-                        when (social.key) {
-                            "instagram" -> {
-                                SocialImage(socials = social, drawable = R.drawable.ic_instagram) {
-                                    onSocialLinkClick(social.value)
+
+                    if (socials.isNotEmpty()) {
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        Text(
+                            text = "Socials",
+                            style = MaterialTheme.typography.titleSmall
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Row(modifier = Modifier.padding(top = 10.dp, end = 6.dp)) {
+                                socials.entries.forEachIndexed { index, social ->
+                                    when (social.key) {
+                                        "instagram" -> {
+                                            SocialImage(socials = social, drawable = R.drawable.ic_instagram) {
+                                                onSocialLinkClick(social.value)
+                                            }
+                                        }
+                                        "tiktok" -> {
+                                            SocialImage(socials = social, drawable = R.drawable.ic_tiktok) {
+                                                onSocialLinkClick(social.value)
+                                            }
+                                        }
+                                    }
+                                    if (index < socials.size - 1) {
+                                        Spacer(modifier = Modifier.size(8.dp))
+                                    }
                                 }
                             }
-                            "tiktok" -> {
-                                SocialImage(socials = social, drawable = R.drawable.ic_tiktok) {
-                                    onSocialLinkClick(social.value)
-                                }
-                            }
-                        }
-                        if (index < socials.size - 1) {
-                            Spacer(modifier = Modifier.size(8.dp))
                         }
                     }
                 }
             }
 
-        }
+            Spacer(modifier = Modifier.padding(8.dp))
 
+            Button(
+                modifier = modifier.fillMaxWidth(),
+                onClick = {
+                    personalTrainer.id?.let {
+                        onBookTrainerClick(it)
+                    }
+                }) {
+                Text("Book now")
+            }
+        }
     }
 }
 

@@ -2,6 +2,10 @@ package com.ianarbuckle.gymplanner.fitnessclass
 
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClassUiModelMapper.transformToFitnessClass
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +25,17 @@ class FitnessClassRepository(
                 it.transformToFitnessClass()
             }
             Result.success(fitnessClasses.toImmutableList())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (ex: ClientRequestException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ServerResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: HttpRequestTimeoutException) {
+            return Result.failure(ex)
+        }
+        catch (ex: ResponseException) {
+            return Result.failure(ex)
         }
     }
 
