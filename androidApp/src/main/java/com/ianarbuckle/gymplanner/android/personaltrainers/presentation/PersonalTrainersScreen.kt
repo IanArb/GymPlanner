@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
+import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.toImmutableList
 
@@ -18,6 +19,7 @@ fun PersonalTrainersScreen(
     contentPadding: PaddingValues,
     gymLocation: GymLocation,
     onNavigateTo: (Triple<String, String, String>) -> Unit,
+    onBookClick: (PersonalTrainer) -> Unit,
 ) {
     LaunchedEffect(true) {
         personalTrainersViewModel.fetchPersonalTrainers(gymLocation)
@@ -39,7 +41,9 @@ fun PersonalTrainersScreen(
                 onSocialLinkClick = {
 
                 },
-                onBookTrainerClick = { },
+                onBookTrainerClick = {
+                    onBookClick(it)
+                },
                 onItemClick = { item ->
                     onNavigateTo(
                         Triple(

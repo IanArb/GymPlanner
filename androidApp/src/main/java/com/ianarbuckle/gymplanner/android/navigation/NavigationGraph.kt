@@ -37,6 +37,14 @@ data class PersonalTrainersDetailScreen(
 @Serializable
 object LoginScreen
 
+@Serializable
+data class BookTrainerScreen(
+    val personalTrainerId: String,
+    val name: String,
+    val imageUrl: String,
+    val qualifications: List<String>
+)
+
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
     return persistentListOf(
         BottomNavigationItem(

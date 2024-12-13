@@ -2,6 +2,7 @@ package com.ianarbuckle.gymplanner.fitnessclass
 
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClassUiModelMapper.transformToFitnessClass
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
@@ -9,6 +10,7 @@ import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
+import okio.IOException
 
 class FitnessClassRepository(
     private val localDataSource: FitnessClassLocalDataSource,
@@ -35,6 +37,12 @@ class FitnessClassRepository(
             return Result.failure(ex)
         }
         catch (ex: ResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: IOException) {
+            return Result.failure(ex)
+        }
+        catch (ex: NoTransformationFoundException) {
             return Result.failure(ex)
         }
     }

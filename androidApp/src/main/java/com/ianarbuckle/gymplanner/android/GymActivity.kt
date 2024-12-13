@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.ianarbuckle.gymplanner.android.booking.presentation.BookingScreen
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
@@ -37,8 +39,8 @@ import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.ui.common.TopNavigationBar
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsScreen
-import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
 import com.ianarbuckle.gymplanner.android.login.presentation.LoginScreen
+import com.ianarbuckle.gymplanner.android.navigation.BookTrainerScreen
 import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
@@ -85,7 +87,11 @@ class MainActivity : ComponentActivity() {
                             && currentRoute != LoginScreen::class.qualifiedName) {
                             TopNavigationBar(
                                 currentRoute = currentRoute,
-                                enableBackButton = currentRoute == PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")
+                                enableBackButton =
+                                currentRoute == PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")
+                                        || currentRoute == BookTrainerScreen::class.qualifiedName.plus(
+                                    "/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}"
+                                )
                             ) {
                                 navController.popBackStack()
                             }
@@ -97,8 +103,13 @@ class MainActivity : ComponentActivity() {
                         }
 
                         if (currentRoute != PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}")
-                            && currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(("/{name}/{bio}/{imageUrl}"))
+                            && currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(
+                                ("/{name}/{bio}/{imageUrl}")
+                            )
                             && currentRoute != LoginScreen::class.qualifiedName
+                            && currentRoute != BookTrainerScreen::class.qualifiedName.plus(
+                                ("/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}")
+                            )
                         ) {
                             BottomNavigationBar(
                                 navigationItems = createBottomNavigationItems(),
@@ -206,26 +217,53 @@ class MainActivity : ComponentActivity() {
                             val args = it.toRoute<PersonalTrainersScreen>()
                             PersonalTrainersScreen(
                                 contentPadding = contentPadding,
-                                gymLocation = args.gymLocation
-                            ) { trainer ->
-                                navController.navigate(PersonalTrainersDetailScreen(
-                                    name = trainer.first,
-                                    bio = trainer.second,
-                                    imageUrl = trainer.third
-                                ))
-                            }
+                                gymLocation = args.gymLocation,
+                                onNavigateTo = { trainer ->
+                                    navController.navigate(PersonalTrainersDetailScreen(
+                                        name = trainer.first,
+                                        bio = trainer.second,
+                                        imageUrl = trainer.third
+                                    ))
+                                },
+                                onBookClick = { personalTrainer ->
+                                    navController.navigate(
+                                        BookTrainerScreen(
+                                            personalTrainerId = personalTrainer.id ?: "",
+                                            name = personalTrainer.firstName + " " + personalTrainer.lastName,
+                                            imageUrl = personalTrainer.imageUrl,
+                                            qualifications = personalTrainer.qualifications
+                                        )
+                                    )
+                                }
+                            )
                         }
 
                         composable<PersonalTrainersDetailScreen> {
                             val args = it.toRoute<PersonalTrainersDetailScreen>()
                             PersonalTrainersDetailScreen(
                                 contentPadding = contentPadding,
-                                onNavigateTo = {
-                                    navController.popBackStack()
-                                },
                                 name = args.name,
                                 bio = args.bio,
                                 imageUrl = args.imageUrl,
+                                onNavigateTo = {
+                                    navController.popBackStack()
+                                },
+                                onBookClick = {
+
+                                }
+                            )
+                        }
+
+                        composable<BookTrainerScreen> {
+                            val args = it.toRoute<BookTrainerScreen>()
+                            val name = args.name
+                            val imageUrl = args.imageUrl
+                            val qualifications = args.qualifications
+                            BookingScreen(
+                                paddingValues = contentPadding,
+                                name = name,
+                                imageUrl = imageUrl,
+                                qualifications = qualifications
                             )
                         }
                     }

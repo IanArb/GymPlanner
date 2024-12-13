@@ -2,6 +2,7 @@ package com.ianarbuckle.gymplanner.faultreporting
 
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReportMapper.toFaultReport
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
@@ -27,6 +28,9 @@ class FaultReportingRepository(private val remoteDataSource: FaultReportingRemot
             return Result.failure(ex)
         }
         catch (ex: ResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: NoTransformationFoundException) {
             return Result.failure(ex)
         }
     }

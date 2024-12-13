@@ -321,8 +321,8 @@ object DataProvider {
                 name = "Pilates Class",
                 description = "Come join our pilates class today!",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
-                startTime = "",
-                endTime = "",
+                startTime = "16:00",
+                endTime = "17:00",
                 duration = Duration(
                     value = 0,
                     unit = "SECONDS"
@@ -333,8 +333,8 @@ object DataProvider {
                 name = "Strength training",
                 description = "We will be focusing on lower body today!",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
-                startTime = "",
-                endTime = "",
+                startTime = "17:00",
+                endTime = "18:00",
                 duration = Duration(
                     value = 0,
                     unit = "SECONDS"
@@ -345,8 +345,8 @@ object DataProvider {
                 name = "Body pump",
                 description = "Come join us for body bump!",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
-                startTime = "",
-                endTime = "",
+                startTime = "19:00",
+                endTime = "20:00",
                 duration = Duration(
                     value = 0,
                     unit = "SECONDS"

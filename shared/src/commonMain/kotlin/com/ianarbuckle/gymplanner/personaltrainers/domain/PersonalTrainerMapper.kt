@@ -15,6 +15,7 @@ object PersonalTrainerMapper {
 
     fun PersonalTrainerDto.toPersonalTrainer(): PersonalTrainer {
         return PersonalTrainer(
+            id = id,
             firstName = firstName,
             lastName = lastName,
             imageUrl = imageUrl,

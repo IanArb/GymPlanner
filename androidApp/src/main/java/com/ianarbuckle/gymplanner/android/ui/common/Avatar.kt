@@ -1,0 +1,56 @@
+package com.ianarbuckle.gymplanner.android.ui.common
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+
+@Composable
+fun Avatar(
+    imageUrl: String,
+    contentDescription: String? = null,
+    isAvailable: Boolean = false,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier.size(100.dp)) {
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape),
+        )
+        if (isAvailable) {
+            Box(
+                modifier = Modifier
+                    .size(16.dp)
+                    .offset(x = (-16).dp)
+                    .clip(CircleShape)
+                    .background(Color.Green)
+                    .align(Alignment.BottomEnd)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun AvatarPreview() {
+    Avatar(
+        imageUrl = "https://www.example.com/image.jpg",
+        contentDescription = "Avatar",
+        isAvailable = true,
+    )
+}

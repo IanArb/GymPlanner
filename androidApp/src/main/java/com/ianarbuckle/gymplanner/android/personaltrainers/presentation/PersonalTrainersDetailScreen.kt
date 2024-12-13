@@ -6,17 +6,20 @@ import androidx.compose.runtime.Composable
 @Composable
 fun PersonalTrainersDetailScreen(
     contentPadding: PaddingValues,
-    onNavigateTo: () -> Unit,
     name: String,
     bio: String,
     imageUrl: String,
+    onNavigateTo: () -> Unit,
+    onBookClick: () -> Unit
 ) {
     PersonalTrainersDetail(
         contentPadding = contentPadding,
         name = name,
         bio = bio,
         imageUrl = imageUrl,
-        onBookClick = {},
+        onBookClick = {
+            onBookClick()
+        },
         onBackClick = {
             onNavigateTo()
         }

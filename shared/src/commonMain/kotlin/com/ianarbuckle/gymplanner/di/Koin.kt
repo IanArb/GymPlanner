@@ -6,6 +6,8 @@ import com.ianarbuckle.gymplanner.api.DefaultGymPlanner
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRemoteDataSource
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.availability.AvailabilityRemoteDataSource
+import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import com.ianarbuckle.gymplanner.booking.BookingRemoteDataSource
 import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.clients.ClientsRemoteDataSource
@@ -72,6 +74,7 @@ fun initKoin(
                 dataStoreModule(dataStore),
                 profileModule(baseUrl),
                 bookingModule(baseUrl),
+                availabilityModule(baseUrl),
             )
         }
     } catch (ex: KoinApplicationAlreadyStartedException) {
@@ -126,6 +129,7 @@ fun gymPlannerModule() = module {
             dataStoreRepository = get(),
             bookingRepository = get(),
             profileRepository = get(),
+            availabilityRepository = get()
         )
     }
 }
@@ -195,6 +199,11 @@ fun bookingModule(baseUrl: String) = module {
 
 fun dataStoreModule(dataStore: DataStore<Preferences>) = module {
     single { DataStoreRepository(dataStore = dataStore) }
+}
+
+fun availabilityModule(baseUrl: String) = module {
+    single { AvailabilityRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
+    single { AvailabilityRepository(remoteDataSource = get()) }
 }
 
 fun databaseModule() = module {

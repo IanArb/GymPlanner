@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner.api
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
+import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
+import com.ianarbuckle.gymplanner.availability.domain.Availability
+import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
@@ -40,6 +43,7 @@ class DefaultGymPlanner(
     private val authenticationRepository: AuthenticationRepository,
     private val bookingRepository: BookingRepository,
     private val profileRepository: ProfileRepository,
+    private val availabilityRepository: AvailabilityRepository,
     private val dataStoreRepository: DataStoreRepository,
     ) : GymPlanner {
 
@@ -151,5 +155,22 @@ class DefaultGymPlanner(
 
     override suspend fun fetchBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
         return bookingRepository.findBookingsByUserId(userId)
+    }
+
+    override suspend fun fetchAvailability(
+        personalTrainerId: String,
+        month: String
+    ): Result<Availability> {
+        return availabilityRepository.getAvailability(personalTrainerId, month)
+    }
+
+    override suspend fun checkAvailability(
+        personalTrainerId: String,
+        month: String
+    ): Result<CheckAvailability> {
+        return availabilityRepository.checkAvailability(
+            personalTrainerId = personalTrainerId,
+            month = month,
+        )
     }
 }

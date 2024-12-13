@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.ianarbuckle.gymplanner.android.navigation.BookTrainerScreen
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
@@ -33,6 +34,7 @@ fun TopNavigationBar(
                     ReportMachineBroken::class.qualifiedName -> "Report Machine"
                     GymLocationsScreen::class.qualifiedName -> "Gym Locations"
                     PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") -> "Personal Trainers"
+                    BookTrainerScreen::class.qualifiedName.plus(("/{name}/{imageUrl}?qualifications={qualifications}")) -> "Book Trainer"
                     else -> ""
                 },
                 color = titleColor,

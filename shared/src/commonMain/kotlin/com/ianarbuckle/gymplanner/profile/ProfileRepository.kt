@@ -2,10 +2,12 @@ package com.ianarbuckle.gymplanner.profile
 
 import com.ianarbuckle.gymplanner.profile.domain.Profile
 import com.ianarbuckle.gymplanner.profile.domain.ProfileMapper.toProfile
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.plugins.ServerResponseException
+import okio.IOException
 
 class ProfileRepository(private val remoteDataSource: ProfileRemoteDataSource) {
 
@@ -24,6 +26,12 @@ class ProfileRepository(private val remoteDataSource: ProfileRemoteDataSource) {
             return Result.failure(ex)
         }
         catch (ex: ResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: NoTransformationFoundException) {
+            return Result.failure(ex)
+        }
+        catch (ex: IOException) {
             return Result.failure(ex)
         }
     }

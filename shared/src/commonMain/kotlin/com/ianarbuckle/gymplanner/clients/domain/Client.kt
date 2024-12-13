@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.clients.domain
 
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import kotlinx.serialization.Serializable
 
 
 data class Client(
@@ -18,6 +19,7 @@ data class GymPlan(
     val sessions: List<Session>,
 )
 
+@Serializable
 data class PersonalTrainer(
     val id: String? = null,
     val firstName: String,

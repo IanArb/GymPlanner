@@ -12,7 +12,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.collections.immutable.ImmutableList
 
 class BookingRemoteDataSource(
     private val baseUrl: String,
@@ -36,7 +35,7 @@ class BookingRemoteDataSource(
     suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(BOOKING_ENDPOINT).plus("/$userId")
-        val response = httpClient.get(baseUrl.plus(url)) {
+        val response = httpClient.get(url) {
             headers {
                 append("Authorization", "Bearer $token")
             }

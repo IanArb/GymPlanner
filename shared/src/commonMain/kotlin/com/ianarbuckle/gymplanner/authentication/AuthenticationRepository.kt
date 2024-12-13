@@ -6,10 +6,12 @@ import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.Register
 import com.ianarbuckle.gymplanner.authentication.domain.RegisterResponse
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.plugins.ServerResponseException
+import okio.IOException
 
 class AuthenticationRepository(
     private val remoteDataSource: AuthenticationRemoteDataSource,
@@ -31,6 +33,12 @@ class AuthenticationRepository(
         catch (ex: ResponseException) {
             return Result.failure(ex)
         }
+        catch (ex: NoTransformationFoundException) {
+            return Result.failure(ex)
+        }
+        catch (ex: IOException) {
+            return Result.failure(ex)
+        }
     }
 
     suspend fun register(register: Register): Result<RegisterResponse> {
@@ -47,6 +55,12 @@ class AuthenticationRepository(
             return Result.failure(ex)
         }
         catch (ex: ResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: NoTransformationFoundException) {
+            return Result.failure(ex)
+        }
+        catch (ex: IOException) {
             return Result.failure(ex)
         }
     }

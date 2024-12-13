@@ -3,12 +3,14 @@ package com.ianarbuckle.gymplanner.personaltrainers
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.domain.PersonalTrainerMapper.toPersonalTrainer
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import okio.IOException
 
 
 class PersonalTrainersRepository(
@@ -34,6 +36,12 @@ class PersonalTrainersRepository(
             return Result.failure(ex)
         }
         catch (ex: ResponseException) {
+            return Result.failure(ex)
+        }
+        catch (ex: NoTransformationFoundException) {
+            return Result.failure(ex)
+        }
+        catch (ex: IOException) {
             return Result.failure(ex)
         }
     }

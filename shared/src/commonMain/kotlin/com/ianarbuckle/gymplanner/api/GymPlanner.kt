@@ -2,6 +2,8 @@ package com.ianarbuckle.gymplanner.api
 
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
+import com.ianarbuckle.gymplanner.availability.domain.Availability
+import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.clients.domain.Client
@@ -52,4 +54,8 @@ interface GymPlanner {
     suspend fun saveBooking(booking: Booking): Result<BookingResponse>
 
     suspend fun fetchBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>>
+
+    suspend fun fetchAvailability(personalTrainerId: String, month: String): Result<Availability>
+
+    suspend fun checkAvailability(personalTrainerId: String, month: String): Result<CheckAvailability>
 }
