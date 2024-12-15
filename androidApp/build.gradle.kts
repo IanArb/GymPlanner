@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.utils.addToStdlib.butIf
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -7,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -41,6 +40,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -59,6 +63,7 @@ dependencies {
 
     implementation(libs.kotlinx.datetime)
     debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
@@ -76,6 +81,19 @@ dependencies {
 
     ksp(libs.koin.ksp)
     implementation(libs.koin.annotations)
+
+    androidTestImplementation(libs.compose.ui.test)
+    testImplementation(libs.compose.ui.test)
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.junit.android.ext)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit.rule)
+    testImplementation(libs.roboelectric)
 }
 
 // Compile time check
@@ -86,4 +104,13 @@ ksp {
 composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
+}
+
+roborazzi {
+    // Directory for reference images
+    outputDir.set(file("src/screenshots"))
+}
+
+tasks.withType<Test> {
+    useJUnit()
 }

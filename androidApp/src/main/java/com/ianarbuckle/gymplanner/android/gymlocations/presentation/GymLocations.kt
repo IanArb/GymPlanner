@@ -58,48 +58,6 @@ fun GymLocationsSelection(
     }
 }
 
-@Composable
-fun GymLocationCard(
-    imageUrl: String,
-    title: String,
-    subTitle: String,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            modifier = Modifier
-                .height(120.dp)
-                .fillMaxWidth()
-        )
-
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-            Text(
-                text = subTitle,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Black
-            )
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable

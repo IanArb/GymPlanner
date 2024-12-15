@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersState
+import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
@@ -26,7 +26,7 @@ fun PersonalTrainersScreen(
     }
 
     when (val uiState = personalTrainersViewModel.uiState.collectAsState().value) {
-        is PersonalTrainersState.Failure -> {
+        is PersonalTrainersUiState.Failure -> {
             RetryErrorScreen(
                 text = "Failed to retrieve personal trainers."
             ) {
@@ -34,7 +34,7 @@ fun PersonalTrainersScreen(
             }
         }
 
-        is PersonalTrainersState.Success -> {
+        is PersonalTrainersUiState.Success -> {
             PersonalTrainersContent(
                 innerPadding = contentPadding,
                 personalTrainers = uiState.personalTrainers.toImmutableList(),
@@ -56,7 +56,7 @@ fun PersonalTrainersScreen(
             )
         }
 
-        is PersonalTrainersState.Loading -> {
+        is PersonalTrainersUiState.Loading -> {
             CircularProgressIndicator()
         }
     }

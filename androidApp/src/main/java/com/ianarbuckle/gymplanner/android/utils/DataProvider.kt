@@ -470,4 +470,16 @@ object DataProvider {
             ),
         )
     }
+
+    val daysOfWeek: List<String> = listOf(
+        "2024-12-08", "2024-12-09", "2024-12-10",
+        "2024-12-11", "2024-12-12", "2024-12-13", "2024-12-14"
+    )
+
+    val availableTimes: List<String> = listOf(
+        "06:00 AM", "06:30 AM", "07:00 AM",
+        "07:30 AM", "08:00 AM", "08:30 AM",
+        "09:00 AM", "10:00 AM", "10:30 AM",
+        "11:00 AM", "12:00 PM", "12:30 PM",
+    )
 }

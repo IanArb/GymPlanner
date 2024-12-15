@@ -28,34 +28,30 @@ class DashboardViewModel @Inject constructor(
 
     fun fetchFitnessClasses() {
         viewModelScope.launch(coroutineDispatcherProvider.io) {
-            try {
-                val userId = gymPlanner.fetchUserId()
-                val profileDeferred = async { gymPlanner.fetchProfile(userId) }
-                val classesDeferred = async { gymPlanner.fetchTodaysFitnessClasses() }
+            val userId = gymPlanner.fetchUserId()
+            val profileDeferred = async { gymPlanner.fetchProfile(userId) }
+            val classesDeferred = async { gymPlanner.fetchTodaysFitnessClasses() }
 
-                val profileResult = profileDeferred.await()
-                val classesResult = classesDeferred.await()
+            val profileResult = profileDeferred.await()
+            val classesResult = classesDeferred.await()
 
-                supervisorScope {
-                    val newState = profileResult.fold(
-                        onSuccess = { profile ->
-                            classesResult.fold(
-                                onSuccess = { classes ->
-                                    DashboardUiState.Success(
-                                        items = classes.toImmutableList(),
-                                        profile = profile
-                                    )
-                                },
-                                onFailure = { DashboardUiState.Failure }
-                            )
-                        },
-                        onFailure = { DashboardUiState.Failure }
-                    )
+            supervisorScope {
+                val newState = profileResult.fold(
+                    onSuccess = { profile ->
+                        classesResult.fold(
+                            onSuccess = { classes ->
+                                DashboardUiState.Success(
+                                    items = classes.toImmutableList(),
+                                    profile = profile
+                                )
+                            },
+                            onFailure = { DashboardUiState.Failure }
+                        )
+                    },
+                    onFailure = { DashboardUiState.Failure }
+                )
 
-                    _uiState.update { newState }
-                }
-            } catch (e: Exception) {
-                _uiState.update { DashboardUiState.Failure }
+                _uiState.update { newState }
             }
         }
     }

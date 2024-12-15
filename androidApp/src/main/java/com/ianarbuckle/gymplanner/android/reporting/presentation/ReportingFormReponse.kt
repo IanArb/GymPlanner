@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.reporting.presentation
 
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -56,74 +57,12 @@ fun ReportingFormResponse(
     Column(modifier = Modifier
         .padding(innerPadding)
         .padding(16.dp)) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-            ),
+
+        FormResponseCard(
+            faultReport = faultReport,
+            modifier = modifier,
         ) {
-            Column(modifier = modifier.padding(16.dp)) {
-                Text(
-                    text = "Your report",
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    fontStyle = FontStyle.Normal
-                )
-
-                Spacer(modifier = Modifier.padding(12.dp))
-
-                Text(
-                    text = "Machine number",
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.padding(2.dp))
-
-                Spacer(modifier = Modifier.padding(2.dp))
-
-                Text(
-                    text = faultReport.machineNumber.toString(),
-                    fontWeight = FontWeight.Normal
-                )
-
-                Spacer(modifier = Modifier.padding(6.dp))
-
-                Text(
-                    text = "Description",
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.padding(2.dp))
-
-                Text(
-                    text = faultReport.description,
-                    fontWeight = FontWeight.Normal
-                )
-
-                Spacer(modifier = Modifier.padding(12.dp))
-
-                ImageFromUri(
-                    uri = Uri.parse(faultReport.photoUri),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                )
-
-                Spacer(modifier = Modifier.padding(6.dp))
-
-                Button(
-                    onClick = { onClick() },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Report again",
-                    )
-                }
-            }
+            onClick()
         }
     }
 }
@@ -139,7 +78,8 @@ fun ImageFromUri(uri: Uri, modifier: Modifier = Modifier) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ReportingFormResponsePreview() {
     val navigationItems = listOf(

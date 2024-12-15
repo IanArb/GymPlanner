@@ -18,7 +18,7 @@ class PersonalTrainersViewModel @Inject constructor(
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider,
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<PersonalTrainersState> = MutableStateFlow(PersonalTrainersState.Loading)
+    private val _uiState: MutableStateFlow<PersonalTrainersUiState> = MutableStateFlow(PersonalTrainersUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     fun fetchPersonalTrainers(gymLocation: GymLocation) {
@@ -26,12 +26,12 @@ class PersonalTrainersViewModel @Inject constructor(
             gymPlanner.fetchPersonalTrainers(gymLocation).fold(
                 onSuccess = { trainers ->
                     _uiState.update {
-                        PersonalTrainersState.Success(trainers)
+                        PersonalTrainersUiState.Success(trainers)
                     }
                 },
                 onFailure = {
                     _uiState.update {
-                        PersonalTrainersState.Failure
+                        PersonalTrainersUiState.Failure
                     }
                 }
             )

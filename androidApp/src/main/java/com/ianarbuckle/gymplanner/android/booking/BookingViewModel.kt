@@ -3,6 +3,7 @@ package com.ianarbuckle.gymplanner.android.booking
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.booking.domain.Booking
@@ -23,6 +24,7 @@ class BookingViewModel @Inject constructor(
     private val gymPlanner: GymPlanner,
     private val savedStateHandle: SavedStateHandle,
     private val clock: Clock,
+    private val dispatcherProvider: CoroutinesDispatcherProvider
 ): ViewModel() {
 
     private val _bookingState = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
@@ -30,8 +32,7 @@ class BookingViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
-
+        viewModelScope.launch(dispatcherProvider.io) {
             val personalTrainerId = savedStateHandle.get<String>("personalTrainerId")
             val currentDateTime = clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -92,7 +93,10 @@ class BookingViewModel @Inject constructor(
     }
 
     fun saveBooking(booking: Booking) {
-        viewModelScope.launch {
+        _bookingState.update {
+            BookingUiState.Loading
+        }
+        viewModelScope.launch(dispatcherProvider.io) {
             gymPlanner.saveBooking(booking).fold(
                 onSuccess = { response ->
                     _bookingState.value = BookingUiState.BookingSuccess(response)
