@@ -41,17 +41,13 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
-      - name: Start emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          script: ./gradlew connectedAndroidTest
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          emulator-options: -no-window -no-boot-anim
+      - name: Make start_emulator.sh executable
+        run: chmod +x .github/scripts/start_emulator.sh
+
+      - name: Start Android Emulator
+        run: .github/scripts/start_emulator.sh
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -60,7 +56,10 @@ jobs:
         run: ./gradlew testDebugUnitTest
 
       - name: Run instrumented UI tests
-        run: ./gradlew connectedAndroidTest
+        run: ./gradlew :androidApp:connectedDebugAndroidTest
+
+      - name: Stop Emulator
+        run: adb emu kill
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew app:verifyRoborazziDebug --stacktrace
