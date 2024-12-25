@@ -2,7 +2,7 @@ package gymplanner.utils
 
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 

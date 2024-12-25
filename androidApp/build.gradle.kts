@@ -31,7 +31,11 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             resValue("string", "clear_text_config","false")
         }
         getByName("debug") {
@@ -50,7 +54,6 @@ android {
     }
 
     testOptions {
-        unitTests.isReturnDefaultValues = true
         unitTests.isIncludeAndroidResources = true
     }
 }
@@ -88,7 +91,6 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     ksp(libs.koin.ksp)
-    implementation(libs.koin.annotations)
 
     implementation(libs.androidx.tracing)
 
@@ -114,7 +116,6 @@ dependencies {
     testImplementation(libs.roborazzi.junit.rule)
     testImplementation(libs.roboelectric)
     testImplementation(libs.koin.test)
-    testImplementation(libs.koin.core)
 }
 
 // Compile time check
@@ -133,5 +134,9 @@ roborazzi {
 }
 
 tasks.withType<Test> {
+    // Disable tests for release build for Roborazzi compatibility
+    if (name == "testReleaseUnitTest") {
+        enabled = false
+    }
     useJUnit()
 }
