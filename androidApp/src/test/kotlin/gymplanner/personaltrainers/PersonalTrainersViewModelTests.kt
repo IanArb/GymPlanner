@@ -2,10 +2,10 @@ package gymplanner.personaltrainers
 
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
@@ -27,14 +27,17 @@ class PersonalTrainersViewModelTests {
         testCoroutineRule.testDispatcher
     )
 
-    private val gymPlanner: GymPlanner = mockk()
-    private val viewModel: PersonalTrainersViewModel = PersonalTrainersViewModel(gymPlanner, dispatcherProvider)
+    private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
+    private val viewModel: PersonalTrainersViewModel = PersonalTrainersViewModel(
+        personalTrainersRepository = personalTrainersRepository,
+        coroutinesDispatcherProvider = dispatcherProvider
+    )
 
     @Test
     fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() = runTest {
         // Arrange
         val personalTrainers = persistentListOf(mockk<PersonalTrainer>())
-        coEvery { gymPlanner.fetchPersonalTrainers(GymLocation.CLONTARF) } returns Result.success(personalTrainers)
+        coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns Result.success(personalTrainers)
 
         // Act
         viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
@@ -51,7 +54,7 @@ class PersonalTrainersViewModelTests {
     @Test
     fun `fetchPersonalTrainers should update uiState to Failure when API call fails`() = runTest {
         // Arrange
-        coEvery { gymPlanner.fetchPersonalTrainers(GymLocation.CLONTARF) } returns Result.failure(Exception("Fetch failed"))
+        coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns Result.failure(Exception("Fetch failed"))
 
         // Act
         viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)

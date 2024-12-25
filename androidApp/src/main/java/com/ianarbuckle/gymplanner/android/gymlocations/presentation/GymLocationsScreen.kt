@@ -5,6 +5,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
@@ -44,4 +46,13 @@ fun GymLocationsScreen(
             CircularProgressIndicator()
         }
     }
+}
+
+@Composable
+@Preview
+fun GymLocationsScreenPreview() {
+    GymLocationsScreen(
+        contentPadding = PaddingValues(16.dp),
+        onNavigateTo = {}
+    )
 }

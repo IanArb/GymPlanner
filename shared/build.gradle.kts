@@ -56,6 +56,8 @@ kotlin {
             api(libs.androidx.datastore.preferences.core)
 
             implementation(libs.kotlinx.immutable.collections)
+
+            implementation(libs.kermit)
         }
 
         commonTest {
@@ -67,6 +69,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation("com.squareup.okhttp3:okhttp:4.9.3")
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)

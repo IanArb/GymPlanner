@@ -1,5 +1,8 @@
 package com.ianarbuckle.gymplanner.android.utils
 
+import com.ianarbuckle.gymplanner.availability.domain.Availability
+import com.ianarbuckle.gymplanner.availability.domain.Slot
+import com.ianarbuckle.gymplanner.availability.domain.Time
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.GymPlan
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
@@ -10,8 +13,10 @@ import com.ianarbuckle.gymplanner.fitnessclass.domain.Duration
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.immutableListOf
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.random.Random
 
@@ -341,7 +346,67 @@ object DataProvider {
                 )
             ),
             FitnessClass(
-                dayOfWeek = "MONDAY",
+                dayOfWeek = "TUESDAY",
+                name = "Body pump",
+                description = "Come join us for body bump!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
+                startTime = "19:00",
+                endTime = "20:00",
+                duration = Duration(
+                    value = 0,
+                    unit = "SECONDS"
+                )
+            ),
+            FitnessClass(
+                dayOfWeek = "WEDNESDAY",
+                name = "Body pump",
+                description = "Come join us for body bump!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
+                startTime = "19:00",
+                endTime = "20:00",
+                duration = Duration(
+                    value = 0,
+                    unit = "SECONDS"
+                )
+            ),
+            FitnessClass(
+                dayOfWeek = "THURSDAY",
+                name = "Body pump",
+                description = "Come join us for body bump!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
+                startTime = "19:00",
+                endTime = "20:00",
+                duration = Duration(
+                    value = 0,
+                    unit = "SECONDS"
+                )
+            ),
+            FitnessClass(
+                dayOfWeek = "FRIDAY",
+                name = "Body pump",
+                description = "Come join us for body bump!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
+                startTime = "19:00",
+                endTime = "20:00",
+                duration = Duration(
+                    value = 0,
+                    unit = "SECONDS"
+                )
+            ),
+            FitnessClass(
+                dayOfWeek = "SATURDAY",
+                name = "Body pump",
+                description = "Come join us for body bump!",
+                imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
+                startTime = "19:00",
+                endTime = "20:00",
+                duration = Duration(
+                    value = 0,
+                    unit = "SECONDS"
+                )
+            ),
+            FitnessClass(
+                dayOfWeek = "SUNDAY",
                 name = "Body pump",
                 description = "Come join us for body bump!",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pilatesplusphysio.co.uk%2Fwp-content%2Fuploads%2Fbfi_thumb%2FIMG_7959-2-33jbpdyt71dr22dxnj3oxs.jpg",
@@ -355,8 +420,8 @@ object DataProvider {
         )
     }
 
-    fun gymLocations(): List<GymLocations> {
-        return listOf(
+    fun gymLocations(): ImmutableList<GymLocations> {
+        return persistentListOf(
             GymLocations(
                 title = "Clontarf",
                 subTitle = "Personal Trainers Dublin 3",
@@ -482,4 +547,100 @@ object DataProvider {
         "09:00 AM", "10:00 AM", "10:30 AM",
         "11:00 AM", "12:00 PM", "12:30 PM",
     )
+
+    fun profile(): Profile = Profile(
+        "123",
+        "ianarbuckle",
+        "Ian",
+        "Arbuckle",
+        "ian@mail.com",
+    )
+
+    fun availability(): Availability {
+        return Availability(
+            id = "123",
+            month = "2024-12-08",
+            personalTrainerId = "123",
+            slots = persistentListOf(
+                Slot(
+                    date = "2024-12-08",
+                    id = "123",
+                    times = persistentListOf(
+                        Time(
+                            id = "123",
+                            endTime = "06:30 AM",
+                            startTime = "06:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "07:00 AM",
+                            startTime = "06:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "07:30 AM",
+                            startTime = "07:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "08:00 AM",
+                            startTime = "07:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "08:30 AM",
+                            startTime = "08:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "09:00 AM",
+                            startTime = "08:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "09:30 AM",
+                            startTime = "09:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "10:00 AM",
+                            startTime = "09:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "10:30 AM",
+                            startTime = "10:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "11:00 AM",
+                            startTime = "10:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "11:30 AM",
+                            startTime = "11:00 AM",
+                            status = "AVAILABLE"
+                        ),
+                        Time(
+                            id = "123",
+                            endTime = "12:00 PM",
+                            startTime = "11:30 AM",
+                            status = "AVAILABLE"
+                        ),
+                    )
+                )
+            )
+        )
+    }
 }

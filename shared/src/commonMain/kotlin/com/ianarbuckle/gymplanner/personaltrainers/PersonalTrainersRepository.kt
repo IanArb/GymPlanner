@@ -3,21 +3,22 @@ package com.ianarbuckle.gymplanner.personaltrainers
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.domain.PersonalTrainerMapper.toPersonalTrainer
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import okio.IOException
+import kotlinx.coroutines.CancellationException
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
+interface PersonalTrainersRepository {
+    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>>
+}
 
-class PersonalTrainersRepository(
-    private val remoteDataSource: PersonalTrainersRemoteDataSource,
-    private val localDataSource: PersonalTrainersLocalDataSource) {
+class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinComponent {
 
-    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
+    private val remoteDataSource: PersonalTrainersRemoteDataSource by inject()
+    private val localDataSource: PersonalTrainersLocalDataSource by inject()
+
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
         try {
             val personalTrainers = remoteDataSource.fetchPersonalTrainers(gymLocation)
             val trainers = personalTrainers.map { trainer ->
@@ -26,22 +27,10 @@ class PersonalTrainersRepository(
                 localDataSource.savePersonalTrainer(trainer)
             }
             return Result.success(trainers.toImmutableList())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
             return Result.failure(ex)
         }
     }

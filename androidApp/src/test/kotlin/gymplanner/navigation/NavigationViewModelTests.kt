@@ -2,8 +2,9 @@ package gymplanner.navigation
 
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.storage.DataStoreRepository
+import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -23,15 +24,15 @@ class NavigationViewModelTests {
         testCoroutineRule.testDispatcher
     )
 
-    private val gymPlanner: GymPlanner = mockk()
+    private val dataStoreRepository = mockk<DataStoreRepository>()
 
     @Test
     fun `init should update rememberMe to true when fetchRememberMe returns true`() = runTest {
         // Arrange
-        coEvery { gymPlanner.fetchRememberMe() } returns true
+        coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns true
 
         // Act
-        val viewModel = NavigationViewModel(gymPlanner, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
 
         // Assert
         viewModel.rememberMe.test {
@@ -43,10 +44,10 @@ class NavigationViewModelTests {
     @Test
     fun `init should update rememberMe to false when fetchRememberMe returns false`() = runTest {
         // Arrange
-        coEvery { gymPlanner.fetchRememberMe() } returns false
+        coEvery {dataStoreRepository.getBooleanData(REMEMBER_ME_KEY)} returns false
 
         // Act
-        val viewModel = NavigationViewModel(gymPlanner, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
 
         // Assert
         viewModel.rememberMe.test {

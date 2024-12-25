@@ -17,6 +17,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
     }
     buildFeatures {
         compose = true
@@ -24,11 +25,18 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md" // Add this line to exclude the conflicting file
         }
     }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            resValue("string", "clear_text_config","false")
+        }
+        getByName("debug") {
+            isMinifyEnabled = false
+            resValue("string", "clear_text_config","true")
         }
     }
     compileOptions {
@@ -82,9 +90,20 @@ dependencies {
     ksp(libs.koin.ksp)
     implementation(libs.koin.annotations)
 
-    androidTestImplementation(libs.compose.ui.test)
-    testImplementation(libs.compose.ui.test)
+    implementation(libs.androidx.tracing)
 
+    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(libs.ktor.client.mock)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.espresso.idling.resource)
+    // Add the AndroidJUnitRunner dependency
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.koin.android)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.androidx.espresso.intents)
+
+    testImplementation(libs.compose.ui.test)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.junit)
@@ -94,6 +113,8 @@ dependencies {
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.junit.rule)
     testImplementation(libs.roboelectric)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.core)
 }
 
 // Compile time check

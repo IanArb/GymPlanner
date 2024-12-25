@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
@@ -36,6 +37,7 @@ fun TimeSlotsGrid(
     availableTimes: List<Time>,
     onTimeSlotClick: (String) -> Unit,
     selectedTimeSlot: String? = null,
+    modifier: Modifier = Modifier,
 ) {
     val rowsPerPage = 3
     val itemsPerPage = rowsPerPage * 3
@@ -54,17 +56,19 @@ fun TimeSlotsGrid(
             )
         }
     } else {
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = modifier.padding(8.dp))
     }
 
     HorizontalPager(
         state = pagerState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) { pageIndex ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(horizontal = 16.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier
+                .testTag(AvailableTimesGrid)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -77,7 +81,7 @@ fun TimeSlotsGrid(
                     }
 
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .border(
                             width = 1.dp,
                             color = borderColor,
@@ -110,6 +114,8 @@ fun TimeSlotsGrid(
         }
     }
 }
+
+const val AvailableTimesGrid = "AvailableTimesGrid"
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)

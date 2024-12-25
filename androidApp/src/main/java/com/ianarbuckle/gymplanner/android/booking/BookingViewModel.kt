@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
 import com.ianarbuckle.gymplanner.api.GymPlanner
+import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.Booking
+import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookingViewModel @Inject constructor(
-    private val gymPlanner: GymPlanner,
+    private val bookingRepository: BookingRepository,
+    private val availabilityRepository: AvailabilityRepository,
     private val savedStateHandle: SavedStateHandle,
     private val clock: Clock,
     private val dispatcherProvider: CoroutinesDispatcherProvider
@@ -30,26 +34,25 @@ class BookingViewModel @Inject constructor(
     private val _bookingState = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
     val bookingState = _bookingState.asStateFlow()
 
-
-    init {
+    fun fetchAvailability() {
         viewModelScope.launch(dispatcherProvider.io) {
             val personalTrainerId = savedStateHandle.get<String>("personalTrainerId")
             val currentDateTime = clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-            if (!personalTrainerId.isNullOrEmpty()) {
-                _bookingState.update {
-                    BookingUiState.Loading
-                }
+            _bookingState.update {
+                BookingUiState.Loading
+            }
 
+            if (!personalTrainerId.isNullOrEmpty()) {
                 val checkAvailabilityDeferred = async {
-                    gymPlanner.checkAvailability(
+                    availabilityRepository.checkAvailability(
                         personalTrainerId = personalTrainerId,
                         month = currentDateTime.calendarMonth(),
                     )
                 }
 
                 val fetchAvailabilityDeferred = async {
-                    gymPlanner.fetchAvailability(
+                    availabilityRepository.getAvailability(
                         personalTrainerId = personalTrainerId,
                         month = currentDateTime.calendarMonth(),
                     )
@@ -97,7 +100,7 @@ class BookingViewModel @Inject constructor(
             BookingUiState.Loading
         }
         viewModelScope.launch(dispatcherProvider.io) {
-            gymPlanner.saveBooking(booking).fold(
+            bookingRepository.saveBooking(booking).fold(
                 onSuccess = { response ->
                     _bookingState.value = BookingUiState.BookingSuccess(response)
                 },

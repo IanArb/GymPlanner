@@ -8,3 +8,6 @@ captures
 .cxx
 local.properties
 xcuserdata
+.kotlin/metadata/*
+.kotlin/errors
+.kotlin/sessions

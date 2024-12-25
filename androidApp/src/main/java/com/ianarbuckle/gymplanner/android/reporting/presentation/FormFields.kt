@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -17,8 +18,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +42,9 @@ fun FormFields(
     onMachineNumberChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Text(
         text = "Please provide the following information",
         color = MaterialTheme.colorScheme.onSurface,
@@ -62,10 +70,16 @@ fun FormFields(
     OutlinedTextField(
         value = machineNumber,
         onValueChange = onMachineNumberChange,
-        label = { Text("Machine number") },
+        label = { Text("The machine number") },
         modifier = modifier.fillMaxWidth(),
         isError = !isMachineNumberValid && hasMachineNumberInteracted,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions {
+            focusManager.moveFocus(FocusDirection.Down)
+        }
     )
 
     if (!isMachineNumberValid && hasMachineNumberInteracted) {
@@ -91,7 +105,13 @@ fun FormFields(
         onValueChange = onDescriptionChange,
         label = { Text("Describe the fault of the machine") },
         modifier = Modifier.fillMaxWidth(),
-        isError = !isDescriptionValid && hasDescriptionInteracted
+        isError = !isDescriptionValid && hasDescriptionInteracted,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions {
+            keyboardController?.hide()
+        }
     )
 
     if (!isDescriptionValid && hasDescriptionInteracted) {
@@ -112,17 +132,18 @@ fun FormFields(
 fun FormFieldsPreview() {
     GymAppTheme {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             FormFields(
                 machineNumber = "123",
                 description = "This is a description",
-                isMachineNumberValid = true,
-                isDescriptionValid = true,
-                hasMachineNumberInteracted = false,
-                hasDescriptionInteracted = false,
+                isMachineNumberValid = false,
+                isDescriptionValid = false,
+                hasMachineNumberInteracted = true,
+                hasDescriptionInteracted = true,
                 onMachineNumberChange = { },
                 onDescriptionChange = { },
             )

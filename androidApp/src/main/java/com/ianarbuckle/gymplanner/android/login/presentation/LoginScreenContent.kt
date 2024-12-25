@@ -3,6 +3,8 @@ package com.ianarbuckle.gymplanner.android.login.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,8 +17,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,6 +49,9 @@ fun LoginScreenContent(
     onRememberMeChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Box(
         modifier = Modifier
             .padding(innerPaddingValues)
@@ -78,11 +88,14 @@ fun LoginScreenContent(
                 value = username,
                 onValueChange = {
                     onUsernameChange(it)
-                    onUsernameInvalid(username.isNotEmpty())
                 },
                 label = { Text("Username") },
                 enabled = !isLoading,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                }),
             )
             if (!isUsernameValid) {
                 Spacer(modifier = Modifier.height(4.dp))
@@ -97,12 +110,15 @@ fun LoginScreenContent(
                 value = password,
                 onValueChange = {
                     onPasswordChange(it)
-                    onPasswordInvalid(password.isNotEmpty())
                 },
                 label = { Text("Password") },
                 visualTransformation = PasswordVisualTransformation(),
                 enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    keyboardController?.hide()
+                }),
             )
             if (!isPasswordValid) {
                 Spacer(modifier = Modifier.height(4.dp))
@@ -154,6 +170,7 @@ fun LoginScreenPreview() {
     var isPasswordValid by rememberSaveable { mutableStateOf(false) }
     var rememberMe by rememberSaveable { mutableStateOf(true) }
 
+    val focusManager = LocalFocusManager.current
 
     GymAppTheme {
         Scaffold(
@@ -176,7 +193,7 @@ fun LoginScreenPreview() {
                 onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
                 showError = true,
-                onRememberMeChange = { rememberMe = it }
+                onRememberMeChange = { rememberMe = it },
             )
         }
     }

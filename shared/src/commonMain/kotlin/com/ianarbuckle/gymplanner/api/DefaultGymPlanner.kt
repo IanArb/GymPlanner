@@ -1,12 +1,12 @@
 package com.ianarbuckle.gymplanner.api
 
-import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
-import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
+import com.ianarbuckle.gymplanner.availability.DefaultAvailabilityRepository
 import com.ianarbuckle.gymplanner.availability.domain.Availability
 import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
-import com.ianarbuckle.gymplanner.booking.BookingRepository
+import com.ianarbuckle.gymplanner.booking.DefaultBookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.clients.ClientsRepository
@@ -33,6 +33,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.koin.core.component.KoinComponent
 
 class DefaultGymPlanner(
     private val clientsRepository: ClientsRepository,
@@ -40,12 +41,12 @@ class DefaultGymPlanner(
     private val faultReportingRepository: FaultReportingRepository,
     private val personalTrainersRepository: PersonalTrainersRepository,
     private val gymLocationsRepository: GymLocationsRepository,
-    private val authenticationRepository: AuthenticationRepository,
-    private val bookingRepository: BookingRepository,
+    private val defaultAuthenticationRepository: DefaultAuthenticationRepository,
+    private val defaultBookingRepository: DefaultBookingRepository,
     private val profileRepository: ProfileRepository,
-    private val availabilityRepository: AvailabilityRepository,
+    private val defaultAvailabilityRepository: DefaultAvailabilityRepository,
     private val dataStoreRepository: DataStoreRepository,
-    ) : GymPlanner {
+    ) : GymPlanner, KoinComponent {
 
     override suspend fun fetchAllClients(): Result<ImmutableList<Client>> {
         return clientsRepository.fetchClients()
@@ -118,7 +119,7 @@ class DefaultGymPlanner(
     }
 
     override suspend fun login(login: Login): Result<LoginResponse> {
-        return authenticationRepository.login(login)
+        return defaultAuthenticationRepository.login(login)
     }
 
     override suspend fun saveAuthToken(token: String) {
@@ -150,25 +151,25 @@ class DefaultGymPlanner(
     }
 
     override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
-        return bookingRepository.saveBooking(booking)
+        return defaultBookingRepository.saveBooking(booking)
     }
 
     override suspend fun fetchBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
-        return bookingRepository.findBookingsByUserId(userId)
+        return defaultBookingRepository.findBookingsByUserId(userId)
     }
 
     override suspend fun fetchAvailability(
         personalTrainerId: String,
         month: String
     ): Result<Availability> {
-        return availabilityRepository.getAvailability(personalTrainerId, month)
+        return defaultAvailabilityRepository.getAvailability(personalTrainerId, month)
     }
 
     override suspend fun checkAvailability(
         personalTrainerId: String,
         month: String
     ): Result<CheckAvailability> {
-        return availabilityRepository.checkAvailability(
+        return defaultAvailabilityRepository.checkAvailability(
             personalTrainerId = personalTrainerId,
             month = month,
         )

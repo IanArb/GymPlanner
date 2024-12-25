@@ -25,6 +25,10 @@ fun BookingScreen(
     imageUrl: String,
     qualifications: List<String>,
 ) {
+    LaunchedEffect(Unit) {
+        bookingViewModel.fetchAvailability()
+    }
+
     val bookingState = bookingViewModel.bookingState.collectAsState()
 
     val daysOfWeek: List<String> = currentWeekDates()

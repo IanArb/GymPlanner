@@ -1,66 +1,47 @@
 package com.ianarbuckle.gymplanner.authentication
 
+import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.authentication.domain.AuthenticationMapper.toLoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.AuthenticationMapper.toRegister
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.Register
 import com.ianarbuckle.gymplanner.authentication.domain.RegisterResponse
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
-import okio.IOException
+import kotlinx.coroutines.CancellationException
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class AuthenticationRepository(
-    private val remoteDataSource: AuthenticationRemoteDataSource,
-) {
+interface AuthenticationRepository {
+    suspend fun login(login: Login): Result<LoginResponse>
+    suspend fun register(register: Register): Result<RegisterResponse>
+}
 
-    suspend fun login(login: Login): Result<LoginResponse> {
+class DefaultAuthenticationRepository : AuthenticationRepository, KoinComponent {
+
+    private val remoteDataSource: AuthenticationRemoteDataSource by inject()
+
+    override suspend fun login(login: Login): Result<LoginResponse> {
         try {
             val result = remoteDataSource.login(login)
             return Result.success(result.toLoginResponse())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.withTag("AuthenticationRepository").e("Error logging in user: $ex")
             return Result.failure(ex)
         }
     }
 
-    suspend fun register(register: Register): Result<RegisterResponse> {
+    override suspend fun register(register: Register): Result<RegisterResponse> {
         try {
             val result = remoteDataSource.register(register)
             return Result.success(result.toRegister())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.e("Error registering user: $ex")
             return Result.failure(ex)
         }
     }

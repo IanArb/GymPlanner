@@ -4,7 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.api.GymPlanner
+import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
+import com.ianarbuckle.gymplanner.storage.DataStoreRepository
+import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
+import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val gymPlanner: GymPlanner,
+    private val authenticationRepository: AuthenticationRepository,
+    private val dataStoreRepository: DataStoreRepository,
     private val dispatchers: CoroutinesDispatcherProvider,
 ) : ViewModel() {
 
@@ -26,10 +32,10 @@ class LoginViewModel @Inject constructor(
             LoginState.Loading
         }
         viewModelScope.launch(dispatchers.io) {
-            gymPlanner.login(login).fold(
+            authenticationRepository.login(login).fold(
                 onSuccess = { response ->
-                    gymPlanner.saveAuthToken(response.token)
-                    gymPlanner.saveUserId(response.userId)
+                    dataStoreRepository.saveData(key = USER_ID, value = response.userId)
+                    dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
                     _loginState.update {
                         LoginState.Success(
                             response = response
@@ -47,7 +53,7 @@ class LoginViewModel @Inject constructor(
 
     fun persistRememberMe(rememberMe: Boolean) {
         viewModelScope.launch(dispatchers.io) {
-            gymPlanner.saveRememberMe(rememberMe)
+            dataStoreRepository.saveData(key = REMEMBER_ME_KEY, value = rememberMe)
         }
     }
 }

@@ -1,84 +1,51 @@
 package com.ianarbuckle.gymplanner.availability
 
+import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.availability.domain.Availability
 import com.ianarbuckle.gymplanner.availability.domain.AvailabilityMapper.toAvailability
 import com.ianarbuckle.gymplanner.availability.domain.AvailabilityMapper.toCheckAvailability
 import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
-import io.ktor.serialization.JsonConvertException
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.MissingFieldException
-import kotlinx.serialization.SerializationException
-import okio.IOException
+import kotlinx.coroutines.CancellationException
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class AvailabilityRepository(private val remoteDataSource: AvailabilityRemoteDataSource) {
+interface AvailabilityRepository {
+    suspend fun getAvailability(personalTrainerId: String, month: String): Result<Availability>
+    suspend fun checkAvailability(personalTrainerId: String, month: String): Result<CheckAvailability>
+}
 
-    suspend fun getAvailability(personalTrainerId: String, month: String): Result<Availability> {
+class DefaultAvailabilityRepository : AvailabilityRepository, KoinComponent {
+
+    private val remoteDataSource: AvailabilityRemoteDataSource by inject()
+
+    override suspend fun getAvailability(personalTrainerId: String, month: String): Result<Availability> {
         return try {
             val availabilityDto = remoteDataSource.fetchAvailability(
                 personalTrainerId = personalTrainerId,
                 month = month,
             )
             Result.success(availabilityDto.toAvailability())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
-            return Result.failure(ex)
-        }
-        catch (ex: SerializationException) {
-            return Result.failure(ex)
-        }
-        catch (ex: JsonConvertException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.withTag("AvailabilityRepository").e("Error fetching availability: $ex")
             return Result.failure(ex)
         }
     }
 
-    suspend fun checkAvailability(personalTrainerId: String, month: String): Result<CheckAvailability> {
+    override suspend fun checkAvailability(personalTrainerId: String, month: String): Result<CheckAvailability> {
         return try {
             val checkAvailabilityDto = remoteDataSource.checkAvailability(
                 personalTrainerId = personalTrainerId,
                 month = month,
             )
             Result.success(checkAvailabilityDto.toCheckAvailability())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
-            return Result.failure(ex)
-        }
-        catch (ex: SerializationException) {
-            return Result.failure(ex)
-        }
-        catch (ex: JsonConvertException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.e("Error checking availability: $ex")
             return Result.failure(ex)
         }
     }
