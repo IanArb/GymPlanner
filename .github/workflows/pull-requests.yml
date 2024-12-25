@@ -19,8 +19,29 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Cache Android SDK
+        uses: actions/cache@v3
+        with:
+          path: $ANDROID_HOME
+          key: ${{ runner.os }}-android-sdk
+          restore-keys: |
+            ${{ runner.os }}-android-sdk
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Start emulator
         uses: reactivecircus/android-emulator-runner@v2
