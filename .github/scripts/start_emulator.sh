@@ -1,31 +1,28 @@
 #!/bin/bash
 
+# Set ANDROID_HOME if not already set
+if [ -z "$ANDROID_HOME" ]; then
+  export ANDROID_HOME=$HOME/Android/Sdk
+fi
+
+# Ensure platform-tools is in PATH
+export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+
 # Name of the emulator to start
-EMULATOR_NAME=${1:-"Pixel_5_API_30"}  # Default to "Pixel_5_API_33" if no argument is passed
-
-# Path to the Android SDK emulator tool
-ANDROID_SDK_PATH="$HOME/Android/Sdk"  # Adjust if your SDK path is different
-EMULATOR="$ANDROID_SDK_PATH/emulator/emulator"
-ADB="$ANDROID_SDK_PATH/platform-tools/adb"
-
-# Function to disable animations
-disable_animations() {
-    echo "Disabling animations on the emulator..."
-    $ADB shell settings put global window_animation_scale 0
-    $ADB shell settings put global transition_animation_scale 0
-    $ADB shell settings put global animator_duration_scale 0
-    echo "Animations disabled."
-}
+EMULATOR_NAME="Pixel_5_API_33"
 
 # Start the emulator
 echo "Starting emulator: $EMULATOR_NAME..."
-$EMULATOR -avd "$EMULATOR_NAME" -no-snapshot-load -no-boot-anim &
+$ANDROID_HOME/emulator/emulator -avd "$EMULATOR_NAME" -no-window -no-snapshot -no-boot-anim &
 
-# Wait for the emulator to fully boot
+# Wait for the emulator to boot
 echo "Waiting for emulator to boot..."
-$ADB wait-for-device
+adb wait-for-device
 
 # Disable animations
-disable_animations
+echo "Disabling animations..."
+adb shell settings put global window_animation_scale 0
+adb shell settings put global transition_animation_scale 0
+adb shell settings put global animator_duration_scale 0
 
-echo "Emulator is ready with animations disabled."
+echo "Emulator $EMULATOR_NAME is ready."

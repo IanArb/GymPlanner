@@ -39,6 +39,14 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
+        with:
+          components: |
+            platform-tools
+            emulator
+            build-tools;33.0.2
+            platforms;android-33
+            system-images;android-33;google_apis;x86_64
+            licenses: android-sdk-license-.+
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
