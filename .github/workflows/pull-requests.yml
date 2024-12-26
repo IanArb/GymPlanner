@@ -43,7 +43,6 @@ jobs:
           script: ./gradlew connectedCheck
           emulator-options: -no-window -gpu swiftshader_indirect
           disable-animations: true
-          working-directory: app
           timeout: 10m
 
       - name: Grant execute permission for gradlew
