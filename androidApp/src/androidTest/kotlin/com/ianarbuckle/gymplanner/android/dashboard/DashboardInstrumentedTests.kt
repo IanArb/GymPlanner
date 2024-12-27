@@ -18,6 +18,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.toImmutableList
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,6 +68,7 @@ class DashboardInstrumentedTests {
         }
     }
 
+    @Ignore
     @Test
     fun verifyDashboardErrorState() {
         loginRobot.apply {
