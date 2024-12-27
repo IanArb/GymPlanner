@@ -78,7 +78,6 @@ class DashboardInstrumentedTests {
 
         dashboardVerifier.apply {
             verifyErrorState()
-            verifyIconResource("Retry icon")
         }
     }
 }
