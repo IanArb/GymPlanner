@@ -5,6 +5,7 @@ import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
@@ -26,14 +27,18 @@ class GymLocationsViewModelTests {
         testCoroutineRule.testDispatcher
     )
 
-    private val gymPlanner: GymPlanner = mockk()
-    private val viewModel: GymLocationsViewModel = GymLocationsViewModel(gymPlanner, dispatcherProvider)
+    private val gymLocationsRepository = mockk<GymLocationsRepository>()
+
+    private val viewModel: GymLocationsViewModel = GymLocationsViewModel(
+        gymLocationsRepository = gymLocationsRepository,
+        coroutinesDispatcherProvider = dispatcherProvider
+    )
 
     @Test
     fun `fetchGymLocations should update uiState to Success when API call succeeds`() = runTest {
         // Arrange
         val gymLocations = persistentListOf(mockk<GymLocations>())
-        coEvery { gymPlanner.fetchGymLocations() } returns Result.success(gymLocations)
+        coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.success(gymLocations)
 
         // Act
         viewModel.fetchGymLocations()
@@ -50,7 +55,7 @@ class GymLocationsViewModelTests {
     @Test
     fun `fetchGymLocations should update uiState to Failure when API call fails`() = runTest {
         // Arrange
-        coEvery { gymPlanner.fetchGymLocations() } returns Result.failure(Exception("Fetch failed"))
+        coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.failure(Exception("Fetch failed"))
 
         // Act
         viewModel.fetchGymLocations()

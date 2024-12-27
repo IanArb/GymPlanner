@@ -1,50 +1,40 @@
 package com.ianarbuckle.gymplanner.booking
 
+import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingDto
 import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.toImmutableSet
-import kotlinx.serialization.SerializationException
-import okio.IOException
+import kotlinx.coroutines.CancellationException
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class BookingRepository(
-    private val remoteDataSource: BookingRemoteDataSource
-) {
+interface BookingRepository {
+    suspend fun saveBooking(booking: Booking): Result<BookingResponse>
+    suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>>
+}
 
-    suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
+class DefaultBookingRepository : BookingRepository, KoinComponent {
+
+    private val remoteDataSource: BookingRemoteDataSource by inject()
+
+    override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
         try {
             val result = remoteDataSource.saveBooking(booking.toBookingDto())
             val bookingResponse = result.toBookingResponse()
             return Result.success(bookingResponse)
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
-            return Result.failure(ex)
-        }
-        catch (ex: SerializationException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.withTag("BookingRepository").e("Error saving booking: $ex")
             return Result.failure(ex)
         }
     }
 
-    suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
+    override suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
         try {
             val booking = remoteDataSource.findBookingsByUserId(userId)
             val bookingResponse = booking.map {
@@ -52,25 +42,11 @@ class BookingRepository(
             }.toImmutableList()
 
             return Result.success(bookingResponse)
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
-            return Result.failure(ex)
-        }
-        catch (ex: SerializationException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.e("Error fetching bookings: $ex")
             return Result.failure(ex)
         }
     }

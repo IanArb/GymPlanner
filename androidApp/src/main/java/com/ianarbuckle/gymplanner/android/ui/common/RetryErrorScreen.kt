@@ -38,7 +38,7 @@ fun RetryErrorScreen(
         }) {
             Text("Tap to retry")
             Spacer(modifier = Modifier.padding(6.dp))
-            Icon(imageVector = Icons.Filled.Refresh, contentDescription = "")
+            Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Retry icon")
         }
 
     }

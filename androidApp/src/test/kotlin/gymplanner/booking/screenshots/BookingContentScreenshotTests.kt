@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
@@ -19,12 +21,20 @@ import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarHeader
 import com.ianarbuckle.gymplanner.android.booking.presentation.PersonalTrainerCard
 import com.ianarbuckle.gymplanner.android.booking.presentation.TimeSlotsGrid
 import com.ianarbuckle.gymplanner.availability.domain.Time
+import gymplanner.utils.FakeDataStore
+import gymplanner.utils.KoinTestRule
 import gymplanner.utils.ScreenTestPreview
 import gymplanner.utils.createComposeTestRule
 import gymplanner.utils.createRoborazziRule
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.dsl.module
+import org.koin.test.KoinTest
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
@@ -38,6 +48,13 @@ class BookingContentScreenshotTests {
     @get:Rule
     val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
         createComposeTestRule<ComponentActivity>()
+
+    private val testModule = module {
+        single<DataStore<Preferences>> { FakeDataStore() }
+    }
+
+    @get:Rule
+    val koinTestRule = KoinTestRule(listOf(testModule))
 
     @Test
     fun verify_booking_trainers_card_is_displayed_correctly_in_light_mode() {

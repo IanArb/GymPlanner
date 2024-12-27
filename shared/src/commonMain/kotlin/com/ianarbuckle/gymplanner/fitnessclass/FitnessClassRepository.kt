@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.fitnessclass
 
+import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClassUiModelMapper.transformToFitnessClass
 import io.ktor.client.call.NoTransformationFoundException
@@ -9,15 +10,23 @@ import io.ktor.client.plugins.ResponseException
 import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import okio.IOException
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class FitnessClassRepository(
-    private val localDataSource: FitnessClassLocalDataSource,
-    private val remoteDataSource: FitnessClassRemoteDataSource,
-) {
+interface FitnessClassRepository {
+    suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>>
+    fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>>
+}
 
-    suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
+class DefaultFitnessClassRepository : FitnessClassRepository, KoinComponent {
+
+    private val localDataSource: FitnessClassLocalDataSource by inject()
+    private val remoteDataSource: FitnessClassRemoteDataSource by inject()
+
+    override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
         return try {
             val classes = remoteDataSource.fitnessClasses(dayOfWeek)
             classes.map {
@@ -27,25 +36,14 @@ class FitnessClassRepository(
                 it.transformToFitnessClass()
             }
             Result.success(fitnessClasses.toImmutableList())
-        } catch (ex: ClientRequestException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ServerResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: HttpRequestTimeoutException) {
-            return Result.failure(ex)
-        }
-        catch (ex: ResponseException) {
-            return Result.failure(ex)
-        }
-        catch (ex: IOException) {
-            return Result.failure(ex)
-        }
-        catch (ex: NoTransformationFoundException) {
+        } catch (ex: Exception) {
+            if (ex is CancellationException) {
+                throw ex
+            }
+            Logger.withTag("FitnessClassRepository").e("Error fetching fitness classes: $ex")
             return Result.failure(ex)
         }
     }
 
-    fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> = localDataSource.findAllClients(dayOfWeek)
+    override fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> = localDataSource.findAllClients(dayOfWeek)
 }

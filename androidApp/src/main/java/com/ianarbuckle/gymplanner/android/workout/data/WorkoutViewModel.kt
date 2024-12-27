@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.clients.ClientsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WorkoutViewModel @Inject constructor(
     @Stable
-    private val gymPlanner: GymPlanner,
+    private val clientsRepository: ClientsRepository,
     private val coroutineDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -31,7 +32,7 @@ class WorkoutViewModel @Inject constructor(
 
     fun fetchClients() {
         viewModelScope.launch(coroutineDispatcherProvider.io) {
-            val result = gymPlanner.fetchAllClients()
+            val result = clientsRepository.fetchClients()
 
             result.onSuccess { clients ->
                 _uiState.update {

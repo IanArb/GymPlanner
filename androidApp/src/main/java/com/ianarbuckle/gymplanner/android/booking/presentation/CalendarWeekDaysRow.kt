@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,14 +50,16 @@ fun CalendarWeekDaysRow(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier
+                    .testTag(CalendarGridTestTag)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 itemsIndexed(daysSubset) { index, day ->
                     val isCurrentDay = day.isCurrentDay() && selectedDate.isEmpty()
 
                     Box(
-                        modifier = Modifier
+                        modifier = modifier
                             .clickable {
                                 onSelectedDateChange(day)
                             }
@@ -105,6 +108,8 @@ fun CalendarWeekDaysRow(
         }
     }
 }
+
+val CalendarGridTestTag = "CalendarGridTestTag"
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)

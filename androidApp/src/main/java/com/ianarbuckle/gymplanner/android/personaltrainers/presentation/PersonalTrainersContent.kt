@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
@@ -29,7 +30,9 @@ fun PersonalTrainersContent(
     Column(
         modifier = modifier.padding(innerPadding)
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.testTag(PersonalTrainersItemsTag)
+        ) {
             items(personalTrainers) { personalTrainer ->
                 PersonalTrainerItem(
                     personalTrainer = personalTrainer,
@@ -41,6 +44,8 @@ fun PersonalTrainersContent(
         }
     }
 }
+
+const val PersonalTrainersItemsTag = "PersonalTrainersItemsTag"
 
 @Composable
 @Preview(showBackground = true, name = "Light Mode")

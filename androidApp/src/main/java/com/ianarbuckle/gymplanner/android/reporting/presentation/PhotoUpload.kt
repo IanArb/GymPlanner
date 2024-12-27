@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,11 +80,12 @@ private fun ImageSelection(
             .height(200.dp)
             .background(Color.LightGray)
             .padding(16.dp)
+            .testTag(ImageSelectionTestTag)
             .clickable {
                 onPhotoClick()
             },
         horizontalAlignment = CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Spacer(modifier = modifier.padding(8.dp))
         Icon(
@@ -92,6 +94,8 @@ private fun ImageSelection(
         )
     }
 }
+
+const val ImageSelectionTestTag = "ImageSelection"
 
 
 @Preview(name = "Light Mode", showBackground = true)

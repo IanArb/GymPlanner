@@ -8,7 +8,7 @@ import org.koin.java.KoinJavaComponent
 actual object GymPlannerFactory {
 
     actual fun create(baseUrl: String, dataStore: DataStore<Preferences>): GymPlanner {
-        initKoin(baseUrl = baseUrl, dataStore = dataStore)
+//        initKoin(baseUrl = baseUrl, dataStore = dataStore)
         return KoinJavaComponent.get(GymPlanner::class.java)
     }
 }

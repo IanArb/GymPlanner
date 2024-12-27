@@ -13,4 +13,6 @@ sealed interface DashboardUiState {
     data object Failure : DashboardUiState
 
     data object Loading : DashboardUiState
+
+    data object Idle : DashboardUiState
 }

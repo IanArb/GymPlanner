@@ -4,11 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
 import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
+import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
@@ -34,7 +36,8 @@ class BookingViewModelTests {
         testCoroutineRule.testDispatcher
     )
 
-    private val gymPlanner: GymPlanner = mockk()
+    private val bookingRepository: BookingRepository = mockk()
+    private val availabilityRepository: AvailabilityRepository = mockk()
     private val clock: Clock = mockk(relaxed = true) {
         every { now() } returns Instant.parse("2023-01-01T00:00:00Z")
     }
@@ -44,7 +47,8 @@ class BookingViewModelTests {
     }
 
     private val viewModel: BookingViewModel = BookingViewModel(
-        gymPlanner = gymPlanner,
+        bookingRepository = bookingRepository,
+        availabilityRepository = availabilityRepository,
         savedStateHandle = savedStateHandle,
         clock = clock,
         dispatcherProvider = dispatcherProvider
@@ -55,17 +59,22 @@ class BookingViewModelTests {
         // Arrange
         val personalTrainerId = "trainer123"
         val currentDateTime = Instant.parse("2023-01-01T00:00:00Z").toLocalDateTime(TimeZone.UTC)
-        coEvery { gymPlanner.checkAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(
+        coEvery { availabilityRepository.checkAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = personalTrainerId,
                 isAvailable = true
             )
         )
-        coEvery { gymPlanner.fetchAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(mockk())
+        coEvery { availabilityRepository.getAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(
+            DataProvider.availability()
+        )
+
+        viewModel.fetchAvailability()
 
         // Act
         viewModel.bookingState.test {
             // Assert
+            assertEquals(BookingUiState.Idle, awaitItem())
             assertEquals(BookingUiState.Loading, awaitItem())
             val successState = awaitItem() as BookingUiState.AvailabilitySuccess
             assertEquals(true, successState.isPersonalTrainerAvailable)
@@ -80,12 +89,15 @@ class BookingViewModelTests {
         val currentDateTime = Instant.parse("2023-01-01T00:00:00Z").toLocalDateTime(TimeZone.UTC)
         every { savedStateHandle.get<String>("personalTrainerId") } returns personalTrainerId
         coEvery { clock.now() } returns Instant.parse("2023-01-01T00:00:00Z")
-        coEvery { gymPlanner.checkAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.failure(Exception("Check failed"))
-        coEvery { gymPlanner.fetchAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.failure(Exception("Fetch failed"))
+        coEvery { availabilityRepository.checkAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.failure(Exception("Check failed"))
+        coEvery { availabilityRepository.getAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.failure(Exception("Fetch failed"))
+
+        viewModel.fetchAvailability()
 
         // Act
         viewModel.bookingState.test {
             // Assert
+            assertEquals(BookingUiState.Idle, awaitItem())
             assertEquals(BookingUiState.Loading, awaitItem())
             assertEquals(BookingUiState.Failed, awaitItem())
             cancelAndIgnoreRemainingEvents()
@@ -97,14 +109,14 @@ class BookingViewModelTests {
         // Arrange
         val booking = mockk<Booking>()
         val bookingResponse = mockk<BookingResponse>()
-        coEvery { gymPlanner.saveBooking(booking) } returns Result.success(bookingResponse)
-        coEvery { gymPlanner.checkAvailability(any(), any()) } returns Result.success(
+        coEvery { bookingRepository.saveBooking(booking) } returns Result.success(bookingResponse)
+        coEvery { availabilityRepository.checkAvailability(any(), any()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = "trainer123",
                 isAvailable = true
             )
         )
-        coEvery { gymPlanner.fetchAvailability(any(), any()) } returns Result.success(mockk())
+        coEvery { availabilityRepository.getAvailability(any(), any()) } returns Result.success(mockk())
 
         // Act
         viewModel.saveBooking(booking)
@@ -121,14 +133,14 @@ class BookingViewModelTests {
     fun `saveBooking should update bookingState to Failed when API call fails`() = runTest {
         // Arrange
         val booking = mockk<Booking>()
-        coEvery { gymPlanner.saveBooking(booking) } returns Result.failure(Exception("Save failed"))
-        coEvery { gymPlanner.checkAvailability(any(), any()) } returns Result.success(
+        coEvery { bookingRepository.saveBooking(booking) } returns Result.failure(Exception("Save failed"))
+        coEvery { availabilityRepository.checkAvailability(any(), any()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = "trainer123",
                 isAvailable = true
             )
         )
-        coEvery { gymPlanner.fetchAvailability(any(), any()) } returns Result.success(mockk())
+        coEvery { availabilityRepository.getAvailability(any(), any()) } returns Result.success(mockk())
 
         // Act
         viewModel.saveBooking(booking)

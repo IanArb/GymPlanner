@@ -2,11 +2,14 @@ package com.ianarbuckle.gymplanner.android.login.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
@@ -29,7 +32,9 @@ fun LoginScreen(
     when (state.value) {
         is LoginState.Success -> {
             loginViewModel.persistRememberMe(rememberMe)
-            onNavigateTo()
+            LaunchedEffect(Unit) {
+                onNavigateTo()
+            }
         }
 
         is LoginState.Error -> {
@@ -91,7 +96,7 @@ fun LoginScreen(
                 onPasswordChange = { password = it },
                 rememberMe = rememberMe,
                 onRememberMeChange = { rememberMe = it },
-                isLoading = true
+                isLoading = true,
             )
         }
     }

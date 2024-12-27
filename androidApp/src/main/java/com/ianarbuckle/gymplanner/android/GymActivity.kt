@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +37,7 @@ import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
 import com.ianarbuckle.gymplanner.android.ui.common.BottomNavigationBar
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardContent
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardScreen
+import com.ianarbuckle.gymplanner.android.di.UrlModule
 import com.ianarbuckle.gymplanner.android.ui.common.TopNavigationBar
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsScreen
@@ -48,10 +51,13 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.Personal
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportMachineBrokenScreen
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -68,14 +74,10 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 
-            LaunchedEffect(key1 = true) {
+            LaunchedEffect(true) {
                 val rememberMe = navigationViewModel.rememberMe.first()
                 if (rememberMe) {
-                    navController.navigate(DashboardScreen) {
-                        popUpTo(LoginScreen) {
-                            inclusive = true
-                        }
-                    }
+                    navController.navigate(DashboardScreen)
                 }
             }
 
@@ -97,7 +99,7 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        var selectedItemIndex by rememberSaveable {
+                        var selectedItemIndex by remember {
                             mutableIntStateOf(0)
                         }
 
@@ -148,11 +150,7 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(
                                 contentPadding = contentPadding
                             ) {
-                                navController.navigate(DashboardScreen) {
-                                    popUpTo(LoginScreen) {
-                                        inclusive = true
-                                    }
-                                }
+                                navController.navigate(DashboardScreen)
                             }
                         }
 

@@ -10,6 +10,7 @@ import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.Job
 
 class FitnessClassRemoteDataSource(
     private val baseurl: String,

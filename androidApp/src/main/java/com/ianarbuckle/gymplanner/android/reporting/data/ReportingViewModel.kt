@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReportingViewModel @Inject constructor(
-    private val gymPlanner: GymPlanner,
+    private val faultReportingRepository: FaultReportingRepository,
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider,
 ): ViewModel() {
 
@@ -27,7 +28,7 @@ class ReportingViewModel @Inject constructor(
             FormFaultReportUiState.FormLoading
         }
         viewModelScope.launch(coroutinesDispatcherProvider.io) {
-            val result = gymPlanner.submitFault(faultReport)
+            val result = faultReportingRepository.saveFaultReport(faultReport)
 
             result.onSuccess {
                 _uiState.update {
