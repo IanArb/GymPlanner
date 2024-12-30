@@ -20,8 +20,8 @@ object DataProvider {
                 endTime = "08:00:00",
                 duration = Duration(
                     value = 3600,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             createFitnessClass(
                 dayOfWeek = "MONDAY",
@@ -32,8 +32,8 @@ object DataProvider {
                 endTime = "08:00:00",
                 duration = Duration(
                     value = 3600,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             createFitnessClass(
                 dayOfWeek = "MONDAY",
@@ -44,10 +44,10 @@ object DataProvider {
                 endTime = "08:00:00",
                 duration = Duration(
                     value = 3600,
-                    unit = "SECONDS"
-                )
-            )
-        )
+                    unit = "SECONDS",
+                ),
+            ),
+        ),
     ) = classes
 
     private fun createFitnessClass(
@@ -59,8 +59,8 @@ object DataProvider {
         endTime: String = "08:00:00",
         duration: Duration = Duration(
             value = 3600,
-            unit = "SECONDS"
-        )
+            unit = "SECONDS",
+        ),
     ): FitnessClass {
         return FitnessClass(
             dayOfWeek = dayOfWeek,
@@ -69,7 +69,7 @@ object DataProvider {
             imageUrl = imageUrl,
             startTime = startTime,
             endTime = endTime,
-            duration = duration
+            duration = duration,
         )
     }
 
@@ -79,21 +79,21 @@ object DataProvider {
                 firstName = "John",
                 lastName = "Doe",
                 bio = "Bio",
-                imageUrl = IMAGE_URL
+                imageUrl = IMAGE_URL,
             ),
             createPersonalTrainer(
                 firstName = "Jane",
                 lastName = "Doe",
                 bio = "Bio",
-                imageUrl = IMAGE_URL
+                imageUrl = IMAGE_URL,
             ),
             createPersonalTrainer(
                 firstName = "Jack",
                 lastName = "Doe",
                 bio = "Bio",
-                imageUrl = IMAGE_URL
-            )
-        )
+                imageUrl = IMAGE_URL,
+            ),
+        ),
     ) = trainers
 
     private fun createPersonalTrainer(
@@ -103,7 +103,7 @@ object DataProvider {
         imageUrl: String = "",
         qualifications: List<String> = listOf("qualification1", "qualification2"),
         socials: Map<String, String> = mapOf("instagram" to "https://www.instagram.com", "tiktok" to "https://www.tiktok.com"),
-        gymLocation: GymLocation = GymLocation.CLONTARF
+        gymLocation: GymLocation = GymLocation.CLONTARF,
     ): PersonalTrainer {
         return PersonalTrainer(
             firstName = firstName,
@@ -112,7 +112,7 @@ object DataProvider {
             imageUrl = imageUrl,
             qualifications = qualifications,
             socials = socials,
-            gymLocation = gymLocation
+            gymLocation = gymLocation,
         )
     }
 

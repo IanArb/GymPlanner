@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.gymlocations.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +32,7 @@ class GymLocationsViewModel @Inject constructor(
                     _uiState.update {
                         GymLocationsUiState.Failure
                     }
-                }
+                },
             )
         }
     }

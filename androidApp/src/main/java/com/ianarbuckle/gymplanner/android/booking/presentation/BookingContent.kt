@@ -25,6 +25,7 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.availability.domain.Time
 
+@Suppress("LongParameterList")
 @Composable
 fun BookingContent(
     paddingValues: PaddingValues,
@@ -34,16 +35,16 @@ fun BookingContent(
     qualifications: List<String>,
     daysOfWeek: List<String>,
     availableTimes: List<Time>,
-    modifier: Modifier = Modifier,
     selectedDate: String,
     selectedTimeSlot: String,
     isAvailable: Boolean,
     onSelectedDateChange: (String) -> Unit,
     onTimeSlotChange: (String) -> Unit,
     onBookClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState {
-        (daysOfWeek.size + 4) / 5 // Calculate the number of pages needed
+        (daysOfWeek.size + PAGE_SIZE) / PAGE_OFFSET // Calculate the number of pages needed
     }
 
     val verticalScroll = rememberScrollState()
@@ -59,7 +60,6 @@ fun BookingContent(
             imageUrl = imageUrl,
             qualifications = qualifications,
             isAvailable = isAvailable,
-            modifier = modifier
         )
 
         CalendarPickerCard(
@@ -74,22 +74,24 @@ fun BookingContent(
                 onSelectedDateChange(it)
             },
             selectedTimeSlot = selectedTimeSlot,
+            modifier = Modifier,
         )
     }
 
     if (selectedTimeSlot.isNotEmpty()) {
-        BookNowButton {
-            onBookClick()
-        }
+        BookNowButton(
+            onBookClick = onBookClick,
+        )
     }
 }
 
 @Composable
 fun BookNowButton(
     onBookClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         // Button at the bottom center of the screen
         Button(
@@ -97,25 +99,27 @@ fun BookNowButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter) // Align to bottom center
-                .padding(16.dp) // Add some padding from the bottom
+                .padding(16.dp), // Add some padding from the bottom
         ) {
             Text(text = "Book appointment")
         }
     }
 }
 
+private const val PAGE_SIZE = 4
+private const val PAGE_OFFSET = 5
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun BookingContentPreview() {
-
+private fun BookingContentPreview() {
     val timeSlots = availableTimes.map {
         Time(
             id = it,
             startTime = it,
             endTime = it,
-            status = "AVAILABLE"
+            status = "AVAILABLE",
         )
     }
 
@@ -125,8 +129,9 @@ fun BookingContentPreview() {
                 TopAppBar(
                     title = {
                         Text("Westwood Gym")
-                    })
-            }
+                    },
+                )
+            },
         ) { innerPadding ->
             BookingContent(
                 paddingValues = innerPadding,
@@ -137,19 +142,15 @@ fun BookingContentPreview() {
                 daysOfWeek = daysOfWeek,
                 availableTimes = timeSlots,
                 onSelectedDateChange = {
-
                 },
                 onTimeSlotChange = {
-
                 },
                 isAvailable = true,
                 selectedDate = "2024-12-09",
                 selectedTimeSlot = "06:00 AM",
                 onBookClick = {
-
-                }
+                },
             )
         }
-
     }
 }

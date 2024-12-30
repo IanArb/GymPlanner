@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [GymPlannerModule::class]
+    replaces = [GymPlannerModule::class],
 )
 @Module
 class FakeGymPlannerModule {

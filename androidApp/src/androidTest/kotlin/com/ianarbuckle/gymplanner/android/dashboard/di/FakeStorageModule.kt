@@ -13,7 +13,7 @@ import dagger.hilt.testing.TestInstallIn
 
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [StorageModule::class]
+    replaces = [StorageModule::class],
 )
 @Module
 class FakeStorageModule {
@@ -27,5 +27,4 @@ class FakeStorageModule {
     fun providesDataStore(): DataStore<Preferences> {
         return FakeDataStore()
     }
-
 }

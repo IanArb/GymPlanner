@@ -16,7 +16,7 @@ object ClientUiModelMapper {
             firstName = firstName,
             surname = surname,
             strengthLevel = strengthLevel,
-            gymPlan = gymPlan?.transformGymPlan()
+            gymPlan = gymPlan?.transformGymPlan(),
         )
     }
 
@@ -28,7 +28,7 @@ object ClientUiModelMapper {
             endDate = endDate,
             sessions = sessions.map { session ->
                 session.transformSession()
-            }
+            },
         )
     }
 
@@ -40,7 +40,7 @@ object ClientUiModelMapper {
             imageUrl = imageUrl,
             gymLocation = gymLocation.transformToGymLocation(),
             qualifications = qualifications,
-            socials = socials ?: emptyMap()
+            socials = socials ?: emptyMap(),
         )
     }
 
@@ -61,7 +61,7 @@ object ClientUiModelMapper {
             name = name,
             workout = workouts.map { workout ->
                 workout.transformWorkout()
-            }
+            },
         )
     }
 
@@ -71,14 +71,14 @@ object ClientUiModelMapper {
             sets = sets,
             repetitions = repetitions,
             weight = weight.transformWeight(),
-            note = note
+            note = note,
         )
     }
 
     private fun WeightDto.transformWeight(): Weight {
         return Weight(
             value = value,
-            unit = unit
+            unit = unit,
         )
     }
 }

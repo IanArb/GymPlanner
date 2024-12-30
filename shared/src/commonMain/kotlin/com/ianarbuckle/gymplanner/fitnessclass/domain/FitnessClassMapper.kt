@@ -34,7 +34,7 @@ object FitnessClassMapper {
                 endTime = fitnessClass.endTime,
                 startTime = fitnessClass.startTime,
                 imageUrl = fitnessClass.imageUrl,
-                name = fitnessClass.name
+                name = fitnessClass.name,
             )
         }
     }
@@ -42,7 +42,7 @@ object FitnessClassMapper {
     private fun transformDuration(duration: DurationRealmDto?): Duration {
         return Duration(
             value = duration?.value ?: 0,
-            unit = duration?.unit ?: ""
+            unit = duration?.unit ?: "",
         )
     }
 }

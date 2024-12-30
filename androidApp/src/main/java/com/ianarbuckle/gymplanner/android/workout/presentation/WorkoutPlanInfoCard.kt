@@ -26,14 +26,14 @@ import java.time.format.TextStyle
 @Composable
 fun WorkoutPlanInfo(
     gymPlan: GymPlan,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val startTime = parseToLocalDateTime(gymPlan.startDate)
     val endTime = parseToLocalDateTime(gymPlan.endDate)
 
     val daysDifference = differenceInDays(
         startDate = startTime.date,
-        endDate = endTime.date
+        endDate = endTime.date,
     )
 
     val startDayOfWeek = startTime.dayOfWeekDisplayName(TextStyle.SHORT)
@@ -45,30 +45,30 @@ fun WorkoutPlanInfo(
 
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 4.dp,
         ),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         Column(
-            modifier = modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         ) {
             Text(
                 "Trainer - ${gymPlan.personalTrainer.firstName}",
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
             val start = "$startDayOfWeek ${startTime.dayOfMonth} $startMonth"
             val end = "$endDayOfWeek ${endTime.dayOfMonth} $endMonth"
             Text(
                 "Period - $start to $end",
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
             Text(
                 "Days - $daysDifference",
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
         }
     }
@@ -77,11 +77,11 @@ fun WorkoutPlanInfo(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun GymPlanInfoCardPreview() {
+private fun GymPlanInfoCardPreview() {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Gym Plan") })
-        }
+        },
     ) { padding ->
         WorkoutPlanInfo(gymPlan = DataProvider.gymPlan(), Modifier.padding(padding))
     }

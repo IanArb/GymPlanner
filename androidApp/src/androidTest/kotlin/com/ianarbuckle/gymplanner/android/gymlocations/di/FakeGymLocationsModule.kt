@@ -9,7 +9,7 @@ import dagger.hilt.testing.TestInstallIn
 
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [GymLocationsModule::class]
+    replaces = [GymLocationsModule::class],
 )
 @Module
 class FakeGymLocationsModule {
@@ -18,5 +18,4 @@ class FakeGymLocationsModule {
     fun provideGymLocationsRepository(): GymLocationsRepository {
         return FakeGymLocationsRepository()
     }
-
 }

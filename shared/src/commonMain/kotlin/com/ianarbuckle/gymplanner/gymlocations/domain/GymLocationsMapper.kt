@@ -11,7 +11,7 @@ object GymLocationsMapper {
             title = title,
             subTitle = subTitle,
             description = description,
-            imageUrl = imageUrl
+            imageUrl = imageUrl,
         )
     }
 
@@ -31,9 +31,8 @@ object GymLocationsMapper {
                 title = gymLocations.title,
                 subTitle = gymLocations.subTitle,
                 description = gymLocations.description,
-                imageUrl = gymLocations.imageUrl
+                imageUrl = gymLocations.imageUrl,
             )
         }
     }
-
 }

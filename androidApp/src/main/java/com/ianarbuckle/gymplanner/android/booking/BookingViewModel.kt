@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.Booking
-import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +26,8 @@ class BookingViewModel @Inject constructor(
     private val availabilityRepository: AvailabilityRepository,
     private val savedStateHandle: SavedStateHandle,
     private val clock: Clock,
-    private val dispatcherProvider: CoroutinesDispatcherProvider
-): ViewModel() {
+    private val dispatcherProvider: CoroutinesDispatcherProvider,
+) : ViewModel() {
 
     private val _bookingState = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
     val bookingState = _bookingState.asStateFlow()
@@ -69,17 +67,17 @@ class BookingViewModel @Inject constructor(
                                     onSuccess = { checkAvailability ->
                                         BookingUiState.AvailabilitySuccess(
                                             availability = availability,
-                                            isPersonalTrainerAvailable = checkAvailability.isAvailable
+                                            isPersonalTrainerAvailable = checkAvailability.isAvailable,
                                         )
                                     },
                                     onFailure = {
                                         BookingUiState.Failed
-                                    }
+                                    },
                                 )
                             },
                             onFailure = {
                                 BookingUiState.Failed
-                            }
+                            },
                         )
 
                         _bookingState.update {
@@ -106,9 +104,8 @@ class BookingViewModel @Inject constructor(
                 },
                 onFailure = {
                     _bookingState.value = BookingUiState.Failed
-                }
+                },
             )
         }
     }
-
 }

@@ -30,7 +30,7 @@ class DashboardViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val profileRepository = mockk<ProfileRepository>()
@@ -46,7 +46,8 @@ class DashboardViewModelTests {
         fitnessClassRepository = fitnessClassRepository,
         dataStoreRepository = dataStoreRepository,
         clock = clock,
-        coroutineDispatcherProvider = dispatcherProvider)
+        coroutineDispatcherProvider = dispatcherProvider,
+    )
 
     @Test
     fun `fetchFitnessClasses should update uiState to Success when API calls succeed`() = runTest {

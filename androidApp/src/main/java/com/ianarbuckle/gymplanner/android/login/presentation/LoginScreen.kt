@@ -6,10 +6,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
@@ -17,15 +17,18 @@ import com.ianarbuckle.gymplanner.authentication.domain.Login
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel = hiltViewModel(),
     contentPadding: PaddingValues,
-    onNavigateTo: () -> Unit)
-{
+    onNavigateTo: () -> Unit,
+    modifier: Modifier = Modifier,
+    loginViewModel: LoginViewModel = hiltViewModel(),
+) {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var isUsernameValid by rememberSaveable { mutableStateOf(true) }
     var isPasswordValid by rememberSaveable { mutableStateOf(true) }
     var rememberMe by rememberSaveable { mutableStateOf(true) }
+
+    val navigationEvent by rememberUpdatedState(onNavigateTo)
 
     val state = loginViewModel.loginState.collectAsState()
 
@@ -33,7 +36,7 @@ fun LoginScreen(
         is LoginState.Success -> {
             loginViewModel.persistRememberMe(rememberMe)
             LaunchedEffect(Unit) {
-                onNavigateTo()
+                navigationEvent()
             }
         }
 
@@ -54,12 +57,11 @@ fun LoginScreen(
                 },
                 isUsernameValid = isUsernameValid,
                 isPasswordValid = isPasswordValid,
-                onUsernameInvalid = { isUsernameValid = it },
-                onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
                 onRememberMeChange = { rememberMe = it },
                 isLoading = false,
                 showError = true,
+                modifier = modifier,
             )
         }
 
@@ -80,11 +82,10 @@ fun LoginScreen(
                 },
                 isUsernameValid = isUsernameValid,
                 isPasswordValid = isPasswordValid,
-                onUsernameInvalid = { isUsernameValid = it },
-                onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
                 onRememberMeChange = { rememberMe = it },
                 isLoading = false,
+                modifier = modifier,
             )
         }
         LoginState.Loading -> {
@@ -97,6 +98,7 @@ fun LoginScreen(
                 rememberMe = rememberMe,
                 onRememberMeChange = { rememberMe = it },
                 isLoading = true,
+                modifier = modifier,
             )
         }
     }

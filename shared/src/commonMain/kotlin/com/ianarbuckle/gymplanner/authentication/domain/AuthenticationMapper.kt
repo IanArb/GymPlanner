@@ -15,7 +15,7 @@ object AuthenticationMapper {
         return LoginResponse(
             userId = userId,
             token = token,
-            expiration = expiration
+            expiration = expiration,
         )
     }
 

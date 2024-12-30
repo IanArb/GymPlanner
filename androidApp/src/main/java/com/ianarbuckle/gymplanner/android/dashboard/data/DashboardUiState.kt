@@ -8,7 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Stable
 sealed interface DashboardUiState {
 
-    data class Success(val items: ImmutableList<FitnessClass>, @Stable val profile: Profile): DashboardUiState
+    data class Success(val items: ImmutableList<FitnessClass>, @Stable val profile: Profile) : DashboardUiState
 
     data object Failure : DashboardUiState
 

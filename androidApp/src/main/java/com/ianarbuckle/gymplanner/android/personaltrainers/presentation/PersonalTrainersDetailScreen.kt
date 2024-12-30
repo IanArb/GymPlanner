@@ -10,7 +10,7 @@ fun PersonalTrainersDetailScreen(
     bio: String,
     imageUrl: String,
     onNavigateTo: () -> Unit,
-    onBookClick: () -> Unit
+    onBookClick: () -> Unit,
 ) {
     PersonalTrainersDetail(
         contentPadding = contentPadding,
@@ -22,6 +22,6 @@ fun PersonalTrainersDetailScreen(
         },
         onBackClick = {
             onNavigateTo()
-        }
+        },
     )
 }

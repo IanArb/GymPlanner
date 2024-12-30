@@ -36,35 +36,37 @@ fun CalendarWeekDaysRow(
     pagerState: PagerState,
     daysOfWeek: List<String>,
     selectedDate: String,
-    modifier: Modifier = Modifier,
     onSelectedDateChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         HorizontalPager(
-            state = pagerState
+            state = pagerState,
         ) { page ->
-            val startIndex = page * 5
-            val endIndex = (startIndex + 5).coerceAtMost(daysOfWeek.size)
+            val startIndex = page * PageSize
+            val endIndex = (startIndex + PageSize).coerceAtMost(daysOfWeek.size)
             val daysSubset = daysOfWeek.subList(startIndex, endIndex)
 
             LazyVerticalGrid(
-                columns = GridCells.Fixed(5),
+                columns = GridCells.Fixed(PageSize),
                 contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = modifier
+                modifier = Modifier
                     .testTag(CalendarGridTestTag)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 itemsIndexed(daysSubset) { index, day ->
                     val isCurrentDay = day.isCurrentDay() && selectedDate.isEmpty()
 
                     Box(
-                        modifier = modifier
+                        modifier = Modifier
                             .clickable {
                                 onSelectedDateChange(day)
                             }
                             .padding(vertical = 12.dp),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) {
                         val textColor =
                             when {
@@ -81,7 +83,7 @@ fun CalendarWeekDaysRow(
                             textAlign = TextAlign.Center,
                             color = textColor,
                             style = MaterialTheme.typography.bodyMedium,
-                            modifier = modifier
+                            modifier = Modifier
                                 .drawBehind {
                                     // Draw a line underneath the text
                                     val lineThickness = 2.dp.toPx() // Thickness of the underline
@@ -91,16 +93,16 @@ fun CalendarWeekDaysRow(
                                             color = primary,
                                             start = Offset(
                                                 0f,
-                                                yOffset
+                                                yOffset,
                                             ),
                                             end = Offset(
                                                 size.width,
-                                                yOffset
+                                                yOffset,
                                             ),
-                                            strokeWidth = lineThickness
+                                            strokeWidth = lineThickness,
                                         )
                                     }
-                                }
+                                },
                         )
                     }
                 }
@@ -109,22 +111,22 @@ fun CalendarWeekDaysRow(
     }
 }
 
-val CalendarGridTestTag = "CalendarGridTestTag"
+const val CalendarGridTestTag = "CalendarGridTestTag"
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun CalendarWeekDaysRowPreview() {
+private fun CalendarWeekDaysRowPreview() {
     GymAppTheme {
         val pagerState = rememberPagerState {
-            5 // Calculate the number of pages needed
+            PageSize // Calculate the number of pages needed
         }
         Surface {
             CalendarWeekDaysRow(
                 pagerState = pagerState,
                 daysOfWeek = daysOfWeek,
                 selectedDate = "2024-12-12",
-                onSelectedDateChange = { }
+                onSelectedDateChange = { },
             )
         }
     }

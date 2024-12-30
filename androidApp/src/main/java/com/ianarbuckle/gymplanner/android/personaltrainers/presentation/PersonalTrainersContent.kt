@@ -22,23 +22,23 @@ import kotlinx.collections.immutable.ImmutableList
 fun PersonalTrainersContent(
     innerPadding: PaddingValues,
     personalTrainers: ImmutableList<PersonalTrainer>,
-    modifier: Modifier = Modifier,
     onSocialLinkClick: (String) -> Unit,
     onBookTrainerClick: (PersonalTrainer) -> Unit,
     onItemClick: (Triple<String, String, String>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(innerPadding)
+        modifier = modifier.padding(innerPadding),
     ) {
         LazyColumn(
-            modifier = Modifier.testTag(PersonalTrainersItemsTag)
+            modifier = Modifier.testTag(PersonalTrainersItemsTag),
         ) {
             items(personalTrainers) { personalTrainer ->
                 PersonalTrainerItem(
                     personalTrainer = personalTrainer,
                     onSocialLinkClick = onSocialLinkClick,
                     onBookTrainerClick = onBookTrainerClick,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
                 )
             }
         }
@@ -50,22 +50,21 @@ const val PersonalTrainersItemsTag = "PersonalTrainersItemsTag"
 @Composable
 @Preview(showBackground = true, name = "Light Mode")
 @Preview(showBackground = true, name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
-fun GymLocationsPreview() {
+private fun GymLocationsPreview() {
     GymAppTheme {
         Column(
             modifier =
             Modifier
                 .padding(16.dp)
-                .background(surfaceLight)
+                .background(surfaceLight),
         ) {
             PersonalTrainersContent(
                 innerPadding = PaddingValues(16.dp),
                 personalTrainers = DataProvider.personalTrainers(),
                 onSocialLinkClick = { },
                 onBookTrainerClick = { },
-                onItemClick = { }
+                onItemClick = { },
             )
         }
-
     }
 }

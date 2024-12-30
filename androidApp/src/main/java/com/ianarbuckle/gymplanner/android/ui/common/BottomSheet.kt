@@ -5,6 +5,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
@@ -13,13 +14,15 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 fun BottomSheet(
     sheetState: SheetState,
     onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     ModalBottomSheet(
         onDismissRequest = {
             onDismissRequest()
         },
-        sheetState = sheetState
+        sheetState = sheetState,
+        modifier = modifier,
     ) {
         content()
     }
@@ -28,13 +31,12 @@ fun BottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun BookingBottomSheetPreview() {
+private fun BookingBottomSheetPreview() {
     GymAppTheme {
         BottomSheet(
             sheetState = rememberModalBottomSheetState(),
-            onDismissRequest = {}
+            onDismissRequest = {},
         ) {
-
         }
     }
 }

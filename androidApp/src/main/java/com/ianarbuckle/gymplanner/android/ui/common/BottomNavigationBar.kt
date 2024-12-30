@@ -12,14 +12,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.rememberNavController
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
-import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
-import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -27,14 +22,16 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun BottomNavigationBar(
     navigationItems: ImmutableList<BottomNavigationItem>,
-    selectedItemIndex: Int,
-    onItemSelected: (Int) -> Unit,
+    selectItemIndex: Int,
+    onItemSelect: (Int) -> Unit,
     onNavigateTo: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     NavigationBar {
         navigationItems.forEachIndexed { index, item ->
             NavigationBarItem(
-                selected = selectedItemIndex == index,
+                modifier = modifier,
+                selected = selectItemIndex == index,
                 onClick = {
                     when (index) {
                         0 -> {
@@ -47,20 +44,21 @@ fun BottomNavigationBar(
                             onNavigateTo(2)
                         }
                     }
-                    onItemSelected(index)
+                    onItemSelect(index)
                 },
                 label = {
                     Text(item.title)
                 },
                 icon = {
                     Icon(
-                        imageVector = if (index == selectedItemIndex) {
+                        imageVector = if (index == selectItemIndex) {
                             item.selectedIcon
                         } else {
                             item.unselectedIcon
                         },
-                        contentDescription = item.title)
-                }
+                        contentDescription = item.title,
+                    )
+                },
             )
         }
     }
@@ -68,7 +66,7 @@ fun BottomNavigationBar(
 
 @Preview
 @Composable
-fun BottomNavigationBarPreview() {
+private fun BottomNavigationBarPreview() {
     val navigationItems = persistentListOf(
         BottomNavigationItem(
             title = "Dashboard",
@@ -84,15 +82,15 @@ fun BottomNavigationBarPreview() {
             title = "Personal Trainers",
             selectedIcon = Icons.Filled.Face,
             unselectedIcon = Icons.Outlined.Face,
-        )
+        ),
     )
 
     GymAppTheme {
         BottomNavigationBar(
             navigationItems = navigationItems,
-            selectedItemIndex = 0,
-            onItemSelected = { },
-            onNavigateTo = { }
+            selectItemIndex = 0,
+            onItemSelect = { },
+            onNavigateTo = { },
         )
     }
 }

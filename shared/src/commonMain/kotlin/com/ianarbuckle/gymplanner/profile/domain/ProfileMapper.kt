@@ -10,7 +10,7 @@ object ProfileMapper {
             username = username,
             firstName = firstName,
             surname = surname,
-            email = email
+            email = email,
         )
     }
 }

@@ -16,7 +16,6 @@ class ReportingRobot(private val composeTestRule: ComposeTestRule) {
             .performClick()
     }
 
-
     fun populateForm() {
         composeTestRule
             .onNodeWithText("The machine number")
@@ -38,11 +37,9 @@ class ReportingRobot(private val composeTestRule: ComposeTestRule) {
             .onNodeWithText("Machine number")
             .performTextInput("")
 
-
         composeTestRule
             .onNodeWithText("Description")
             .performTextInput("")
-
 
         composeTestRule
             .onNodeWithText("Send")
@@ -60,6 +57,4 @@ class ReportingRobot(private val composeTestRule: ComposeTestRule) {
             .onNodeWithText("Send")
             .performClick()
     }
-
-
 }

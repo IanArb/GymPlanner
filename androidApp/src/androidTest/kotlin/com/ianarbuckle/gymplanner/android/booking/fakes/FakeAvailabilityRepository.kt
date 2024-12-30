@@ -9,21 +9,21 @@ class FakeAvailabilityRepository : AvailabilityRepository {
 
     override suspend fun getAvailability(
         personalTrainerId: String,
-        month: String
+        month: String,
     ): Result<Availability> {
         return mockAvailabilitySuccess()
     }
 
     override suspend fun checkAvailability(
         personalTrainerId: String,
-        month: String
+        month: String,
     ): Result<CheckAvailability> {
         return mockCheckAvailabilitySuccess()
     }
 
     private fun mockAvailabilitySuccess(): Result<Availability> {
         return Result.success(
-            DataProvider.availability()
+            DataProvider.availability(),
         )
     }
 
@@ -31,8 +31,8 @@ class FakeAvailabilityRepository : AvailabilityRepository {
         return Result.success(
             CheckAvailability(
                 personalTrainerId = "6730e1cb37f4352118e0c8e1",
-                isAvailable = true
-            )
+                isAvailable = true,
+            ),
         )
     }
 }

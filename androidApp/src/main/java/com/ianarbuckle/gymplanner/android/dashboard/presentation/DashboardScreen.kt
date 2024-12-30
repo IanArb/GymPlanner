@@ -5,8 +5,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -14,8 +13,9 @@ import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 
 @Composable
 fun DashboardScreen(
-    dashboardViewModel: DashboardViewModel = hiltViewModel(),
     contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(true) {
         dashboardViewModel.fetchFitnessClasses()
@@ -26,27 +26,30 @@ fun DashboardScreen(
     when (uiState.value) {
         is DashboardUiState.Failure -> {
             RetryErrorScreen(
-                text = "Failed to retrieve dashboard."
-            ) {
-                dashboardViewModel.fetchFitnessClasses()
-            }
-        }
-
-        is DashboardUiState.Success -> {
-            DashboardContent(
-                innerPadding = contentPadding,
-                items = (uiState.value as DashboardUiState.Success).items,
-                onViewScheduleClick = {
-
-                },
-                onBookPersonalTrainerClick = {
-
+                modifier = modifier,
+                text = "Failed to retrieve dashboard.",
+                onClick = {
+                    dashboardViewModel.fetchFitnessClasses()
                 }
             )
         }
 
+        is DashboardUiState.Success -> {
+            DashboardContent(
+                modifier = modifier,
+                innerPadding = contentPadding,
+                items = (uiState.value as DashboardUiState.Success).items,
+                onViewScheduleClick = {
+                },
+                onBookPersonalTrainerClick = {
+                },
+            )
+        }
+
         is DashboardUiState.Loading -> {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                modifier = modifier,
+            )
         }
 
         DashboardUiState.Idle -> {

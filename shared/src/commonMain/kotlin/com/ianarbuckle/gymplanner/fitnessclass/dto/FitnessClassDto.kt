@@ -12,11 +12,11 @@ data class FitnessClassDto(
     val endTime: String,
     val imageUrl: String,
     val name: String,
-    val startTime: String
+    val startTime: String,
 )
 
 @Serializable
 data class DurationDto(
     val unit: String,
-    val value: Int
+    val value: Int,
 )

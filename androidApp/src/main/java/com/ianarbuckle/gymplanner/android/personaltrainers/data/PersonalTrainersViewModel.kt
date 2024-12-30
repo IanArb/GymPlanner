@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.personaltrainers.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
@@ -34,7 +33,7 @@ class PersonalTrainersViewModel @Inject constructor(
                     _uiState.update {
                         PersonalTrainersUiState.Failure
                     }
-                }
+                },
             )
         }
     }

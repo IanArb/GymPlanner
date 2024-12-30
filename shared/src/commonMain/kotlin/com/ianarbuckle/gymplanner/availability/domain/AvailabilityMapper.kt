@@ -13,7 +13,7 @@ object AvailabilityMapper {
             id = id,
             month = month,
             personalTrainerId = personalTrainerId,
-            slots = slots.map { it.toSlot() }.toImmutableList()
+            slots = slots.map { it.toSlot() }.toImmutableList(),
         )
     }
 
@@ -21,7 +21,7 @@ object AvailabilityMapper {
         return Slot(
             date = date,
             id = id,
-            times = times.map { it.toTime() }.toImmutableList()
+            times = times.map { it.toTime() }.toImmutableList(),
         )
     }
 
@@ -30,14 +30,14 @@ object AvailabilityMapper {
             id = id,
             startTime = startTime,
             endTime = endTime,
-            status = status
+            status = status,
         )
     }
 
     fun CheckAvailabilityDto.toCheckAvailability(): CheckAvailability {
         return CheckAvailability(
             personalTrainerId = personalTrainerId,
-            isAvailable = isAvailable
+            isAvailable = isAvailable,
         )
     }
 }

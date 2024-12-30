@@ -49,5 +49,4 @@ class DefaultAvailabilityRepository : AvailabilityRepository, KoinComponent {
             return Result.failure(ex)
         }
     }
-
 }

@@ -1,7 +1,5 @@
 package com.ianarbuckle.gymplanner.android.login.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
 import dagger.Module

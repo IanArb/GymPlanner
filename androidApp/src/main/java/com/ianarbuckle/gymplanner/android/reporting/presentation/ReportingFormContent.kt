@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
+@Suppress("LongParameterList")
 @Composable
 fun ReportingFormContent(
     innerPadding: PaddingValues,
-    modifier: Modifier = Modifier,
     machineNumber: String,
     description: String,
     isMachineNumberValid: Boolean,
@@ -31,18 +31,20 @@ fun ReportingFormContent(
     hasMachineNumberInteracted: Boolean,
     hasDescriptionInteracted: Boolean,
     hasPhotoInteracted: Boolean,
-    imageBitmap: ImageBitmap? = null,
-    isLoading: Boolean = false,
-    hasFailed: Boolean = false,
     onMachineNumberChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onPhotoClick: () -> Unit,
     onSendClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    hasFailed: Boolean = false,
+    imageBitmap: ImageBitmap? = null,
 ) {
-    Column(modifier = modifier
-        .padding(innerPadding)
-        .padding(16.dp)) {
-
+    Column(
+        modifier = modifier
+            .padding(innerPadding)
+            .padding(16.dp),
+    ) {
         FormCard(
             machineNumber = machineNumber,
             description = description,
@@ -59,20 +61,16 @@ fun ReportingFormContent(
             onDescriptionChange = onDescriptionChange,
             onPhotoClick = onPhotoClick,
             onSendClick = onSendClick,
-            modifier = modifier,
+            modifier = Modifier,
         )
-
     }
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
-
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun ReportingFormContentPreview() {
+private fun ReportingFormContentPreview() {
     var machineNumber by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
     val imageBitmap by rememberSaveable { mutableStateOf<ImageBitmap?>(null) }
@@ -87,7 +85,7 @@ fun ReportingFormContentPreview() {
 
     GymAppTheme {
         Scaffold(
-            topBar = { TopAppBar(title = { Text("Report Machine") }) }
+            topBar = { TopAppBar(title = { Text("Report Machine") }) },
         ) { innerPadding ->
             ReportingFormContent(
                 innerPadding = innerPadding,
@@ -128,9 +126,8 @@ fun ReportingFormContentPreview() {
                     if (isMachineNumberValid && isDescriptionValid && isImageBitMapValid) {
                         // Handle send click
                     }
-                }
+                },
             )
         }
     }
 }
-

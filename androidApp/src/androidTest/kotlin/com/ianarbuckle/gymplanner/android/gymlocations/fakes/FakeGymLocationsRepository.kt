@@ -13,7 +13,7 @@ class FakeGymLocationsRepository : GymLocationsRepository {
 
     private fun mockGymLocationsSuccess(): Result<ImmutableList<GymLocations>> {
         return Result.success(
-            DataProvider.gymLocations()
+            DataProvider.gymLocations(),
         )
     }
 }

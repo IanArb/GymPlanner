@@ -33,6 +33,7 @@ class PersonalTrainerRealmDto : EmbeddedRealmObject {
     var lastName: String = ""
     var bio: String = ""
     var imageUrl: String = ""
+
     @Ignore
     var socials: RealmMap<String, String> = realmDictionaryOf()
     var qualifications: RealmList<String> = realmListOf()
@@ -47,9 +48,13 @@ class GymLocationRealmDto : RealmObject {
     }
 
     val enum: GymLocationEnumRealm?
-        get() = if ((enumDescription != null)) GymLocationEnumRealm.valueOf(
-            enumDescription!!
-        ) else null
+        get() = if ((enumDescription != null)) {
+            GymLocationEnumRealm.valueOf(
+                enumDescription!!,
+            )
+        } else {
+            null
+        }
 }
 
 enum class GymLocationEnumRealm {
@@ -57,7 +62,7 @@ enum class GymLocationEnumRealm {
     ASTONQUAY,
     LEOPARDSTOWN,
     DUNLOAGHAIRE,
-    UNKNOWN
+    UNKNOWN,
 }
 
 class SessionRealmDto : EmbeddedRealmObject {
@@ -77,4 +82,3 @@ class WeightRealmDto : EmbeddedRealmObject {
     var value: Double = 0.0
     var unit: String = ""
 }
-

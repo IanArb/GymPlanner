@@ -5,6 +5,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
@@ -15,11 +16,12 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun PersonalTrainersScreen(
-    personalTrainersViewModel: PersonalTrainersViewModel = hiltViewModel(),
     contentPadding: PaddingValues,
     gymLocation: GymLocation,
     onNavigateTo: (Triple<String, String, String>) -> Unit,
     onBookClick: (PersonalTrainer) -> Unit,
+    modifier: Modifier = Modifier,
+    personalTrainersViewModel: PersonalTrainersViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(true) {
         personalTrainersViewModel.fetchPersonalTrainers(gymLocation)
@@ -28,18 +30,19 @@ fun PersonalTrainersScreen(
     when (val uiState = personalTrainersViewModel.uiState.collectAsState().value) {
         is PersonalTrainersUiState.Failure -> {
             RetryErrorScreen(
-                text = "Failed to retrieve personal trainers."
-            ) {
-                personalTrainersViewModel.fetchPersonalTrainers(gymLocation)
-            }
+                text = "Failed to retrieve personal trainers.",
+                onClick = {
+                    personalTrainersViewModel.fetchPersonalTrainers(gymLocation)
+                }
+            )
         }
 
         is PersonalTrainersUiState.Success -> {
             PersonalTrainersContent(
+                modifier = modifier,
                 innerPadding = contentPadding,
                 personalTrainers = uiState.personalTrainers.toImmutableList(),
                 onSocialLinkClick = {
-
                 },
                 onBookTrainerClick = {
                     onBookClick(it)
@@ -49,10 +52,10 @@ fun PersonalTrainersScreen(
                         Triple(
                             item.first,
                             item.second,
-                            item.third
-                        )
+                            item.third,
+                        ),
                     )
-                }
+                },
             )
         }
 

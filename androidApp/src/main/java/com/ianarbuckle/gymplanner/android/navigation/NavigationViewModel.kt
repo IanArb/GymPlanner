@@ -3,15 +3,11 @@ package com.ianarbuckle.gymplanner.android.navigation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +15,7 @@ import javax.inject.Inject
 class NavigationViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
     dispatchers: CoroutinesDispatcherProvider,
-): ViewModel() {
+) : ViewModel() {
 
     private val _rememberMe = Channel<Boolean>()
     val rememberMe = _rememberMe.receiveAsFlow()

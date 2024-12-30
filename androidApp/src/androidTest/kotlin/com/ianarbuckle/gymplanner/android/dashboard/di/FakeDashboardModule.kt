@@ -12,7 +12,7 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [DashboardModule::class]
+    replaces = [DashboardModule::class],
 )
 class FakeDashboardModule {
 

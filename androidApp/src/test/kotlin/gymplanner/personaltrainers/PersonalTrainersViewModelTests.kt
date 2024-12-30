@@ -24,13 +24,13 @@ class PersonalTrainersViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
     private val viewModel: PersonalTrainersViewModel = PersonalTrainersViewModel(
         personalTrainersRepository = personalTrainersRepository,
-        coroutinesDispatcherProvider = dispatcherProvider
+        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test
@@ -54,7 +54,9 @@ class PersonalTrainersViewModelTests {
     @Test
     fun `fetchPersonalTrainers should update uiState to Failure when API call fails`() = runTest {
         // Arrange
-        coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns Result.failure(Exception("Fetch failed"))
+        coEvery {
+            personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF)
+        } returns Result.failure(Exception("Fetch failed"))
 
         // Act
         viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)

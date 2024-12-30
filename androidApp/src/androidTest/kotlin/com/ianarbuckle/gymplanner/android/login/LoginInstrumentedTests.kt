@@ -31,12 +31,12 @@ class LoginInstrumentedTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore()  }
+        single<DataStore<Preferences>> { FakeDataStore() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     private val loginRobot = LoginRobot(composeTestRule)

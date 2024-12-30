@@ -50,5 +50,4 @@ class DefaultBookingRepository : BookingRepository, KoinComponent {
             return Result.failure(ex)
         }
     }
-
 }

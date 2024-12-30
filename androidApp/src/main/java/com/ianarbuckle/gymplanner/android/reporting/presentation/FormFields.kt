@@ -14,7 +14,6 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,98 +37,100 @@ fun FormFields(
     isDescriptionValid: Boolean,
     hasMachineNumberInteracted: Boolean,
     hasDescriptionInteracted: Boolean,
-    modifier: Modifier = Modifier,
     onMachineNumberChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Text(
-        text = "Please provide the following information",
-        color = MaterialTheme.colorScheme.onSurface,
-        fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        fontStyle = FontStyle.Normal
-    )
-
-    Spacer(modifier = modifier.padding(12.dp))
-
-    Row {
+    Column(modifier = modifier) {
         Text(
-            text = "Machine number",
-            fontWeight = FontWeight.Bold,
+            text = "Please provide the following information",
             color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            fontStyle = FontStyle.Normal
         )
-        Spacer(Modifier.padding(2.dp))
-        Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
-    }
 
-    Spacer(modifier = Modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(12.dp))
 
-    OutlinedTextField(
-        value = machineNumber,
-        onValueChange = onMachineNumberChange,
-        label = { Text("The machine number") },
-        modifier = modifier.fillMaxWidth(),
-        isError = !isMachineNumberValid && hasMachineNumberInteracted,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions {
-            focusManager.moveFocus(FocusDirection.Down)
+        Row {
+            Text(
+                text = "Machine number",
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Spacer(Modifier.padding(2.dp))
+            Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
         }
-    )
 
-    if (!isMachineNumberValid && hasMachineNumberInteracted) {
-        Spacer(modifier = modifier.padding(2.dp))
-        Text(
-            text = "Please provide a machine number",
-            color = MaterialTheme.colorScheme.error,
-            fontStyle = FontStyle.Italic
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        OutlinedTextField(
+            value = machineNumber,
+            onValueChange = onMachineNumberChange,
+            label = { Text("The machine number") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = !isMachineNumberValid && hasMachineNumberInteracted,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions {
+                focusManager.moveFocus(FocusDirection.Down)
+            }
         )
-    }
 
-    Spacer(modifier = modifier.padding(6.dp))
-
-    Text(
-        text = "Description",
-        fontWeight = FontWeight.Bold
-    )
-
-    Spacer(modifier = modifier.padding(2.dp))
-
-    OutlinedTextField(
-        value = description,
-        onValueChange = onDescriptionChange,
-        label = { Text("Describe the fault of the machine") },
-        modifier = Modifier.fillMaxWidth(),
-        isError = !isDescriptionValid && hasDescriptionInteracted,
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions {
-            keyboardController?.hide()
+        if (!isMachineNumberValid && hasMachineNumberInteracted) {
+            Spacer(modifier = Modifier.padding(2.dp))
+            Text(
+                text = "Please provide a machine number",
+                color = MaterialTheme.colorScheme.error,
+                fontStyle = FontStyle.Italic
+            )
         }
-    )
 
-    if (!isDescriptionValid && hasDescriptionInteracted) {
-        Spacer(modifier = modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(6.dp))
+
         Text(
-            text = "Please provide a description",
-            color = MaterialTheme.colorScheme.error,
-            fontStyle = FontStyle.Italic
+            text = "Description",
+            fontWeight = FontWeight.Bold
         )
-    }
 
-    Spacer(modifier = modifier.padding(12.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        OutlinedTextField(
+            value = description,
+            onValueChange = onDescriptionChange,
+            label = { Text("Describe the fault of the machine") },
+            modifier = Modifier.fillMaxWidth(),
+            isError = !isDescriptionValid && hasDescriptionInteracted,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions {
+                keyboardController?.hide()
+            }
+        )
+
+        if (!isDescriptionValid && hasDescriptionInteracted) {
+            Spacer(modifier = Modifier.padding(2.dp))
+            Text(
+                text = "Please provide a description",
+                color = MaterialTheme.colorScheme.error,
+                fontStyle = FontStyle.Italic
+            )
+        }
+
+        Spacer(modifier = Modifier.padding(12.dp))
+    }
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun FormFieldsPreview() {
+private fun FormFieldsPreview() {
     GymAppTheme {
         Column(
             modifier = Modifier

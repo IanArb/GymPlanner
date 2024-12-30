@@ -47,9 +47,10 @@ import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
+import com.ianarbuckle.gymplanner.storage.createDataStore
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import io.realm.kotlin.Realm
@@ -92,7 +93,7 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
         createHttpClient(
             json = get(),
             enableNetworkLogs = enableNetworkLogs,
-            baseUrl = baseUrl
+            baseUrl = baseUrl,
         )
     }
 }
@@ -112,7 +113,6 @@ fun createHttpClient(
     }
     if (enableNetworkLogs) {
         install(Logging) {
-
         }
     }
 
@@ -133,7 +133,7 @@ fun gymPlannerModule() = module {
             dataStoreRepository = get(),
             defaultBookingRepository = get(),
             profileRepository = get(),
-            defaultAvailabilityRepository = get()
+            defaultAvailabilityRepository = get(),
         )
     }
 }
@@ -172,11 +172,11 @@ fun profileModule(baseUrl: String) = module {
         ProfileRemoteDataSource(
             httpClient = get(),
             baseUrl = baseUrl,
-            dataStoreRepository = get()
+            dataStoreRepository = get(),
         )
     }
     single<ProfileRepository> {
-       DefaultProfileRepository()
+        DefaultProfileRepository()
     }
 }
 
@@ -184,7 +184,7 @@ fun authenticationModule(baseUrl: String) = module {
     single {
         AuthenticationRemoteDataSource(
             baseurl = baseUrl,
-            httpClient = get()
+            httpClient = get(),
         )
     }
     single<AuthenticationRepository> {
@@ -220,8 +220,8 @@ fun databaseModule(dataStore: DataStore<Preferences>) = module {
                 DurationRealmDto::class,
                 GymLocationRealmDto::class,
                 GymLocationsRealmDto::class,
-                PersonalTrainersRealmDto::class
-            )
+                PersonalTrainersRealmDto::class,
+            ),
         )
         Realm.open(configuration)
     }

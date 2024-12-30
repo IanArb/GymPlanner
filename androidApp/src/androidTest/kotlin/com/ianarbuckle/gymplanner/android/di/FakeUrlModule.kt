@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [UrlModule::class]
+    replaces = [UrlModule::class],
 )
 class FakeUrlModule {
 

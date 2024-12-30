@@ -8,8 +8,6 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.format
-import kotlinx.datetime.format.DateTimeFormat
-import kotlinx.datetime.format.DateTimeFormatBuilder
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toJavaLocalDate
@@ -22,27 +20,27 @@ import java.util.Locale
 
 fun LocalDateTime.dayOfWeekDisplayName(
     textStyle: TextStyle,
-    locale: Locale =  Locale.getDefault()
+    locale: Locale = Locale.getDefault(),
 ): String {
     return this.dayOfWeek.getDisplayName(textStyle, locale)
 }
 
 fun LocalDateTime.monthDisplayName(
     textStyle: TextStyle,
-    locale: Locale =  Locale.getDefault()
+    locale: Locale = Locale.getDefault(),
 ): String {
     return this.month.getDisplayName(textStyle, locale)
 }
 
 fun differenceInDays(
     startDate: LocalDate,
-    endDate: LocalDate
+    endDate: LocalDate,
 ): Int {
     return startDate.daysUntil(endDate)
 }
 
 fun parseToLocalDateTime(
-    input: String
+    input: String,
 ): LocalDateTime {
     return LocalDateTime.parse(input, LocalDateTime.Formats.ISO)
 }
@@ -61,6 +59,7 @@ fun LocalDateTime.calendarMonth(): String {
     return this.toJavaLocalDateTime().format(formatter)
 }
 
+@Suppress("MagicNumber")
 fun currentWeekDates(): List<String> {
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val firstDayOfWeek = currentDate.minus(currentDate.dayOfWeek.ordinal.toLong(), DateTimeUnit.DAY)
@@ -76,13 +75,6 @@ fun String.isCurrentDay(): Boolean {
     val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
     val currentDay = currentDate.toJavaLocalDate().format(dateFormat)
     return currentDay == this
-}
-
-fun parseDate(input: String): String {
-    val inputFormatter = DateTimeFormatter.ofPattern("EEE\ndd", Locale.getDefault())
-    val outputFormatter = DateTimeFormatter.ofPattern("dd-MM", Locale.getDefault())
-    val date = java.time.LocalDate.parse(input, inputFormatter)
-    return date.format(outputFormatter)
 }
 
 fun convertDate(input: String): String {

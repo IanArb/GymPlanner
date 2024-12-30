@@ -15,19 +15,19 @@ fun LoadingButton(
     text: String,
     isLoading: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
-        enabled = !isLoading
+        enabled = !isLoading,
     ) {
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .size(24.dp)
                     .padding(end = 8.dp),
-                strokeWidth = 2.dp
+                strokeWidth = 2.dp,
             )
         }
         Text(text)
@@ -36,10 +36,13 @@ fun LoadingButton(
 
 @Preview
 @Composable
-fun LoadingButtonPreview() {
+private fun LoadingButtonPreview(
+    modifier: Modifier = Modifier,
+) {
     LoadingButton(
         text = "Click me",
         isLoading = false,
-        onClick = {}
+        modifier = modifier,
+        onClick = {},
     )
 }

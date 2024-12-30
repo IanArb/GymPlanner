@@ -8,5 +8,5 @@ data class FaultReportDto(
     val machineNumber: Int,
     val description: String,
     val photoUri: String,
-    val date: String
+    val date: String,
 )

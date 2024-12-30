@@ -12,7 +12,7 @@ class BookingVerifier(private val composeTestRule: ComposeTestRule) {
 
     fun verifyPersonalTrainerNameAndDescription(
         name: String,
-        qualifications: List<String>
+        qualifications: List<String>,
     ) {
         val items = qualifications.joinToString(", ")
         composeTestRule.onNodeWithText(name)
@@ -38,5 +38,4 @@ class BookingVerifier(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText(month)
             .assertExists()
     }
-
 }

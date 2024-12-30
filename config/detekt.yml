@@ -1,0 +1,72 @@
+build:
+  maxIssues: 0
+  weights:
+    complexity: 2
+    LongParameterList: 1
+    style: 1
+  excludeCorrectable: false
+
+config:
+  validation: true
+
+processors:
+  active: true
+  exclude:
+    - 'FunctionCountProcessor'
+    - 'PropertyCountProcessor'
+    - 'ClassCountProcessor'
+    - 'PackageCountProcessor'
+    - 'KtFileCountProcessor'
+
+console-reports:
+  active: true
+
+output-reports:
+  active: true
+  exclude:
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    - 'FindingsReport'
+    - 'BuildFailureReport'
+
+style:
+  MagicNumber:
+    active: true
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: true
+    ignoreConstantDeclaration: true
+    ignoreAnnotation: true
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  MaxLineLength:
+    active: true
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  UnusedPrivateMember:
+    active: false
+
+complexity:
+  TooManyFunctions:
+    active: true
+    thresholdInFiles: 15
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  LongMethod:
+    active: true
+    threshold: 100
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  LongParameterList:
+    active: true
+    functionThreshold: 10
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  LargeClass:
+    active: true
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+  ComplexCondition:
+    active: true
+    threshold: 5
+    excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
+
+naming:
+  FunctionNaming:
+    active: false
+  TopLevelPropertyNaming:
+    active: false

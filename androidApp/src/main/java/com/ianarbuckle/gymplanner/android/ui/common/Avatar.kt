@@ -20,9 +20,9 @@ import com.ianarbuckle.gymplanner.android.R
 @Composable
 fun Avatar(
     imageUrl: String,
+    modifier: Modifier = Modifier,
     contentDescription: String? = null,
     isAvailable: Boolean = false,
-    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.size(100.dp)) {
         AsyncImage(
@@ -41,7 +41,7 @@ fun Avatar(
                     .offset(x = (-16).dp)
                     .clip(CircleShape)
                     .background(Color.Green)
-                    .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomEnd),
             )
         }
     }
@@ -49,7 +49,7 @@ fun Avatar(
 
 @Preview
 @Composable
-fun AvatarPreview() {
+private fun AvatarPreview() {
     Avatar(
         imageUrl = "https://www.example.com/image.jpg",
         contentDescription = "Avatar",

@@ -31,6 +31,4 @@ class DashboardVerifier(private val testComposeRule: ComposeTestRule) {
         testComposeRule.onNodeWithContentDescription(contentDescription)
             .assertIsDisplayed()
     }
-
-
 }

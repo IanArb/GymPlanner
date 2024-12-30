@@ -10,7 +10,7 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [LoginModule::class]
+    replaces = [LoginModule::class],
 )
 class FakeLoginModule {
 
@@ -18,5 +18,4 @@ class FakeLoginModule {
     fun providesAuthenticationRepository(): AuthenticationRepository {
         return FakeAuthenticationRepository()
     }
-
 }

@@ -3,11 +3,6 @@ package com.ianarbuckle.gymplanner.faultreporting
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReportMapper.toFaultReport
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.coroutines.CancellationException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

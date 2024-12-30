@@ -38,12 +38,12 @@ class PersonalTrainersInstrumentedTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore()  }
+        single<DataStore<Preferences>> { FakeDataStore() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     @BindValue
@@ -71,15 +71,15 @@ class PersonalTrainersInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            gymLocations = DataProvider.gymLocations()
+            gymLocations = DataProvider.gymLocations(),
         )
 
         coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Success(
-            personalTrainers = DataProvider.personalTrainers()
+            personalTrainers = DataProvider.personalTrainers(),
         )
 
         personalTrainersRobot.apply {
@@ -103,11 +103,11 @@ class PersonalTrainersInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            gymLocations = DataProvider.gymLocations()
+            gymLocations = DataProvider.gymLocations(),
         )
 
         coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Failure
@@ -131,15 +131,15 @@ class PersonalTrainersInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            gymLocations = DataProvider.gymLocations()
+            gymLocations = DataProvider.gymLocations(),
         )
 
         coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Success(
-            personalTrainers = DataProvider.personalTrainers()
+            personalTrainers = DataProvider.personalTrainers(),
         )
 
         personalTrainersRobot.apply {

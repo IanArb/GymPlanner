@@ -15,5 +15,4 @@ class GymLocationsModule {
     fun providesGymLocationsRepository(): GymLocationsRepository {
         return DefaultGymLocationsRepository()
     }
-
 }
