@@ -39,7 +39,7 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
         run: |
-          echo "${{ secrets.FIREBASE_AUTH_KEY }}" > firebase-key.json
+          echo "$FIREBASE_KEY_JSON" | base64 --decode > firebase-key.json
 
       # Step 5: Run tests on Firebase Test Lab
       - name: Run Instrumentation Tests
