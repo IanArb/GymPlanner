@@ -35,7 +35,7 @@ fun ImagePlaceholder(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         if (imageBitmap != null) {
             Image(
@@ -43,7 +43,7 @@ fun ImagePlaceholder(
                 contentDescription = "Photo",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(200.dp),
             )
         } else {
             ImageSelection(
@@ -55,15 +55,11 @@ fun ImagePlaceholder(
                 Text(
                     text = "Please provide a photo",
                     color = Color.Red,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
                 )
             }
         }
     }
-
-
-
-
 }
 
 @Composable
@@ -72,7 +68,7 @@ private fun ImageSelection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
             text = "Take a photo",
@@ -98,14 +94,13 @@ private fun ImageSelection(
             Spacer(modifier = Modifier.padding(8.dp))
             Icon(
                 imageVector = Icons.Filled.AddCircle,
-                contentDescription = "Add photo"
+                contentDescription = "Add photo",
             )
         }
     }
 }
 
 const val ImageSelectionTestTag = "ImageSelection"
-
 
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -116,7 +111,7 @@ private fun ImagePlaceholderPreview() {
             ImagePlaceholder(
                 imageBitmap = null,
                 isImageError = false,
-                onPhotoClick = {}
+                onPhotoClick = {},
             )
         }
     }
