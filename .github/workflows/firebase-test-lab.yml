@@ -44,7 +44,7 @@ jobs:
       # Step 5: Run tests on Firebase Test Lab
       - name: Run Instrumentation Tests
         run: |
-          gcloud auth activate-service-account --key-file=firebase-key.json
+          gcloud auth activate-service-account --key file=firebase-key.json
           gcloud --quiet config set project ${{ secrets.FIREBASE_PROJECT_ID }}
           gcloud firebase test android run \
             --type instrumentation \
