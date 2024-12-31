@@ -1,0 +1,61 @@
+name: Run Firebase Test Lab Instrumentation Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    name: Run UI Tests on Firebase Test Lab
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Java and Android SDK
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+
+      # Step 3: Build the app and test APK
+      - name: Build app and test APK
+        run: |
+          ./gradlew assembleDebug
+          ./gradlew assembleAndroidTest
+
+      # Step 4: Authenticate with Firebase
+      - name: Authenticate with Firebase
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
+        run: |
+          echo "${{ secrets.FIREBASE_AUTH_KEY }}" > firebase-key.json
+
+      # Step 5: Run tests on Firebase Test Lab
+      - name: Run Instrumentation Tests
+        run: |
+          gcloud auth activate-service-account --key-file=firebase-key.json
+          gcloud --quiet config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app app/build/outputs/apk/debug/app-debug.apk \
+            --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+            --device model=Pixel6,version=31,locale=en,orientation=portrait \
+            --timeout 5m
+
+      # Step 6: Archive test results
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: firebase-test-results
+          path: .
