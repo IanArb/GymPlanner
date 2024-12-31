@@ -3,6 +3,7 @@ package com.ianarbuckle.gymplanner.android.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import java.io.File
@@ -18,12 +19,14 @@ private fun saveBitmapToFile(context: Context, bitmap: Bitmap, fileName: String)
     val file = File(context.cacheDir, fileName)
     return try {
         val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, ImageQuality, outputStream)
         outputStream.flush()
         outputStream.close()
         Uri.fromFile(file)
     } catch (e: IOException) {
-        e.printStackTrace()
+        Log.e("BitmapUriKt", "Error saving bitmap to file", e)
         null
     }
 }
+
+private const val ImageQuality = 100

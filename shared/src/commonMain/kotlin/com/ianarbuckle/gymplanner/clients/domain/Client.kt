@@ -3,7 +3,6 @@ package com.ianarbuckle.gymplanner.clients.domain
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.serialization.Serializable
 
-
 data class Client(
     val firstName: String,
     val surname: String,
@@ -33,7 +32,7 @@ data class PersonalTrainer(
 
 data class Session(
     val name: String,
-    val workout: List<Workout>
+    val workout: List<Workout>,
 )
 
 data class Workout(
@@ -48,4 +47,3 @@ data class Weight(
     val value: Double,
     val unit: String,
 )
-

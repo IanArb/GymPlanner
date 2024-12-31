@@ -15,7 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.BookPersonalTrainerCard
-import com.ianarbuckle.gymplanner.android.dashboard.presentation.GymClassesContent
+import com.ianarbuckle.gymplanner.android.dashboard.presentation.GymClassesCarousel
 import gymplanner.utils.DataProvider
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule
@@ -54,9 +54,9 @@ class DashboardContentScreenshotTests {
         composeTestRule.setContent {
             ScreenTestPreview {
                 Surface {
-                    BookPersonalTrainerCard {
-
-                    }
+                    BookPersonalTrainerCard(
+                        onBookPersonalTrainerClick = { },
+                    )
                 }
             }
         }
@@ -70,9 +70,9 @@ class DashboardContentScreenshotTests {
         composeTestRule.setContent {
             ScreenTestPreview(isDarkTheme = true) {
                 Surface {
-                    BookPersonalTrainerCard {
-
-                    }
+                    BookPersonalTrainerCard(
+                        onBookPersonalTrainerClick = { },
+                    )
                 }
             }
         }
@@ -87,11 +87,11 @@ class DashboardContentScreenshotTests {
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(350.dp),
                 ) {
-                    GymClassesContent(DataProvider.carouselItems()) {
-
-                    }
+                    GymClassesCarousel(
+                        classesCarouselItems = DataProvider.carouselItems(),
+                    )
                 }
             }
         }
@@ -107,11 +107,11 @@ class DashboardContentScreenshotTests {
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(350.dp),
                 ) {
-                    GymClassesContent(DataProvider.carouselItems()) {
-
-                    }
+                    GymClassesCarousel(
+                        classesCarouselItems = DataProvider.carouselItems(),
+                    )
                 }
             }
         }

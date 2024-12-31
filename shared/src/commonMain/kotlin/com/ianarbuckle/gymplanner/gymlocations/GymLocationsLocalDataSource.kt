@@ -13,23 +13,23 @@ import kotlinx.coroutines.flow.map
 
 class GymLocationsLocalDataSource(private val realm: Realm) {
 
-        suspend fun saveGymLocation(gymLocations: GymLocations) {
-            realm.write {
-                this.copyToRealm(gymLocations.transformToGymLocationsRealm())
-            }
+    suspend fun saveGymLocation(gymLocations: GymLocations) {
+        realm.write {
+            this.copyToRealm(gymLocations.transformToGymLocationsRealm())
         }
+    }
 
-        fun gymLocations(): Flow<List<GymLocations>> {
-            return realm.query<GymLocationsRealmDto>().asFlow()
-                .map {
-                    when (it) {
-                        is InitialResults -> {
-                            it.transformToGymLocations()
-                        }
-                        is UpdatedResults -> {
-                            it.transformToGymLocations()
-                        }
+    fun gymLocations(): Flow<List<GymLocations>> {
+        return realm.query<GymLocationsRealmDto>().asFlow()
+            .map {
+                when (it) {
+                    is InitialResults -> {
+                        it.transformToGymLocations()
+                    }
+                    is UpdatedResults -> {
+                        it.transformToGymLocations()
                     }
                 }
-        }
+            }
+    }
 }

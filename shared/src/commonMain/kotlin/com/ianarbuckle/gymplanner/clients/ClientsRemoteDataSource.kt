@@ -16,7 +16,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.path
-import kotlinx.collections.immutable.ImmutableList
 
 class ClientsRemoteDataSource(
     private val baseurl: String,
@@ -98,5 +97,4 @@ class ClientsRemoteDataSource(
     companion object {
         private const val ENDPOINT = "/api/v1/clients"
     }
-
 }

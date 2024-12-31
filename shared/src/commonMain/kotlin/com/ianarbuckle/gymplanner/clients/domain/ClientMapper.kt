@@ -70,7 +70,7 @@ object ClientMapper {
             firstName = clientDto.firstName,
             surname = clientDto.surname,
             strengthLevel = clientDto.strengthLevel,
-            gymPlan = transformToGymPlanModel(clientDto.gymPlan)
+            gymPlan = transformToGymPlanModel(clientDto.gymPlan),
         )
     }
 
@@ -78,7 +78,7 @@ object ClientMapper {
         return sessions.map { session ->
             SessionDto(
                 name = session.name,
-                workouts = transformWorkouts(session.workouts)
+                workouts = transformWorkouts(session.workouts),
             )
         }
     }
@@ -100,7 +100,7 @@ object ClientMapper {
                 firstName = client.firstName,
                 surname = client.surname,
                 strengthLevel = client.strengthLevel,
-                gymPlan = transformToGymPlanModel(client.gymPlan)
+                gymPlan = transformToGymPlanModel(client.gymPlan),
             )
         }
     }
@@ -120,7 +120,7 @@ object ClientMapper {
     private fun mapWeight(weight: WeightRealmDto?): WeightDto {
         return WeightDto(
             value = weight?.value ?: 0.0,
-            unit = weight?.unit ?: ""
+            unit = weight?.unit ?: "",
         )
     }
 }

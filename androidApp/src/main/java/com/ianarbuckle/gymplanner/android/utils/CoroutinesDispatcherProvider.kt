@@ -7,7 +7,7 @@ import javax.inject.Inject
 data class CoroutinesDispatcherProvider(
     val main: CoroutineDispatcher,
     val computation: CoroutineDispatcher,
-    val io: CoroutineDispatcher
+    val io: CoroutineDispatcher,
 ) {
 
     @Inject

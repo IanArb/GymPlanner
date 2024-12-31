@@ -5,6 +5,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,11 +16,11 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun GymLocationsScreen(
-    gymLocationsViewModel: GymLocationsViewModel = hiltViewModel(),
     contentPadding: PaddingValues,
-    onNavigateTo: (String) -> Unit
+    onNavigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    gymLocationsViewModel: GymLocationsViewModel = hiltViewModel(),
 ) {
-
     LaunchedEffect(true) {
         gymLocationsViewModel.fetchGymLocations()
     }
@@ -27,32 +28,38 @@ fun GymLocationsScreen(
     when (val uiState = gymLocationsViewModel.uiState.collectAsState().value) {
         is GymLocationsUiState.Failure -> {
             RetryErrorScreen(
-                text = "Failed to retrieve gym locations."
-            ) {
-                gymLocationsViewModel.fetchGymLocations()
-            }
+                text = "Failed to retrieve gym locations.",
+                modifier = modifier,
+                onClick = {
+                    gymLocationsViewModel.fetchGymLocations()
+                },
+            )
         }
 
         is GymLocationsUiState.Success -> {
             GymLocationsSelection(
+                modifier = modifier,
                 innerPadding = contentPadding,
                 gyms = uiState.gymLocations.toImmutableList(),
-            ) {
-                onNavigateTo(it.title)
-            }
+                onClick = {
+                    onNavigateTo(it.title)
+                },
+            )
         }
 
         is GymLocationsUiState.Loading -> {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                modifier = modifier,
+            )
         }
     }
 }
 
 @Composable
 @Preview
-fun GymLocationsScreenPreview() {
+private fun GymLocationsScreenPreview() {
     GymLocationsScreen(
         contentPadding = PaddingValues(16.dp),
-        onNavigateTo = {}
+        onNavigateTo = {},
     )
 }

@@ -51,7 +51,7 @@ class PersonalTrainersScreenshotTests {
                         personalTrainer = DataProvider.personalTrainers().first(),
                         onSocialLinkClick = { },
                         onBookTrainerClick = { },
-                        onItemClick = { }
+                        onItemClick = { },
                     )
                 }
             }
@@ -70,7 +70,7 @@ class PersonalTrainersScreenshotTests {
                         personalTrainer = DataProvider.personalTrainers().first(),
                         onSocialLinkClick = { },
                         onBookTrainerClick = { },
-                        onItemClick = { }
+                        onItemClick = { },
                     )
                 }
             }

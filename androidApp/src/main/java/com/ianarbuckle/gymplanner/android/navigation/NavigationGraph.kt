@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Home
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -42,7 +41,7 @@ data class BookTrainerScreen(
     val personalTrainerId: String,
     val name: String,
     val imageUrl: String,
-    val qualifications: List<String>
+    val qualifications: List<String>,
 )
 
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
@@ -61,6 +60,6 @@ fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
             title = "Personal Trainers",
             selectedIcon = Icons.Filled.Face,
             unselectedIcon = Icons.Outlined.Face,
-        )
+        ),
     )
 }

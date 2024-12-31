@@ -25,9 +25,8 @@ class FakeBookingRepository : BookingRepository {
                 bookingDate = "2022-01-01",
                 bookingTime = "12:00",
                 personalTrainerName = "Jane Doe",
-                status = BookingStatus.CONFIRMED
-            )
+                status = BookingStatus.CONFIRMED,
+            ),
         )
     }
-
 }

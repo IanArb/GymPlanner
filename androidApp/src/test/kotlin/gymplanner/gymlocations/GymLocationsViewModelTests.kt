@@ -1,7 +1,6 @@
 package gymplanner.gymlocations
 
 import app.cash.turbine.test
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
@@ -24,14 +23,14 @@ class GymLocationsViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val gymLocationsRepository = mockk<GymLocationsRepository>()
 
     private val viewModel: GymLocationsViewModel = GymLocationsViewModel(
         gymLocationsRepository = gymLocationsRepository,
-        coroutinesDispatcherProvider = dispatcherProvider
+        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test

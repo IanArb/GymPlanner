@@ -3,15 +3,9 @@ package com.ianarbuckle.gymplanner.clients
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.ClientUiModelMapper.transformToClient
-import io.ktor.client.call.NoTransformationFoundException
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpRequestTimeoutException
-import io.ktor.client.plugins.ResponseException
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CancellationException
-import okio.IOException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -79,5 +73,4 @@ class DefaultClientsRepository : ClientsRepository, KoinComponent {
             return Result.failure(ex)
         }
     }
-
 }

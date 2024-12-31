@@ -15,11 +15,11 @@ class FakeDataStoreRepository : DataStoreRepository {
     }
 
     override suspend fun getStringData(key: Preferences.Key<String>): String? {
-         return when (key) {
-             stringPreferencesKey("user_id") -> return "123"
-             stringPreferencesKey("auth_token") -> return "token"
-             else -> null
-         }
+        return when (key) {
+            stringPreferencesKey("user_id") -> return "123"
+            stringPreferencesKey("auth_token") -> return "token"
+            else -> null
+        }
     }
 
     override suspend fun getBooleanData(key: Preferences.Key<Boolean>): Boolean? {

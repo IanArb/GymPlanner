@@ -34,25 +34,24 @@ fun PersonalTrainersDetail(
     name: String,
     bio: String,
     imageUrl: String,
-    modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onBookClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(contentPadding)
+        modifier = modifier.padding(contentPadding),
     ) {
         Box(
-            modifier = modifier
-                .fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth(),
         ) {
-
             AsyncImage(
                 model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(300.dp),
             )
 
             Text(
@@ -62,39 +61,39 @@ fun PersonalTrainersDetail(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(8.dp)
-                    .padding(8.dp)
+                    .padding(8.dp),
             )
 
             IconButton(
                 onClick = onBackClick,
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier.align(Alignment.TopStart),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = Color.White
+                    tint = Color.White,
                 )
             }
         }
 
         Text(
             text = bio,
-            modifier = modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxHeight(),
         ) {
             Button(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
                     .fillMaxWidth(),
-                onClick = { onBookClick() }
+                onClick = { onBookClick() },
             ) {
                 Text(text = "Book now")
             }
@@ -104,13 +103,13 @@ fun PersonalTrainersDetail(
 
 @Preview
 @Composable
-fun PersonalTrainerDetailPreview() {
+private fun PersonalTrainerDetailPreview() {
     GymAppTheme {
         Column(
             modifier =
             Modifier
                 .padding(16.dp)
-                .background(surfaceLight)
+                .background(surfaceLight),
         ) {
             val personalTrainer = DataProvider.personalTrainers().first()
             PersonalTrainersDetail(
@@ -119,9 +118,8 @@ fun PersonalTrainerDetailPreview() {
                 name = personalTrainer.firstName + " " + personalTrainer.lastName,
                 bio = personalTrainer.bio,
                 onBookClick = { },
-                onBackClick = { }
+                onBackClick = { },
             )
         }
-
     }
 }

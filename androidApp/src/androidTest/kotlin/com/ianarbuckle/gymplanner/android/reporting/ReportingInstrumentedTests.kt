@@ -51,12 +51,12 @@ class ReportingInstrumentedTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore()  }
+        single<DataStore<Preferences>> { FakeDataStore() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
@@ -108,7 +108,7 @@ class ReportingInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         reportingRobot.apply {
@@ -128,14 +128,14 @@ class ReportingInstrumentedTests {
                 machineNumber = 123,
                 description = "Broken machine",
                 photoUri = "scheme://path",
-                date = "2021-09-01"
-            )
+                date = "2021-09-01",
+            ),
         )
 
         reportingVerifier.apply {
             verifyFormSuccessResponse(
                 machineNumber = "123",
-                description = "Broken machine"
+                description = "Broken machine",
             )
         }
     }
@@ -149,7 +149,7 @@ class ReportingInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         reportingRobot.apply {

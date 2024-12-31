@@ -54,7 +54,6 @@ class GymLocationsScreenshotTests {
                             subTitle = "SubTitle",
                         )
                     }
-
                 }
             }
         }
@@ -81,5 +80,4 @@ class GymLocationsScreenshotTests {
 
         composeTestRule.onRoot().captureRoboImage()
     }
-
 }

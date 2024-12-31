@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
 import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
@@ -20,10 +21,11 @@ import com.ianarbuckle.gymplanner.availability.domain.Time
 @Composable
 fun BookingScreen(
     paddingValues: PaddingValues,
-    bookingViewModel: BookingViewModel = hiltViewModel(),
     name: String,
     imageUrl: String,
     qualifications: List<String>,
+    modifier: Modifier = Modifier,
+    bookingViewModel: BookingViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         bookingViewModel.fetchAvailability()
@@ -39,13 +41,14 @@ fun BookingScreen(
 
     when (bookingState.value) {
         is BookingUiState.Idle -> {
-            //noop
+            // noop
         }
 
         is BookingUiState.Loading -> {
             Column(
+                modifier = modifier,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 CircularProgressIndicator()
             }
@@ -55,14 +58,15 @@ fun BookingScreen(
         }
         is BookingUiState.Failed -> {
             RetryErrorScreen(
+                modifier = modifier,
                 text = "Failed to load availability",
-            ) {
-                //TODO retry
-            }
+                onClick = {
+                    bookingViewModel.fetchAvailability()
+                },
+            )
         }
 
         is BookingUiState.BookingsSuccess -> {
-
         }
 
         is BookingUiState.AvailabilitySuccess -> {
@@ -89,6 +93,7 @@ fun BookingScreen(
                 selectedDate = selectedDate.value,
                 selectedTimeSlot = selectedTimeSlot.value,
                 isAvailable = isAvailable,
+                modifier = modifier,
                 onSelectedDateChange = {
                     selectedDate.value = it
                 },
@@ -96,8 +101,7 @@ fun BookingScreen(
                     selectedTimeSlot.value = it
                 },
                 onBookClick = {
-
-                }
+                },
             )
         }
     }

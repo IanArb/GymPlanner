@@ -36,12 +36,12 @@ class GymLocationsInstrumentedTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore()  }
+        single<DataStore<Preferences>> { FakeDataStore() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     @BindValue
@@ -65,11 +65,11 @@ class GymLocationsInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            DataProvider.gymLocations()
+            DataProvider.gymLocations(),
         )
 
         gymLocationsRobot.apply {
@@ -91,7 +91,7 @@ class GymLocationsInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Failure
@@ -105,5 +105,4 @@ class GymLocationsInstrumentedTests {
             verifyErrorStateIsDisplayed()
         }
     }
-
 }

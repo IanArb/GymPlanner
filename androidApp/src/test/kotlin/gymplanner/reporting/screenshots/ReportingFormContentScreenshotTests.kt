@@ -56,7 +56,7 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -82,7 +82,7 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -109,7 +109,7 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -136,7 +136,7 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -162,16 +162,16 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormResponseCard(
                         faultReport = FaultReport(
                             machineNumber = 1,
                             description = "description",
                             photoUri = "https://www.example.com/image.jpg",
-                            date = "2022-01-01"
+                            date = "2022-01-01",
                         ),
-                        onClick = { }
+                        onClick = { },
                     )
                 }
             }
@@ -187,16 +187,16 @@ class ReportingFormContentScreenshotTests {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormResponseCard(
                         faultReport = FaultReport(
                             machineNumber = 1,
                             description = "description",
                             photoUri = "https://www.example.com/image.jpg",
-                            date = "2022-01-01"
+                            date = "2022-01-01",
                         ),
-                        onClick = { }
+                        onClick = { },
                     )
                 }
             }

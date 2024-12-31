@@ -4,13 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
 import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
-import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
 import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 import com.ianarbuckle.gymplanner.booking.BookingRepository
+import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
@@ -33,7 +33,7 @@ class BookingViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val bookingRepository: BookingRepository = mockk()
@@ -51,7 +51,7 @@ class BookingViewModelTests {
         availabilityRepository = availabilityRepository,
         savedStateHandle = savedStateHandle,
         clock = clock,
-        dispatcherProvider = dispatcherProvider
+        dispatcherProvider = dispatcherProvider,
     )
 
     @Test
@@ -62,11 +62,11 @@ class BookingViewModelTests {
         coEvery { availabilityRepository.checkAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = personalTrainerId,
-                isAvailable = true
-            )
+                isAvailable = true,
+            ),
         )
         coEvery { availabilityRepository.getAvailability(personalTrainerId, currentDateTime.calendarMonth()) } returns Result.success(
-            DataProvider.availability()
+            DataProvider.availability(),
         )
 
         viewModel.fetchAvailability()
@@ -113,8 +113,8 @@ class BookingViewModelTests {
         coEvery { availabilityRepository.checkAvailability(any(), any()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = "trainer123",
-                isAvailable = true
-            )
+                isAvailable = true,
+            ),
         )
         coEvery { availabilityRepository.getAvailability(any(), any()) } returns Result.success(mockk())
 
@@ -137,8 +137,8 @@ class BookingViewModelTests {
         coEvery { availabilityRepository.checkAvailability(any(), any()) } returns Result.success(
             CheckAvailability(
                 personalTrainerId = "trainer123",
-                isAvailable = true
-            )
+                isAvailable = true,
+            ),
         )
         coEvery { availabilityRepository.getAvailability(any(), any()) } returns Result.success(mockk())
 

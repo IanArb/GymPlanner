@@ -3,7 +3,6 @@ package com.ianarbuckle.gymplanner.android.login.data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
@@ -38,7 +37,7 @@ class LoginViewModel @Inject constructor(
                     dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
                     _loginState.update {
                         LoginState.Success(
-                            response = response
+                            response = response,
                         )
                     }
                 },
@@ -46,7 +45,7 @@ class LoginViewModel @Inject constructor(
                     _loginState.update {
                         LoginState.Error
                     }
-                }
+                },
             )
         }
     }

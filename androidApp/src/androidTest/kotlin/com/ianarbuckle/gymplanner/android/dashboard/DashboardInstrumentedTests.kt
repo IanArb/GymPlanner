@@ -34,12 +34,12 @@ class DashboardInstrumentedTests {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore()  }
+        single<DataStore<Preferences>> { FakeDataStore() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     @BindValue
@@ -58,7 +58,7 @@ class DashboardInstrumentedTests {
 
         coEvery { viewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses().toImmutableList(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         dashboardVerifier.apply {

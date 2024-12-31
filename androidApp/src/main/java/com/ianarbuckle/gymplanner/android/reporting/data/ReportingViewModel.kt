@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.reporting.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
@@ -17,7 +16,7 @@ import javax.inject.Inject
 class ReportingViewModel @Inject constructor(
     private val faultReportingRepository: FaultReportingRepository,
     private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider,
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<FormFaultReportUiState>(FormFaultReportUiState.FormIdle)
 

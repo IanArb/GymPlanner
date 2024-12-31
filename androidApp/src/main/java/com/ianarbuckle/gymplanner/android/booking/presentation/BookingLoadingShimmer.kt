@@ -16,7 +16,7 @@ fun BookingLoadingShimmer(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier.padding(paddingValues)
+        modifier.padding(paddingValues),
     ) {
         PersonalTrainerCard(
             personalTrainerLabel = "",
@@ -24,20 +24,19 @@ fun BookingLoadingShimmer(
             name = "",
             qualifications = emptyList(),
             isAvailable = false,
-            modifier = Modifier.shimmer()
+            modifier = Modifier.shimmer(),
         )
     }
 }
 
 @Preview
 @Composable
-fun BookingLoadingShimmerPreview() {
+private fun BookingLoadingShimmerPreview() {
     GymAppTheme {
         Scaffold {
             BookingLoadingShimmer(
-                paddingValues = it
+                paddingValues = it,
             )
         }
     }
-
 }

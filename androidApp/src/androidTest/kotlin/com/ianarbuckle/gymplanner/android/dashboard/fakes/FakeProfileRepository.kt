@@ -17,7 +17,7 @@ class FakeProfileRepository : ProfileRepository {
                 "Ian",
                 "Arbuckle",
                 "ian@mail.com",
-            )
+            ),
         )
     }
 }

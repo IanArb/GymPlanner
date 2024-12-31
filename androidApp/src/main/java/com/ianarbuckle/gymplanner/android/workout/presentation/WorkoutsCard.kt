@@ -24,35 +24,37 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.clients.domain.Session
 
 @Composable
 fun WorkoutsCard(
     sessions: List<Session>,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier,
+    ) {
         items(sessions) { session ->
             Card(
                 onClick = { onClick() },
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp
+                    defaultElevation = 4.dp,
                 ),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White,
                 ),
-                modifier = modifier
-                    .fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth(),
             ) {
                 Row {
                     Text(
                         text = session.name,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = modifier
+                        modifier = Modifier
                             .weight(1f)
                             .padding(start = 16.dp, top = 16.dp),
                     )
@@ -60,11 +62,11 @@ fun WorkoutsCard(
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
                         contentDescription = "Add",
-                        modifier = modifier.padding(end = 8.dp, top = 16.dp)
+                        modifier = Modifier.padding(end = 8.dp, top = 16.dp),
                     )
                 }
 
-                Spacer(modifier = modifier.padding(4.dp))
+                Spacer(modifier = Modifier.padding(4.dp))
 
                 session.workout.map { workout ->
                     Column(modifier = Modifier.padding(start = 16.dp)) {
@@ -76,10 +78,9 @@ fun WorkoutsCard(
                     }
                 }
 
-                Spacer(modifier = modifier.padding(4.dp))
-
+                Spacer(modifier = Modifier.padding(4.dp))
             }
-            Spacer(modifier = modifier.padding(6.dp))
+            Spacer(modifier = Modifier.padding(6.dp))
         }
     }
 }
@@ -87,16 +88,19 @@ fun WorkoutsCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun GymPlanWorkoutsCardPreview() {
+private fun GymPlanWorkoutsCardPreview() {
     GymAppTheme {
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text("Gym Plan") })
-            }
+            },
         ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
-                WorkoutsCard(sessions = DataProvider.sessions()) {
-                }
+                WorkoutsCard(
+                    sessions = DataProvider.sessions(),
+                    onClick = {
+                    },
+                )
             }
         }
     }

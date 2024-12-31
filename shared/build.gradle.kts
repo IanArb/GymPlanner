@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.realm)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.detekt)
 }
 
 kotlin {
@@ -14,11 +16,11 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -48,10 +50,10 @@ kotlin {
             // Datetime
             implementation(libs.kotlinx.datetime)
 
-            //Koin
+            // Koin
             api(libs.koin.core)
 
-            //Datastore
+            // Datastore
             api(libs.androidx.datastore.preferences)
             api(libs.androidx.datastore.preferences.core)
 
@@ -95,4 +97,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+}
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        ktlint("0.48.2").userData(mapOf("android" to "true"))
+    }
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint("0.48.2")
+    }
+}
+
+detekt {
+    toolVersion = "1.23.7"
+    config = files("$rootDir/config/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
+    autoCorrect = true
 }

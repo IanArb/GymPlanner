@@ -3,10 +3,10 @@ package gymplanner.login
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
-import com.ianarbuckle.gymplanner.authentication.domain.Login
-import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
@@ -28,7 +28,7 @@ class LoginViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val authenticationRepository = mockk<AuthenticationRepository>()
@@ -36,14 +36,14 @@ class LoginViewModelTests {
     private val viewModel: LoginViewModel = LoginViewModel(
         authenticationRepository = authenticationRepository,
         dataStoreRepository = dataStoreRepository,
-        dispatchers = dispatcherProvider
+        dispatchers = dispatcherProvider,
     )
 
     @Test
     fun `login should update loginState to Success when API call succeeds`() = runTest {
         // Arrange
         val login = Login("username", "password")
-        val loginResponse = LoginResponse("token", "userId",500L)
+        val loginResponse = LoginResponse("token", "userId", 500L)
         coEvery { authenticationRepository.login(login) } returns Result.success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit

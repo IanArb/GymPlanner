@@ -7,10 +7,10 @@ data class FitnessClass(
     val endTime: String,
     val imageUrl: String,
     val name: String,
-    val startTime: String
+    val startTime: String,
 )
 
 data class Duration(
     val unit: String,
-    val value: Int
+    val value: Int,
 )

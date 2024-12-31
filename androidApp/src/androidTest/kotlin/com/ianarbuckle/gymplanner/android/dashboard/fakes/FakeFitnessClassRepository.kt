@@ -19,13 +19,13 @@ class FakeFitnessClassRepository : FitnessClassRepository {
 
     private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {
         return Result.success(
-            DataProvider.fitnessClasses()
+            DataProvider.fitnessClasses(),
         )
     }
 
     private fun mockFitnessClassFailure(): Result<ImmutableList<FitnessClass>> {
         return Result.failure(
-            Exception("Error")
+            Exception("Error"),
         )
     }
 }

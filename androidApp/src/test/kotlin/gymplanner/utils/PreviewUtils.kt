@@ -6,10 +6,10 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Composable
 fun ScreenTestPreview(
     isDarkTheme: Boolean = false,
-    slot: @Composable () -> Unit = {}
+    slot: @Composable () -> Unit = {},
 ) {
     GymAppTheme(
-        darkTheme = isDarkTheme
+        darkTheme = isDarkTheme,
     ) {
         slot()
     }

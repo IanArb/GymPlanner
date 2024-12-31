@@ -21,7 +21,7 @@ class NavigationViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val dataStoreRepository = mockk<DataStoreRepository>()
@@ -44,7 +44,7 @@ class NavigationViewModelTests {
     @Test
     fun `init should update rememberMe to false when fetchRememberMe returns false`() = runTest {
         // Arrange
-        coEvery {dataStoreRepository.getBooleanData(REMEMBER_ME_KEY)} returns false
+        coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns false
 
         // Act
         val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)

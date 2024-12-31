@@ -6,18 +6,18 @@ data class Availability(
     val id: String,
     val month: String,
     val personalTrainerId: String,
-    val slots: ImmutableList<Slot>
+    val slots: ImmutableList<Slot>,
 )
 
 data class Slot(
     val date: String,
     val id: String,
-    val times: ImmutableList<Time>
+    val times: ImmutableList<Time>,
 )
 
 data class Time(
     val id: String,
     val endTime: String,
     val startTime: String,
-    val status: String
+    val status: String,
 )

@@ -32,17 +32,17 @@ fun PersonalTrainerCard(
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
+            defaultElevation = 8.dp,
         ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
         modifier = modifier
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         Box(
-            modifier = modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center,
         ) {
             PersonalTrainer(
                 personalTrainerLabel = personalTrainerLabel,
@@ -50,11 +50,10 @@ fun PersonalTrainerCard(
                 imageUrl = imageUrl,
                 qualifications = qualifications,
                 isAvailable = isAvailable,
-                modifier = modifier
             )
         }
 
-        Spacer(modifier = modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(8.dp))
     }
 }
 
@@ -79,36 +78,35 @@ fun PersonalTrainer(
             isAvailable = isAvailable,
         )
 
-        Spacer(modifier = modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         Text(
             text = name,
             style = MaterialTheme.typography.titleMedium,
         )
 
-        Spacer(modifier = modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         Text(
             text = personalTrainerLabel,
             style = MaterialTheme.typography.bodyMedium,
         )
 
-        Spacer(modifier = modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         Text(
             text = qualifications.joinToString(", "),
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 3,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
-
     }
 }
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PersonalTrainerCardPreview() {
+private fun PersonalTrainerCardPreview() {
     GymAppTheme {
         Surface {
             PersonalTrainerCard(
@@ -116,7 +114,7 @@ fun PersonalTrainerCardPreview() {
                 name = "John Doe",
                 imageUrl = "https://example.com/image.jpg",
                 qualifications = listOf("qualification1", "qualification2"),
-                isAvailable = true
+                isAvailable = true,
             )
         }
     }

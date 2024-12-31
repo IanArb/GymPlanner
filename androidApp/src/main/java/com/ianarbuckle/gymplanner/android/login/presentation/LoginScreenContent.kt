@@ -1,7 +1,16 @@
 package com.ianarbuckle.gymplanner.android.login.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,8 +22,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -23,7 +35,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,29 +42,28 @@ import coil.compose.SubcomposeAsyncImage
 import com.ianarbuckle.gymplanner.android.ui.common.LoadingButton
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
+@Suppress("LongParameterList", "LongMethod", "MaxLineLength")
 @Composable
 fun LoginScreenContent(
     innerPaddingValues: PaddingValues,
     username: String,
-    onUsernameChange: (String) -> Unit,
     password: String,
+    rememberMe: Boolean,
+    onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onRememberMeChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
     onLoginClick: () -> Unit = {},
     isUsernameValid: Boolean = true,
     isPasswordValid: Boolean = true,
-    onUsernameInvalid: (Boolean) -> Unit = {},
-    onPasswordInvalid: (Boolean) -> Unit = {},
     isLoading: Boolean = false,
     showError: Boolean = false,
-    rememberMe: Boolean,
-    onRememberMeChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(innerPaddingValues)
             .fillMaxSize()
             .background(Color.White),
@@ -74,7 +84,7 @@ fun LoginScreenContent(
                 ) {
                     Text("Error loading image")
                 }
-            }
+            },
         )
         Column(
             modifier = Modifier
@@ -102,7 +112,7 @@ fun LoginScreenContent(
                 Text(
                     "Username is required",
                     color = MaterialTheme.colorScheme.error,
-                    modifier = modifier.padding(start = 4.dp)
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -125,7 +135,7 @@ fun LoginScreenContent(
                 Text(
                     "Password is required",
                     color = MaterialTheme.colorScheme.error,
-                    modifier = modifier.padding(start = 4.dp)
+                    modifier = Modifier.padding(start = 4.dp),
                 )
             }
 
@@ -135,18 +145,17 @@ fun LoginScreenContent(
                 Text(
                     text = "Error logging in. Please try again.",
                     color = MaterialTheme.colorScheme.error,
-                    modifier = modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
             }
 
-
             Spacer(modifier = Modifier.height(16.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
                     checked = rememberMe,
-                    onCheckedChange = onRememberMeChange
+                    onCheckedChange = onRememberMeChange,
                 )
                 Text("Remember Me")
             }
@@ -154,7 +163,7 @@ fun LoginScreenContent(
                 text = if (isLoading) "" else "Login",
                 isLoading = isLoading,
                 onClick = onLoginClick,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -163,22 +172,20 @@ fun LoginScreenContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun LoginScreenPreview() {
+private fun LoginScreenPreview() {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var isUsernameValid by rememberSaveable { mutableStateOf(false) }
     var isPasswordValid by rememberSaveable { mutableStateOf(false) }
     var rememberMe by rememberSaveable { mutableStateOf(true) }
 
-    val focusManager = LocalFocusManager.current
-
     GymAppTheme {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Login") }
+                    title = { Text("Login") },
                 )
-            }
+            },
         ) { innerPadding ->
             LoginScreenContent(
                 innerPaddingValues = innerPadding,
@@ -189,8 +196,6 @@ fun LoginScreenPreview() {
                 onLoginClick = {},
                 isUsernameValid = isUsernameValid,
                 isPasswordValid = isPasswordValid,
-                onUsernameInvalid = { isUsernameValid = it },
-                onPasswordInvalid = { isPasswordValid = it },
                 rememberMe = rememberMe,
                 showError = true,
                 onRememberMeChange = { rememberMe = it },

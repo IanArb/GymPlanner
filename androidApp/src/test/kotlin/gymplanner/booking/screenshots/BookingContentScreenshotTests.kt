@@ -17,24 +17,19 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarHeader
+import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarWeekDaysRow
 import com.ianarbuckle.gymplanner.android.booking.presentation.PersonalTrainerCard
-import com.ianarbuckle.gymplanner.android.booking.presentation.TimeSlotsGrid
+import com.ianarbuckle.gymplanner.android.booking.presentation.TimeSlotsBox
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule
 import gymplanner.utils.ScreenTestPreview
 import gymplanner.utils.createComposeTestRule
 import gymplanner.utils.createRoborazziRule
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.KoinTest
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 
@@ -66,7 +61,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = true
+                        isAvailable = true,
                     )
                 }
             }
@@ -85,7 +80,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = false
+                        isAvailable = false,
                     )
                 }
             }
@@ -105,7 +100,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = true
+                        isAvailable = true,
                     )
                 }
             }
@@ -125,7 +120,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = false
+                        isAvailable = false,
                     )
                 }
             }
@@ -143,9 +138,9 @@ class BookingContentScreenshotTests {
             ScreenTestPreview {
                 Column(
                     Modifier
-                        .background(MaterialTheme.colorScheme.surface)
-                )  {
-                    CalendarHeader(
+                        .background(MaterialTheme.colorScheme.surface),
+                ) {
+                    CalendarWeekDaysRow(
                         daysOfWeek = daysOfWeek,
                         pagerState = pagerState,
                         selectedDate = "2024-12-12",
@@ -169,9 +164,9 @@ class BookingContentScreenshotTests {
                 Column(
                     Modifier
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(bottom = 16.dp)
-                ){
-                    CalendarHeader(
+                        .padding(bottom = 16.dp),
+                ) {
+                    CalendarWeekDaysRow(
                         daysOfWeek = daysOfWeek,
                         pagerState = pagerState,
                         selectedDate = "2024-12-12",
@@ -191,12 +186,12 @@ class BookingContentScreenshotTests {
                 Column(
                     Modifier
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp),
                 ) {
-                    TimeSlotsGrid(
+                    TimeSlotsBox(
                         availableTimes = timeSlots,
-                        selectedTimeSlot = "07:00 AM",
-                        onTimeSlotClick = {}
+                        selectedTimeSlotId = "07:00 AM",
+                        onTimeSlotClick = {},
                     )
                 }
             }
@@ -212,12 +207,12 @@ class BookingContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     Modifier
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.surface),
                 ) {
-                    TimeSlotsGrid(
+                    TimeSlotsBox(
                         availableTimes = timeSlots,
-                        selectedTimeSlot = "07:00 AM",
-                        onTimeSlotClick = {}
+                        selectedTimeSlotId = "07:00 AM",
+                        onTimeSlotClick = {},
                     )
                 }
             }
@@ -228,8 +223,13 @@ class BookingContentScreenshotTests {
 
     companion object {
         val daysOfWeek: List<String> = listOf(
-            "2024-12-08", "2024-12-09", "2024-12-10",
-            "2024-12-11", "2024-12-12", "2024-12-13", "2024-12-14"
+            "2024-12-08",
+            "2024-12-09",
+            "2024-12-10",
+            "2024-12-11",
+            "2024-12-12",
+            "2024-12-13",
+            "2024-12-14",
         )
 
         private val availableTimes: List<String> = listOf(
@@ -244,9 +244,8 @@ class BookingContentScreenshotTests {
                 id = it,
                 startTime = it,
                 endTime = it,
-                status = "AVAILABLE"
+                status = "AVAILABLE",
             )
         }
     }
-
 }

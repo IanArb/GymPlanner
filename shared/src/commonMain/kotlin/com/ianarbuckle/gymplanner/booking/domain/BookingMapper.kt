@@ -17,7 +17,7 @@ object BookingMapper {
             bookingDate = this.bookingDate,
             bookingTime = this.startTime,
             personalTrainerName = personalTrainerName,
-            status = this.bookingStatus.toBookingStatus()
+            status = this.bookingStatus.toBookingStatus(),
         )
     }
 
@@ -36,7 +36,7 @@ object BookingMapper {
             client = this.client.toClientDto(),
             bookingDate = this.bookingDate,
             startTime = this.startTime,
-            personalTrainer = this.personalTrainer.toPersonalTrainerDto()
+            personalTrainer = this.personalTrainer.toPersonalTrainerDto(),
         )
     }
 
@@ -46,7 +46,7 @@ object BookingMapper {
             firstName = this.firstName,
             surname = this.surname,
             email = this.email,
-            gymLocation = this.gymLocation
+            gymLocation = this.gymLocation,
         )
     }
 
@@ -56,7 +56,7 @@ object BookingMapper {
             firstName = this.firstName,
             surname = this.surname,
             imageUrl = this.imageUrl,
-            gymLocation = this.gymLocation
+            gymLocation = this.gymLocation,
         )
     }
 
@@ -65,7 +65,7 @@ object BookingMapper {
             client = this.client.toClient(),
             bookingDate = this.bookingDate,
             startTime = this.startTime,
-            personalTrainer = this.personalTrainer.toPersonalTrainer()
+            personalTrainer = this.personalTrainer.toPersonalTrainer(),
         )
     }
 
@@ -75,7 +75,7 @@ object BookingMapper {
             firstName = this.firstName,
             surname = this.surname,
             email = this.email,
-            gymLocation = this.gymLocation
+            gymLocation = this.gymLocation,
         )
     }
 
@@ -85,7 +85,7 @@ object BookingMapper {
             firstName = this.firstName,
             surname = this.surname,
             imageUrl = this.imageUrl,
-            gymLocation = this.gymLocation
+            gymLocation = this.gymLocation,
         )
     }
 }

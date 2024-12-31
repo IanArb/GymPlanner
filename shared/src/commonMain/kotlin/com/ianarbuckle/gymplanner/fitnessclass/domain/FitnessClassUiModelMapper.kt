@@ -13,14 +13,14 @@ object FitnessClassUiModelMapper {
             imageUrl = imageUrl,
             startTime = startTime,
             endTime = endTime,
-            duration = durationDto.transformDuration()
+            duration = durationDto.transformDuration(),
         )
     }
 
     private fun DurationDto.transformDuration(): Duration {
         return Duration(
             value = value,
-            unit = unit
+            unit = unit,
         )
     }
 }

@@ -30,10 +30,10 @@ import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 @Composable
 fun PersonalTrainerItem(
     personalTrainer: PersonalTrainer,
-    modifier: Modifier = Modifier,
     onSocialLinkClick: (String) -> Unit,
     onBookTrainerClick: (PersonalTrainer) -> Unit,
     onItemClick: (Triple<String, String, String>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
@@ -44,41 +44,40 @@ fun PersonalTrainerItem(
                     Triple(
                         personalTrainer.firstName + " " + personalTrainer.lastName,
                         personalTrainer.bio,
-                        personalTrainer.imageUrl
-                    )
+                        personalTrainer.imageUrl,
+                    ),
                 )
             },
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
+            defaultElevation = 6.dp,
         ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-
             Row {
                 Avatar(
                     imageUrl = personalTrainer.imageUrl,
                     contentDescription = personalTrainer.firstName,
                 )
 
-                Column(modifier = modifier.padding(start = 16.dp)) {
+                Column(modifier = Modifier.padding(start = 16.dp)) {
                     Text(
                         text = personalTrainer.firstName + " " + personalTrainer.lastName,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
-                    Spacer(modifier = modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(2.dp))
                     Text(
                         text = "Qualifications",
-                        style = MaterialTheme.typography.titleSmall
+                        style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
                         text = personalTrainer.qualifications.joinToString(", "),
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
                     )
 
-                    Spacer(modifier = modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(2.dp))
 
                     val socials = personalTrainer.socials
 
@@ -87,25 +86,33 @@ fun PersonalTrainerItem(
 
                         Text(
                             text = "Socials",
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.titleSmall,
                         )
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Start
+                            horizontalArrangement = Arrangement.Start,
                         ) {
                             Row(modifier = Modifier.padding(top = 10.dp, end = 6.dp)) {
                                 socials.entries.forEachIndexed { index, social ->
                                     when (social.key) {
                                         "instagram" -> {
-                                            SocialImage(socials = social, drawable = R.drawable.ic_instagram) {
-                                                onSocialLinkClick(social.value)
-                                            }
+                                            SocialImage(
+                                                socials = social,
+                                                drawable = R.drawable.ic_instagram,
+                                                onSocialLinkClick = {
+                                                    onSocialLinkClick(social.value)
+                                                },
+                                            )
                                         }
                                         "tiktok" -> {
-                                            SocialImage(socials = social, drawable = R.drawable.ic_tiktok) {
-                                                onSocialLinkClick(social.value)
-                                            }
+                                            SocialImage(
+                                                socials = social,
+                                                drawable = R.drawable.ic_tiktok,
+                                                onSocialLinkClick = {
+                                                    onSocialLinkClick(social.value)
+                                                },
+                                            )
                                         }
                                     }
                                     if (index < socials.size - 1) {
@@ -121,10 +128,11 @@ fun PersonalTrainerItem(
             Spacer(modifier = Modifier.padding(8.dp))
 
             Button(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     onBookTrainerClick(personalTrainer)
-                }) {
+                },
+            ) {
                 Text("Book now")
             }
         }
@@ -135,8 +143,8 @@ fun PersonalTrainerItem(
 private fun SocialImage(
     socials: Map.Entry<String, String>,
     drawable: Int,
+    onSocialLinkClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onSocialLinkClick: (String) -> Unit
 ) {
     Image(
         painter = painterResource(id = drawable),
@@ -145,14 +153,14 @@ private fun SocialImage(
             .size(24.dp)
             .clickable {
                 onSocialLinkClick(socials.value)
-            }
+            },
     )
 }
 
 @Preview(showBackground = true, name = "Light Mode")
 @Preview(showBackground = true, name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PersonalTrainerItemPreview() {
+private fun PersonalTrainerItemPreview() {
     GymAppTheme {
         Surface {
             PersonalTrainerItem(
@@ -163,11 +171,11 @@ fun PersonalTrainerItemPreview() {
                     imageUrl = "https://www.example.com/image.jpg",
                     qualifications = listOf("Qualification 1", "Qualification 2"),
                     socials = mapOf("instagram" to "https://www.instagram.com", "tiktok" to "https://www.tiktok.com"),
-                    gymLocation = GymLocation.CLONTARF
+                    gymLocation = GymLocation.CLONTARF,
                 ),
                 onSocialLinkClick = { },
                 onBookTrainerClick = { },
-                onItemClick = { }
+                onItemClick = { },
             )
         }
     }

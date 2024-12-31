@@ -14,9 +14,4 @@ class GymPlannerModule {
     fun providesCurrentClock(): Clock {
         return Clock.System
     }
-
-    companion object {
-        private const val BASE_URL = "https://5a7d-86-45-28-173.ngrok-free.app"
-        const val MONTH_KEY = "MONTH"
-    }
 }

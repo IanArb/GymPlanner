@@ -9,7 +9,7 @@ object FaultReportMapper {
             description = description,
             photoUri = photoUri,
             machineNumber = machineNumber,
-            date = date
+            date = date,
         )
     }
 }

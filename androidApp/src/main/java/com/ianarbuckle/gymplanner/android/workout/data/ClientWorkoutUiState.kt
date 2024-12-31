@@ -3,11 +3,10 @@ package com.ianarbuckle.gymplanner.android.workout.data
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import kotlinx.collections.immutable.ImmutableList
 
-
 sealed interface ClientWorkoutUiState {
 
     class ClientClientWorkout(
-        val clients: ImmutableList<Client>
+        val clients: ImmutableList<Client>,
     ) : ClientWorkoutUiState
 
     data object Failure : ClientWorkoutUiState

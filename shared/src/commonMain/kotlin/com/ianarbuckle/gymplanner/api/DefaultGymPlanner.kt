@@ -46,7 +46,7 @@ class DefaultGymPlanner(
     private val profileRepository: ProfileRepository,
     private val defaultAvailabilityRepository: DefaultAvailabilityRepository,
     private val dataStoreRepository: DataStoreRepository,
-    ) : GymPlanner, KoinComponent {
+) : GymPlanner, KoinComponent {
 
     override suspend fun fetchAllClients(): Result<ImmutableList<Client>> {
         return clientsRepository.fetchClients()
@@ -160,14 +160,14 @@ class DefaultGymPlanner(
 
     override suspend fun fetchAvailability(
         personalTrainerId: String,
-        month: String
+        month: String,
     ): Result<Availability> {
         return defaultAvailabilityRepository.getAvailability(personalTrainerId, month)
     }
 
     override suspend fun checkAvailability(
         personalTrainerId: String,
-        month: String
+        month: String,
     ): Result<CheckAvailability> {
         return defaultAvailabilityRepository.checkAvailability(
             personalTrainerId = personalTrainerId,

@@ -16,21 +16,18 @@ import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.immutableListOf
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.random.Random
 
 object DataProvider {
 
     fun client(
-        id: String = Random.nextInt().toString(),
         firstName: String = "Pablo",
         surname: String = "Escobar",
         strength: String = "advanced",
         name: String = "December Strength Training",
         startDate: String = "2022-03-20T15:00",
         endDate: String = "2022-04-20T15:00",
-        sessions: List<Session> = sessions()
+        sessions: List<Session> = sessions(),
     ) = Client(
         firstName = firstName,
         surname = surname,
@@ -39,22 +36,22 @@ object DataProvider {
             name = name,
             startDate = startDate,
             endDate = endDate,
-            sessions = sessions
-        )
+            sessions = sessions,
+        ),
     )
 
     fun gymPlan(
         name: String = "December Strength Training",
         startDate: String = "2022-03-20T15:00",
         endDate: String = "2022-04-20T15:00",
-        sessions: List<Session> = emptyList()
+        sessions: List<Session> = emptyList(),
     ): GymPlan {
         return GymPlan(
             name = name,
             personalTrainer = personalTrainer(),
             startDate = startDate,
             endDate = endDate,
-            sessions = sessions
+            sessions = sessions,
         )
     }
 
@@ -63,7 +60,7 @@ object DataProvider {
         lastName: String = "Feynda",
         bio: String = "Hey, I'm Vini. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
         imageUrl: String = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
-        socials: Map<String, String> = mapOf()
+        socials: Map<String, String> = mapOf(),
     ) = PersonalTrainer(
         firstName = firstName,
         lastName = lastName,
@@ -84,37 +81,37 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 25.0, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Decline Bench Press",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Cable Push down",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Cluster set"
+                        note = "Cluster set",
                     ),
                     Workout(
                         name = "Triceps overhead extensions",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Cluster set"
+                        note = "Cluster set",
                     ),
                     Workout(
                         name = "Single arm kick back",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Cluster set"
-                    )
-                )
+                        note = "Cluster set",
+                    ),
+                ),
             ),
             Session(
                 "Back and Biceps",
@@ -124,44 +121,44 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Wide grip"
+                        note = "Wide grip",
                     ),
                     Workout(
                         name = "Lat Pull down",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Machine (cluster)"
+                        note = "Machine (cluster)",
                     ),
                     Workout(
                         name = "Dumbbell row",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Lower extension",
                         sets = 3,
                         repetitions = 15,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Concentration curl",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Cable curl",
                         sets = 3,
                         repetitions = 15,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
-                    )
-                )
+                        note = "",
+                    ),
+                ),
             ),
             Session(
                 "Legs",
@@ -171,44 +168,44 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Good morning",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Leg press",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Hamstring curls",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Leg Extensions single",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Lunges",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
-                    )
-                )
+                        note = "",
+                    ),
+                ),
             ),
             Session(
                 "Shoulders",
@@ -218,23 +215,23 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Lateral Raise cable",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
-                    )
-                )
+                        note = "",
+                    ),
+                ),
             ),
             Session(
                 "Chest and Triceps",
@@ -244,37 +241,37 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Machine"
+                        note = "Machine",
                     ),
                     Workout(
                         name = "Dumbbell pullover",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Smith machine chest press",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Triceps dip",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Cable over head & bench dip combo",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
-                    )
-                )
+                        note = "",
+                    ),
+                ),
             ),
             Session(
                 "Legs",
@@ -284,37 +281,37 @@ object DataProvider {
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Split squat",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Machine"
+                        note = "Machine",
                     ),
                     Workout(
                         name = "Low bar squat",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Hip thrust",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = ""
+                        note = "",
                     ),
                     Workout(
                         name = "Calves push up",
                         sets = 4,
                         repetitions = 10,
                         weight = Weight(value = 12.5, unit = "kg"),
-                        note = "Machine"
-                    )
-                )
+                        note = "Machine",
+                    ),
+                ),
             ),
         )
     }
@@ -330,8 +327,8 @@ object DataProvider {
                 endTime = "17:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "MONDAY",
@@ -342,8 +339,8 @@ object DataProvider {
                 endTime = "18:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "TUESDAY",
@@ -354,8 +351,8 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "WEDNESDAY",
@@ -366,8 +363,8 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "THURSDAY",
@@ -378,8 +375,8 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "FRIDAY",
@@ -390,8 +387,8 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "SATURDAY",
@@ -402,8 +399,8 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
+                    unit = "SECONDS",
+                ),
             ),
             FitnessClass(
                 dayOfWeek = "SUNDAY",
@@ -414,9 +411,9 @@ object DataProvider {
                 endTime = "20:00",
                 duration = Duration(
                     value = 0,
-                    unit = "SECONDS"
-                )
-            )
+                    unit = "SECONDS",
+                ),
+            ),
         )
     }
 
@@ -464,7 +461,7 @@ object DataProvider {
     fun personalTrainers(): PersistentList<PersonalTrainer> {
         val socials = mapOf(
             "instagram" to "https://www.instagram.com/vinifeynda",
-            "tiktok" to "https://www.tiktok.com/@crash.gear"
+            "tiktok" to "https://www.tiktok.com/@crash.gear",
         )
         return persistentListOf(
             PersonalTrainer(
@@ -482,13 +479,15 @@ object DataProvider {
                 bio = "Hey, I'm Sinead. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
                 socials = socials,
-                qualifications = listOf("LesMillis BodyAttack",
+                qualifications = listOf(
+                    "LesMillis BodyAttack",
                     "LesMillis BodyPump",
                     "LesMillis The Trip",
                     "LesMillis BodyBalance",
                     "LesMillis Dance",
                     "LesMillis Sprint",
-                    "LesMillis BodyCombat"),
+                    "LesMillis BodyCombat",
+                ),
                 gymLocation = GymLocation.CLONTARF,
             ),
             PersonalTrainer(
@@ -515,13 +514,15 @@ object DataProvider {
                 bio = "Hey, I'm Jane. I'm a personal trainer with over 10 years of experience. I'm here to help you achieve your fitness goals.",
                 imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
                 socials = mapOf(),
-                qualifications = listOf("LesMillis BodyAttack",
+                qualifications = listOf(
+                    "LesMillis BodyAttack",
                     "LesMillis BodyPump",
                     "LesMillis The Trip",
                     "LesMillis BodyBalance",
                     "LesMillis Dance",
                     "LesMillis Sprint",
-                    "LesMillis BodyCombat"),
+                    "LesMillis BodyCombat",
+                ),
                 gymLocation = GymLocation.LEOPARDSTOWN,
             ),
             PersonalTrainer(
@@ -537,8 +538,13 @@ object DataProvider {
     }
 
     val daysOfWeek: List<String> = listOf(
-        "2024-12-08", "2024-12-09", "2024-12-10",
-        "2024-12-11", "2024-12-12", "2024-12-13", "2024-12-14"
+        "2024-12-08",
+        "2024-12-09",
+        "2024-12-10",
+        "2024-12-11",
+        "2024-12-12",
+        "2024-12-13",
+        "2024-12-14",
     )
 
     val availableTimes: List<String> = listOf(
@@ -570,77 +576,77 @@ object DataProvider {
                             id = "123",
                             endTime = "06:30 AM",
                             startTime = "06:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "07:00 AM",
                             startTime = "06:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "07:30 AM",
                             startTime = "07:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "08:00 AM",
                             startTime = "07:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "08:30 AM",
                             startTime = "08:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "09:00 AM",
                             startTime = "08:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "09:30 AM",
                             startTime = "09:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "10:00 AM",
                             startTime = "09:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "10:30 AM",
                             startTime = "10:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "11:00 AM",
                             startTime = "10:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "11:30 AM",
                             startTime = "11:00 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
                         Time(
                             id = "123",
                             endTime = "12:00 PM",
                             startTime = "11:30 AM",
-                            status = "AVAILABLE"
+                            status = "AVAILABLE",
                         ),
-                    )
-                )
-            )
+                    ),
+                ),
+            ),
         )
     }
 }

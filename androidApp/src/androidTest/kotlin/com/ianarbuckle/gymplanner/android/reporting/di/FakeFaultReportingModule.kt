@@ -9,7 +9,7 @@ import dagger.hilt.testing.TestInstallIn
 
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [FaultReportingModule::class]
+    replaces = [FaultReportingModule::class],
 )
 @Module
 class FakeFaultReportingModule {
@@ -18,5 +18,4 @@ class FakeFaultReportingModule {
     fun provideFaultReportingRepository(): FaultReportingRepository {
         return FakeFaultRepository()
     }
-
 }

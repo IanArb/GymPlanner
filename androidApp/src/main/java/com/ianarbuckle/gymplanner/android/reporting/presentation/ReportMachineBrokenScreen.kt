@@ -19,10 +19,11 @@ import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.utils.imageBitmapToUri
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
+@Suppress("LongMethod")
 @Composable
 fun ReportMachineBrokenScreen(
-    reportingViewModel: ReportingViewModel = hiltViewModel(),
     contentPadding: PaddingValues,
+    reportingViewModel: ReportingViewModel = hiltViewModel(),
 ) {
     var machineNumber by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
@@ -37,7 +38,7 @@ fun ReportMachineBrokenScreen(
     var hasPhotoInteracted by rememberSaveable { mutableStateOf(false) }
 
     val launchCamera = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview()
+        contract = ActivityResultContracts.TakePicturePreview(),
     ) { bitmap ->
         imageBitmap = bitmap
     }
@@ -74,28 +75,28 @@ fun ReportMachineBrokenScreen(
                     launchCamera.launch()
                 },
                 onSendClick = {
-
-                }
+                },
             )
         }
 
         is FormFaultReportUiState.FormSuccess -> {
             ReportingFormResponse(
                 innerPadding = contentPadding,
-                faultReport = value.data
-            ) {
-                machineNumber = ""
-                description = ""
-                imageBitmap = null
-                isLoading = false
-                hasFailed = false
-                isMachineNumberValid = false
-                isDescriptionValid = false
-                isImageBitMapValid = false
-                hasMachineNumberInteracted = false
-                hasDescriptionInteracted = false
-                hasPhotoInteracted = false
-            }
+                faultReport = value.data,
+                onClick = {
+                    machineNumber = ""
+                    description = ""
+                    imageBitmap = null
+                    isLoading = false
+                    hasFailed = false
+                    isMachineNumberValid = false
+                    isDescriptionValid = false
+                    isImageBitMapValid = false
+                    hasMachineNumberInteracted = false
+                    hasDescriptionInteracted = false
+                    hasPhotoInteracted = false
+                },
+            )
         }
 
         is FormFaultReportUiState.FormError -> {
@@ -142,13 +143,13 @@ fun ReportMachineBrokenScreen(
                                 description = description,
                                 photoUri = imageBitmap?.asImageBitmap()?.imageBitmapToUri(
                                     context,
-                                    "machine_fault_report-${machineNumber}.png"
+                                    "machine_fault_report-$machineNumber.png",
                                 ).toString(),
                                 date = System.currentTimeMillis().toString(),
-                            )
+                            ),
                         )
                     }
-                }
+                },
             )
         }
 
@@ -196,13 +197,13 @@ fun ReportMachineBrokenScreen(
                                 description = description,
                                 photoUri = imageBitmap?.asImageBitmap()?.imageBitmapToUri(
                                     context,
-                                    "machine_fault_report-${machineNumber}.png"
+                                    "machine_fault_report-$machineNumber.png",
                                 ).toString(),
                                 date = System.currentTimeMillis().toString(),
-                            )
+                            ),
                         )
                     }
-                }
+                },
             )
         }
     }

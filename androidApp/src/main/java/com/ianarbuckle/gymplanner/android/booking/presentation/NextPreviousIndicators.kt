@@ -26,7 +26,9 @@ fun NextPrevIndicators(
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
-    Row {
+    Row(
+        modifier = modifier,
+    ) {
         IconButton(
             onClick = {
                 if (pagerState.currentPage > 0) {
@@ -34,13 +36,13 @@ fun NextPrevIndicators(
                         pagerState.animateScrollToPage(pagerState.currentPage - 1)
                     }
                 }
-            }
+            },
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Previous",
-                modifier = modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurface
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -51,13 +53,13 @@ fun NextPrevIndicators(
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 }
-            }
+            },
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                 contentDescription = "Next",
-                modifier = modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurface
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         }
     }
@@ -66,9 +68,9 @@ fun NextPrevIndicators(
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun NextPreviousIndicatorsPreview() {
+private fun NextPreviousIndicatorsPreview() {
     val pagerState = rememberPagerState {
-        5
+        PageSize
     }
 
     GymAppTheme {
@@ -77,3 +79,5 @@ fun NextPreviousIndicatorsPreview() {
         }
     }
 }
+
+const val PageSize = 5

@@ -8,6 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,23 +23,29 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopNavigationBar(
     currentRoute: String?,
+    modifier: Modifier = Modifier,
     titleColor: Color = Color.Black,
     enableBackButton: Boolean = false,
     onBackClick: (() -> Unit)? = null,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Text(
                 text = when (currentRoute) {
                     DashboardScreen::class.qualifiedName -> "Dashboard"
                     ReportMachineBroken::class.qualifiedName -> "Report Machine"
                     GymLocationsScreen::class.qualifiedName -> "Gym Locations"
-                    PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") -> "Personal Trainers"
-                    BookTrainerScreen::class.qualifiedName.plus(("/{name}/{imageUrl}?qualifications={qualifications}")) -> "Book Trainer"
+                    PersonalTrainersScreen::class.qualifiedName
+                        .plus("/{gymLocation}"),
+                    -> "Personal Trainers"
+                    BookTrainerScreen::class.qualifiedName
+                        .plus(("/{name}/{imageUrl}?qualifications={qualifications}")),
+                    -> "Book Trainer"
                     else -> ""
                 },
                 color = titleColor,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         },
         navigationIcon = {
@@ -46,23 +53,23 @@ fun TopNavigationBar(
                 IconButton(onClick = { onBackClick?.invoke() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
                     )
                 }
             }
-        }
+        },
     )
 }
 
 @Preview
 @Composable
-fun NavigationBarPreview() {
+private fun NavigationBarPreview() {
     GymAppTheme {
         TopNavigationBar(
             currentRoute = DashboardScreen::class.qualifiedName,
             enableBackButton = true,
-            ) {
-            // No-op
-        }
+            onBackClick = {
+            },
+        )
     }
 }

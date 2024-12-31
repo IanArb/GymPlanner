@@ -25,28 +25,28 @@ class FakeAuthenticationRepository : AuthenticationRepository {
             LoginResponse(
                 "6730e1cb37f4352118e0c8e1",
                 "BNcSBPga34TCOk0FLJdTFvsp1RPi5RQ1K2quumdKsqOXv5yRqN7Ebm3aPHC1nqpfqNB2cGQdukJkIyPx0SmAxg",
-                10000
-            )
+                10000,
+            ),
         )
     }
 
     private fun mockLoginApiFailure(): Result<LoginResponse> {
         return Result.failure(
-            Exception("Error")
+            Exception("Error"),
         )
     }
 
     private fun mockRegisterApiSuccess(): Result<RegisterResponse> {
         return Result.success(
             RegisterResponse(
-                message = "Registered"
-            )
+                message = "Registered",
+            ),
         )
     }
 
     private fun mockRegisterApiFailure(): Result<RegisterResponse> {
         return Result.failure(
-            Exception("error")
+            Exception("error"),
         )
     }
 }

@@ -17,12 +17,12 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Composable
 fun EmptyWorkout(
     personalTrainerName: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("You have no gym program.")
         Text("Contact $personalTrainerName to add you a plan.")
@@ -32,14 +32,14 @@ fun EmptyWorkout(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun EmptyWorkoutPreview() {
+private fun EmptyWorkoutPreview() {
     GymAppTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Workouts") }) },
         ) { padding ->
             EmptyWorkout(
                 personalTrainerName = "Ian",
-                modifier = Modifier.padding(paddingValues = padding)
+                modifier = Modifier.padding(paddingValues = padding),
             )
         }
     }

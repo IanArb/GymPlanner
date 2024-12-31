@@ -57,13 +57,13 @@ class DashboardViewModel @Inject constructor(
                             onSuccess = { classes ->
                                 DashboardUiState.Success(
                                     items = classes.toImmutableList(),
-                                    profile = profile
+                                    profile = profile,
                                 )
                             },
-                            onFailure = { DashboardUiState.Failure }
+                            onFailure = { DashboardUiState.Failure },
                         )
                     },
-                    onFailure = { DashboardUiState.Failure }
+                    onFailure = { DashboardUiState.Failure },
                 )
 
                 _uiState.update { newState }
@@ -71,6 +71,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    @Suppress("ReturnCount")
     private suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
         val datetimeInSystemZone: LocalDateTime = clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
@@ -103,5 +104,4 @@ class DashboardViewModel @Inject constructor(
             }
         }
     }
-
 }

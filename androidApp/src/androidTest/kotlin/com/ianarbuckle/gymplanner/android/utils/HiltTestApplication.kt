@@ -13,7 +13,7 @@ class HiltTestApplication : Application() {
 
         initKoin(
             baseUrl = "http://localhost:8080/",
-            dataStore = FakeDataStore()
+            dataStore = FakeDataStore(),
         )
     }
 }

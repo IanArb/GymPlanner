@@ -22,13 +22,13 @@ class ReportingViewModelTests {
     private val dispatcherProvider = CoroutinesDispatcherProvider(
         testCoroutineRule.testDispatcher,
         testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher
+        testCoroutineRule.testDispatcher,
     )
 
     private val reportingRepository = mockk<FaultReportingRepository>()
     private val viewModel: ReportingViewModel = ReportingViewModel(
         faultReportingRepository = reportingRepository,
-        coroutinesDispatcherProvider = dispatcherProvider
+        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test
@@ -53,7 +53,9 @@ class ReportingViewModelTests {
     fun `submitFault should update uiState to FormError when API call fails`() = runTest {
         // Arrange
         val faultReport = mockk<FaultReport>()
-        coEvery { reportingRepository.saveFaultReport(faultReport) } returns Result.failure(Exception("Submission failed"))
+        coEvery {
+            reportingRepository.saveFaultReport(faultReport)
+        } returns Result.failure(Exception("Submission failed"))
 
         // Act
         viewModel.submitFault(faultReport)

@@ -47,5 +47,4 @@ class BookingRemoteDataSource(
     companion object {
         const val BOOKING_ENDPOINT = "/api/v1/booking"
     }
-
 }

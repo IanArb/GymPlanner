@@ -9,7 +9,6 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
-import io.ktor.http.parameters
 
 class AvailabilityRemoteDataSource(
     private val baseUrl: String,
@@ -46,5 +45,4 @@ class AvailabilityRemoteDataSource(
     private companion object {
         const val AVAILABILITY_ENDPOINT = "/api/v1/availability"
     }
-
 }

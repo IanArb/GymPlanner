@@ -24,40 +24,40 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Composable
 fun RetryErrorScreen(
     text: String,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    ) {
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text)
-        Row(modifier = Modifier.clickable {
-            onClick()
-        }) {
+        Row(
+            modifier = Modifier.clickable {
+                onClick()
+            },
+        ) {
             Text("Tap to retry")
             Spacer(modifier = Modifier.padding(6.dp))
             Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Retry icon")
         }
-
     }
 }
 
 @Preview
 @Composable
-fun EmptyWorkoutPreview() {
+private fun EmptyWorkoutPreview() {
     GymAppTheme {
         Column(
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier.background(Color.White),
         ) {
             RetryErrorScreen(
                 text = "Failed to retrieve you gym plan",
-                modifier = Modifier.padding(paddingValues = PaddingValues(16.dp))
-            ) {
-
-            }
+                modifier = Modifier.padding(paddingValues = PaddingValues(16.dp)),
+                onClick = {
+                },
+            )
         }
-
     }
 }

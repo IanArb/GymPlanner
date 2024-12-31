@@ -11,16 +11,16 @@ internal fun createRoborazziRule(): RoborazziRule {
             outputFileProvider = { description, outputDirectory, fileExtension ->
                 File(
                     outputDirectory,
-                    "${description.className}.${description.methodName}.$fileExtension"
+                    "${description.className}.${description.methodName}.$fileExtension",
                 )
             },
-            roborazziOptions = DefaultRoborazziOptions
-        )
+            roborazziOptions = DefaultRoborazziOptions,
+        ),
     )
 }
 
 private val DefaultRoborazziOptions: RoborazziOptions =
     RoborazziOptions(
         compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0.01f),
-        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5)
+        recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5),
     )

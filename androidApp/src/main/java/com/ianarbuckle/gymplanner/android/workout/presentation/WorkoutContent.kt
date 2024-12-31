@@ -20,17 +20,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.clients.domain.Client
 
 @Composable
 fun WorkoutContent(
     contentPadding: PaddingValues,
     client: Client,
+    onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier,
     enableViewAllButton: Boolean = true,
-    onViewAllClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -44,7 +44,7 @@ fun WorkoutContent(
                 fontSize = 16.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             if (enableViewAllButton) {
                 Text(
@@ -54,16 +54,16 @@ fun WorkoutContent(
                     color = Color.Blue,
                     modifier = Modifier.clickable {
                         onViewAllClick()
-                    }
+                    },
                 )
             }
         }
 
-        Spacer(modifier = modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
 
-        client.gymPlan?.let { WorkoutPlanInfo(it, modifier) }
+        client.gymPlan?.let { WorkoutPlanInfo(it) }
 
-        Spacer(modifier = modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
 
         Text(
             "Workouts",
@@ -73,17 +73,18 @@ fun WorkoutContent(
             overflow = TextOverflow.Ellipsis,
         )
 
-        Spacer(modifier = modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
 
         val sessions = client.gymPlan?.sessions ?: emptyList()
         if (sessions.isEmpty()) {
             EmptyWorkout(personalTrainerName = client.gymPlan?.personalTrainer?.firstName ?: "")
         } else {
-            WorkoutsCard(sessions) {
-
-            }
+            WorkoutsCard(
+                sessions = sessions,
+                onClick = { },
+                modifier = Modifier,
+            )
         }
-
     }
 }
 
@@ -91,17 +92,17 @@ fun WorkoutContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     GymAppTheme {
         Scaffold(
-            topBar = { TopAppBar(title = { Text("Gym Plan") }) }
+            topBar = { TopAppBar(title = { Text("Gym Plan") }) },
         ) {
             WorkoutContent(
                 it,
-                DataProvider.client()
-            ) {
-
-            }
+                DataProvider.client(),
+                onViewAllClick = {
+                },
+            )
         }
     }
 }

@@ -22,7 +22,7 @@ class GymPlannerApplication : BaseApplication() {
         super.onCreate()
         initKoin(
             baseUrl = baseUrl,
-            dataStore = dataStore
+            dataStore = dataStore,
         )
     }
 }

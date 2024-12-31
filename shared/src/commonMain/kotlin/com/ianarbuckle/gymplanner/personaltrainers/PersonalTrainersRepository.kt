@@ -34,5 +34,4 @@ class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinCompon
             return Result.failure(ex)
         }
     }
-
 }

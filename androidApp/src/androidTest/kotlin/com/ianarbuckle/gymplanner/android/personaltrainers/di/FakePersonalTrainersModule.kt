@@ -9,7 +9,7 @@ import dagger.hilt.testing.TestInstallIn
 
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [PersonalTrainersModule::class]
+    replaces = [PersonalTrainersModule::class],
 )
 @Module
 class FakePersonalTrainersModule {
@@ -18,5 +18,4 @@ class FakePersonalTrainersModule {
     fun providePersonalTrainersRepository(): PersonalTrainersRepository {
         return FakePersonalTrainersRepository()
     }
-
 }

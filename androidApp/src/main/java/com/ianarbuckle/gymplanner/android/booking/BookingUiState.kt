@@ -7,7 +7,7 @@ import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface BookingUiState {
-    data object Idle: BookingUiState
+    data object Idle : BookingUiState
 
     data class BookingSuccess(@Stable val booking: BookingResponse) : BookingUiState
 
@@ -19,6 +19,6 @@ sealed interface BookingUiState {
 
     data class AvailabilitySuccess(
         val availability: Availability,
-        val isPersonalTrainerAvailable: Boolean
+        val isPersonalTrainerAvailable: Boolean,
     ) : BookingUiState
 }

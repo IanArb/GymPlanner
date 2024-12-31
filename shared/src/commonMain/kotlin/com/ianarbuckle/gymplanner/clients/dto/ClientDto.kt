@@ -45,7 +45,7 @@ enum class GymLocationDto {
 @Serializable
 data class SessionDto(
     val name: String,
-    val workouts: List<WorkoutDto>
+    val workouts: List<WorkoutDto>,
 )
 
 @Serializable

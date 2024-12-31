@@ -48,7 +48,7 @@ class BookingInstrumentedTests {
 
     @get:Rule
     val koinTestRule = KoinTestRule(
-        modules = listOf(testModule)
+        modules = listOf(testModule),
     )
 
     @BindValue
@@ -71,7 +71,6 @@ class BookingInstrumentedTests {
 
     private val composeIdleResource = ComposeIdlingResource()
 
-
     @Before
     fun setUp() {
         IdlingRegistry.getInstance().register(composeIdleResource)
@@ -82,7 +81,7 @@ class BookingInstrumentedTests {
         IdlingRegistry.getInstance().unregister(composeIdleResource)
     }
 
-    @Ignore("Test is ignored because it is failing")
+    @Ignore("Test is ignored because it is flaky")
     @Test
     fun testBookingAvailabilitySuccessState() {
         loginRobot.apply {
@@ -92,20 +91,20 @@ class BookingInstrumentedTests {
 
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile()
+            profile = DataProvider.profile(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            gymLocations = DataProvider.gymLocations()
+            gymLocations = DataProvider.gymLocations(),
         )
 
         coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Success(
-            personalTrainers = DataProvider.personalTrainers()
+            personalTrainers = DataProvider.personalTrainers(),
         )
 
         coEvery { bookingViewModel.bookingState.value } returns BookingUiState.AvailabilitySuccess(
             availability = DataProvider.availability(),
-            isPersonalTrainerAvailable = true
+            isPersonalTrainerAvailable = true,
         )
 
         bookingRobot.apply {
@@ -124,11 +123,10 @@ class BookingInstrumentedTests {
             verifyCalendarMonth(month = "December")
             verifyPersonalTrainerNameAndDescription(
                 name = trainer.firstName.plus(" ").plus(trainer.lastName),
-                qualifications = trainer.qualifications
+                qualifications = trainer.qualifications,
             )
             verifyAvailableTimesSize(12)
             verifyCalendarGridSize(7)
         }
     }
-
 }

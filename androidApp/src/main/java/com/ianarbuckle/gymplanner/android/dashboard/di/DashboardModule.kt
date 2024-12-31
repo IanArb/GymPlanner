@@ -22,5 +22,4 @@ class DashboardModule {
     fun providesFitnessClassRepository(): FitnessClassRepository {
         return DefaultFitnessClassRepository()
     }
-
 }

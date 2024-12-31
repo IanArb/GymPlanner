@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.api
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.ianarbuckle.gymplanner.di.initKoin
 import org.koin.java.KoinJavaComponent
 
 actual object GymPlannerFactory {

@@ -23,6 +23,4 @@ class LoginRobot(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText("Login")
             .performClick()
     }
-
-
 }

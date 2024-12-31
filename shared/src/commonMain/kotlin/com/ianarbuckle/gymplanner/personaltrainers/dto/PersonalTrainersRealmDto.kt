@@ -14,6 +14,7 @@ class PersonalTrainersRealmDto : RealmObject {
     var lastName: String = ""
     var bio: String = ""
     var imageUrl: String = ""
+
     @Ignore
     var socials: RealmMap<String, String> = realmDictionaryOf()
     var qualifications: RealmList<String> = realmListOf()
