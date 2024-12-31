@@ -45,7 +45,7 @@ jobs:
       - name: Run Instrumentation Tests
         run: |
           gcloud auth activate-service-account --key-file=firebase-key.json
-          gcloud --quiet config set project "${{ secrets.FIREBASE_PROJECT_ID }}"
+          gcloud --quiet config set project gymplanner-f3267
           gcloud firebase test android run \
             --type instrumentation \
             --app androidApp/build/outputs/apk/debug/app-debug.apk \
