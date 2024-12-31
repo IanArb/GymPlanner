@@ -39,7 +39,7 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
         run: |
-          echo "$FIREBASE_KEY_JSON" | base64 --decode > firebase-key.json
+          echo "$FIREBASE_AUTH_KEY" | base64 --decode > firebase-key.json
 
       - name: Verify Firebase key
         run: |
