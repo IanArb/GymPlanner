@@ -73,52 +73,11 @@ fun FormCard(
                 modifier = Modifier,
             )
 
-            if (imageBitmap != null) {
-                Image(
-                    bitmap = imageBitmap,
-                    contentDescription = "Photo",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                )
-            } else {
-                Text(
-                    text = "Take a photo",
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                )
-
-                Spacer(modifier = Modifier.padding(2.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color.LightGray)
-                        .padding(16.dp)
-                        .testTag("ImageSelectionTestTag")
-                        .clickable {
-                            onPhotoClick()
-                        },
-                    horizontalAlignment = CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Spacer(modifier = Modifier.padding(8.dp))
-                    Icon(
-                        imageVector = Icons.Filled.AddCircle,
-                        contentDescription = "Add photo",
-                    )
-                }
-
-                if (isImageBitMapValid && hasPhotoInteracted) {
-                    Spacer(modifier = Modifier.padding(2.dp))
-                    Text(
-                        text = "Please provide a photo",
-                        color = Color.Red,
-                        fontStyle = FontStyle.Italic,
-                    )
-                }
-            }
+            ImagePlaceholder(
+                imageBitmap = imageBitmap,
+                isImageError = !isImageBitMapValid && hasPhotoInteracted,
+                onPhotoClick = onPhotoClick,
+            )
 
             LoadingButton(
                 modifier = Modifier

@@ -81,7 +81,7 @@ class BookingInstrumentedTests {
         IdlingRegistry.getInstance().unregister(composeIdleResource)
     }
 
-    @Ignore("Test is ignored because it is failing")
+    @Ignore("Test is ignored because it is flaky")
     @Test
     fun testBookingAvailabilitySuccessState() {
         loginRobot.apply {

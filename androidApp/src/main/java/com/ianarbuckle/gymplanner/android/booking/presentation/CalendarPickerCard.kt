@@ -150,7 +150,7 @@ fun TimeSlotsBox(
                 columns = GridCells.Fixed(CalendarPickerPagerSize),
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 modifier = Modifier
-                    .testTag("AvailableTimesGrid")
+                    .testTag(AvailableTimesGrid)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -200,6 +200,7 @@ fun TimeSlotsBox(
 }
 
 private const val CalendarPickerPagerSize = 3
+const val AvailableTimesGrid = "AvailableTimesGrid"
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
