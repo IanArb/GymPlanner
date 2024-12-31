@@ -41,6 +41,10 @@ jobs:
         run: |
           echo "$FIREBASE_KEY_JSON" | base64 --decode > firebase-key.json
 
+      - name: Verify Firebase key
+        run: |
+          cat firebase-key.json
+
       # Step 5: Run tests on Firebase Test Lab
       - name: Run Instrumentation Tests
         run: |
