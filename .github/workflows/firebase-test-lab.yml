@@ -41,11 +41,17 @@ jobs:
         run: |
           echo "${{ secrets.FIREBASE_AUTH_KEY }}" | base64 --decode > firebase-key.json
 
+      - name: Verify Firebase Authentication
+        run: gcloud auth list
+
+      - name: Verify project
+        run: gcloud config list
+
       # Step 5: Run tests on Firebase Test Lab
       - name: Run Instrumentation Tests
         run: |
           gcloud auth activate-service-account --key-file=firebase-key.json
-          gcloud --quiet config set project gymplanner-f3267
+          gcloud --quiet config set project ${{ secrets.FIREBASE_PROJECT_ID }}
           gcloud firebase test android run \
             --type instrumentation \
             --app androidApp/build/outputs/apk/debug/app-debug.apk \
