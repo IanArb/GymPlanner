@@ -111,7 +111,6 @@ fun CalendarPickerCard(
                 onTimeSlotClick = onTimeSlotClick,
                 modifier = Modifier.weight(1f),
             )
-
         }
     }
 }

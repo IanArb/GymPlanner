@@ -37,9 +37,11 @@ fun TopNavigationBar(
                     ReportMachineBroken::class.qualifiedName -> "Report Machine"
                     GymLocationsScreen::class.qualifiedName -> "Gym Locations"
                     PersonalTrainersScreen::class.qualifiedName
-                        .plus("/{gymLocation}") -> "Personal Trainers"
+                        .plus("/{gymLocation}"),
+                    -> "Personal Trainers"
                     BookTrainerScreen::class.qualifiedName
-                        .plus(("/{name}/{imageUrl}?qualifications={qualifications}")) -> "Book Trainer"
+                        .plus(("/{name}/{imageUrl}?qualifications={qualifications}")),
+                    -> "Book Trainer"
                     else -> ""
                 },
                 color = titleColor,
@@ -67,8 +69,7 @@ private fun NavigationBarPreview() {
             currentRoute = DashboardScreen::class.qualifiedName,
             enableBackButton = true,
             onBackClick = {
-
-            }
+            },
         )
     }
 }

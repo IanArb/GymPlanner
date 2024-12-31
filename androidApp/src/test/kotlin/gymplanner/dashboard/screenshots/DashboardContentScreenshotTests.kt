@@ -55,7 +55,7 @@ class DashboardContentScreenshotTests {
             ScreenTestPreview {
                 Surface {
                     BookPersonalTrainerCard(
-                        onBookPersonalTrainerClick = { }
+                        onBookPersonalTrainerClick = { },
                     )
                 }
             }
@@ -71,7 +71,7 @@ class DashboardContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Surface {
                     BookPersonalTrainerCard(
-                        onBookPersonalTrainerClick = { }
+                        onBookPersonalTrainerClick = { },
                     )
                 }
             }
@@ -87,10 +87,10 @@ class DashboardContentScreenshotTests {
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(350.dp),
                 ) {
                     GymClassesCarousel(
-                        classesCarouselItems = DataProvider.carouselItems()
+                        classesCarouselItems = DataProvider.carouselItems(),
                     )
                 }
             }
@@ -107,10 +107,10 @@ class DashboardContentScreenshotTests {
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .height(350.dp),
                 ) {
                     GymClassesCarousel(
-                        classesCarouselItems = DataProvider.carouselItems()
+                        classesCarouselItems = DataProvider.carouselItems(),
                     )
                 }
             }
@@ -119,4 +119,3 @@ class DashboardContentScreenshotTests {
         composeTestRule.onRoot().captureRoboImage()
     }
 }
-

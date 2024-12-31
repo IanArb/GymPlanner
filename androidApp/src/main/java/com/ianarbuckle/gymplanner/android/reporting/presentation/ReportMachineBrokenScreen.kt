@@ -95,7 +95,7 @@ fun ReportMachineBrokenScreen(
                     hasMachineNumberInteracted = false
                     hasDescriptionInteracted = false
                     hasPhotoInteracted = false
-                }
+                },
             )
         }
 

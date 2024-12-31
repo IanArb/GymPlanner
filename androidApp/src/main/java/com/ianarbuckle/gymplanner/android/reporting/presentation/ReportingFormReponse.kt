@@ -52,7 +52,7 @@ fun ReportingFormResponse(
             faultReport = faultReport,
             onClick = {
                 onClick()
-            }
+            },
         )
     }
 }
@@ -142,8 +142,7 @@ private fun ReportingFormResponsePreview() {
                     date = "2022-01-01",
                 ),
                 onClick = {
-
-                }
+                },
             )
         }
     }

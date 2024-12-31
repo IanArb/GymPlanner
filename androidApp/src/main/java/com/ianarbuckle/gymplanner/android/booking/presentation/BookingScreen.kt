@@ -62,7 +62,7 @@ fun BookingScreen(
                 text = "Failed to load availability",
                 onClick = {
                     bookingViewModel.fetchAvailability()
-                }
+                },
             )
         }
 

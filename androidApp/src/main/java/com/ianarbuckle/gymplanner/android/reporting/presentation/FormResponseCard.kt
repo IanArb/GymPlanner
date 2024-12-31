@@ -115,7 +115,7 @@ private fun FormResponseCardPreview() {
                 ),
                 onClick = {
                     // Handle click
-                }
+                },
             )
         }
     }

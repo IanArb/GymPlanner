@@ -15,7 +15,7 @@ fun BottomSheet(
     sheetState: SheetState,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = {

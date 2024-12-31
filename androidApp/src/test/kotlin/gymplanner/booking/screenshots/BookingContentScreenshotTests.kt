@@ -61,7 +61,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = true
+                        isAvailable = true,
                     )
                 }
             }
@@ -80,7 +80,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = false
+                        isAvailable = false,
                     )
                 }
             }
@@ -100,7 +100,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = true
+                        isAvailable = true,
                     )
                 }
             }
@@ -120,7 +120,7 @@ class BookingContentScreenshotTests {
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
                         qualifications = listOf("Qualification 1", "Qualification 2"),
-                        isAvailable = false
+                        isAvailable = false,
                     )
                 }
             }
@@ -138,8 +138,8 @@ class BookingContentScreenshotTests {
             ScreenTestPreview {
                 Column(
                     Modifier
-                        .background(MaterialTheme.colorScheme.surface)
-                )  {
+                        .background(MaterialTheme.colorScheme.surface),
+                ) {
                     CalendarWeekDaysRow(
                         daysOfWeek = daysOfWeek,
                         pagerState = pagerState,
@@ -164,7 +164,7 @@ class BookingContentScreenshotTests {
                 Column(
                     Modifier
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp),
                 ) {
                     CalendarWeekDaysRow(
                         daysOfWeek = daysOfWeek,
@@ -186,12 +186,12 @@ class BookingContentScreenshotTests {
                 Column(
                     Modifier
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp),
                 ) {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
                         selectedTimeSlotId = "07:00 AM",
-                        onTimeSlotClick = {}
+                        onTimeSlotClick = {},
                     )
                 }
             }
@@ -207,12 +207,12 @@ class BookingContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     Modifier
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.surface),
                 ) {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
                         selectedTimeSlotId = "07:00 AM",
-                        onTimeSlotClick = {}
+                        onTimeSlotClick = {},
                     )
                 }
             }
@@ -223,8 +223,13 @@ class BookingContentScreenshotTests {
 
     companion object {
         val daysOfWeek: List<String> = listOf(
-            "2024-12-08", "2024-12-09", "2024-12-10",
-            "2024-12-11", "2024-12-12", "2024-12-13", "2024-12-14"
+            "2024-12-08",
+            "2024-12-09",
+            "2024-12-10",
+            "2024-12-11",
+            "2024-12-12",
+            "2024-12-13",
+            "2024-12-14",
         )
 
         private val availableTimes: List<String> = listOf(
@@ -239,7 +244,7 @@ class BookingContentScreenshotTests {
                 id = it,
                 startTime = it,
                 endTime = it,
-                status = "AVAILABLE"
+                status = "AVAILABLE",
             )
         }
     }

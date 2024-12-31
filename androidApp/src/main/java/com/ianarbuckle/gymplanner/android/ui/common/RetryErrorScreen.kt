@@ -56,8 +56,7 @@ private fun EmptyWorkoutPreview() {
                 text = "Failed to retrieve you gym plan",
                 modifier = Modifier.padding(paddingValues = PaddingValues(16.dp)),
                 onClick = {
-
-                }
+                },
             )
         }
     }

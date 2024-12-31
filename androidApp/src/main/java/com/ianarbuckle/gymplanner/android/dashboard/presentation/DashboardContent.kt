@@ -62,7 +62,7 @@ fun DashboardContent(
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = "Today's Classes",
@@ -85,13 +85,13 @@ fun DashboardContent(
 
                 GymClassesCarousel(
                     classesCarouselItems = items,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
                 BookPersonalTrainerCard(
-                    onBookPersonalTrainerClick = onBookPersonalTrainerClick
+                    onBookPersonalTrainerClick = onBookPersonalTrainerClick,
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -99,7 +99,6 @@ fun DashboardContent(
         }
     }
 }
-
 
 @Composable
 fun BookPersonalTrainerCard(
@@ -109,7 +108,7 @@ fun BookPersonalTrainerCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
+            .padding(vertical = 10.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -187,14 +186,13 @@ fun GymClassesCarousel(
 
             Card(
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp
+                    defaultElevation = 8.dp,
                 ),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 ),
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight(),
             ) {
-
                 AsyncImage(
                     modifier = Modifier
                         .height(200.dp)
@@ -202,10 +200,10 @@ fun GymClassesCarousel(
                     model = item.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.ic_placeholder)
+                    placeholder = painterResource(id = R.drawable.ic_placeholder),
                 )
                 Column(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
                 ) {
                     Text(
                         text = item.name,
@@ -229,11 +227,9 @@ fun GymClassesCarousel(
 
                     Spacer(modifier = Modifier.padding(4.dp))
                 }
-
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

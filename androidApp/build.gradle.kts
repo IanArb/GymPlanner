@@ -156,7 +156,6 @@ detekt {
     autoCorrect = true
 }
 
-
 tasks.withType<Test> {
     // Disable tests for release build for Roborazzi compatibility
     if (name == "testReleaseUnitTest") {

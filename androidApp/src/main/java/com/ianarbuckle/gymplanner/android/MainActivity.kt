@@ -93,9 +93,9 @@ class MainActivity : ComponentActivity() {
                                 currentRoute == PersonalTrainersScreen::class.qualifiedName
                                     .plus("/{gymLocation}") ||
                                     currentRoute == BookTrainerScreen::class.qualifiedName
-                                    .plus(
-                                        "/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}",
-                                    ),
+                                        .plus(
+                                            "/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}",
+                                        ),
                                 modifier = Modifier,
                                 onBackClick = {
                                     navController.popBackStack()
@@ -155,7 +155,7 @@ class MainActivity : ComponentActivity() {
                                 contentPadding = contentPadding,
                                 onNavigateTo = {
                                     navController.navigate(DashboardScreen)
-                                }
+                                },
                             )
                         }
 
@@ -179,8 +179,8 @@ class MainActivity : ComponentActivity() {
                                         "Clontarf" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.CLONTARF
-                                                )
+                                                    gymLocation = GymLocation.CLONTARF,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
@@ -189,8 +189,8 @@ class MainActivity : ComponentActivity() {
                                         "Aston Quay" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.ASTONQUAY
-                                                )
+                                                    gymLocation = GymLocation.ASTONQUAY,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
@@ -199,8 +199,8 @@ class MainActivity : ComponentActivity() {
                                         "Leopardstown" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.LEOPARDSTOWN
-                                                )
+                                                    gymLocation = GymLocation.LEOPARDSTOWN,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
@@ -209,8 +209,8 @@ class MainActivity : ComponentActivity() {
                                         "Westmanstown" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.WESTMANSTOWN
-                                                )
+                                                    gymLocation = GymLocation.WESTMANSTOWN,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
@@ -219,8 +219,8 @@ class MainActivity : ComponentActivity() {
                                         "Dun Laoghaoire" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    GymLocation.DUNLOAGHAIRE
-                                                )
+                                                    GymLocation.DUNLOAGHAIRE,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
@@ -229,14 +229,14 @@ class MainActivity : ComponentActivity() {
                                         "Sandymount" -> {
                                             navController.navigate(
                                                 PersonalTrainersScreen(
-                                                    GymLocation.SANDYMOUNT
-                                                )
+                                                    GymLocation.SANDYMOUNT,
+                                                ),
                                             ) {
                                                 restoreState = true
                                             }
                                         }
                                     }
-                                }
+                                },
                             )
                         }
 

@@ -33,7 +33,7 @@ fun PersonalTrainersScreen(
                 text = "Failed to retrieve personal trainers.",
                 onClick = {
                     personalTrainersViewModel.fetchPersonalTrainers(gymLocation)
-                }
+                },
             )
         }
 

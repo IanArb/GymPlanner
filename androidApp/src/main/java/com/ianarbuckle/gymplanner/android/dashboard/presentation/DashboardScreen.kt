@@ -30,7 +30,7 @@ fun DashboardScreen(
                 text = "Failed to retrieve dashboard.",
                 onClick = {
                     dashboardViewModel.fetchFitnessClasses()
-                }
+                },
             )
         }
 

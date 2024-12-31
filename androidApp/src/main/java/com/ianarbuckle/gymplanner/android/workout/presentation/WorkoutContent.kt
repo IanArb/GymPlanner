@@ -101,8 +101,7 @@ private fun DefaultPreview() {
                 it,
                 DataProvider.client(),
                 onViewAllClick = {
-
-                }
+                },
             )
         }
     }

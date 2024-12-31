@@ -17,7 +17,6 @@ import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.random.Random
 
 object DataProvider {
 

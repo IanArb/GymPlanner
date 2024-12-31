@@ -47,7 +47,6 @@ import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
-import com.ianarbuckle.gymplanner.storage.createDataStore
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest

@@ -32,7 +32,7 @@ fun GymLocationsScreen(
                 modifier = modifier,
                 onClick = {
                     gymLocationsViewModel.fetchGymLocations()
-                }
+                },
             )
         }
 
@@ -43,13 +43,13 @@ fun GymLocationsScreen(
                 gyms = uiState.gymLocations.toImmutableList(),
                 onClick = {
                     onNavigateTo(it.title)
-                }
+                },
             )
         }
 
         is GymLocationsUiState.Loading -> {
             CircularProgressIndicator(
-                modifier = modifier
+                modifier = modifier,
             )
         }
     }

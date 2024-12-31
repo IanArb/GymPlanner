@@ -50,7 +50,7 @@ fun FormFields(
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
-            fontStyle = FontStyle.Normal
+            fontStyle = FontStyle.Normal,
         )
 
         Spacer(modifier = Modifier.padding(12.dp))
@@ -75,11 +75,11 @@ fun FormFields(
             isError = !isMachineNumberValid && hasMachineNumberInteracted,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions {
                 focusManager.moveFocus(FocusDirection.Down)
-            }
+            },
         )
 
         if (!isMachineNumberValid && hasMachineNumberInteracted) {
@@ -87,7 +87,7 @@ fun FormFields(
             Text(
                 text = "Please provide a machine number",
                 color = MaterialTheme.colorScheme.error,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
             )
         }
 
@@ -95,7 +95,7 @@ fun FormFields(
 
         Text(
             text = "Description",
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
 
         Spacer(modifier = Modifier.padding(2.dp))
@@ -107,11 +107,11 @@ fun FormFields(
             modifier = Modifier.fillMaxWidth(),
             isError = !isDescriptionValid && hasDescriptionInteracted,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions {
                 keyboardController?.hide()
-            }
+            },
         )
 
         if (!isDescriptionValid && hasDescriptionInteracted) {
@@ -119,7 +119,7 @@ fun FormFields(
             Text(
                 text = "Please provide a description",
                 color = MaterialTheme.colorScheme.error,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
             )
         }
 
@@ -136,7 +136,7 @@ private fun FormFieldsPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp),
         ) {
             FormFields(
                 machineNumber = "123",

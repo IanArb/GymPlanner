@@ -35,7 +35,7 @@ fun WorkoutsCard(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
     ) {
         items(sessions) { session ->
             Card(
@@ -99,8 +99,7 @@ private fun GymPlanWorkoutsCardPreview() {
                 WorkoutsCard(
                     sessions = DataProvider.sessions(),
                     onClick = {
-
-                    }
+                    },
                 )
             }
         }

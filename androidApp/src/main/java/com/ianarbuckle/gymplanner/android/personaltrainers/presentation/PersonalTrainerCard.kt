@@ -102,7 +102,7 @@ fun PersonalTrainerItem(
                                                 drawable = R.drawable.ic_instagram,
                                                 onSocialLinkClick = {
                                                     onSocialLinkClick(social.value)
-                                                }
+                                                },
                                             )
                                         }
                                         "tiktok" -> {
@@ -111,7 +111,7 @@ fun PersonalTrainerItem(
                                                 drawable = R.drawable.ic_tiktok,
                                                 onSocialLinkClick = {
                                                     onSocialLinkClick(social.value)
-                                                }
+                                                },
                                             )
                                         }
                                     }
