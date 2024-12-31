@@ -75,7 +75,7 @@ jobs:
             --type instrumentation \
             --app androidApp/build/outputs/apk/debug/app-debug.apk \
             --test androidApp/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-            --device model=Pixel6,version=31,locale=en,orientation=portrait \
+            --device model=Pixel 6,version=31,locale=en,orientation=portrait \
             --timeout 5m
 
       # Step 7: Archive test results
