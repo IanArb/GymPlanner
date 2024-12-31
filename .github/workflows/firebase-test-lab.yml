@@ -28,13 +28,32 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
-      # Step 3: Build the app and test APK
+      # Step 3: Cache Gradle dependencies and build outputs
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Cache Android build outputs
+        uses: actions/cache@v3
+        with:
+          path: |
+            androidApp/build/outputs
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-android-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-android-
+
+      # Step 4: Build the app and test APK
       - name: Build app and test APK
         run: |
           ./gradlew assembleDebug
           ./gradlew assembleAndroidTest
 
-      # Step 4: Authenticate with Firebase
+      # Step 5: Authenticate with Firebase
       - name: Authenticate with Firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
@@ -47,7 +66,7 @@ jobs:
       - name: Verify project
         run: gcloud config list
 
-      # Step 5: Run tests on Firebase Test Lab
+      # Step 6: Run tests on Firebase Test Lab
       - name: Run Instrumentation Tests
         run: |
           gcloud auth activate-service-account --key-file=firebase-key.json
@@ -59,9 +78,10 @@ jobs:
             --device model=Pixel6,version=31,locale=en,orientation=portrait \
             --timeout 5m
 
-      # Step 6: Archive test results
+      # Step 7: Archive test results
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
         with:
           name: firebase-test-results
           path: .
+
