@@ -34,9 +34,42 @@ jobs:
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace
 
-      # Optional: Upload Roborazzi report as artifact
       - name: Upload Roborazzi report
         uses: actions/upload-artifact@v3
         with:
           name: roborazzi-report
           path: app/build/reports/roborazzi/debug/
+
+      - name: Build app and test APK
+        run: |
+          ./gradlew assembleDebug
+          ./gradlew assembleAndroidTest
+
+      - name: Authenticate with Firebase
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
+        run: |
+          echo "${{ secrets.FIREBASE_AUTH_KEY }}" | base64 --decode > firebase-key.json
+
+      - name: Verify Firebase Authentication
+        run: gcloud auth list
+
+      - name: Verify project
+        run: gcloud config list
+
+      - name: Run Instrumentation Tests
+        run: |
+          gcloud auth activate-service-account --key-file=firebase-key.json
+          gcloud --quiet config set project ${{ secrets.FIREBASE_PROJECT_ID }}
+          gcloud firebase test android run \
+            --type instrumentation \
+            --app androidApp/build/outputs/apk/debug/androidApp-debug.apk \
+            --test androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk \
+            --device model=oriole,version=31,locale=en,orientation=portrait \
+            --timeout 5m
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: firebase-test-results
+          path: .
