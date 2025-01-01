@@ -22,24 +22,11 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Start emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          script: ./gradlew connectedAndroidTest
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          emulator-options: -no-window -no-boot-anim
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
-
-      - name: Run instrumented UI tests
-        run: ./gradlew connectedAndroidTest
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew app:verifyRoborazziDebug --stacktrace

@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.google.services.gms)
 }
 
 android {
@@ -97,6 +98,8 @@ dependencies {
     ksp(libs.koin.ksp)
 
     implementation(libs.androidx.tracing)
+
+    implementation(platform(libs.firebase.bom))
 
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.ktor.client.mock)

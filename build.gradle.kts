@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.roborazzi).apply(false)
     alias(libs.plugins.spotless).apply(false)
     alias(libs.plugins.detekt).apply(false)
+    alias(libs.plugins.google.services.gms).apply(false)
 }
