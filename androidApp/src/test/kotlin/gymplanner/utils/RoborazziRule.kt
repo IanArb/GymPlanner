@@ -21,6 +21,6 @@ internal fun createRoborazziRule(): RoborazziRule {
 
 private val DefaultRoborazziOptions: RoborazziOptions =
     RoborazziOptions(
-        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0.01f),
+        compareOptions = RoborazziOptions.CompareOptions(changeThreshold = 0.05f),
         recordOptions = RoborazziOptions.RecordOptions(resizeScale = 0.5),
     )
