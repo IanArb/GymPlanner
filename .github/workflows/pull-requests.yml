@@ -6,18 +6,6 @@ on:
       - main
 
 jobs:
-  call-reusable-workflow:
-    uses: ./.github/workflows/firebase-test-lab.yml
-    with:
-      java-version: "17"
-      firebase-project-id: ${{ secrets.FIREBASE_PROJECT_ID }}
-      app-apk-path: "androidApp/build/outputs/apk/debug/androidApp-debug.apk"
-      test-apk-path: "androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk"
-      device-model: "oriole"
-      device-version: "31"
-    secrets:
-      FIREBASE_AUTH_KEY: ${{ secrets.FIREBASE_AUTH_KEY }}
-
   build:
     runs-on: ubuntu-latest
 
@@ -35,10 +23,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run spotless check Android
-        run : ./gradlew spotlessCheck --no-configuration-cache
+        run: ./gradlew spotlessCheck --no-configuration-cache
 
       - name: Run detekt check
-        run : ./gradlew detekt
+        run: ./gradlew detekt
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
@@ -51,4 +39,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: roborazzi-report
-          path: app/build/reports/roborazzi/debug/
+          path: androidApp/build/reports/roborazzi/debug/
+
+  run-tests:
+    uses: ./.github/workflows/firebase-test-lab.yml
+    needs: build
+    with:
+      firebase-project-id: ${{ secrets.FIREBASE_PROJECT_ID }}
+      app-apk-path: "androidApp/build/outputs/apk/debug/androidApp-debug.apk"
+      test-apk-path: "androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk"
+      device-model: "oriole"
+      device-version: "31"
+    secrets:
+      FIREBASE_AUTH_KEY: ${{ secrets.FIREBASE_AUTH_KEY }}
