@@ -45,9 +45,12 @@ import java.util.Calendar
 fun CalendarPickerCard(
     daysOfWeek: List<String>,
     availableTimes: List<Time>,
-    pagerState: PagerState,
+    calendarPagerState: PagerState,
+    timeSlotPagerState: PagerState,
     selectedDate: String,
     selectedTimeSlot: String,
+    timeslotRowsPerPage: Int,
+    timeslotItemsPerPage: Int,
     onTimeSlotClick: (String) -> Unit,
     onSelectedDateChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -94,7 +97,7 @@ fun CalendarPickerCard(
             }
 
             CalendarWeekDaysRow(
-                pagerState = pagerState,
+                pagerState = calendarPagerState,
                 daysOfWeek = daysOfWeek,
                 selectedDate = selectedDate,
                 onSelectedDateChange = onSelectedDateChange,
@@ -109,6 +112,9 @@ fun CalendarPickerCard(
                 availableTimes = availableTimes,
                 selectedTimeSlotId = selectedTimeSlot,
                 onTimeSlotClick = onTimeSlotClick,
+                pagerState = timeSlotPagerState,
+                rowsPerPage = timeslotRowsPerPage,
+                itemsPerPage = timeslotItemsPerPage,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -120,12 +126,12 @@ fun TimeSlotsBox(
     availableTimes: List<Time>,
     selectedTimeSlotId: String,
     onTimeSlotClick: (String) -> Unit,
+    pagerState: PagerState,
+    rowsPerPage: Int,
+    itemsPerPage: Int,
     modifier: Modifier = Modifier,
 ) {
-    val rowsPerPage = CalendarPickerPagerSize
-    val itemsPerPage = rowsPerPage * CalendarPickerPagerSize
     val pages = availableTimes.chunked(itemsPerPage)
-    val pagerState = rememberPagerState { pages.size }
 
     Column(modifier = modifier.fillMaxWidth()) {
         if (pagerState.pageCount > 1) {
@@ -147,7 +153,7 @@ fun TimeSlotsBox(
             modifier = Modifier.fillMaxWidth(),
         ) { pageIndex ->
             LazyVerticalGrid(
-                columns = GridCells.Fixed(CalendarPickerPagerSize),
+                columns = GridCells.Fixed(rowsPerPage),
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 modifier = Modifier
                     .testTag(AvailableTimesGrid)
@@ -199,7 +205,6 @@ fun TimeSlotsBox(
     }
 }
 
-private const val CalendarPickerPagerSize = 3
 const val AvailableTimesGrid = "AvailableTimesGrid"
 
 @Preview(showBackground = true, name = "Light mode")
@@ -210,6 +215,9 @@ private fun CalendarPickerCardPreview() {
         val pagerState = rememberPagerState {
             PageSize // Calculate the number of pages needed
         }
+
+        val timeSlotPagerState = rememberPagerState { PageSize }
+
         val timeSlots = availableTimes.map {
             Time(
                 id = it,
@@ -222,9 +230,12 @@ private fun CalendarPickerCardPreview() {
             CalendarPickerCard(
                 daysOfWeek = daysOfWeek,
                 availableTimes = timeSlots,
-                pagerState = pagerState,
+                calendarPagerState = pagerState,
+                timeSlotPagerState = timeSlotPagerState,
                 selectedDate = "2024-12-12",
                 selectedTimeSlot = "09:00 AM",
+                timeslotRowsPerPage = 3,
+                timeslotItemsPerPage = 9,
                 onTimeSlotClick = { },
                 onSelectedDateChange = { },
             )

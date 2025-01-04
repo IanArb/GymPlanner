@@ -1,12 +1,14 @@
 package com.ianarbuckle.gymplanner.android.booking.presentation
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -38,20 +40,19 @@ fun BookingContent(
     selectedDate: String,
     selectedTimeSlot: String,
     isAvailable: Boolean,
+    calendarPagerState: PagerState,
+    timeSlotPagerState: PagerState,
+    verticalScrollState: ScrollState,
+    timeslotRowsPerPage: Int,
+    timeslotItemsPerPage: Int,
     onSelectedDateChange: (String) -> Unit,
     onTimeSlotChange: (String) -> Unit,
     onBookClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val pagerState = rememberPagerState {
-        (daysOfWeek.size + PAGE_SIZE) / PAGE_OFFSET // Calculate the number of pages needed
-    }
-
-    val verticalScroll = rememberScrollState()
-
     Column(
         modifier = modifier
-            .verticalScroll(verticalScroll)
+            .verticalScroll(verticalScrollState)
             .padding(paddingValues),
     ) {
         PersonalTrainerCard(
@@ -65,7 +66,10 @@ fun BookingContent(
         CalendarPickerCard(
             daysOfWeek = daysOfWeek,
             availableTimes = availableTimes,
-            pagerState = pagerState,
+            calendarPagerState = calendarPagerState,
+            timeSlotPagerState = timeSlotPagerState,
+            timeslotRowsPerPage = timeslotRowsPerPage,
+            timeslotItemsPerPage = timeslotItemsPerPage,
             onTimeSlotClick = {
                 onTimeSlotChange(it)
             },
@@ -93,22 +97,19 @@ fun BookNowButton(
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
-        // Button at the bottom center of the screen
         Button(
             onClick = { onBookClick() },
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter) // Align to bottom center
-                .padding(16.dp), // Add some padding from the bottom
+                .align(Alignment.BottomCenter)
+                .padding(16.dp),
         ) {
             Text(text = "Book appointment")
         }
     }
 }
 
-private const val PAGE_SIZE = 4
-private const val PAGE_OFFSET = 5
-
+@Suppress("MagicNumber")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
@@ -122,6 +123,10 @@ private fun BookingContentPreview() {
             status = "AVAILABLE",
         )
     }
+
+    val timeslotPickerPageSize = 3
+    val calendarPagerSize = 4
+    val pagerOffset = 5
 
     GymAppTheme {
         Scaffold(
@@ -141,6 +146,15 @@ private fun BookingContentPreview() {
                 qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
                 daysOfWeek = daysOfWeek,
                 availableTimes = timeSlots,
+                calendarPagerState = rememberPagerState {
+                    (daysOfWeek.size + calendarPagerSize) / pagerOffset
+                },
+                timeSlotPagerState = rememberPagerState {
+                    availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
+                },
+                verticalScrollState = rememberScrollState(),
+                timeslotRowsPerPage = timeslotPickerPageSize,
+                timeslotItemsPerPage = timeslotPickerPageSize,
                 onSelectedDateChange = {
                 },
                 onTimeSlotChange = {

@@ -182,6 +182,10 @@ class BookingContentScreenshotTests {
     @Test
     fun verify_booking_calendar_time_slots_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
+            val pagerState = rememberPagerState {
+                TimeSlotPagerSize // Calculate the number of pages needed
+            }
+
             ScreenTestPreview {
                 Column(
                     Modifier
@@ -191,6 +195,9 @@ class BookingContentScreenshotTests {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
                         selectedTimeSlotId = "07:00 AM",
+                        pagerState = pagerState,
+                        rowsPerPage = RowsPerPage,
+                        itemsPerPage = ItemsPerPage,
                         onTimeSlotClick = {},
                     )
                 }
@@ -204,6 +211,10 @@ class BookingContentScreenshotTests {
     @Test
     fun verify_booking_calendar_time_slots_is_displayed_correctly_in_dark_mode() {
         composeTestRule.setContent {
+            val pagerState = rememberPagerState {
+                TimeSlotPagerSize // Calculate the number of pages needed
+            }
+
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     Modifier
@@ -212,6 +223,9 @@ class BookingContentScreenshotTests {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
                         selectedTimeSlotId = "07:00 AM",
+                        pagerState = pagerState,
+                        rowsPerPage = RowsPerPage,
+                        itemsPerPage = ItemsPerPage,
                         onTimeSlotClick = {},
                     )
                 }
@@ -247,5 +261,9 @@ class BookingContentScreenshotTests {
                 status = "AVAILABLE",
             )
         }
+
+        const val TimeSlotPagerSize = 6
+        const val RowsPerPage = 3
+        const val ItemsPerPage = 9
     }
 }
