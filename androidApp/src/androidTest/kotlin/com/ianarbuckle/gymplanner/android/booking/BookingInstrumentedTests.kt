@@ -19,6 +19,7 @@ import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -26,11 +27,11 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.dsl.module
+import java.util.Calendar
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
@@ -81,7 +82,6 @@ class BookingInstrumentedTests {
         IdlingRegistry.getInstance().unregister(composeIdleResource)
     }
 
-    @Ignore("Test is ignored because it is flaky")
     @Test
     fun testBookingAvailabilitySuccessState() {
         loginRobot.apply {
@@ -109,24 +109,54 @@ class BookingInstrumentedTests {
 
         bookingRobot.apply {
             clickOnPersonalTrainersNavTab()
-            composeTestRule.waitForIdle()
-
             clickOnGymLocation(0)
-            composeTestRule.waitForIdle()
-
             clickOnBookPersonalTrainer()
-            composeTestRule.waitForIdle()
         }
+
+        val calendarMonth = Calendar.getInstance().currentMonth()
 
         bookingVerifier.apply {
             val trainer = DataProvider.personalTrainers().first()
-            verifyCalendarMonth(month = "December")
+            verifyCalendarMonth(month = calendarMonth)
             verifyPersonalTrainerNameAndDescription(
                 name = trainer.firstName.plus(" ").plus(trainer.lastName),
                 qualifications = trainer.qualifications,
             )
-            verifyAvailableTimesSize(12)
-            verifyCalendarGridSize(7)
+            verifyAvailableTimesSize(9)
+            verifyCalendarGridSize(5)
+        }
+    }
+
+    @Test
+    fun testBookingAvailabilityFailedState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
+
+        coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
+            items = DataProvider.fitnessClasses(),
+            profile = DataProvider.profile(),
+        )
+
+        coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
+            gymLocations = DataProvider.gymLocations(),
+        )
+
+        coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Success(
+            personalTrainers = DataProvider.personalTrainers(),
+        )
+
+        coEvery { bookingViewModel.bookingState.value } returns BookingUiState.Failed
+
+        bookingRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+        }
+
+        bookingVerifier.apply {
+            verifyErrorState()
         }
     }
 }

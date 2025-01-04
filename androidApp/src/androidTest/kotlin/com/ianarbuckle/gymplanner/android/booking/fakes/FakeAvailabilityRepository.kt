@@ -11,26 +11,37 @@ class FakeAvailabilityRepository : AvailabilityRepository {
         personalTrainerId: String,
         month: String,
     ): Result<Availability> {
-        return mockAvailabilitySuccess()
+        return mockAvailabilitySuccess(
+            personalTrainerId = personalTrainerId,
+            month = month,
+        )
     }
 
     override suspend fun checkAvailability(
         personalTrainerId: String,
         month: String,
     ): Result<CheckAvailability> {
-        return mockCheckAvailabilitySuccess()
-    }
-
-    private fun mockAvailabilitySuccess(): Result<Availability> {
-        return Result.success(
-            DataProvider.availability(),
+        return mockCheckAvailabilitySuccess(
+            personalTrainerId = personalTrainerId,
         )
     }
 
-    private fun mockCheckAvailabilitySuccess(): Result<CheckAvailability> {
+    private fun mockAvailabilitySuccess(
+        personalTrainerId: String,
+        month: String,
+    ): Result<Availability> {
+        return Result.success(
+            DataProvider.availability(
+                personalTrainerId = personalTrainerId,
+                month = month,
+            ),
+        )
+    }
+
+    private fun mockCheckAvailabilitySuccess(personalTrainerId: String): Result<CheckAvailability> {
         return Result.success(
             CheckAvailability(
-                personalTrainerId = "6730e1cb37f4352118e0c8e1",
+                personalTrainerId = personalTrainerId,
                 isAvailable = true,
             ),
         )

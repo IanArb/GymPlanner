@@ -3,6 +3,8 @@ package com.ianarbuckle.gymplanner.android.booking.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,7 +61,7 @@ fun BookingScreen(
         is BookingUiState.Failed -> {
             RetryErrorScreen(
                 modifier = modifier,
-                text = "Failed to load availability",
+                text = "Failed to load availability.",
                 onClick = {
                     bookingViewModel.fetchAvailability()
                 },
@@ -82,6 +84,18 @@ fun BookingScreen(
                 availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
             }
 
+            val calendarPagerState = rememberPagerState {
+                (daysOfWeek.size + CalendarPagerSize) / PagerOffset
+            }
+
+            val rowsPerPage = TimeslotPickerPageSize
+            val itemsPerPage = rowsPerPage * TimeslotPickerPageSize
+
+            val timeSlotPagerState =
+                rememberPagerState { availableTimes.value.chunked(itemsPerPage).size }
+
+            val verticalScroll = rememberScrollState()
+
             BookingContent(
                 paddingValues = paddingValues,
                 personalTrainerLabel = "Personal Trainer",
@@ -93,6 +107,11 @@ fun BookingScreen(
                 selectedDate = selectedDate.value,
                 selectedTimeSlot = selectedTimeSlot.value,
                 isAvailable = isAvailable,
+                calendarPagerState = calendarPagerState,
+                timeSlotPagerState = timeSlotPagerState,
+                verticalScrollState = verticalScroll,
+                timeslotRowsPerPage = rowsPerPage,
+                timeslotItemsPerPage = itemsPerPage,
                 modifier = modifier,
                 onSelectedDateChange = {
                     selectedDate.value = it
@@ -106,3 +125,7 @@ fun BookingScreen(
         }
     }
 }
+
+private const val CalendarPagerSize = 4
+private const val PagerOffset = 5
+private const val TimeslotPickerPageSize = 3

@@ -562,11 +562,14 @@ object DataProvider {
         "ian@mail.com",
     )
 
-    fun availability(): Availability {
+    fun availability(
+        personalTrainerId: String = "123",
+        month: String = "2024-12-08",
+    ): Availability {
         return Availability(
             id = "123",
-            month = "2024-12-08",
-            personalTrainerId = "123",
+            month = month,
+            personalTrainerId = personalTrainerId,
             slots = persistentListOf(
                 Slot(
                     date = "2024-12-08",

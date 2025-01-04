@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.booking.verifier
 
 import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
@@ -37,5 +38,12 @@ class BookingVerifier(private val composeTestRule: ComposeTestRule) {
     fun verifyCalendarMonth(month: String) {
         composeTestRule.onNodeWithText(month)
             .assertExists()
+    }
+
+    fun verifyErrorState() {
+        composeTestRule.onNodeWithText("Failed to load availability.")
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Tap to retry")
+            .assertIsDisplayed()
     }
 }
