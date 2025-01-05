@@ -1,7 +1,6 @@
 package com.ianarbuckle.gymplanner.android.dashboard.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,6 +9,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 fun DashboardScreen(
@@ -47,8 +48,11 @@ fun DashboardScreen(
         }
 
         is DashboardUiState.Loading -> {
-            CircularProgressIndicator(
+            DashboardLoadingShimmer(
                 modifier = modifier,
+                shimmer = rememberShimmer(
+                    shimmerBounds = ShimmerBounds.View,
+                ),
             )
         }
 

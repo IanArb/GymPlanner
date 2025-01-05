@@ -1,17 +1,13 @@
 package com.ianarbuckle.gymplanner.android.booking.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
@@ -19,6 +15,8 @@ import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import com.ianarbuckle.gymplanner.availability.domain.Time
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 fun BookingScreen(
@@ -47,13 +45,13 @@ fun BookingScreen(
         }
 
         is BookingUiState.Loading -> {
-            Column(
+            BookingLoadingShimmer(
                 modifier = modifier,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                CircularProgressIndicator()
-            }
+                paddingValues = paddingValues,
+                shimmer = rememberShimmer(
+                    shimmerBounds = ShimmerBounds.View,
+                ),
+            )
         }
         is BookingUiState.BookingSuccess -> {
             // Show success state

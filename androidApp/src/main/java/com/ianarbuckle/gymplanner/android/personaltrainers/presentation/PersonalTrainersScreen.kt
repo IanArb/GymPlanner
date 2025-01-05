@@ -1,7 +1,6 @@
 package com.ianarbuckle.gymplanner.android.personaltrainers.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,6 +11,8 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainers
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -60,7 +61,13 @@ fun PersonalTrainersScreen(
         }
 
         is PersonalTrainersUiState.Loading -> {
-            CircularProgressIndicator()
+            PersonalTrainersLoadingShimmer(
+                innerPadding = contentPadding,
+                modifier = modifier,
+                shimmer = rememberShimmer(
+                    shimmerBounds = ShimmerBounds.View,
+                ),
+            )
         }
     }
 }
