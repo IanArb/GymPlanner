@@ -66,7 +66,26 @@ Ngrok will provide a public URL, for example:
 https://abcd1234.ngrok.io
 ```
 
-4. Use this public URL in your app to access the backend service.
+4. Use this public URL in the UrlModule class by replacing the constant ```BASE_URL```
+
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+class UrlModule {
+
+    @Provides
+    @Named(NAMED_BASE_URL)
+    fun provideBaseUrl(): String {
+        return BASE_URL
+    }
+
+    companion object {
+        const val BASE_URL = "https://abcd1234.ngrok.io"
+        const val NAMED_BASE_URL = "BASE_URL"
+    }
+}
+```
 
 ## Contributing
 We welcome contributions to improve the app! Feel free to fork the repository and submit pull requests.
