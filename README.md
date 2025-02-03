@@ -14,9 +14,12 @@ This app leverages the power of Kotlin Multiplatform to provide a consistent exp
 
 - **Kotlin**: A modern, expressive, and concise language that works across multiple platforms.
 - **Coroutines**: For asynchronous programming, allowing efficient background task management with structured concurrency.
-- **Ktor**: A lightweight framework for building RESTful APIs, used for network communication in this app.
+- **Ktor**: A lightweight framework for building RESTful APIs, used for network communication in the KMP module.
 - **Compose**: A declarative UI framework for building native user interfaces with Kotlin.
 - **MockK**: A Kotlin-first mocking library used for unit testing and mocking dependencies.
+- **Roborazzi**: A JVM-based screenshot testing library used to validate and ensure the consistent appearance of the app's UI across different versions and environments.
+- **Dagger**: Dagger helps manage dependencies in a project by automating the process of creating and injecting objects, promoting a clean and decoupled architecture. It is primarily used in the Android module of the project, where it integrates with Hilt—an official Android DI library built on top of Dagger—for simplified setup and improved usability.
+- **Koin**: A lightweight, intuitive dependency injection framework for Kotlin, designed with simplicity and ease of use in mind. Koin is primarily utilized in the Kotlin Multiplatform (KMP) module, offering a flexible and concise way to manage dependencies across multiple platforms with minimal configuration.
 
 ---
 
