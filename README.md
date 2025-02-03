@@ -68,8 +68,8 @@ https://abcd1234.ngrok.io
 
 4. Use this public URL in your app to access the backend service.
 
-Contributing
+## Contributing
 We welcome contributions to improve the app! Feel free to fork the repository and submit pull requests.
 
-License
+## License
 This project is licensed under the MIT License.
