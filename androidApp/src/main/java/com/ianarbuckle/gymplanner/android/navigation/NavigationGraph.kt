@@ -41,6 +41,7 @@ data class BookTrainerScreen(
     val personalTrainerId: String,
     val name: String,
     val imageUrl: String,
+    val gymLocation: String,
     val qualifications: List<String>,
 )
 

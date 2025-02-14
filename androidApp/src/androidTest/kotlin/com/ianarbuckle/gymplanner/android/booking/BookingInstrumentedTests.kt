@@ -20,11 +20,14 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
+import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -75,6 +78,12 @@ class BookingInstrumentedTests {
     @Before
     fun setUp() {
         IdlingRegistry.getInstance().register(composeIdleResource)
+
+        // Correct the static function reference
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
+
+        // Define the behavior of the mocked function
+        every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
 
     @After

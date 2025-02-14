@@ -23,4 +23,24 @@ class BookingRobot(private val composeTestRule: ComposeTestRule) {
     fun clickOnPersonalTrainersNavTab() {
         composeTestRule.onNodeWithText("Personal Trainers").performClick()
     }
+
+    fun clickOnTimeSlot() {
+        composeTestRule.onAllNodesWithText("10:00 am")[0].performClick()
+    }
+
+    fun clickOnBookAppointment() {
+        composeTestRule.onNodeWithText("Book appointment").performClick()
+    }
+
+    fun clickOnSelectDay() {
+        composeTestRule.onAllNodesWithText("Thu \n12")[0].performClick()
+    }
+
+    fun clickOnConfirmBooking() {
+        composeTestRule.onNodeWithText("Confirm Booking").performClick()
+    }
+
+    fun clickOnCancelBooking() {
+        composeTestRule.onNodeWithText("Cancel").performClick()
+    }
 }

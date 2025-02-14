@@ -17,9 +17,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarWeekDaysRow
-import com.ianarbuckle.gymplanner.android.booking.presentation.PersonalTrainerCard
-import com.ianarbuckle.gymplanner.android.booking.presentation.TimeSlotsBox
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.CalendarWeekDaysRow
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.PersonalTrainerCard
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.TimeSlotsBox
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule
@@ -55,7 +55,7 @@ class BookingContentScreenshotTests {
     fun verify_booking_trainers_card_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
             ScreenTestPreview {
-                Surface {
+                Column {
                     PersonalTrainerCard(
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
@@ -74,7 +74,7 @@ class BookingContentScreenshotTests {
     fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
             ScreenTestPreview {
-                Surface {
+                Column {
                     PersonalTrainerCard(
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
@@ -194,11 +194,12 @@ class BookingContentScreenshotTests {
                 ) {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
-                        selectedTimeSlotId = "07:00 AM",
+                        selectedTimeSlotId = "1",
                         pagerState = pagerState,
                         rowsPerPage = RowsPerPage,
                         itemsPerPage = ItemsPerPage,
-                        onTimeSlotClick = {},
+                        onTimeSlotClick = { _, _ ->
+                        },
                     )
                 }
             }
@@ -222,11 +223,12 @@ class BookingContentScreenshotTests {
                 ) {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
-                        selectedTimeSlotId = "07:00 AM",
+                        selectedTimeSlotId = "2",
                         pagerState = pagerState,
                         rowsPerPage = RowsPerPage,
                         itemsPerPage = ItemsPerPage,
-                        onTimeSlotClick = {},
+                        onTimeSlotClick = { _, _ ->
+                        },
                     )
                 }
             }
@@ -247,10 +249,10 @@ class BookingContentScreenshotTests {
         )
 
         private val availableTimes: List<String> = listOf(
-            "06:00 AM", "06:30 AM", "07:00 AM",
-            "07:30 AM", "08:00 AM", "08:30 AM",
-            "09:00 AM", "10:00 AM", "10:30 AM",
-            "11:00 AM", "12:00 PM", "12:30 PM",
+            "06:00:00", "06:30:00", "07:00:00",
+            "07:30:00", "08:00:00", "08:30:00",
+            "09:00:00", "10:00:00", "10:30:00",
+            "11:00:00", "12:00:00", "12:30:00",
         )
 
         val timeSlots = availableTimes.map {
