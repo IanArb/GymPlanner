@@ -83,8 +83,7 @@ class BookingInstrumentedTests {
         mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
 
         // Define the behavior of the mocked function
-        val weekDays = currentWeekDates()
-        every { weekDays } returns DataProvider.daysOfWeek
+        every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
 
     @After
