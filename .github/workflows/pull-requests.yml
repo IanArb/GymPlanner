@@ -35,14 +35,14 @@ jobs:
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace
 
       - name: Upload Roborazzi report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: roborazzi-report
           path: app/build/reports/roborazzi/debug/
 
 
       - name: Upload Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firebase-test-results
           path: .
