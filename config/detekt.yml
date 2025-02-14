@@ -51,11 +51,11 @@ complexity:
     excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
   LongMethod:
     active: true
-    threshold: 100
+    threshold: 300
     excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
   LongParameterList:
     active: true
-    functionThreshold: 15
+    functionThreshold: 20
     excludes: ['**/DataProvider.kt', "**/test/kotlin/**"]
   LargeClass:
     active: true

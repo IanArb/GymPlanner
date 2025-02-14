@@ -12,9 +12,9 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheet(
-    sheetState: SheetState,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
+    sheetState: SheetState = rememberModalBottomSheetState(),
     content: @Composable () -> Unit,
 ) {
     ModalBottomSheet(

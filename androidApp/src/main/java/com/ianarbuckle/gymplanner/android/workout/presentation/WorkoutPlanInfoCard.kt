@@ -19,7 +19,7 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.dayOfWeekDisplayName
 import com.ianarbuckle.gymplanner.android.utils.differenceInDays
 import com.ianarbuckle.gymplanner.android.utils.monthDisplayName
-import com.ianarbuckle.gymplanner.android.utils.parseToLocalDateTime
+import com.ianarbuckle.gymplanner.android.utils.parseToLocalDateTimeIso
 import com.ianarbuckle.gymplanner.clients.domain.GymPlan
 import java.time.format.TextStyle
 
@@ -28,8 +28,8 @@ fun WorkoutPlanInfo(
     gymPlan: GymPlan,
     modifier: Modifier = Modifier,
 ) {
-    val startTime = parseToLocalDateTime(gymPlan.startDate)
-    val endTime = parseToLocalDateTime(gymPlan.endDate)
+    val startTime = parseToLocalDateTimeIso(gymPlan.startDate)
+    val endTime = parseToLocalDateTimeIso(gymPlan.endDate)
 
     val daysDifference = differenceInDays(
         startDate = startTime.date,

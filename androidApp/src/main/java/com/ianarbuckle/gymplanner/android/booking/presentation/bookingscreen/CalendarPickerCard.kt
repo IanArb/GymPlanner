@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation
+package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.border
@@ -37,6 +37,8 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
+import com.ianarbuckle.gymplanner.android.utils.displayTime
+import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import java.util.Calendar
 
@@ -51,7 +53,7 @@ fun CalendarPickerCard(
     selectedTimeSlot: String,
     timeslotRowsPerPage: Int,
     timeslotItemsPerPage: Int,
-    onTimeSlotClick: (String) -> Unit,
+    onTimeSlotClick: (String, String) -> Unit,
     onSelectedDateChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -125,7 +127,7 @@ fun CalendarPickerCard(
 fun TimeSlotsBox(
     availableTimes: List<Time>,
     selectedTimeSlotId: String,
-    onTimeSlotClick: (String) -> Unit,
+    onTimeSlotClick: (String, String) -> Unit,
     pagerState: PagerState,
     rowsPerPage: Int,
     itemsPerPage: Int,
@@ -178,13 +180,13 @@ fun TimeSlotsBox(
                             )
                             .clickable {
                                 if (timeSlot.status == "AVAILABLE") {
-                                    onTimeSlotClick(timeSlot.id)
+                                    onTimeSlotClick(timeSlot.id, timeSlot.startTime)
                                 }
                             }
                             .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
-                        val slot = timeSlot.startTime
+                        val slot = timeSlot.startTime.toLocalTime().displayTime()
 
                         val textColor =
                             when {
@@ -236,7 +238,9 @@ private fun CalendarPickerCardPreview() {
                 selectedTimeSlot = "09:00 AM",
                 timeslotRowsPerPage = 3,
                 timeslotItemsPerPage = 9,
-                onTimeSlotClick = { },
+                onTimeSlotClick = {
+                        _, _ ->
+                },
                 onSelectedDateChange = { },
             )
         }

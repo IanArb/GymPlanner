@@ -17,9 +17,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarWeekDaysRow
-import com.ianarbuckle.gymplanner.android.booking.presentation.PersonalTrainerCard
-import com.ianarbuckle.gymplanner.android.booking.presentation.TimeSlotsBox
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.CalendarWeekDaysRow
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.PersonalTrainerCard
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.TimeSlotsBox
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule
@@ -55,7 +55,7 @@ class BookingContentScreenshotTests {
     fun verify_booking_trainers_card_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
             ScreenTestPreview {
-                Surface {
+                Column {
                     PersonalTrainerCard(
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
@@ -74,7 +74,7 @@ class BookingContentScreenshotTests {
     fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
             ScreenTestPreview {
-                Surface {
+                Column {
                     PersonalTrainerCard(
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
@@ -198,7 +198,8 @@ class BookingContentScreenshotTests {
                         pagerState = pagerState,
                         rowsPerPage = RowsPerPage,
                         itemsPerPage = ItemsPerPage,
-                        onTimeSlotClick = {},
+                        onTimeSlotClick = { _, _ ->
+                        },
                     )
                 }
             }
@@ -226,7 +227,8 @@ class BookingContentScreenshotTests {
                         pagerState = pagerState,
                         rowsPerPage = RowsPerPage,
                         itemsPerPage = ItemsPerPage,
-                        onTimeSlotClick = {},
+                        onTimeSlotClick = { _, _ ->
+                        },
                     )
                 }
             }

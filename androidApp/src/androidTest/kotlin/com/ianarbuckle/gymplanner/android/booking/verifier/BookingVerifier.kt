@@ -6,8 +6,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import com.ianarbuckle.gymplanner.android.booking.presentation.AvailableTimesGrid
-import com.ianarbuckle.gymplanner.android.booking.presentation.CalendarGridTestTag
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.AvailableTimesGrid
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.CalendarGridTestTag
 
 class BookingVerifier(private val composeTestRule: ComposeTestRule) {
 
@@ -44,6 +44,11 @@ class BookingVerifier(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText("Failed to load availability.")
             .assertIsDisplayed()
         composeTestRule.onNodeWithText("Tap to retry")
+            .assertIsDisplayed()
+    }
+
+    fun verifyConfirmBookingButton() {
+        composeTestRule.onNodeWithText("Confirm Booking")
             .assertIsDisplayed()
     }
 }

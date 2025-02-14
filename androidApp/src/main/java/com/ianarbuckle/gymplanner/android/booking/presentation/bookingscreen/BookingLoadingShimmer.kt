@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation
+package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

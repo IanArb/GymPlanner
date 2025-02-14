@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation
+package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ScrollState
@@ -46,7 +46,7 @@ fun BookingContent(
     timeslotRowsPerPage: Int,
     timeslotItemsPerPage: Int,
     onSelectedDateChange: (String) -> Unit,
-    onTimeSlotChange: (String) -> Unit,
+    onTimeSlotChange: (String, String) -> Unit,
     onBookClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -70,8 +70,8 @@ fun BookingContent(
             timeSlotPagerState = timeSlotPagerState,
             timeslotRowsPerPage = timeslotRowsPerPage,
             timeslotItemsPerPage = timeslotItemsPerPage,
-            onTimeSlotClick = {
-                onTimeSlotChange(it)
+            onTimeSlotClick = { id, time ->
+                onTimeSlotChange(id, time)
             },
             selectedDate = selectedDate,
             onSelectedDateChange = {
@@ -157,7 +157,7 @@ private fun BookingContentPreview() {
                 timeslotItemsPerPage = timeslotPickerPageSize,
                 onSelectedDateChange = {
                 },
-                onTimeSlotChange = {
+                onTimeSlotChange = { _, _ ->
                 },
                 isAvailable = true,
                 selectedDate = "2024-12-09",

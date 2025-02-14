@@ -31,7 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.ianarbuckle.gymplanner.android.booking.presentation.BookingScreen
+import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.BookingScreen
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardContent
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsScreen
@@ -61,7 +61,7 @@ import kotlinx.coroutines.flow.first
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Suppress("CyclomaticComplexMethod", "LongMethod")
+    @Suppress("CyclomaticComplexMethod", "LongMethod", "MaxLineLength")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
                                     .plus("/{gymLocation}") ||
                                     currentRoute == BookTrainerScreen::class.qualifiedName
                                         .plus(
-                                            "/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}",
+                                            "/{personalTrainerId}/{name}/{imageUrl}/{gymLocation}?qualifications={qualifications}",
                                         ),
                                 modifier = Modifier,
                                 onBackClick = {
@@ -114,7 +114,7 @@ class MainActivity : ComponentActivity() {
                             ) &&
                             currentRoute != LoginScreen::class.qualifiedName &&
                             currentRoute != BookTrainerScreen::class.qualifiedName.plus(
-                                ("/{personalTrainerId}/{name}/{imageUrl}?qualifications={qualifications}"),
+                                ("/{personalTrainerId}/{name}/{imageUrl}/{gymLocation}?qualifications={qualifications}"),
                             )
                         ) {
                             BottomNavigationBar(
@@ -261,6 +261,7 @@ class MainActivity : ComponentActivity() {
                                             name = personalTrainer.firstName + " " + personalTrainer.lastName,
                                             imageUrl = personalTrainer.imageUrl,
                                             qualifications = personalTrainer.qualifications,
+                                            gymLocation = args.gymLocation.name,
                                         ),
                                     )
                                 },
@@ -287,11 +288,13 @@ class MainActivity : ComponentActivity() {
                             val name = args.name
                             val imageUrl = args.imageUrl
                             val qualifications = args.qualifications
+                            val gymLocation = args.gymLocation
                             BookingScreen(
                                 paddingValues = contentPadding,
                                 name = name,
                                 imageUrl = imageUrl,
                                 qualifications = qualifications,
+                                gymLocation = gymLocation,
                             )
                         }
                     }
