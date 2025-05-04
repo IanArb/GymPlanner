@@ -13,8 +13,8 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Composable
 fun BottomSheet(
     onDismissRequest: () -> Unit,
+    sheetState: SheetState,
     modifier: Modifier = Modifier,
-    sheetState: SheetState = rememberModalBottomSheetState(),
     content: @Composable () -> Unit,
 ) {
     ModalBottomSheet(

@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.fakes
+package com.ianarbuckle.gymplanner.android.availability.fakes
 
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.availability.AvailabilityRepository

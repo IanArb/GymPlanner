@@ -3,21 +3,18 @@ package com.ianarbuckle.gymplanner.booking.domain
 import com.ianarbuckle.gymplanner.booking.dto.BookingDto
 import com.ianarbuckle.gymplanner.booking.dto.BookingResponseDto
 import com.ianarbuckle.gymplanner.booking.dto.BookingStatusDto
-import com.ianarbuckle.gymplanner.booking.dto.ClientDto
 import com.ianarbuckle.gymplanner.booking.dto.PersonalTrainerDto
 
 object BookingMapper {
 
     fun BookingResponseDto.toBookingResponse(): BookingResponse {
-        val clientName = this.client.firstName + " " + this.client.surname
-        val personalTrainerName = this.personalTrainer.firstName + " " + this.personalTrainer.surname
         return BookingResponse(
-            userId = this.client.userId,
-            clientName = clientName,
+            userId = this.userId,
+            timeSlotId = this.timeSlotId,
             bookingDate = this.bookingDate,
-            bookingTime = this.startTime,
-            personalTrainerName = personalTrainerName,
-            status = this.bookingStatus.toBookingStatus(),
+            startTime = this.startTime,
+            personalTrainer = this.personalTrainer.toPersonalTrainer(),
+            status = this.status.toBookingStatus(),
         )
     }
 
@@ -33,28 +30,18 @@ object BookingMapper {
 
     fun Booking.toBookingDto(): BookingDto {
         return BookingDto(
-            client = this.client.toClientDto(),
+            timeSlotId = this.timeSlotId,
+            userId = this.userId,
             bookingDate = this.bookingDate,
             startTime = this.startTime,
             personalTrainer = this.personalTrainer.toPersonalTrainerDto(),
         )
     }
 
-    private fun Client.toClientDto(): ClientDto {
-        return ClientDto(
-            userId = this.userId,
-            firstName = this.firstName,
-            surname = this.surname,
-            email = this.email,
-            gymLocation = this.gymLocation,
-        )
-    }
-
     private fun PersonalTrainer.toPersonalTrainerDto(): PersonalTrainerDto {
         return PersonalTrainerDto(
             id = this.id,
-            firstName = this.firstName,
-            surname = this.surname,
+            name = this.name,
             imageUrl = this.imageUrl,
             gymLocation = this.gymLocation,
         )
@@ -62,28 +49,18 @@ object BookingMapper {
 
     fun BookingDto.toBooking(): Booking {
         return Booking(
-            client = this.client.toClient(),
+            timeSlotId = this.timeSlotId,
+            userId = this.userId,
             bookingDate = this.bookingDate,
             startTime = this.startTime,
             personalTrainer = this.personalTrainer.toPersonalTrainer(),
         )
     }
 
-    private fun ClientDto.toClient(): Client {
-        return Client(
-            userId = this.userId,
-            firstName = this.firstName,
-            surname = this.surname,
-            email = this.email,
-            gymLocation = this.gymLocation,
-        )
-    }
-
     private fun PersonalTrainerDto.toPersonalTrainer(): PersonalTrainer {
         return PersonalTrainer(
             id = this.id,
-            firstName = this.firstName,
-            surname = this.surname,
+            name = this.name,
             imageUrl = this.imageUrl,
             gymLocation = this.gymLocation,
         )

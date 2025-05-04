@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
+package com.ianarbuckle.gymplanner.android.availability.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
 @Composable
-fun BookingLoadingShimmer(
+fun AvailabilityLoadingShimmer(
     paddingValues: PaddingValues,
     shimmer: Shimmer,
     modifier: Modifier = Modifier,
@@ -212,7 +212,7 @@ fun TimeSlotsBoxShimmer(
 private fun BookingLoadingShimmerPreview() {
     GymAppTheme {
         Surface {
-            BookingLoadingShimmer(
+            AvailabilityLoadingShimmer(
                 paddingValues = PaddingValues(16.dp),
                 shimmer = rememberShimmer(
                     shimmerBounds = ShimmerBounds.View,

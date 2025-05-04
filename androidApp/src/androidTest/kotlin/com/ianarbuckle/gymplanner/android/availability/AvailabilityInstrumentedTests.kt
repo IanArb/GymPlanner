@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking
+package com.ianarbuckle.gymplanner.android.availability
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
@@ -6,10 +6,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ianarbuckle.gymplanner.android.MainActivity
-import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
-import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
-import com.ianarbuckle.gymplanner.android.booking.robot.BookingRobot
-import com.ianarbuckle.gymplanner.android.booking.verifier.BookingVerifier
+import com.ianarbuckle.gymplanner.android.availability.robot.AvailabilityRobot
+import com.ianarbuckle.gymplanner.android.availability.verifier.AvailabilityVerifier
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
@@ -22,6 +20,7 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -30,18 +29,17 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.dsl.module
+import java.util.Calendar
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class BookingInstrumentedTests {
+class AvailabilityInstrumentedTests {
 
     @get:Rule(order = 1)
     val disableAnimationsRule = DisableAnimationsRule()
@@ -75,15 +73,9 @@ class BookingInstrumentedTests {
     @JvmField
     val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
 
-    @BindValue
-    @JvmField
-    val bookingViewModel = mockk<BookingViewModel>(relaxed = true)
-
+    private val availabilityRobot = AvailabilityRobot(composeTestRule)
     private val loginRobot = LoginRobot(composeTestRule)
-
-    private val bookingRobot: BookingRobot = BookingRobot(composeTestRule)
-
-    private val bookingVerifier: BookingVerifier = BookingVerifier(composeTestRule)
+    private val availabilityVerifier = AvailabilityVerifier(composeTestRule)
 
     private val composeIdleResource = ComposeIdlingResource()
 
@@ -91,10 +83,8 @@ class BookingInstrumentedTests {
     fun setUp() {
         IdlingRegistry.getInstance().register(composeIdleResource)
 
-        // Correct the static function reference
         mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
 
-        // Define the behavior of the mocked function
         every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
 
@@ -104,7 +94,7 @@ class BookingInstrumentedTests {
     }
 
     @Test
-    fun testBookingIsSuccessfulWhenEndUserConfirms() {
+    fun testBookingAvailabilitySuccessState() {
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()
@@ -128,30 +118,31 @@ class BookingInstrumentedTests {
             isPersonalTrainerAvailable = true,
         )
 
-        val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
-        every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
-
-        bookingRobot.apply {
+        availabilityRobot.apply {
             clickOnPersonalTrainersNavTab()
             clickOnGymLocation(0)
             clickOnBookPersonalTrainer()
             clickOnTimeSlotDay(0)
             clickOnTimeSlot(0)
-            clickOnBookAppointment()
-            clickOnConfirmAppointment()
         }
 
-        bookingUiStateFlow.update {
-            BookingUiState.Success(
-                booking = DataProvider.bookingResponse(),
+        val calendarMonth = Calendar.getInstance().currentMonth()
+
+        availabilityVerifier.apply {
+            val trainer = DataProvider.personalTrainers().first()
+            verifyCalendarMonth(month = calendarMonth)
+            verifyPersonalTrainerNameAndDescription(
+                name = trainer.firstName.plus(" ").plus(trainer.lastName),
+                qualifications = trainer.qualifications,
             )
+            verifyAvailableTimesSize(9)
+            verifyCalendarGridSize(5)
+            verifyBookAppointmentButton()
         }
-
-        bookingVerifier.verifyBookingIsSuccessful()
     }
 
     @Test
-    fun testBookingHasFailedWhenEndUserConfirms() {
+    fun testBookingAvailabilitySuccessStateWhenEndUserSelectsBookAppointment() {
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()
@@ -175,23 +166,55 @@ class BookingInstrumentedTests {
             isPersonalTrainerAvailable = true,
         )
 
-        val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
-        every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
-
-        bookingRobot.apply {
+        availabilityRobot.apply {
             clickOnPersonalTrainersNavTab()
             clickOnGymLocation(0)
             clickOnBookPersonalTrainer()
             clickOnTimeSlotDay(0)
             clickOnTimeSlot(0)
             clickOnBookAppointment()
-            clickOnConfirmAppointment()
         }
 
-        bookingUiStateFlow.update {
-            BookingUiState.Failed
+        availabilityVerifier.apply {
+            verifyConfirmAppointmentButton()
+            verifyBookingDetails(
+                location = "Clontarf",
+                bookingDate = "Sunday 8th December, 2024",
+                bookingTime = "6:00 am",
+            )
+        }
+    }
+
+    @Test
+    fun testBookingAvailabilityFailedState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
         }
 
-        bookingVerifier.verifyBookingFailed()
+        coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
+            items = DataProvider.fitnessClasses(),
+            profile = DataProvider.profile(),
+        )
+
+        coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
+            gymLocations = DataProvider.gymLocations(),
+        )
+
+        coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Success(
+            personalTrainers = DataProvider.personalTrainers(),
+        )
+
+        coEvery { availabilityViewModel.availabilityUiState.value } returns AvailabilityUiState.Failed
+
+        availabilityRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+        }
+
+        availabilityVerifier.apply {
+            verifyErrorState()
+        }
     }
 }

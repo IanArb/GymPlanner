@@ -4,6 +4,8 @@ import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.Booking
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingStatus
+import com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -21,10 +23,15 @@ class FakeBookingRepository : BookingRepository {
         return Result.success(
             BookingResponse(
                 userId = "6730e1cb37f4352118e0c8e1",
-                clientName = "John Doe",
                 bookingDate = "2022-01-01",
-                bookingTime = "12:00",
-                personalTrainerName = "Jane Doe",
+                timeSlotId = "1",
+                startTime = "12:00",
+                personalTrainer = PersonalTrainer(
+                    id = "6730e1cb37f4352118e0c8e1",
+                    name = "John Doe",
+                    imageUrl = "https://example.com/image.jpg",
+                    gymLocation = GymLocation.CLONTARF,
+                ),
                 status = BookingStatus.CONFIRMED,
             ),
         )

@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
+package com.ianarbuckle.gymplanner.android.availability.presentation
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ScrollState
@@ -22,29 +22,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityContentState
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.availability.domain.Time
+import kotlinx.collections.immutable.toImmutableList
 
 @Suppress("LongParameterList")
 @Composable
-fun BookingContent(
+fun AvailabilityContent(
     paddingValues: PaddingValues,
-    personalTrainerLabel: String,
-    name: String,
-    imageUrl: String,
-    qualifications: List<String>,
-    daysOfWeek: List<String>,
-    availableTimes: List<Time>,
-    selectedDate: String,
-    selectedTimeSlot: String,
-    isAvailable: Boolean,
+    contentState: AvailabilityContentState,
     calendarPagerState: PagerState,
     timeSlotPagerState: PagerState,
     verticalScrollState: ScrollState,
-    timeslotRowsPerPage: Int,
-    timeslotItemsPerPage: Int,
     onSelectedDateChange: (String) -> Unit,
     onTimeSlotChange: (String, String) -> Unit,
     onBookClick: () -> Unit,
@@ -56,33 +48,33 @@ fun BookingContent(
             .padding(paddingValues),
     ) {
         PersonalTrainerCard(
-            personalTrainerLabel = personalTrainerLabel,
-            name = name,
-            imageUrl = imageUrl,
-            qualifications = qualifications,
-            isAvailable = isAvailable,
+            personalTrainerLabel = contentState.personalTrainerLabel,
+            name = contentState.name,
+            imageUrl = contentState.imageUrl,
+            qualifications = contentState.qualifications,
+            isAvailable = contentState.isAvailable,
         )
 
         CalendarPickerCard(
-            daysOfWeek = daysOfWeek,
-            availableTimes = availableTimes,
+            daysOfWeek = contentState.daysOfWeek,
+            availableTimes = contentState.availableTimes,
             calendarPagerState = calendarPagerState,
             timeSlotPagerState = timeSlotPagerState,
-            timeslotRowsPerPage = timeslotRowsPerPage,
-            timeslotItemsPerPage = timeslotItemsPerPage,
+            timeslotRowsPerPage = contentState.timeslotRowsPerPage,
+            timeslotItemsPerPage = contentState.timeslotItemsPerPage,
             onTimeSlotClick = { id, time ->
                 onTimeSlotChange(id, time)
             },
-            selectedDate = selectedDate,
+            selectedDate = contentState.selectedDate,
             onSelectedDateChange = {
                 onSelectedDateChange(it)
             },
-            selectedTimeSlot = selectedTimeSlot,
+            selectedTimeSlot = contentState.selectedTimeSlot,
             modifier = Modifier,
         )
     }
 
-    if (selectedTimeSlot.isNotEmpty()) {
+    if (contentState.selectedTimeSlot.isNotEmpty()) {
         BookNowButton(
             onBookClick = onBookClick,
         )
@@ -122,11 +114,25 @@ private fun BookingContentPreview() {
             endTime = it,
             status = "AVAILABLE",
         )
-    }
+    }.toImmutableList()
 
     val timeslotPickerPageSize = 3
     val calendarPagerSize = 4
     val pagerOffset = 5
+
+    val contentState = AvailabilityContentState(
+        personalTrainerLabel = "Personal Trainer",
+        name = "John Doe",
+        imageUrl = "https://randomuser.me/api/port",
+        qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
+        daysOfWeek = daysOfWeek,
+        availableTimes = timeSlots,
+        isAvailable = true,
+        selectedDate = "2024-12-09",
+        selectedTimeSlot = "06:00 AM",
+        timeslotRowsPerPage = timeslotPickerPageSize,
+        timeslotItemsPerPage = timeslotPickerPageSize,
+    )
 
     GymAppTheme {
         Scaffold(
@@ -138,14 +144,9 @@ private fun BookingContentPreview() {
                 )
             },
         ) { innerPadding ->
-            BookingContent(
+            AvailabilityContent(
                 paddingValues = innerPadding,
-                personalTrainerLabel = "Personal Trainer",
-                name = "John Doe",
-                imageUrl = "https://randomuser.me/api/port",
-                qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
-                daysOfWeek = daysOfWeek,
-                availableTimes = timeSlots,
+                contentState = contentState,
                 calendarPagerState = rememberPagerState {
                     (daysOfWeek.size + calendarPagerSize) / pagerOffset
                 },
@@ -153,15 +154,10 @@ private fun BookingContentPreview() {
                     availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
                 },
                 verticalScrollState = rememberScrollState(),
-                timeslotRowsPerPage = timeslotPickerPageSize,
-                timeslotItemsPerPage = timeslotPickerPageSize,
                 onSelectedDateChange = {
                 },
                 onTimeSlotChange = { _, _ ->
                 },
-                isAvailable = true,
-                selectedDate = "2024-12-09",
-                selectedTimeSlot = "06:00 AM",
                 onBookClick = {
                 },
             )

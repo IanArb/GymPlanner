@@ -69,7 +69,7 @@ fun LoginScreenContent(
             .background(Color.White),
     ) {
         SubcomposeAsyncImage(
-            model = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.9p7bkBavk1wVth4ccX5IzwAAAA%26pid%3DApi&f=1&ipt=0fa5a6e9280c12867c00226f63e19134154691845c2e55da100a516f9b9e33ce&ipo=images",
+            model = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D100064453849645&f=1&nofb=1&ipt=956c582251b3095306494eab9d93e7c34c7629841134fa12b97bf1af1a82ca44",
             contentDescription = "Backdrop",
             modifier = Modifier
                 .fillMaxWidth()

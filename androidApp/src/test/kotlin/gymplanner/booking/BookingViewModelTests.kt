@@ -2,8 +2,8 @@ package gymplanner.booking
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.ianarbuckle.gymplanner.android.booking.BookingUiState
-import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
+import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
+import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
 import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.calendarMonth
@@ -46,7 +46,7 @@ class BookingViewModelTests {
         every { set("personalTrainerId", any<String>()) } returns Unit
     }
 
-    private val viewModel: BookingViewModel = BookingViewModel(
+    private val viewModel: AvailabilityViewModel = AvailabilityViewModel(
         bookingRepository = bookingRepository,
         availabilityRepository = availabilityRepository,
         savedStateHandle = savedStateHandle,
@@ -72,11 +72,11 @@ class BookingViewModelTests {
         viewModel.fetchAvailability()
 
         // Act
-        viewModel.bookingState.test {
+        viewModel.availabilityUiState.test {
             // Assert
-            assertEquals(BookingUiState.Idle, awaitItem())
-            assertEquals(BookingUiState.Loading, awaitItem())
-            val successState = awaitItem() as BookingUiState.AvailabilitySuccess
+            assertEquals(AvailabilityUiState.Idle, awaitItem())
+            assertEquals(AvailabilityUiState.Loading, awaitItem())
+            val successState = awaitItem() as AvailabilityUiState.AvailabilitySuccess
             assertEquals(true, successState.isPersonalTrainerAvailable)
             cancelAndIgnoreRemainingEvents()
         }
@@ -95,11 +95,11 @@ class BookingViewModelTests {
         viewModel.fetchAvailability()
 
         // Act
-        viewModel.bookingState.test {
+        viewModel.availabilityUiState.test {
             // Assert
-            assertEquals(BookingUiState.Idle, awaitItem())
-            assertEquals(BookingUiState.Loading, awaitItem())
-            assertEquals(BookingUiState.Failed, awaitItem())
+            assertEquals(AvailabilityUiState.Idle, awaitItem())
+            assertEquals(AvailabilityUiState.Loading, awaitItem())
+            assertEquals(AvailabilityUiState.Failed, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -122,9 +122,9 @@ class BookingViewModelTests {
         viewModel.saveBooking(booking)
 
         // Assert
-        viewModel.bookingState.test {
-            assertEquals(BookingUiState.Loading, awaitItem())
-            assertEquals(BookingUiState.BookingSuccess(bookingResponse), awaitItem())
+        viewModel.availabilityUiState.test {
+            assertEquals(AvailabilityUiState.Loading, awaitItem())
+            assertEquals(AvailabilityUiState.BookingSuccess(bookingResponse), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -146,9 +146,9 @@ class BookingViewModelTests {
         viewModel.saveBooking(booking)
 
         // Assert
-        viewModel.bookingState.test {
-            assertEquals(BookingUiState.Loading, awaitItem())
-            assertEquals(BookingUiState.Failed, awaitItem())
+        viewModel.availabilityUiState.test {
+            assertEquals(AvailabilityUiState.Loading, awaitItem())
+            assertEquals(AvailabilityUiState.Failed, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

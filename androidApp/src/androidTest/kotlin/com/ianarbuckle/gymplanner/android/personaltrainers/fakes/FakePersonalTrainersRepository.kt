@@ -15,4 +15,8 @@ class FakePersonalTrainersRepository : PersonalTrainersRepository {
     private fun mockPersonalTrainers(): Result<ImmutableList<PersonalTrainer>> {
         return Result.success(DataProvider.personalTrainers())
     }
+
+    override suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer> {
+        return Result.success(DataProvider.personalTrainers().first())
+    }
 }

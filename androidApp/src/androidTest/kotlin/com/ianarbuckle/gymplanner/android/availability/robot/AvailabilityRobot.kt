@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.robot
+package com.ianarbuckle.gymplanner.android.availability.robot
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsGridTag
 
-class BookingRobot(private val composeTestRule: ComposeTestRule) {
+class AvailabilityRobot(private val composeTestRule: ComposeTestRule) {
 
     fun clickOnBookPersonalTrainer() {
         composeTestRule.onAllNodesWithText("Book now")[0].performClick()
@@ -38,9 +38,5 @@ class BookingRobot(private val composeTestRule: ComposeTestRule) {
 
     fun clickOnBookAppointment() {
         composeTestRule.onNodeWithText("Book appointment").performClick()
-    }
-
-    fun clickOnConfirmAppointment() {
-        composeTestRule.onNodeWithText("Confirm Booking").performClick()
     }
 }

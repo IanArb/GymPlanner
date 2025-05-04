@@ -37,12 +37,23 @@ data class PersonalTrainersDetailScreen(
 object LoginScreen
 
 @Serializable
-data class BookTrainerScreen(
+data class AvailabilityScreen(
     val personalTrainerId: String,
     val name: String,
     val imageUrl: String,
     val gymLocation: String,
     val qualifications: List<String>,
+)
+
+@Serializable
+data class BookingScreen(
+    val personalTrainerId: String,
+    val timeSlotId: String,
+    val selectedDate: String,
+    val selectedTimeSlot: String,
+    val personalTrainerName: String,
+    val personalTrainerAvatarUrl: String,
+    val location: String,
 )
 
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
@@ -64,3 +75,17 @@ fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
         ),
     )
 }
+
+const val AvailabilityScreenPath = "/{personalTrainerId}" +
+    "/{name}" +
+    "/{imageUrl}" +
+    "/{gymLocation}?qualifications={qualifications}"
+const val PersonalTrainersDetailScreenPath = "/{name}/{bio}/{imageUrl}"
+const val GymLocationsPath = "/{gymLocation}"
+const val BookingScreenPath = "/{personalTrainerId}" +
+    "/{timeSlotId}" +
+    "/{selectedDate}" +
+    "/{selectedTimeSlot}" +
+    "/{personalTrainerName}" +
+    "/{personalTrainerAvatarUrl}" +
+    "/{location}"

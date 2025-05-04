@@ -1,54 +1,25 @@
 package com.ianarbuckle.gymplanner.android.booking.verifier
 
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.AvailableTimesGrid
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.CalendarGridTestTag
 
 class BookingVerifier(private val composeTestRule: ComposeTestRule) {
 
-    fun verifyPersonalTrainerNameAndDescription(
-        name: String,
-        qualifications: List<String>,
-    ) {
-        val items = qualifications.joinToString(", ")
-        composeTestRule.onNodeWithText(name)
-            .assertExists()
-        composeTestRule.onNodeWithText(items)
+    fun verifyBookingIsSuccessful() {
+        composeTestRule.onNodeWithText("Session Confirmed!").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Go to Home").assertIsDisplayed()
     }
 
-    fun verifyAvailableTimesSize(size: Int) {
-        composeTestRule.onNodeWithTag(AvailableTimesGrid)
-            .assertExists()
-            .onChildren()
-            .assertCountEquals(size)
+    fun verifyDashboardScreen() {
+        composeTestRule.onNodeWithText("Dashboard").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Book now").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Personal Trainers").assertIsDisplayed()
     }
 
-    fun verifyCalendarGridSize(size: Int) {
-        composeTestRule.onNodeWithTag(CalendarGridTestTag)
-            .assertExists()
-            .onChildren()
-            .assertCountEquals(size)
-    }
-
-    fun verifyCalendarMonth(month: String) {
-        composeTestRule.onNodeWithText(month)
-            .assertExists()
-    }
-
-    fun verifyErrorState() {
-        composeTestRule.onNodeWithText("Failed to load availability.")
-            .assertIsDisplayed()
-        composeTestRule.onNodeWithText("Tap to retry")
-            .assertIsDisplayed()
-    }
-
-    fun verifyConfirmBookingButton() {
-        composeTestRule.onNodeWithText("Confirm Booking")
-            .assertIsDisplayed()
+    fun verifyBookingFailed() {
+        composeTestRule.onNodeWithText("Booking Failed").assertIsDisplayed()
+        composeTestRule.onNodeWithText("We couldn’t confirm your session. Please check your internet connection and try again.").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Retry").assertIsDisplayed()
     }
 }

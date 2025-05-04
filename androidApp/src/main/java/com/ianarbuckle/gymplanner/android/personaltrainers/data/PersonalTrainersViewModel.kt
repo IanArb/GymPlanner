@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.personaltrainers.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,14 +14,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PersonalTrainersViewModel @Inject constructor(
     private val personalTrainersRepository: PersonalTrainersRepository,
-    private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<PersonalTrainersUiState> = MutableStateFlow(PersonalTrainersUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     fun fetchPersonalTrainers(gymLocation: GymLocation) {
-        viewModelScope.launch(coroutinesDispatcherProvider.io) {
+        viewModelScope.launch {
             personalTrainersRepository.fetchPersonalTrainers(gymLocation).fold(
                 onSuccess = { trainers ->
                     _uiState.update {

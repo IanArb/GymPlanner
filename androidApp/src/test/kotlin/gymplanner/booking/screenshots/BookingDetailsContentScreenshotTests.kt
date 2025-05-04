@@ -10,7 +10,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingdetails.BookingDetailsContent
+import com.ianarbuckle.gymplanner.android.booking.presentation.BookingDetailsContent
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule
 import gymplanner.utils.ScreenTestPreview

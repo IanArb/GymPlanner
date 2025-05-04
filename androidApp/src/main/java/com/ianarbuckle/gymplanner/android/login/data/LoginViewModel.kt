@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.login.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
@@ -20,7 +19,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val dataStoreRepository: DataStoreRepository,
-    private val dispatchers: CoroutinesDispatcherProvider,
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
@@ -30,7 +28,7 @@ class LoginViewModel @Inject constructor(
         _loginState.update {
             LoginState.Loading
         }
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch {
             authenticationRepository.login(login).fold(
                 onSuccess = { response ->
                     dataStoreRepository.saveData(key = USER_ID, value = response.userId)
@@ -51,7 +49,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun persistRememberMe(rememberMe: Boolean) {
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch {
             dataStoreRepository.saveData(key = REMEMBER_ME_KEY, value = rememberMe)
         }
     }

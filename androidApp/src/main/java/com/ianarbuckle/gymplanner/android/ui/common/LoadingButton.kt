@@ -30,7 +30,9 @@ fun LoadingButton(
                 strokeWidth = 2.dp,
             )
         }
-        Text(text)
+        Text(
+            text = text,
+        )
     }
 }
 

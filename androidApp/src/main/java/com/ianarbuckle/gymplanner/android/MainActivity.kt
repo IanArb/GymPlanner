@@ -31,18 +31,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.BookingScreen
+import com.ianarbuckle.gymplanner.android.availability.presentation.AvailabilityScreen
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityScreenState
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.PersonalTrainer
+import com.ianarbuckle.gymplanner.android.booking.presentation.BookingDetailsData
+import com.ianarbuckle.gymplanner.android.booking.presentation.BookingDetailsScreen
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardContent
 import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.login.presentation.LoginScreen
-import com.ianarbuckle.gymplanner.android.navigation.BookTrainerScreen
+import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreen
+import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreenPath
+import com.ianarbuckle.gymplanner.android.navigation.BookingScreen
+import com.ianarbuckle.gymplanner.android.navigation.BookingScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
+import com.ianarbuckle.gymplanner.android.navigation.GymLocationsPath
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
+import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
 import com.ianarbuckle.gymplanner.android.navigation.createBottomNavigationItems
@@ -57,11 +66,13 @@ import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.LocalTime
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Suppress("CyclomaticComplexMethod", "LongMethod", "MaxLineLength")
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Suppress("CyclomaticComplexMethod", "LongMethod", "MaxLineLength", "ComplexCondition")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -83,19 +94,15 @@ class MainActivity : ComponentActivity() {
             GymAppTheme {
                 Scaffold(
                     topBar = {
-                        if (currentRoute != PersonalTrainersDetailScreen::class.qualifiedName
-                                .plus(("/{name}/{bio}/{imageUrl}")) &&
+                        if (currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus((PersonalTrainersDetailScreenPath)) &&
                             currentRoute != LoginScreen::class.qualifiedName
                         ) {
                             TopNavigationBar(
                                 currentRoute = currentRoute,
                                 enableBackButton =
-                                currentRoute == PersonalTrainersScreen::class.qualifiedName
-                                    .plus("/{gymLocation}") ||
-                                    currentRoute == BookTrainerScreen::class.qualifiedName
-                                        .plus(
-                                            "/{personalTrainerId}/{name}/{imageUrl}/{gymLocation}?qualifications={qualifications}",
-                                        ),
+                                currentRoute == PersonalTrainersScreen::class.qualifiedName.plus(GymLocationsPath) ||
+                                    currentRoute == AvailabilityScreen::class.qualifiedName.plus(AvailabilityScreenPath) ||
+                                    currentRoute == BookingScreen::class.qualifiedName.plus(BookingScreenPath),
                                 modifier = Modifier,
                                 onBackClick = {
                                     navController.popBackStack()
@@ -108,14 +115,11 @@ class MainActivity : ComponentActivity() {
                             mutableIntStateOf(0)
                         }
 
-                        if (currentRoute != PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") &&
-                            currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(
-                                ("/{name}/{bio}/{imageUrl}"),
-                            ) &&
+                        if (currentRoute != PersonalTrainersScreen::class.qualifiedName.plus(GymLocationsPath) &&
+                            currentRoute != PersonalTrainersDetailScreen::class.qualifiedName.plus(PersonalTrainersDetailScreenPath) &&
                             currentRoute != LoginScreen::class.qualifiedName &&
-                            currentRoute != BookTrainerScreen::class.qualifiedName.plus(
-                                ("/{personalTrainerId}/{name}/{imageUrl}/{gymLocation}?qualifications={qualifications}"),
-                            )
+                            currentRoute != AvailabilityScreen::class.qualifiedName.plus(AvailabilityScreenPath) &&
+                            currentRoute != BookingScreen::class.qualifiedName.plus(BookingScreenPath)
                         ) {
                             BottomNavigationBar(
                                 navigationItems = createBottomNavigationItems(),
@@ -256,7 +260,7 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onBookClick = { personalTrainer ->
                                     navController.navigate(
-                                        BookTrainerScreen(
+                                        AvailabilityScreen(
                                             personalTrainerId = personalTrainer.id ?: "",
                                             name = personalTrainer.firstName + " " + personalTrainer.lastName,
                                             imageUrl = personalTrainer.imageUrl,
@@ -283,18 +287,56 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable<BookTrainerScreen> {
-                            val args = it.toRoute<BookTrainerScreen>()
-                            val name = args.name
-                            val imageUrl = args.imageUrl
-                            val qualifications = args.qualifications
-                            val gymLocation = args.gymLocation
-                            BookingScreen(
+                        composable<AvailabilityScreen> {
+                            val args = it.toRoute<AvailabilityScreen>()
+
+                            val availabilityScreenState = AvailabilityScreenState(
+                                personalTrainer = PersonalTrainer(
+                                    personalTrainerId = args.personalTrainerId,
+                                    name = args.name,
+                                    imageUrl = args.imageUrl,
+                                    gymLocation = args.gymLocation,
+                                    qualifications = args.qualifications,
+                                ),
+                            )
+                            AvailabilityScreen(
                                 paddingValues = contentPadding,
-                                name = name,
-                                imageUrl = imageUrl,
-                                qualifications = qualifications,
-                                gymLocation = gymLocation,
+                                availabilityScreenState = availabilityScreenState,
+                                onBookingClick = { availabilityData ->
+                                    navController.navigate(
+                                        BookingScreen(
+                                            personalTrainerId = args.personalTrainerId,
+                                            timeSlotId = availabilityData.timeSlotId,
+                                            selectedDate = availabilityData.selectedDate,
+                                            selectedTimeSlot = availabilityData.selectedTimeSlot.toString(),
+                                            personalTrainerName = args.name,
+                                            personalTrainerAvatarUrl = args.imageUrl,
+                                            location = args.gymLocation,
+                                        ),
+                                    )
+                                },
+                            )
+                        }
+
+                        composable<BookingScreen> {
+                            val args = it.toRoute<BookingScreen>()
+
+                            val bookingScreenState = BookingDetailsData(
+                                personalTrainerId = args.personalTrainerId,
+                                timeSlotId = args.timeSlotId,
+                                selectedDate = args.selectedDate,
+                                selectedTimeSlot = LocalTime.parse(args.selectedTimeSlot),
+                                personalTrainerName = args.personalTrainerName,
+                                personalTrainerAvatarUrl = args.personalTrainerAvatarUrl,
+                                location = args.location,
+                            )
+
+                            BookingDetailsScreen(
+                                contentPadding = contentPadding,
+                                bookingDetailsData = bookingScreenState,
+                                navigateToHomeScreen = {
+                                    navController.navigate(DashboardScreen)
+                                },
                             )
                         }
                     }

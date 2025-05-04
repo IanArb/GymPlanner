@@ -6,11 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BookingResponseDto(
     val id: String? = null,
-    val client: ClientDto,
+    val timeSlotId: String,
+    val userId: String,
     val bookingDate: String,
     val startTime: String,
     val personalTrainer: PersonalTrainerDto,
-    val bookingStatus: BookingStatusDto,
+    val status: BookingStatusDto,
 )
 
 @Serializable
@@ -19,14 +20,12 @@ data class ClientDto(
     val firstName: String,
     val surname: String,
     val email: String,
-    val gymLocation: GymLocation,
 )
 
 @Serializable
 data class PersonalTrainerDto(
     val id: String,
-    val firstName: String,
-    val surname: String,
+    val name: String,
     val imageUrl: String,
     val gymLocation: GymLocation,
 )

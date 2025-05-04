@@ -3,7 +3,6 @@ package com.ianarbuckle.gymplanner.android.dashboard.data
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
@@ -31,7 +30,6 @@ class DashboardViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val fitnessClassRepository: FitnessClassRepository,
     private val dataStoreRepository: DataStoreRepository,
-    private val coroutineDispatcherProvider: CoroutinesDispatcherProvider,
     private val clock: Clock,
 ) : ViewModel() {
 
@@ -42,7 +40,7 @@ class DashboardViewModel @Inject constructor(
     fun fetchFitnessClasses() {
         _uiState.update { DashboardUiState.Loading }
 
-        viewModelScope.launch(coroutineDispatcherProvider.io) {
+        viewModelScope.launch {
             val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
             val profileDeferred = async { profileRepository.fetchProfile(userId) }
             val classesDeferred = async { fetchTodaysFitnessClasses() }
@@ -98,9 +96,6 @@ class DashboardViewModel @Inject constructor(
             }
             DayOfWeek.SUNDAY -> {
                 return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.SUNDAY.name)
-            }
-            else -> {
-                return Result.failure(exception = Exception("No classes found"))
             }
         }
     }

@@ -24,6 +24,9 @@ android {
     }
     buildFeatures {
         compose = true
+        composeOptions {
+            kotlinCompilerExtensionVersion = "your_version"
+        }
     }
     packaging {
         resources {
@@ -111,6 +114,7 @@ dependencies {
     androidTestImplementation(libs.koin.android)
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.test.uiautomator)
 
     testImplementation(libs.compose.ui.test)
     testImplementation(libs.kotlinx.coroutines.test)

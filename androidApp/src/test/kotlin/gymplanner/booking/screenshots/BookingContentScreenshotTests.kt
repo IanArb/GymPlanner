@@ -17,9 +17,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.RoborazziRule
 import com.github.takahirom.roborazzi.captureRoboImage
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.CalendarWeekDaysRow
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.PersonalTrainerCard
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen.TimeSlotsBox
+import com.ianarbuckle.gymplanner.android.availability.presentation.CalendarWeekDaysRow
+import com.ianarbuckle.gymplanner.android.availability.presentation.PersonalTrainerCard
+import com.ianarbuckle.gymplanner.android.availability.presentation.TimeSlotsBox
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import gymplanner.utils.FakeDataStore
 import gymplanner.utils.KoinTestRule

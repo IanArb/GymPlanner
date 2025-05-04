@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner.android.utils
 import com.ianarbuckle.gymplanner.availability.domain.Availability
 import com.ianarbuckle.gymplanner.availability.domain.Slot
 import com.ianarbuckle.gymplanner.availability.domain.Time
+import com.ianarbuckle.gymplanner.booking.domain.Booking
+import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
+import com.ianarbuckle.gymplanner.booking.domain.BookingStatus
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.GymPlan
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
@@ -17,6 +20,7 @@ import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.datetime.LocalTime
 
 object DataProvider {
 
@@ -537,7 +541,7 @@ object DataProvider {
         )
     }
 
-    val daysOfWeek: List<String> = listOf(
+    val daysOfWeek: ImmutableList<String> = persistentListOf(
         "2024-12-08",
         "2024-12-09",
         "2024-12-10",
@@ -650,6 +654,47 @@ object DataProvider {
                     ),
                 ),
             ),
+        )
+    }
+
+    fun createBooking(
+        timeSlotId: String = "1",
+        userId: String = "1",
+        personalTrainer: com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer = com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer(
+            id = "123",
+            name = "John Doe",
+            imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            gymLocation = GymLocation.CLONTARF,
+        ),
+    ): Booking {
+        return Booking(
+            timeSlotId = timeSlotId,
+            userId = userId,
+            personalTrainer = personalTrainer,
+            startTime = LocalTime.parse("12:00:00"),
+            bookingDate = "",
+        )
+    }
+
+    fun bookingResponse(
+        userId: String = "1",
+        timeSlotId: String = "1",
+        bookingDate: String = "2024-12-12",
+        bookingTime: String = "12:00:00",
+        personalTrainer: com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer = com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer(
+            id = "123",
+            name = "John Doe",
+            imageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.verywellfit.com%2Fthmb%2FQ6Z",
+            gymLocation = GymLocation.CLONTARF,
+        ),
+    ): BookingResponse {
+        return BookingResponse(
+            userId = userId,
+            timeSlotId = timeSlotId,
+            bookingDate = bookingDate,
+            startTime = bookingTime,
+            personalTrainer = personalTrainer,
+            status = BookingStatus.CONFIRMED,
         )
     }
 }

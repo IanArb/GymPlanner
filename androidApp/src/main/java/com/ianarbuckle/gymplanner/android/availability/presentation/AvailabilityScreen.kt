@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation.bookingscreen
+package com.ianarbuckle.gymplanner.android.availability.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.rememberPagerState
@@ -7,48 +7,46 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ianarbuckle.gymplanner.android.booking.BookingUiState
-import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
-import com.ianarbuckle.gymplanner.android.booking.presentation.bookingdetails.BookingDetailsScreen
+import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
+import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityContentState
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityData
+import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityScreenState
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
-import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
-import kotlinx.coroutines.launch
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookingScreen(
+fun AvailabilityScreen(
     paddingValues: PaddingValues,
-    name: String,
-    imageUrl: String,
-    qualifications: List<String>,
-    gymLocation: String,
+    availabilityScreenState: AvailabilityScreenState,
+    onBookingClick: (AvailabilityData) -> Unit,
     modifier: Modifier = Modifier,
-    bookingViewModel: BookingViewModel = hiltViewModel(),
+    availabilityViewModel: AvailabilityViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
-        bookingViewModel.fetchAvailability()
+        availabilityViewModel.fetchAvailability()
     }
 
-    val bookingState = bookingViewModel.bookingState.collectAsState()
+    val bookingState = availabilityViewModel.availabilityUiState.collectAsState()
 
-    val daysOfWeek: List<String> = currentWeekDates()
+    val daysOfWeek: ImmutableList<String> = currentWeekDates().toImmutableList()
 
     val today = daysOfWeek.find { it.isCurrentDay() } ?: ""
 
@@ -58,12 +56,12 @@ fun BookingScreen(
     val availableTimes = remember { mutableStateOf(emptyList<Time>()) }
 
     when (bookingState.value) {
-        is BookingUiState.Idle -> {
+        is AvailabilityUiState.Idle -> {
             // noop
         }
 
-        is BookingUiState.Loading -> {
-            BookingLoadingShimmer(
+        is AvailabilityUiState.Loading -> {
+            AvailabilityLoadingShimmer(
                 modifier = modifier,
                 paddingValues = paddingValues,
                 shimmer = rememberShimmer(
@@ -71,29 +69,26 @@ fun BookingScreen(
                 ),
             )
         }
-        is BookingUiState.BookingSuccess -> {
-            // Show success state
-        }
-        is BookingUiState.Failed -> {
+
+        is AvailabilityUiState.Failed -> {
             RetryErrorScreen(
                 modifier = modifier,
                 text = "Failed to load availability.",
                 onClick = {
-                    bookingViewModel.fetchAvailability()
+                    availabilityViewModel.fetchAvailability()
                 },
             )
         }
 
-        is BookingUiState.BookingsSuccess -> {
-        }
-
-        is BookingUiState.AvailabilitySuccess -> {
-            val success = bookingState.value as BookingUiState.AvailabilitySuccess
+        is AvailabilityUiState.AvailabilitySuccess -> {
+            val success = bookingState.value as AvailabilityUiState.AvailabilitySuccess
             val availabilitySlots = success.availability.slots
             val isAvailable = success.isPersonalTrainerAvailable
 
             fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> {
-                return availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
+                return availabilitySlots.find {
+                    it.date.contains(selectedDate)
+                }?.times ?: emptyList()
             }
 
             availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
@@ -109,27 +104,27 @@ fun BookingScreen(
                 rememberPagerState { availableTimes.value.chunked(itemsPerPage).size }
 
             val verticalScroll = rememberScrollState()
-            val sheetState = rememberModalBottomSheetState(
-                skipPartiallyExpanded = true,
-            )
-            val coroutineScope = rememberCoroutineScope()
 
-            BookingContent(
-                paddingValues = paddingValues,
+            val contentState = AvailabilityContentState(
                 personalTrainerLabel = "Personal Trainer",
-                name = name,
-                imageUrl = imageUrl,
-                qualifications = qualifications,
+                name = availabilityScreenState.personalTrainer.name,
+                imageUrl = availabilityScreenState.personalTrainer.imageUrl,
+                qualifications = availabilityScreenState.personalTrainer.qualifications,
                 daysOfWeek = daysOfWeek,
-                availableTimes = availableTimes.value,
+                availableTimes = availableTimes.value.toImmutableList(),
                 selectedDate = selectedDate.value,
                 selectedTimeSlot = selectedTimeSlotId.value,
                 isAvailable = isAvailable,
+                timeslotRowsPerPage = rowsPerPage,
+                timeslotItemsPerPage = itemsPerPage,
+            )
+
+            AvailabilityContent(
+                paddingValues = paddingValues,
+                contentState = contentState,
                 calendarPagerState = calendarPagerState,
                 timeSlotPagerState = timeSlotPagerState,
                 verticalScrollState = verticalScroll,
-                timeslotRowsPerPage = rowsPerPage,
-                timeslotItemsPerPage = itemsPerPage,
                 modifier = modifier,
                 onSelectedDateChange = {
                     selectedDate.value = it
@@ -139,31 +134,15 @@ fun BookingScreen(
                     selectedTimeSlot.value = time
                 },
                 onBookClick = {
-                    coroutineScope.launch {
-                        if (!sheetState.isVisible) {
-                            sheetState.show()
-                        }
-                    }
+                    onBookingClick(
+                        AvailabilityData(
+                            timeSlotId = selectedTimeSlotId.value,
+                            selectedDate = selectedDate.value,
+                            selectedTimeSlot = selectedTimeSlot.value.toLocalTime(),
+                        ),
+                    )
                 },
             )
-
-            if (sheetState.isVisible) {
-                BookingDetailsScreen(
-                    selectedDate = selectedDate.value,
-                    selectedTimeSlot = selectedTimeSlot.value.toLocalTime().displayTime(),
-                    location = gymLocation,
-                    personalTrainerName = name,
-                    personalTrainerAvatarUrl = imageUrl,
-                    sheetState = sheetState,
-                    onDismissClick = {
-                        coroutineScope.launch {
-                            sheetState.hide()
-                        }
-                    },
-                    onConfirmClick = {
-                    },
-                )
-            }
         }
     }
 }
@@ -176,6 +155,16 @@ private const val TimeslotPickerPageSize = 3
 @Preview
 @Composable
 private fun BookingScreenPreview() {
+    val availabilityScreenState = AvailabilityScreenState(
+        personalTrainer = com.ianarbuckle.gymplanner.android.availability.presentation.state.PersonalTrainer(
+            personalTrainerId = "1",
+            name = "John Doe",
+            imageUrl = "https://example.com/avatar.jpg",
+            gymLocation = "Clontarf",
+            qualifications = listOf("Qualification 1", "Qualification 2"),
+        ),
+    )
+
     GymAppTheme {
         Scaffold(
             topBar = {
@@ -189,12 +178,12 @@ private fun BookingScreenPreview() {
                 )
             },
         ) { padding ->
-            BookingScreen(
+            AvailabilityScreen(
                 paddingValues = padding,
-                name = "John Doe",
-                imageUrl = "https://example.com/avatar.jpg",
-                qualifications = listOf("Qualification 1", "Qualification 2"),
-                gymLocation = "Clontarf",
+                availabilityScreenState = availabilityScreenState,
+                onBookingClick = {
+                    // Handle booking click
+                },
             )
         }
     }

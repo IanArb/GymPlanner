@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.android.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,14 +13,13 @@ import javax.inject.Inject
 @HiltViewModel
 class NavigationViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    dispatchers: CoroutinesDispatcherProvider,
 ) : ViewModel() {
 
     private val _rememberMe = Channel<Boolean>()
     val rememberMe = _rememberMe.receiveAsFlow()
 
     init {
-        viewModelScope.launch(dispatchers.io) {
+        viewModelScope.launch {
             _rememberMe.send(dataStoreRepository.getBooleanData(key = REMEMBER_ME_KEY) ?: false)
         }
     }

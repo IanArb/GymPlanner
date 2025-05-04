@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.booking.presentation.bookingdetails
+package com.ianarbuckle.gymplanner.android.booking.presentation
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -29,80 +27,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
+import com.ianarbuckle.gymplanner.android.ui.common.LoadingButton
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.displayFormattedDate
+import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.parseToLocalDate
+import kotlinx.datetime.LocalTime
 
 @Composable
 fun BookingDetailsContent(
     onConfirmClick: () -> Unit,
-    onCancelClick: () -> Unit,
     selectedDate: String,
-    selectedTimeSlot: String,
+    selectedTimeSlot: LocalTime,
     personalTrainerName: String,
     personalTrainerAvatarUrl: String,
     location: String,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     Column(
         modifier = modifier,
     ) {
         Column {
-            Text(
-                text = "Booking Details",
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
-                modifier = Modifier.padding(start = 16.dp),
-            )
-
             BookingDetailCard(
                 selectedDate = selectedDate,
-                selectedTimeSlot = selectedTimeSlot,
+                selectedTimeSlot = selectedTimeSlot.displayTime(),
                 location = location,
             )
 
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp,
-                ),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-            ) {
-                Row {
-                    Avatar(
-                        imageUrl = personalTrainerAvatarUrl,
-                        modifier = Modifier
-                            .size(80.dp)
-                            .padding(16.dp),
-                    )
-
-                    Column {
-                        Text(
-                            text = personalTrainerName,
-                            fontWeight = FontWeight.SemiBold,
-                            fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
-                            modifier = Modifier.padding(
-                                top = 16.dp,
-                                start = 8.dp,
-                            ),
-                        )
-
-                        Text(
-                            text = "Personal Trainer",
-                            fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
-                            modifier = Modifier.padding(
-                                top = 4.dp,
-                                start = 8.dp,
-                            ),
-                        )
-                    }
-                }
-            }
+            PersonalTrainerCard(
+                avatarUrl = personalTrainerAvatarUrl,
+                name = personalTrainerName,
+            )
         }
 
         Box(
@@ -111,28 +67,64 @@ fun BookingDetailsContent(
             Column(
                 modifier = Modifier.align(Alignment.BottomCenter),
             ) {
-                Button(
+                LoadingButton(
                     onClick = { onConfirmClick() },
+                    isLoading = isLoading,
+                    text = if (isLoading) "" else "Confirm Booking",
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    Text(text = "Confirm Booking")
-                }
-
+                )
                 Spacer(modifier = Modifier.padding(4.dp))
+            }
+        }
+    }
+}
 
-                Button(
-                    onClick = { onCancelClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        MaterialTheme.colorScheme.error,
+@Composable
+fun PersonalTrainerCard(
+    avatarUrl: String,
+    name: String,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp,
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+    ) {
+        Row {
+            Avatar(
+                imageUrl = avatarUrl,
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(16.dp),
+            )
+
+            Column {
+                Text(
+                    text = name,
+                    fontWeight = FontWeight.SemiBold,
+                    fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
+                    modifier = Modifier.padding(
+                        top = 16.dp,
+                        start = 8.dp,
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    Text(text = "Cancel")
-                }
+                )
+
+                Text(
+                    text = "Personal Trainer",
+                    fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+                    modifier = Modifier.padding(
+                        top = 4.dp,
+                        start = 8.dp,
+                    ),
+                )
             }
         }
     }
@@ -253,7 +245,7 @@ fun BookingDetailSlot(
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-private fun BookingConfirmationContentPreview() {
+private fun BookingDetailsPreview() {
     GymAppTheme {
         Column(
             modifier = Modifier
@@ -262,13 +254,11 @@ private fun BookingConfirmationContentPreview() {
         ) {
             BookingDetailsContent(
                 selectedDate = "2025-02-13",
-                selectedTimeSlot = "10:00 am",
+                selectedTimeSlot = LocalTime.parse("10:00:00"),
                 personalTrainerName = "John Doe",
                 personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
                 location = "Clontarf",
                 onConfirmClick = {
-                },
-                onCancelClick = {
                 },
             )
         }

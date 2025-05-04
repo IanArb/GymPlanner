@@ -1,11 +1,11 @@
 package com.ianarbuckle.gymplanner.booking.domain
 
 data class BookingResponse(
+    val timeSlotId: String,
     val userId: String,
-    val clientName: String,
     val bookingDate: String,
-    val bookingTime: String,
-    val personalTrainerName: String,
+    val startTime: String,
+    val personalTrainer: PersonalTrainer,
     val status: BookingStatus,
 )
 
