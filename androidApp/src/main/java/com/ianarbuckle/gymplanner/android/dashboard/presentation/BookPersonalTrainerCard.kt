@@ -34,15 +34,14 @@ fun BookPersonalTrainerCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = "Book a personal trainer",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f),

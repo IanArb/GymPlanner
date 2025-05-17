@@ -17,6 +17,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import org.junit.Rule
 import org.junit.Test
@@ -59,11 +60,30 @@ class DashboardInstrumentedTests {
         coEvery { viewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses().toImmutableList(),
             profile = DataProvider.profile(),
+            booking = persistentListOf(),
         )
 
         dashboardVerifier.apply {
             verifyBookPersonalTrainerTextExists()
             verifyFitnessClassesTextExists()
+        }
+    }
+
+    @Test
+    fun verifyDashboardSuccessStateWithBookings() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
+
+        coEvery { viewModel.uiState.value } returns DashboardUiState.Success(
+            items = DataProvider.fitnessClasses().toImmutableList(),
+            profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
+        )
+
+        dashboardVerifier.apply {
+            verifyUserBookings()
         }
     }
 
