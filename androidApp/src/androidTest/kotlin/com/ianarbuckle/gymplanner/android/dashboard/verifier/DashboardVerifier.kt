@@ -13,6 +13,13 @@ class DashboardVerifier(private val testComposeRule: ComposeTestRule) {
         testComposeRule.onNodeWithText("Book a six week personal trainer program today")
     }
 
+    fun verifyUserBookings() {
+        testComposeRule.onNodeWithText("Your Bookings")
+            .assertIsDisplayed()
+        testComposeRule.onNodeWithText("John Doe")
+            .assertIsDisplayed()
+    }
+
     fun verifyFitnessClassesTextExists() {
         testComposeRule.onNodeWithText("Today's Classes")
             .assertIsDisplayed()

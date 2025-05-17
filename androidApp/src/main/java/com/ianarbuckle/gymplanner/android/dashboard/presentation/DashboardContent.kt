@@ -26,13 +26,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun DashboardContent(
     innerPadding: PaddingValues,
-    items: ImmutableList<FitnessClass>,
+    classes: ImmutableList<FitnessClass>,
+    bookings: ImmutableList<BookingResponse>,
     onViewScheduleClick: () -> Unit,
     onBookPersonalTrainerClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -69,15 +72,32 @@ fun DashboardContent(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 GymClassesCarousel(
-                    classesCarouselItems = items,
+                    classesCarouselItems = classes,
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                BookPersonalTrainerCard(
-                    onBookPersonalTrainerClick = onBookPersonalTrainerClick,
-                )
+                if (bookings.isEmpty()) {
+                    BookPersonalTrainerCard(
+                        onBookPersonalTrainerClick = onBookPersonalTrainerClick,
+                    )
+                } else {
+                    Text(
+                        text = "Your Bookings",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    BookingsCarousel(
+                        bookings = bookings,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(6.dp))
             }
@@ -98,11 +118,36 @@ private fun DashboardPreview() {
         ) { innerPadding ->
             DashboardContent(
                 innerPadding = innerPadding,
-                items = DataProvider.fitnessClasses(),
+                classes = DataProvider.fitnessClasses(),
                 onViewScheduleClick = {
                 },
                 onBookPersonalTrainerClick = {
                 },
+                bookings = DataProvider.bookings(),
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun DashboardPreviewEmptyBookings() {
+    GymAppTheme {
+        Scaffold(
+            topBar = {
+                TopAppBar(title = { Text("Westwood Gym") })
+            },
+        ) { innerPadding ->
+            DashboardContent(
+                innerPadding = innerPadding,
+                classes = DataProvider.fitnessClasses(),
+                onViewScheduleClick = {
+                },
+                onBookPersonalTrainerClick = {
+                },
+                bookings = persistentListOf(),
             )
         }
     }

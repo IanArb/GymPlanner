@@ -109,6 +109,7 @@ class ReportingInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         reportingRobot.apply {
@@ -150,6 +151,7 @@ class ReportingInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         reportingRobot.apply {

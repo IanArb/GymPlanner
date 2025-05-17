@@ -2,8 +2,6 @@ package com.ianarbuckle.gymplanner.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.ianarbuckle.gymplanner.api.DefaultGymPlanner
-import com.ianarbuckle.gymplanner.api.GymPlanner
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRemoteDataSource
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
@@ -71,7 +69,6 @@ fun initKoin(
         modules(
             networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
             databaseModule(dataStore),
-            gymPlannerModule(),
             clientsModule(baseUrl),
             fitnessClassModule(baseUrl),
             faultReportingModule(baseUrl),
@@ -117,23 +114,6 @@ fun createHttpClient(
 
     defaultRequest {
         url(baseUrl)
-    }
-}
-
-fun gymPlannerModule() = module {
-    single<GymPlanner> {
-        DefaultGymPlanner(
-            clientsRepository = get(),
-            fitnessClassRepository = get(),
-            faultReportingRepository = get(),
-            personalTrainersRepository = get(),
-            gymLocationsRepository = get(),
-            defaultAuthenticationRepository = get(),
-            dataStoreRepository = get(),
-            defaultBookingRepository = get(),
-            profileRepository = get(),
-            defaultAvailabilityRepository = get(),
-        )
     }
 }
 

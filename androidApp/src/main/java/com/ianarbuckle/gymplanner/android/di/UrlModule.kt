@@ -17,7 +17,7 @@ class UrlModule {
     }
 
     companion object {
-        const val BASE_URL = " https://fd5d-86-45-28-173.ngrok-free.app"
+        const val BASE_URL = "https://24c4-86-45-28-173.ngrok-free.app"
         const val NAMED_BASE_URL = "BASE_URL"
     }
 }

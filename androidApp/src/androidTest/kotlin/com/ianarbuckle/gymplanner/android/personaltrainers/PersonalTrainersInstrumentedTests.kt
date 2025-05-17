@@ -72,6 +72,7 @@ class PersonalTrainersInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
@@ -104,6 +105,7 @@ class PersonalTrainersInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
@@ -132,6 +134,7 @@ class PersonalTrainersInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(

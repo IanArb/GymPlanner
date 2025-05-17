@@ -104,3 +104,9 @@ fun LocalDate.displayFormattedDate(): String {
     val formatter = DateTimeFormatter.ofPattern("EEEE d'$dayOfMonthSuffix' MMMM, yyyy", Locale.getDefault())
     return this.toJavaLocalDate().format(formatter)
 }
+
+@Suppress("MagicNumber")
+fun LocalDate.displayShortFormattedDate(): String {
+    val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.getDefault())
+    return this.toJavaLocalDate().format(formatter)
+}

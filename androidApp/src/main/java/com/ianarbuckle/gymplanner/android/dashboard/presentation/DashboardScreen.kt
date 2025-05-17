@@ -39,11 +39,12 @@ fun DashboardScreen(
             DashboardContent(
                 modifier = modifier,
                 innerPadding = contentPadding,
-                items = (uiState.value as DashboardUiState.Success).items,
+                classes = (uiState.value as DashboardUiState.Success).items,
                 onViewScheduleClick = {
                 },
                 onBookPersonalTrainerClick = {
                 },
+                bookings = (uiState.value as DashboardUiState.Success).booking,
             )
         }
 
