@@ -21,12 +21,6 @@ class PersonalTrainersViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
     private val viewModel: PersonalTrainersViewModel = PersonalTrainersViewModel(
         personalTrainersRepository = personalTrainersRepository,

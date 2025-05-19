@@ -25,12 +25,6 @@ class LoginViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val authenticationRepository = mockk<AuthenticationRepository>()
     private val dataStoreRepository = mockk<DataStoreRepository>()
     private val viewModel: LoginViewModel = LoginViewModel(

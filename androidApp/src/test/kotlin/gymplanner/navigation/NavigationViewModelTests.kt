@@ -18,12 +18,6 @@ class NavigationViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val dataStoreRepository = mockk<DataStoreRepository>()
 
     @Test

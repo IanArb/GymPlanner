@@ -19,12 +19,6 @@ class ReportingViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val reportingRepository = mockk<FaultReportingRepository>()
     private val viewModel: ReportingViewModel = ReportingViewModel(
         faultReportingRepository = reportingRepository,
