@@ -36,7 +36,6 @@ class LoginViewModelTests {
     private val viewModel: LoginViewModel = LoginViewModel(
         authenticationRepository = authenticationRepository,
         dataStoreRepository = dataStoreRepository,
-        dispatchers = dispatcherProvider,
     )
 
     @Test

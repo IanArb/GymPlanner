@@ -30,7 +30,6 @@ class PersonalTrainersViewModelTests {
     private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
     private val viewModel: PersonalTrainersViewModel = PersonalTrainersViewModel(
         personalTrainersRepository = personalTrainersRepository,
-        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test

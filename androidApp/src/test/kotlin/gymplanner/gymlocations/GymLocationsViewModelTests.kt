@@ -30,7 +30,6 @@ class GymLocationsViewModelTests {
 
     private val viewModel: GymLocationsViewModel = GymLocationsViewModel(
         gymLocationsRepository = gymLocationsRepository,
-        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test

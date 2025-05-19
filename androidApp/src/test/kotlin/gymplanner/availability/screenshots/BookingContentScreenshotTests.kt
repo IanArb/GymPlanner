@@ -1,4 +1,4 @@
-package gymplanner.booking.screenshots
+package gymplanner.availability.screenshots
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background

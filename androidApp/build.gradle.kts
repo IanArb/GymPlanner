@@ -127,6 +127,7 @@ dependencies {
     testImplementation(libs.roborazzi.junit.rule)
     testImplementation(libs.roboelectric)
     testImplementation(libs.koin.test)
+    testImplementation(kotlin("test"))
 }
 
 // Compile time check

@@ -1,4 +1,4 @@
-package gymplanner.booking.screenshots
+package gymplanner.availability.screenshots
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
@@ -16,6 +16,7 @@ import gymplanner.utils.KoinTestRule
 import gymplanner.utils.ScreenTestPreview
 import gymplanner.utils.createComposeTestRule
 import gymplanner.utils.createRoborazziRule
+import kotlinx.datetime.LocalTime
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,10 +48,9 @@ class BookingDetailsContentScreenshotTests {
                 Surface {
                     BookingDetailsContent(
                         selectedDate = "2022-01-01",
-                        selectedTimeSlot = "10:00 am",
+                        selectedTimeSlot = LocalTime.parse("10:00:00"),
                         location = "Clontarf",
                         onConfirmClick = {},
-                        onCancelClick = {},
                         personalTrainerName = "John Joe",
                         personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
                     )
@@ -68,10 +68,9 @@ class BookingDetailsContentScreenshotTests {
                 Surface {
                     BookingDetailsContent(
                         selectedDate = "2022-01-01",
-                        selectedTimeSlot = "10:00 am",
+                        selectedTimeSlot = LocalTime.parse("10:00:00"),
                         location = "Clontarf",
                         onConfirmClick = {},
-                        onCancelClick = {},
                         personalTrainerName = "John Joe",
                         personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
                     )

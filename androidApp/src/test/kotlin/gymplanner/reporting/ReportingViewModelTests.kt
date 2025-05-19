@@ -28,7 +28,6 @@ class ReportingViewModelTests {
     private val reportingRepository = mockk<FaultReportingRepository>()
     private val viewModel: ReportingViewModel = ReportingViewModel(
         faultReportingRepository = reportingRepository,
-        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test

@@ -32,7 +32,7 @@ class NavigationViewModelTests {
         coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns true
 
         // Act
-        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
         // Assert
         viewModel.rememberMe.test {
@@ -47,7 +47,7 @@ class NavigationViewModelTests {
         coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns false
 
         // Act
-        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
         // Assert
         viewModel.rememberMe.test {
