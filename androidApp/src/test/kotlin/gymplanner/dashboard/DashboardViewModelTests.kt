@@ -4,10 +4,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.booking.BookingRepository
-import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository

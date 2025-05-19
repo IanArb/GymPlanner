@@ -4,10 +4,8 @@ import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
 import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
 import com.ianarbuckle.gymplanner.android.booking.presentation.BookingDetailsData
-import com.ianarbuckle.gymplanner.android.utils.toGymLocation
 import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import gymplanner.utils.TestCoroutineRule
