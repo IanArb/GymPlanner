@@ -3,7 +3,6 @@ package gymplanner.reporting
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.reporting.data.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import gymplanner.utils.TestCoroutineRule

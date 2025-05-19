@@ -3,7 +3,6 @@ package gymplanner.gymlocations
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import gymplanner.utils.TestCoroutineRule

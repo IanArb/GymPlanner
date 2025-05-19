@@ -2,7 +2,6 @@ package gymplanner.navigation
 
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import gymplanner.utils.TestCoroutineRule
