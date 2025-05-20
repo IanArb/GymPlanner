@@ -3,7 +3,6 @@ package gymplanner.gymlocations
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import gymplanner.utils.TestCoroutineRule
@@ -20,17 +19,10 @@ class GymLocationsViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val gymLocationsRepository = mockk<GymLocationsRepository>()
 
     private val viewModel: GymLocationsViewModel = GymLocationsViewModel(
         gymLocationsRepository = gymLocationsRepository,
-        coroutinesDispatcherProvider = dispatcherProvider,
     )
 
     @Test

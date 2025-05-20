@@ -3,6 +3,7 @@ package com.ianarbuckle.gymplanner.android.dashboard.data
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val fitnessClassRepository: FitnessClassRepository,
+    private val bookingRepository: BookingRepository,
     private val dataStoreRepository: DataStoreRepository,
     private val clock: Clock,
 ) : ViewModel() {
@@ -41,28 +43,31 @@ class DashboardViewModel @Inject constructor(
         _uiState.update { DashboardUiState.Loading }
 
         viewModelScope.launch {
-            val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
-            val profileDeferred = async { profileRepository.fetchProfile(userId) }
-            val classesDeferred = async { fetchTodaysFitnessClasses() }
-
-            val profileResult = profileDeferred.await()
-            val classesResult = classesDeferred.await()
-
             supervisorScope {
-                val newState = profileResult.fold(
-                    onSuccess = { profile ->
-                        classesResult.fold(
-                            onSuccess = { classes ->
-                                DashboardUiState.Success(
-                                    items = classes.toImmutableList(),
-                                    profile = profile,
-                                )
-                            },
-                            onFailure = { DashboardUiState.Failure },
+                val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
+
+                val profileDeferred = async { profileRepository.fetchProfile(userId) }
+                val classesDeferred = async { fetchTodaysFitnessClasses() }
+                val bookingsDeferred = async { bookingRepository.findBookingsByUserId(userId) }
+
+                val profileResult = profileDeferred.await()
+                val classesResult = classesDeferred.await()
+                val bookingsResult = bookingsDeferred.await()
+
+                val newState = when {
+                    profileResult.isFailure || classesResult.isFailure || bookingsResult.isFailure
+                    -> DashboardUiState.Failure
+                    else -> {
+                        val profile = profileResult.getOrThrow()
+                        val classes = classesResult.getOrThrow()
+                        val booking = bookingsResult.getOrThrow()
+                        DashboardUiState.Success(
+                            items = classes.toImmutableList(),
+                            profile = profile,
+                            booking = booking,
                         )
-                    },
-                    onFailure = { DashboardUiState.Failure },
-                )
+                    }
+                }
 
                 _uiState.update { newState }
             }

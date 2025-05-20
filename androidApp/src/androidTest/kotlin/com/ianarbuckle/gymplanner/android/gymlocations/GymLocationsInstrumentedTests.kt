@@ -66,6 +66,7 @@ class GymLocationsInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
@@ -92,6 +93,7 @@ class GymLocationsInstrumentedTests {
         coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
             items = DataProvider.fitnessClasses(),
             profile = DataProvider.profile(),
+            booking = DataProvider.bookings(),
         )
 
         coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Failure

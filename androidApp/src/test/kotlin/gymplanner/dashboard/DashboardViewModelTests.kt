@@ -4,7 +4,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
+import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
@@ -27,13 +28,9 @@ class DashboardViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val profileRepository = mockk<ProfileRepository>()
+
+    private val bookingRepository = mockk<BookingRepository>()
     private val fitnessClassRepository = mockk<FitnessClassRepository>()
     private val dataStoreRepository = mockk<DataStoreRepository>()
 
@@ -45,8 +42,8 @@ class DashboardViewModelTests {
         profileRepository = profileRepository,
         fitnessClassRepository = fitnessClassRepository,
         dataStoreRepository = dataStoreRepository,
+        bookingRepository = bookingRepository,
         clock = clock,
-        coroutineDispatcherProvider = dispatcherProvider,
     )
 
     @Test
@@ -55,10 +52,12 @@ class DashboardViewModelTests {
         val userId = "user123"
         val profile = mockk<Profile>()
         val classes = persistentListOf(mockk<FitnessClass>())
+        val bookings = DataProvider.bookings()
 
         coEvery { dataStoreRepository.getStringData(stringPreferencesKey("user_id")) } returns userId
         coEvery { profileRepository.fetchProfile(userId) } returns Result.success(profile)
         coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns Result.success(classes)
+        coEvery { bookingRepository.findBookingsByUserId(any()) } returns Result.success(bookings)
 
         // Act
 
@@ -70,6 +69,7 @@ class DashboardViewModelTests {
             val successState = awaitItem() as DashboardUiState.Success
             assertEquals(profile, successState.profile)
             assertEquals(classes, successState.items)
+            assertEquals(bookings, successState.booking)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -82,6 +82,7 @@ class DashboardViewModelTests {
         coEvery { dataStoreRepository.getStringData(stringPreferencesKey("user_id")) } returns userId
         coEvery { profileRepository.fetchProfile(userId) } returns Result.failure(Exception("Profile fetch failed"))
         coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns Result.failure(Exception("Classes fetch failed"))
+        coEvery { bookingRepository.findBookingsByUserId(any()) } returns Result.failure(Exception("Bookings fetch failed"))
 
         // Act
         viewModel.fetchFitnessClasses()

@@ -388,10 +388,11 @@ private fun DefaultPreview() {
         ) {
             DashboardContent(
                 innerPadding = it,
-                items = DataProvider.fitnessClasses(),
+                classes = DataProvider.fitnessClasses(),
                 onViewScheduleClick = { },
                 onBookPersonalTrainerClick = {
                 },
+                bookings = persistentListOf(),
             )
         }
     }

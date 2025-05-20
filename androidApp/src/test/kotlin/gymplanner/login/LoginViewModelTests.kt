@@ -3,7 +3,6 @@ package gymplanner.login
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
@@ -25,18 +24,11 @@ class LoginViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val authenticationRepository = mockk<AuthenticationRepository>()
     private val dataStoreRepository = mockk<DataStoreRepository>()
     private val viewModel: LoginViewModel = LoginViewModel(
         authenticationRepository = authenticationRepository,
         dataStoreRepository = dataStoreRepository,
-        dispatchers = dispatcherProvider,
     )
 
     @Test

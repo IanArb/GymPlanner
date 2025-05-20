@@ -697,4 +697,8 @@ object DataProvider {
             status = BookingStatus.CONFIRMED,
         )
     }
+
+    fun bookings(): ImmutableList<BookingResponse> {
+        return persistentListOf(bookingResponse())
+    }
 }

@@ -2,7 +2,6 @@ package gymplanner.navigation
 
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
-import com.ianarbuckle.gymplanner.android.utils.CoroutinesDispatcherProvider
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import gymplanner.utils.TestCoroutineRule
@@ -18,12 +17,6 @@ class NavigationViewModelTests {
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
-    private val dispatcherProvider = CoroutinesDispatcherProvider(
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-        testCoroutineRule.testDispatcher,
-    )
-
     private val dataStoreRepository = mockk<DataStoreRepository>()
 
     @Test
@@ -32,7 +25,7 @@ class NavigationViewModelTests {
         coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns true
 
         // Act
-        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
         // Assert
         viewModel.rememberMe.test {
@@ -47,7 +40,7 @@ class NavigationViewModelTests {
         coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns false
 
         // Act
-        val viewModel = NavigationViewModel(dataStoreRepository, dispatcherProvider)
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
         // Assert
         viewModel.rememberMe.test {
