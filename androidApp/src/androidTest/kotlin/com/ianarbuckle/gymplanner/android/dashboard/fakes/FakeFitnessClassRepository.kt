@@ -4,8 +4,6 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 class FakeFitnessClassRepository : FitnessClassRepository {
 

@@ -23,7 +23,7 @@ class FakeGymPlannerModule {
 }
 
 @OptIn(ExperimentalTime::class)
-class FixedClock @OptIn(ExperimentalTime::class) constructor(private val fixedInstant: Instant) : Clock {
-  @OptIn(ExperimentalTime::class)
-  override fun now(): Instant = fixedInstant
+class FixedClock @OptIn(ExperimentalTime::class) constructor(private val fixedInstant: Instant) :
+  Clock {
+  @OptIn(ExperimentalTime::class) override fun now(): Instant = fixedInstant
 }
