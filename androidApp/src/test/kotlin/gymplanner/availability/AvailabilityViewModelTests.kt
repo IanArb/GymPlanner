@@ -29,6 +29,7 @@ class AvailabilityViewModelTests {
     val testCoroutineRule = TestCoroutineRule()
 
     private val availabilityRepository: AvailabilityRepository = mockk()
+
     @OptIn(ExperimentalTime::class)
     private val clock: Clock = mockk(relaxed = true) {
         every { now() } returns Instant.parse("2023-01-01T00:00:00Z")

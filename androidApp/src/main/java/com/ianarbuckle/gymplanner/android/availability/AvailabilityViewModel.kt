@@ -19,8 +19,10 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @HiltViewModel
-class AvailabilityViewModel @OptIn(ExperimentalTime::class)
-@Inject constructor(
+class AvailabilityViewModel
+@OptIn(ExperimentalTime::class)
+@Inject
+constructor(
     private val availabilityRepository: AvailabilityRepository,
     val savedStateHandle: SavedStateHandle,
     private val clock: Clock,

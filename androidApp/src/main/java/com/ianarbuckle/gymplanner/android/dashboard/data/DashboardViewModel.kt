@@ -29,8 +29,10 @@ import kotlin.time.ExperimentalTime
 
 @Stable
 @HiltViewModel
-class DashboardViewModel @OptIn(ExperimentalTime::class)
-@Inject constructor(
+class DashboardViewModel
+@OptIn(ExperimentalTime::class)
+@Inject
+constructor(
     private val profileRepository: ProfileRepository,
     private val fitnessClassRepository: FitnessClassRepository,
     private val bookingRepository: BookingRepository,

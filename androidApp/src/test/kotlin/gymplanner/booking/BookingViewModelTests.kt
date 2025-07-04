@@ -34,7 +34,7 @@ class BookingViewModelTests {
         dataStoreRepository = dataStoreRepository,
     )
 
-    val bookingDetailsData = mockk<BookingDetailsData>() {
+    val bookingDetailsData = mockk<BookingDetailsData> {
         every { timeSlotId } returns "112"
         every { selectedDate } returns "2023-01-01"
         every { selectedTimeSlot } returns LocalTime.parse("10:00:00")
