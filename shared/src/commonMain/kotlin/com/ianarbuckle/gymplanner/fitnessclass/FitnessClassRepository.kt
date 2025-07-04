@@ -12,20 +12,15 @@ import org.koin.core.component.inject
 
 interface FitnessClassRepository {
     suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>>
-    fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>>
 }
 
 class DefaultFitnessClassRepository : FitnessClassRepository, KoinComponent {
 
-    private val localDataSource: FitnessClassLocalDataSource by inject()
     private val remoteDataSource: FitnessClassRemoteDataSource by inject()
 
     override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
         return try {
             val classes = remoteDataSource.fitnessClasses(dayOfWeek)
-            classes.map {
-                localDataSource.saveFitnessClasses(it.transformToFitnessClass())
-            }
             val fitnessClasses = classes.map {
                 it.transformToFitnessClass()
             }
@@ -39,5 +34,4 @@ class DefaultFitnessClassRepository : FitnessClassRepository, KoinComponent {
         }
     }
 
-    override fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> = localDataSource.findAllClients(dayOfWeek)
 }

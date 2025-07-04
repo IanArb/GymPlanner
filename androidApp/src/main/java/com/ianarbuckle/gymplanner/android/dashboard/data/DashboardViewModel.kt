@@ -11,6 +11,7 @@ import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,16 +19,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Stable
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class DashboardViewModel @OptIn(ExperimentalTime::class)
+@Inject constructor(
     private val profileRepository: ProfileRepository,
     private val fitnessClassRepository: FitnessClassRepository,
     private val bookingRepository: BookingRepository,
@@ -55,12 +58,15 @@ class DashboardViewModel @Inject constructor(
                 val bookingsResult = bookingsDeferred.await()
 
                 val newState = when {
-                    profileResult.isFailure || classesResult.isFailure || bookingsResult.isFailure
-                    -> DashboardUiState.Failure
+                    profileResult.isFailure || classesResult.isFailure -> DashboardUiState.Failure
                     else -> {
                         val profile = profileResult.getOrThrow()
                         val classes = classesResult.getOrThrow()
-                        val booking = bookingsResult.getOrThrow()
+                        val booking = if (bookingsResult.isFailure) {
+                            persistentListOf()
+                        } else {
+                            bookingsResult.getOrThrow()
+                        }
                         DashboardUiState.Success(
                             items = classes.toImmutableList(),
                             profile = profile,
@@ -74,6 +80,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     @Suppress("ReturnCount")
     private suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
         val datetimeInSystemZone: LocalDateTime = clock.now().toLocalDateTime(TimeZone.currentSystemDefault())

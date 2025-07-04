@@ -15,15 +15,11 @@ interface GymLocationsRepository {
 
 class DefaultGymLocationsRepository : GymLocationsRepository, KoinComponent {
 
-    private val localDataSource: GymLocationsLocalDataSource by inject()
     private val remoteDataSource: GymLocationsRemoteDataSource by inject()
 
     override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> {
         try {
             val remoteGymLocations = remoteDataSource.gymLocations()
-            remoteGymLocations.map { gymLocation ->
-                localDataSource.saveGymLocation(gymLocation.transformToGymLocations())
-            }
             val gymLocations = remoteGymLocations.map { it.transformToGymLocations() }.toImmutableList()
             return Result.success(gymLocations)
         } catch (ex: Exception) {

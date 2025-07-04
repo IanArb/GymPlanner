@@ -13,20 +13,20 @@ plugins {
 
 android {
     namespace = "com.ianarbuckle.gymplanner.android"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.ianarbuckle.gymplanner.android"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
+
+        buildConfigField("String", "BASE_URL", "\"https://cc13-86-45-28-173.ngrok-free.app\"")
     }
     buildFeatures {
         compose = true
-        composeOptions {
-            kotlinCompilerExtensionVersion = "your_version"
-        }
+        buildConfig = true
     }
     packaging {
         resources {
@@ -52,8 +52,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-
-        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -84,25 +82,21 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.test.manifest)
 
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-
     implementation(libs.kotlinx.immutable.collections)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
-    compileOnly(libs.realm.base)
-
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.datastore.preferences)
 
-    ksp(libs.koin.ksp)
-
     implementation(libs.androidx.tracing)
 
     implementation(platform(libs.firebase.bom))
+
+    implementation(libs.ktor.client.android)
 
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.ktor.client.mock)
@@ -130,11 +124,6 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-// Compile time check
-ksp {
-    arg("KOIN_CONFIG_CHECK", "true")
-}
-
 composeCompiler {
     reportsDestination = layout.buildDirectory.dir("compose_compiler")
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
@@ -148,11 +137,11 @@ roborazzi {
 spotless {
     kotlin {
         target("**/*.kt")
-        ktlint("0.48.2").userData(mapOf("android" to "true"))
+        ktlint("1.2.1").editorConfigOverride(mapOf("android" to "true"))
     }
     kotlinGradle {
         target("**/*.gradle.kts")
-        ktlint("0.48.2")
+        ktlint("1.2.1")
     }
 }
 

@@ -18,15 +18,12 @@ interface PersonalTrainersRepository {
 class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinComponent {
 
     private val remoteDataSource: PersonalTrainersRemoteDataSource by inject()
-    private val localDataSource: PersonalTrainersLocalDataSource by inject()
 
     override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
         try {
             val personalTrainers = remoteDataSource.fetchPersonalTrainers(gymLocation)
             val trainers = personalTrainers.map { trainer ->
                 trainer.toPersonalTrainer()
-            }.onEach { trainer ->
-                localDataSource.savePersonalTrainer(trainer)
             }
             return Result.success(trainers.toImmutableList())
         } catch (ex: Exception) {

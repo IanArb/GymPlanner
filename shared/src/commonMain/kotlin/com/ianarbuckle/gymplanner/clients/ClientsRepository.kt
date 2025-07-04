@@ -18,13 +18,11 @@ interface ClientsRepository {
 
 class DefaultClientsRepository : ClientsRepository, KoinComponent {
 
-    private val localDataSource: ClientsLocalDataSource by inject()
     private val remoteDataSource: ClientsRemoteDataSource by inject()
 
     override suspend fun saveClient(client: Client): Result<Client> {
         try {
             remoteDataSource.saveClient(client)
-            localDataSource.saveGymPlan(client)
             return Result.success(client)
         } catch (ex: Exception) {
             if (ex is CancellationException) {
@@ -39,7 +37,6 @@ class DefaultClientsRepository : ClientsRepository, KoinComponent {
             val remoteClients = remoteDataSource.clients()
             val clients = remoteClients.map { client ->
                 val transformToClient = client.transformToClient()
-                localDataSource.saveGymPlan(transformToClient)
                 transformToClient
             }
             return Result.success(clients.toImmutableList())
@@ -63,7 +60,6 @@ class DefaultClientsRepository : ClientsRepository, KoinComponent {
     override suspend fun deleteClient(id: String): Result<Unit> {
         try {
             remoteDataSource.deleteClient(id)
-            localDataSource.deleteClient(id)
             return Result.success(Unit)
         } catch (ex: Exception) {
             if (ex is CancellationException) {

@@ -13,20 +13,23 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 class AvailabilityViewModelTests {
 
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 
     private val availabilityRepository: AvailabilityRepository = mockk()
+    @OptIn(ExperimentalTime::class)
     private val clock: Clock = mockk(relaxed = true) {
         every { now() } returns Instant.parse("2023-01-01T00:00:00Z")
     }

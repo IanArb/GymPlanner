@@ -12,13 +12,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
-class AvailabilityViewModel @Inject constructor(
+class AvailabilityViewModel @OptIn(ExperimentalTime::class)
+@Inject constructor(
     private val availabilityRepository: AvailabilityRepository,
     val savedStateHandle: SavedStateHandle,
     private val clock: Clock,
@@ -29,6 +31,7 @@ class AvailabilityViewModel @Inject constructor(
 
     private val personalTrainerId = savedStateHandle.get<String>("personalTrainerId")
 
+    @OptIn(ExperimentalTime::class)
     fun fetchAvailability() {
         viewModelScope.launch {
             val currentDateTime = clock.now().toLocalDateTime(TimeZone.Companion.currentSystemDefault())

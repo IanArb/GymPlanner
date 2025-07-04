@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.utils
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -15,35 +14,9 @@ import kotlinx.datetime.toJavaLocalTime
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
 import java.util.Locale
-
-fun LocalDateTime.dayOfWeekDisplayName(
-    textStyle: TextStyle,
-    locale: Locale = Locale.getDefault(),
-): String {
-    return this.dayOfWeek.getDisplayName(textStyle, locale)
-}
-
-fun LocalDateTime.monthDisplayName(
-    textStyle: TextStyle,
-    locale: Locale = Locale.getDefault(),
-): String {
-    return this.month.getDisplayName(textStyle, locale)
-}
-
-fun differenceInDays(
-    startDate: LocalDate,
-    endDate: LocalDate,
-): Int {
-    return startDate.daysUntil(endDate)
-}
-
-fun parseToLocalDateTimeIso(
-    input: String,
-): LocalDateTime {
-    return LocalDateTime.parse(input, LocalDateTime.Formats.ISO)
-}
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 fun String.parseToLocalDate(): LocalDate {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -65,6 +38,7 @@ fun LocalDateTime.calendarMonth(): String {
     return this.toJavaLocalDateTime().format(formatter)
 }
 
+@OptIn(ExperimentalTime::class)
 @Suppress("MagicNumber")
 fun currentWeekDates(): List<String> {
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
@@ -76,6 +50,7 @@ fun currentWeekDates(): List<String> {
     }
 }
 
+@OptIn(ExperimentalTime::class)
 fun String.isCurrentDay(): Boolean {
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())

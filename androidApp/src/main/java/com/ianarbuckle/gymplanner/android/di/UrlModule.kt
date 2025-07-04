@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.di
 
+import com.ianarbuckle.gymplanner.android.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,11 +14,11 @@ class UrlModule {
     @Provides
     @Named(NAMED_BASE_URL)
     fun provideBaseUrl(): String {
-        return BASE_URL
+        return BuildConfig.BASE_URL
     }
 
     companion object {
-        const val BASE_URL = "https://24c4-86-45-28-173.ngrok-free.app"
+        const val BASE_URL = "https://cc13-86-45-28-173.ngrok-free.app"
         const val NAMED_BASE_URL = "BASE_URL"
     }
 }

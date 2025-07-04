@@ -1,8 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.realm)
     alias(libs.plugins.ksp)
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
@@ -11,8 +12,8 @@ plugins {
 kotlin {
     androidTarget {
         compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
+            compilerOptions.configure { // Use the new compilerOptions DSL
+                jvmTarget.set(JvmTarget.JVM_1_8) // Set the JVM target using the new syntax
             }
         }
     }
@@ -43,9 +44,6 @@ kotlin {
             // Kotlinx
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
-
-            // Realm
-            implementation(libs.realm.base)
 
             // Datetime
             implementation(libs.kotlinx.datetime)
@@ -102,11 +100,11 @@ android {
 spotless {
     kotlin {
         target("**/*.kt")
-        ktlint("0.48.2").userData(mapOf("android" to "true"))
+        ktlint("1.2.1").editorConfigOverride(mapOf("android" to "true"))
     }
     kotlinGradle {
         target("**/*.gradle.kts")
-        ktlint("0.48.2")
+        ktlint("1.2.1")
     }
 }
 
