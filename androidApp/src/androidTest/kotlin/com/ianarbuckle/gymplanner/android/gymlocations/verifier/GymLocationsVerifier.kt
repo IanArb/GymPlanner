@@ -10,21 +10,16 @@ import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocations
 
 class GymLocationsVerifier(private val composeTestRule: ComposeTestRule) {
 
-    fun verifyGymLocationsScreenIsDisplayed() {
-        composeTestRule.onNodeWithText("Gym Locations")
-            .assertIsDisplayed()
-    }
+  fun verifyGymLocationsScreenIsDisplayed() {
+    composeTestRule.onNodeWithText("Gym Locations").assertIsDisplayed()
+  }
 
-    fun verifyGymLocationsItemsSize(size: Int) {
-        composeTestRule.onNodeWithTag(GymLocationsGridTag)
-            .onChildren()
-            .assertCountEquals(size)
-    }
+  fun verifyGymLocationsItemsSize(size: Int) {
+    composeTestRule.onNodeWithTag(GymLocationsGridTag).onChildren().assertCountEquals(size)
+  }
 
-    fun verifyErrorStateIsDisplayed() {
-        composeTestRule.onNodeWithText("Failed to retrieve gym locations.")
-            .assertIsDisplayed()
-        composeTestRule.onNodeWithText("Tap to retry")
-            .assertIsDisplayed()
-    }
+  fun verifyErrorStateIsDisplayed() {
+    composeTestRule.onNodeWithText("Failed to retrieve gym locations.").assertIsDisplayed()
+    composeTestRule.onNodeWithText("Tap to retry").assertIsDisplayed()
+  }
 }

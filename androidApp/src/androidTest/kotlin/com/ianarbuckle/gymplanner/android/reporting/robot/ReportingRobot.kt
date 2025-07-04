@@ -10,51 +10,35 @@ import com.ianarbuckle.gymplanner.android.reporting.presentation.ImageSelectionT
 
 class ReportingRobot(private val composeTestRule: ComposeTestRule) {
 
-    fun tapOnReportNavTab() {
-        composeTestRule
-            .onNodeWithText("Report Machine")
-            .performClick()
-    }
+  fun tapOnReportNavTab() {
+    composeTestRule.onNodeWithText("Report Machine").performClick()
+  }
 
-    fun populateForm() {
-        composeTestRule
-            .onNodeWithText("The machine number")
-            .performTextInput("123")
+  fun populateForm() {
+    composeTestRule.onNodeWithText("The machine number").performTextInput("123")
 
-        composeTestRule.onNodeWithText("The machine number")
-            .performImeAction()
+    composeTestRule.onNodeWithText("The machine number").performImeAction()
 
-        composeTestRule
-            .onNodeWithText("Describe the fault of the machine")
-            .performTextInput("Broken machine")
+    composeTestRule
+      .onNodeWithText("Describe the fault of the machine")
+      .performTextInput("Broken machine")
 
-        composeTestRule.onNodeWithText("Describe the fault of the machine")
-            .performImeAction()
-    }
+    composeTestRule.onNodeWithText("Describe the fault of the machine").performImeAction()
+  }
 
-    fun populateFormWithEmptyFields() {
-        composeTestRule
-            .onNodeWithText("Machine number")
-            .performTextInput("")
+  fun populateFormWithEmptyFields() {
+    composeTestRule.onNodeWithText("Machine number").performTextInput("")
 
-        composeTestRule
-            .onNodeWithText("Description")
-            .performTextInput("")
+    composeTestRule.onNodeWithText("Description").performTextInput("")
 
-        composeTestRule
-            .onNodeWithText("Send")
-            .performClick()
-    }
+    composeTestRule.onNodeWithText("Send").performClick()
+  }
 
-    fun performPhotoAction() {
-        composeTestRule
-            .onNodeWithTag(ImageSelectionTestTag)
-            .performClick()
-    }
+  fun performPhotoAction() {
+    composeTestRule.onNodeWithTag(ImageSelectionTestTag).performClick()
+  }
 
-    fun performSend() {
-        composeTestRule
-            .onNodeWithText("Send")
-            .performClick()
-    }
+  fun performSend() {
+    composeTestRule.onNodeWithText("Send").performClick()
+  }
 }

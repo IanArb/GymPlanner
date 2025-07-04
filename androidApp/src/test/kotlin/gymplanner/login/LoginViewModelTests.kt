@@ -21,66 +21,67 @@ import org.junit.Test
 
 class LoginViewModelTests {
 
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
+  @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-    private val authenticationRepository = mockk<AuthenticationRepository>()
-    private val dataStoreRepository = mockk<DataStoreRepository>()
-    private val viewModel: LoginViewModel = LoginViewModel(
-        authenticationRepository = authenticationRepository,
-        dataStoreRepository = dataStoreRepository,
+  private val authenticationRepository = mockk<AuthenticationRepository>()
+  private val dataStoreRepository = mockk<DataStoreRepository>()
+  private val viewModel: LoginViewModel =
+    LoginViewModel(
+      authenticationRepository = authenticationRepository,
+      dataStoreRepository = dataStoreRepository,
     )
 
-    @Test
-    fun `login should update loginState to Success when API call succeeds`() = runTest {
-        // Arrange
-        val login = Login("username", "password")
-        val loginResponse = LoginResponse("token", "userId", 500L)
-        coEvery { authenticationRepository.login(login) } returns Result.success(loginResponse)
-        coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
-        coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
+  @Test
+  fun `login should update loginState to Success when API call succeeds`() = runTest {
+    // Arrange
+    val login = Login("username", "password")
+    val loginResponse = LoginResponse("token", "userId", 500L)
+    coEvery { authenticationRepository.login(login) } returns Result.success(loginResponse)
+    coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
+    coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
 
-        // Act
-        viewModel.login(login)
+    // Act
+    viewModel.login(login)
 
-        // Assert
-        viewModel.loginState.test {
-            assertEquals(LoginState.Loading, awaitItem())
-            assertEquals(LoginState.Success(loginResponse), awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+    // Assert
+    viewModel.loginState.test {
+      assertEquals(LoginState.Loading, awaitItem())
+      assertEquals(LoginState.Success(loginResponse), awaitItem())
+      cancelAndIgnoreRemainingEvents()
     }
+  }
 
-    @Test
-    fun `login should update loginState to Error when API call fails`() = runTest {
-        // Arrange
-        val login = Login("username", "password")
-        coEvery { authenticationRepository.login(login) } returns Result.failure(Exception("Login failed"))
+  @Test
+  fun `login should update loginState to Error when API call fails`() = runTest {
+    // Arrange
+    val login = Login("username", "password")
+    coEvery { authenticationRepository.login(login) } returns
+      Result.failure(Exception("Login failed"))
 
-        // Act
-        viewModel.login(login)
+    // Act
+    viewModel.login(login)
 
-        // Assert
-        viewModel.loginState.test {
-            assertEquals(LoginState.Loading, awaitItem())
-            assertEquals(LoginState.Error, awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+    // Assert
+    viewModel.loginState.test {
+      assertEquals(LoginState.Loading, awaitItem())
+      assertEquals(LoginState.Error, awaitItem())
+      cancelAndIgnoreRemainingEvents()
     }
+  }
 
-    @Test
-    fun `persistRememberMe should call saveRememberMe on gymPlanner`() = runTest {
-        // Arrange
-        val rememberMe = true
-        coEvery { dataStoreRepository.saveData(REMEMBER_ME_KEY, rememberMe) } returns Unit
+  @Test
+  fun `persistRememberMe should call saveRememberMe on gymPlanner`() = runTest {
+    // Arrange
+    val rememberMe = true
+    coEvery { dataStoreRepository.saveData(REMEMBER_ME_KEY, rememberMe) } returns Unit
 
-        // Act
-        viewModel.persistRememberMe(rememberMe)
+    // Act
+    viewModel.persistRememberMe(rememberMe)
 
-        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
+    testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
 
-        // Assert
-        // No state to test, just verify the method call
-        coVerify { dataStoreRepository.saveData(REMEMBER_ME_KEY, rememberMe) }
-    }
+    // Assert
+    // No state to test, just verify the method call
+    coVerify { dataStoreRepository.saveData(REMEMBER_ME_KEY, rememberMe) }
+  }
 }

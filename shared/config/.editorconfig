@@ -1,0 +1,8 @@
+[*.{kt,kts}]
+ktlint_compose_composition_local-naming = enabled
+ktlint_compose_content-padding-in-scaffold = enabled
+ktlint_compose_modifier-element-order = enabled
+ktlint_compose_modifier-missing-check = enabled
+ktlint_compose_mutable-state-in-composable = enabled
+ktlint_compose_preview-public = enabled
+

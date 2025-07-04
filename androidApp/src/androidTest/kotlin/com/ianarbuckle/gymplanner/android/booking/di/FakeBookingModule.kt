@@ -7,15 +7,12 @@ import dagger.Provides
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.testing.TestInstallIn
 
-@TestInstallIn(
-    components = [ViewModelComponent::class],
-    replaces = [BookingModule::class],
-)
+@TestInstallIn(components = [ViewModelComponent::class], replaces = [BookingModule::class])
 @Module
 class FakeBookingModule {
 
-    @Provides
-    fun provideBookingRepository(): BookingRepository {
-        return FakeBookingRepository()
-    }
+  @Provides
+  fun provideBookingRepository(): BookingRepository {
+    return FakeBookingRepository()
+  }
 }

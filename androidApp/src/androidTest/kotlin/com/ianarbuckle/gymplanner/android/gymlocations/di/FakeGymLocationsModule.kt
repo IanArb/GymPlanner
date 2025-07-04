@@ -7,15 +7,12 @@ import dagger.Provides
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.testing.TestInstallIn
 
-@TestInstallIn(
-    components = [ViewModelComponent::class],
-    replaces = [GymLocationsModule::class],
-)
+@TestInstallIn(components = [ViewModelComponent::class], replaces = [GymLocationsModule::class])
 @Module
 class FakeGymLocationsModule {
 
-    @Provides
-    fun provideGymLocationsRepository(): GymLocationsRepository {
-        return FakeGymLocationsRepository()
-    }
+  @Provides
+  fun provideGymLocationsRepository(): GymLocationsRepository {
+    return FakeGymLocationsRepository()
+  }
 }

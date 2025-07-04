@@ -14,37 +14,32 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class BookingRemoteDataSource(
-    private val baseUrl: String,
-    private val httpClient: HttpClient,
-    private val dataStoreRepository: DataStoreRepository,
+  private val baseUrl: String,
+  private val httpClient: HttpClient,
+  private val dataStoreRepository: DataStoreRepository,
 ) {
 
-    suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
-        val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
-        val response = httpClient.post(baseUrl.plus(BOOKING_ENDPOINT)) {
-            contentType(ContentType.Application.Json)
-            setBody(bookingDto)
-            headers {
-                append("Authorization", "Bearer $token")
-            }
-        }
+  suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
+    val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
+    val response =
+      httpClient.post(baseUrl.plus(BOOKING_ENDPOINT)) {
+        contentType(ContentType.Application.Json)
+        setBody(bookingDto)
+        headers { append("Authorization", "Bearer $token") }
+      }
 
-        return response.body()
-    }
+    return response.body()
+  }
 
-    suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto> {
-        val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
-        val url = baseUrl.plus(BOOKING_ENDPOINT).plus("/$userId")
-        val response = httpClient.get(url) {
-            headers {
-                append("Authorization", "Bearer $token")
-            }
-        }
+  suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto> {
+    val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
+    val url = baseUrl.plus(BOOKING_ENDPOINT).plus("/$userId")
+    val response = httpClient.get(url) { headers { append("Authorization", "Bearer $token") } }
 
-        return response.body()
-    }
+    return response.body()
+  }
 
-    companion object {
-        const val BOOKING_ENDPOINT = "/api/v1/booking"
-    }
+  companion object {
+    const val BOOKING_ENDPOINT = "/api/v1/booking"
+  }
 }

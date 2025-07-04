@@ -24,48 +24,42 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun GymLocationsSelection(
-    innerPadding: PaddingValues,
-    gyms: ImmutableList<GymLocations>,
-    onClick: (GymLocations) -> Unit,
-    modifier: Modifier = Modifier,
+  innerPadding: PaddingValues,
+  gyms: ImmutableList<GymLocations>,
+  onClick: (GymLocations) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(innerPadding)) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(128.dp),
-            contentPadding = PaddingValues(16.dp),
-            modifier = Modifier.testTag(GymLocationsGridTag),
-        ) {
-            items(gyms) { gym ->
-                GymLocationCard(
-                    imageUrl = gym.imageUrl,
-                    title = gym.title,
-                    subTitle = gym.subTitle,
-                    modifier = Modifier.clickable {
-                        onClick(gym)
-                    },
-                )
-            }
-        }
+  Column(modifier = modifier.padding(innerPadding)) {
+    LazyVerticalGrid(
+      columns = GridCells.Adaptive(128.dp),
+      contentPadding = PaddingValues(16.dp),
+      modifier = Modifier.testTag(GymLocationsGridTag),
+    ) {
+      items(gyms) { gym ->
+        GymLocationCard(
+          imageUrl = gym.imageUrl,
+          title = gym.title,
+          subTitle = gym.subTitle,
+          modifier = Modifier.clickable { onClick(gym) },
+        )
+      }
     }
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun GymLocationsSelectionPreview() {
-    GymAppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(title = { Text("Westwood Gym") })
-            },
-        ) {
-            GymLocationsSelection(
-                innerPadding = it,
-                gyms = DataProvider.gymLocations().toImmutableList(),
-                onClick = { },
-            )
-        }
+  GymAppTheme {
+    Scaffold(topBar = { TopAppBar(title = { Text("Westwood Gym") }) }) {
+      GymLocationsSelection(
+        innerPadding = it,
+        gyms = DataProvider.gymLocations().toImmutableList(),
+        onClick = {},
+      )
     }
+  }
 }
 
 const val GymLocationsGridTag = "GymLocationsGrid"

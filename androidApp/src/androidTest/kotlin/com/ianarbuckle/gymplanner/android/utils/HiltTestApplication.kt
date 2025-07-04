@@ -8,12 +8,9 @@ import dagger.hilt.android.testing.CustomTestApplication
 @CustomTestApplication(BaseApplication::class)
 class HiltTestApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        initKoin(
-            baseUrl = "http://localhost:8080/",
-            dataStore = FakeDataStore(),
-        )
-    }
+    initKoin(baseUrl = "http://localhost:8080/", dataStore = FakeDataStore())
+  }
 }

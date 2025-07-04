@@ -43,128 +43,120 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 fun initKoin(
-    enableNetworkLogs: Boolean = false,
-    appDeclaration: KoinAppDeclaration = {},
-    baseUrl: String,
-    dataStore: DataStore<Preferences>,
+  enableNetworkLogs: Boolean = false,
+  appDeclaration: KoinAppDeclaration = {},
+  baseUrl: String,
+  dataStore: DataStore<Preferences>,
 ) {
-    startKoin {
-        appDeclaration()
-        modules(
-            networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
-            databaseModule(dataStore),
-            clientsModule(baseUrl),
-            fitnessClassModule(baseUrl),
-            faultReportingModule(baseUrl),
-            personalTrainersModule(baseUrl),
-            gymLocationsModule(baseUrl),
-            authenticationModule(baseUrl),
-            dataStoreModule(),
-            profileModule(baseUrl),
-            bookingModule(baseUrl),
-            availabilityModule(baseUrl),
-        )
-    }
+  startKoin {
+    appDeclaration()
+    modules(
+      networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
+      databaseModule(dataStore),
+      clientsModule(baseUrl),
+      fitnessClassModule(baseUrl),
+      faultReportingModule(baseUrl),
+      personalTrainersModule(baseUrl),
+      gymLocationsModule(baseUrl),
+      authenticationModule(baseUrl),
+      dataStoreModule(),
+      profileModule(baseUrl),
+      bookingModule(baseUrl),
+      availabilityModule(baseUrl),
+    )
+  }
 }
 
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
-    singleOf(::createJson)
-    single {
-        createHttpClient(
-            json = get(),
-            enableNetworkLogs = enableNetworkLogs,
-            baseUrl = baseUrl,
-        )
-    }
+  singleOf(::createJson)
+  single {
+    createHttpClient(json = get(), enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl)
+  }
 }
 
 fun createJson() = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
+  ignoreUnknownKeys = true
+  isLenient = true
 }
 
-fun createHttpClient(
-    json: Json,
-    enableNetworkLogs: Boolean,
-    baseUrl: String,
-) = HttpClient {
-    install(ContentNegotiation) {
-        json(json)
-    }
-    if (enableNetworkLogs) {
-        install(Logging) {
-        }
-    }
+fun createHttpClient(json: Json, enableNetworkLogs: Boolean, baseUrl: String) = HttpClient {
+  install(ContentNegotiation) { json(json) }
+  if (enableNetworkLogs) {
+    install(Logging) {}
+  }
 
-    defaultRequest {
-        url(baseUrl)
-    }
+  defaultRequest { url(baseUrl) }
 }
 
 fun clientsModule(baseUrl: String) = module {
-    single { ClientsRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get()) }
-    single<ClientsRepository> { DefaultClientsRepository() }
+  single {
+    ClientsRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get())
+  }
+  single<ClientsRepository> { DefaultClientsRepository() }
 }
 
 fun fitnessClassModule(baseUrl: String) = module {
-    single { FitnessClassRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get()) }
-    single<FitnessClassRepository> { DefaultFitnessClassRepository() }
+  single {
+    FitnessClassRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get())
+  }
+  single<FitnessClassRepository> { DefaultFitnessClassRepository() }
 }
 
 fun faultReportingModule(baseUrl: String) = module {
-    single { FaultReportingRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get()) }
-    single<FaultReportingRepository> { DefaultFaultReportingRepository() }
+  single {
+    FaultReportingRemoteDataSource(
+      httpClient = get(),
+      baseurl = baseUrl,
+      dataStoreRepository = get(),
+    )
+  }
+  single<FaultReportingRepository> { DefaultFaultReportingRepository() }
 }
 
 fun personalTrainersModule(baseUrl: String) = module {
-    single { PersonalTrainersRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
-    single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() }
+  single {
+    PersonalTrainersRemoteDataSource(
+      baseUrl = baseUrl,
+      httpClient = get(),
+      dataStoreRepository = get(),
+    )
+  }
+  single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() }
 }
 
 fun gymLocationsModule(baseUrl: String) = module {
-    single { GymLocationsRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
-    single<GymLocationsRepository> { DefaultGymLocationsRepository() }
+  single {
+    GymLocationsRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
+  }
+  single<GymLocationsRepository> { DefaultGymLocationsRepository() }
 }
 
 fun profileModule(baseUrl: String) = module {
-    single {
-        ProfileRemoteDataSource(
-            httpClient = get(),
-            baseUrl = baseUrl,
-            dataStoreRepository = get(),
-        )
-    }
-    single<ProfileRepository> {
-        DefaultProfileRepository()
-    }
+  single {
+    ProfileRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+  }
+  single<ProfileRepository> { DefaultProfileRepository() }
 }
 
 fun authenticationModule(baseUrl: String) = module {
-    single {
-        AuthenticationRemoteDataSource(
-            baseurl = baseUrl,
-            httpClient = get(),
-        )
-    }
-    single<AuthenticationRepository> {
-        DefaultAuthenticationRepository()
-    }
+  single { AuthenticationRemoteDataSource(baseurl = baseUrl, httpClient = get()) }
+  single<AuthenticationRepository> { DefaultAuthenticationRepository() }
 }
 
 fun bookingModule(baseUrl: String) = module {
-    single { BookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
-    single<BookingRepository> { DefaultBookingRepository() }
+  single {
+    BookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
+  }
+  single<BookingRepository> { DefaultBookingRepository() }
 }
 
-fun dataStoreModule() = module {
-    single<DataStoreRepository> { DefaultDataStoreRepository() }
-}
+fun dataStoreModule() = module { single<DataStoreRepository> { DefaultDataStoreRepository() } }
 
 fun availabilityModule(baseUrl: String) = module {
-    single { AvailabilityRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get()) }
-    single<AvailabilityRepository> { DefaultAvailabilityRepository() }
+  single {
+    AvailabilityRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
+  }
+  single<AvailabilityRepository> { DefaultAvailabilityRepository() }
 }
 
-fun databaseModule(dataStore: DataStore<Preferences>) = module {
-    single { dataStore }
-}
+fun databaseModule(dataStore: DataStore<Preferences>) = module { single { dataStore } }

@@ -9,23 +9,19 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeFitnessClassRepository : FitnessClassRepository {
 
-    override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
-        return mockFitnessClassSuccess()
-    }
+  override suspend fun fetchFitnessClasses(dayOfWeek: String): Result<ImmutableList<FitnessClass>> {
+    return mockFitnessClassSuccess()
+  }
 
-    override fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> {
-        return flowOf(DataProvider.fitnessClasses())
-    }
+  override fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> {
+    return flowOf(DataProvider.fitnessClasses())
+  }
 
-    private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {
-        return Result.success(
-            DataProvider.fitnessClasses(),
-        )
-    }
+  private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {
+    return Result.success(DataProvider.fitnessClasses())
+  }
 
-    private fun mockFitnessClassFailure(): Result<ImmutableList<FitnessClass>> {
-        return Result.failure(
-            Exception("Error"),
-        )
-    }
+  private fun mockFitnessClassFailure(): Result<ImmutableList<FitnessClass>> {
+    return Result.failure(Exception("Error"))
+  }
 }

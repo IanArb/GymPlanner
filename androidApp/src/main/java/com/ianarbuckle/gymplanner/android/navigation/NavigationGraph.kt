@@ -12,77 +12,68 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable
 
-@Serializable
-object DashboardScreen
+@Serializable object DashboardScreen
+
+@Serializable object ReportMachineBroken
+
+@Serializable object GymLocationsScreen
+
+@Serializable data class PersonalTrainersScreen(val gymLocation: GymLocation)
 
 @Serializable
-object ReportMachineBroken
+data class PersonalTrainersDetailScreen(val name: String, val bio: String, val imageUrl: String)
 
-@Serializable
-object GymLocationsScreen
-
-@Serializable
-data class PersonalTrainersScreen(
-    val gymLocation: GymLocation,
-)
-
-@Serializable
-data class PersonalTrainersDetailScreen(
-    val name: String,
-    val bio: String,
-    val imageUrl: String,
-)
-
-@Serializable
-object LoginScreen
+@Serializable object LoginScreen
 
 @Serializable
 data class AvailabilityScreen(
-    val personalTrainerId: String,
-    val name: String,
-    val imageUrl: String,
-    val gymLocation: String,
-    val qualifications: List<String>,
+  val personalTrainerId: String,
+  val name: String,
+  val imageUrl: String,
+  val gymLocation: String,
+  val qualifications: List<String>,
 )
 
 @Serializable
 data class BookingScreen(
-    val personalTrainerId: String,
-    val timeSlotId: String,
-    val selectedDate: String,
-    val selectedTimeSlot: String,
-    val personalTrainerName: String,
-    val personalTrainerAvatarUrl: String,
-    val location: String,
+  val personalTrainerId: String,
+  val timeSlotId: String,
+  val selectedDate: String,
+  val selectedTimeSlot: String,
+  val personalTrainerName: String,
+  val personalTrainerAvatarUrl: String,
+  val location: String,
 )
 
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
-    return persistentListOf(
-        BottomNavigationItem(
-            title = "Dashboard",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-        ),
-        BottomNavigationItem(
-            title = "Report Machine",
-            selectedIcon = Icons.Filled.Build,
-            unselectedIcon = Icons.Outlined.Build,
-        ),
-        BottomNavigationItem(
-            title = "Personal Trainers",
-            selectedIcon = Icons.Filled.Face,
-            unselectedIcon = Icons.Outlined.Face,
-        ),
-    )
+  return persistentListOf(
+    BottomNavigationItem(
+      title = "Dashboard",
+      selectedIcon = Icons.Filled.Home,
+      unselectedIcon = Icons.Outlined.Home,
+    ),
+    BottomNavigationItem(
+      title = "Report Machine",
+      selectedIcon = Icons.Filled.Build,
+      unselectedIcon = Icons.Outlined.Build,
+    ),
+    BottomNavigationItem(
+      title = "Personal Trainers",
+      selectedIcon = Icons.Filled.Face,
+      unselectedIcon = Icons.Outlined.Face,
+    ),
+  )
 }
 
-const val AvailabilityScreenPath = "/{personalTrainerId}" +
+const val AvailabilityScreenPath =
+  "/{personalTrainerId}" +
     "/{name}" +
     "/{imageUrl}" +
     "/{gymLocation}?qualifications={qualifications}"
 const val PersonalTrainersDetailScreenPath = "/{name}/{bio}/{imageUrl}"
 const val GymLocationsPath = "/{gymLocation}"
-const val BookingScreenPath = "/{personalTrainerId}" +
+const val BookingScreenPath =
+  "/{personalTrainerId}" +
     "/{timeSlotId}" +
     "/{selectedDate}" +
     "/{selectedTimeSlot}" +

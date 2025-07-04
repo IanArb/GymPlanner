@@ -33,76 +33,60 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun DashboardContent(
-    innerPadding: PaddingValues,
-    classes: ImmutableList<FitnessClass>,
-    bookings: ImmutableList<BookingResponse>,
-    onViewScheduleClick: () -> Unit,
-    onBookPersonalTrainerClick: () -> Unit,
-    modifier: Modifier = Modifier,
+  innerPadding: PaddingValues,
+  classes: ImmutableList<FitnessClass>,
+  bookings: ImmutableList<BookingResponse>,
+  onViewScheduleClick: () -> Unit,
+  onBookPersonalTrainerClick: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp),
-    ) {
-        item {
-            Column {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = "Today's Classes",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f),
-                    )
-                    Text(
-                        text = "View Weekly Schedule",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        color = Color.Blue,
-                        modifier = Modifier.clickable(onClick = onViewScheduleClick),
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                GymClassesCarousel(
-                    classesCarouselItems = classes,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                if (bookings.isEmpty()) {
-                    BookPersonalTrainerCard(
-                        onBookPersonalTrainerClick = onBookPersonalTrainerClick,
-                    )
-                } else {
-                    Text(
-                        text = "Your Bookings",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    BookingsCarousel(
-                        bookings = bookings,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-            }
+  LazyColumn(modifier = modifier.fillMaxSize().padding(innerPadding).padding(16.dp)) {
+    item {
+      Column {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+          Text(
+            text = "Today's Classes",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+          )
+          Text(
+            text = "View Weekly Schedule",
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = Color.Blue,
+            modifier = Modifier.clickable(onClick = onViewScheduleClick),
+          )
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        GymClassesCarousel(classesCarouselItems = classes, modifier = Modifier.fillMaxWidth())
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (bookings.isEmpty()) {
+          BookPersonalTrainerCard(onBookPersonalTrainerClick = onBookPersonalTrainerClick)
+        } else {
+          Text(
+            text = "Your Bookings",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+          )
+
+          Spacer(modifier = Modifier.height(10.dp))
+
+          BookingsCarousel(bookings = bookings, modifier = Modifier.fillMaxWidth())
+        }
+
+        Spacer(modifier = Modifier.height(6.dp))
+      }
     }
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,23 +94,17 @@ fun DashboardContent(
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun DashboardPreview() {
-    GymAppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(title = { Text("Westwood Gym") })
-            },
-        ) { innerPadding ->
-            DashboardContent(
-                innerPadding = innerPadding,
-                classes = DataProvider.fitnessClasses(),
-                onViewScheduleClick = {
-                },
-                onBookPersonalTrainerClick = {
-                },
-                bookings = DataProvider.bookings(),
-            )
-        }
+  GymAppTheme {
+    Scaffold(topBar = { TopAppBar(title = { Text("Westwood Gym") }) }) { innerPadding ->
+      DashboardContent(
+        innerPadding = innerPadding,
+        classes = DataProvider.fitnessClasses(),
+        onViewScheduleClick = {},
+        onBookPersonalTrainerClick = {},
+        bookings = DataProvider.bookings(),
+      )
     }
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,24 +112,19 @@ private fun DashboardPreview() {
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun DashboardPreviewEmptyBookings() {
-    GymAppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(title = { Text("Westwood Gym") })
-            },
-        ) { innerPadding ->
-            DashboardContent(
-                innerPadding = innerPadding,
-                classes = DataProvider.fitnessClasses(),
-                onViewScheduleClick = {
-                },
-                onBookPersonalTrainerClick = {
-                },
-                bookings = persistentListOf(),
-            )
-        }
+  GymAppTheme {
+    Scaffold(topBar = { TopAppBar(title = { Text("Westwood Gym") }) }) { innerPadding ->
+      DashboardContent(
+        innerPadding = innerPadding,
+        classes = DataProvider.fitnessClasses(),
+        onViewScheduleClick = {},
+        onBookPersonalTrainerClick = {},
+        bookings = persistentListOf(),
+      )
     }
+  }
 }
 
 @Suppress("MaxLineLength")
-const val PERSONAL_TRAINER_BACKDROP_URL = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.libm.co.uk%2Fwp-content%2Fuploads%2F2017%2F09%2F35-Personal-Trainer-Fitness-Instructor-Course.jpg&f=1&nofb=1&ipt=4a7dd2591bf00e81d8ef2268a91853c3d8d7d4eee73c567d6230fd5a44711716&ipo=images"
+const val PERSONAL_TRAINER_BACKDROP_URL =
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.libm.co.uk%2Fwp-content%2Fuploads%2F2017%2F09%2F35-Personal-Trainer-Fitness-Instructor-Course.jpg&f=1&nofb=1&ipt=4a7dd2591bf00e81d8ef2268a91853c3d8d7d4eee73c567d6230fd5a44711716&ipo=images"

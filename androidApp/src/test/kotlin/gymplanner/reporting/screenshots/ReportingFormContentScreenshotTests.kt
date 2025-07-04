@@ -35,173 +35,178 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ReportingFormContentScreenshotTests {
 
-    @get:Rule
-    val roborazziRule: RoborazziRule = createRoborazziRule()
+  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-    @get:Rule
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-        createComposeTestRule<ComponentActivity>()
+  @get:Rule
+  val composeTestRule:
+    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+    createComposeTestRule<ComponentActivity>()
 
-    private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore() }
-    }
+  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-    @get:Rule
-    val koinTestRule = KoinTestRule(listOf(testModule))
+  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-    @Test
-    fun verify_reporting_form_fields_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormFields(
-                        machineNumber = "1",
-                        description = "description",
-                        isMachineNumberValid = true,
-                        isDescriptionValid = true,
-                        hasMachineNumberInteracted = true,
-                        hasDescriptionInteracted = true,
-                        onMachineNumberChange = { },
-                        onDescriptionChange = { },
-                    )
-                }
-            }
+  @Test
+  fun verify_reporting_form_fields_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormFields(
+            machineNumber = "1",
+            description = "description",
+            isMachineNumberValid = true,
+            isDescriptionValid = true,
+            hasMachineNumberInteracted = true,
+            hasDescriptionInteracted = true,
+            onMachineNumberChange = {},
+            onDescriptionChange = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Test
-    fun verify_reporting_form_fields_with_invalid_fields_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormFields(
-                        machineNumber = "1",
-                        description = "description",
-                        isMachineNumberValid = false,
-                        isDescriptionValid = false,
-                        hasMachineNumberInteracted = true,
-                        hasDescriptionInteracted = true,
-                        onMachineNumberChange = { },
-                        onDescriptionChange = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  fun verify_reporting_form_fields_with_invalid_fields_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormFields(
+            machineNumber = "1",
+            description = "description",
+            isMachineNumberValid = false,
+            isDescriptionValid = false,
+            hasMachineNumberInteracted = true,
+            hasDescriptionInteracted = true,
+            onMachineNumberChange = {},
+            onDescriptionChange = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Config(qualifiers = "+night")
-    @Test
-    fun verify_reporting_form_fields_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormFields(
-                        machineNumber = "1",
-                        description = "description",
-                        isMachineNumberValid = true,
-                        isDescriptionValid = true,
-                        hasMachineNumberInteracted = true,
-                        hasDescriptionInteracted = true,
-                        onMachineNumberChange = { },
-                        onDescriptionChange = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Config(qualifiers = "+night")
+  @Test
+  fun verify_reporting_form_fields_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormFields(
+            machineNumber = "1",
+            description = "description",
+            isMachineNumberValid = true,
+            isDescriptionValid = true,
+            hasMachineNumberInteracted = true,
+            hasDescriptionInteracted = true,
+            onMachineNumberChange = {},
+            onDescriptionChange = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Config(qualifiers = "+night")
-    @Test
-    fun verify_reporting_form_fields_with_invalid_fields_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormFields(
-                        machineNumber = "1",
-                        description = "description",
-                        isMachineNumberValid = false,
-                        isDescriptionValid = false,
-                        hasMachineNumberInteracted = true,
-                        hasDescriptionInteracted = true,
-                        onMachineNumberChange = { },
-                        onDescriptionChange = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Config(qualifiers = "+night")
+  @Test
+  fun verify_reporting_form_fields_with_invalid_fields_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormFields(
+            machineNumber = "1",
+            description = "description",
+            isMachineNumberValid = false,
+            isDescriptionValid = false,
+            hasMachineNumberInteracted = true,
+            hasDescriptionInteracted = true,
+            onMachineNumberChange = {},
+            onDescriptionChange = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Test
-    fun verify_form_response_card_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormResponseCard(
-                        faultReport = FaultReport(
-                            machineNumber = 1,
-                            description = "description",
-                            photoUri = "https://www.example.com/image.jpg",
-                            date = "2022-01-01",
-                        ),
-                        onClick = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  fun verify_form_response_card_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormResponseCard(
+            faultReport =
+              FaultReport(
+                machineNumber = 1,
+                description = "description",
+                photoUri = "https://www.example.com/image.jpg",
+                date = "2022-01-01",
+              ),
+            onClick = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Test
-    fun verify_form_response_card_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(start = 16.dp, end = 16.dp),
-                ) {
-                    FormResponseCard(
-                        faultReport = FaultReport(
-                            machineNumber = 1,
-                            description = "description",
-                            photoUri = "https://www.example.com/image.jpg",
-                            date = "2022-01-01",
-                        ),
-                        onClick = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  fun verify_form_response_card_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Column(
+          modifier =
+            Modifier.fillMaxWidth()
+              .background(MaterialTheme.colorScheme.surface)
+              .padding(start = 16.dp, end = 16.dp)
+        ) {
+          FormResponseCard(
+            faultReport =
+              FaultReport(
+                machineNumber = 1,
+                description = "description",
+                photoUri = "https://www.example.com/image.jpg",
+                date = "2022-01-01",
+              ),
+            onClick = {},
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
+
+    composeTestRule.onRoot().captureRoboImage()
+  }
 }

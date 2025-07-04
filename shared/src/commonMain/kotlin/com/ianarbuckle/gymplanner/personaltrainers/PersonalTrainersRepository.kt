@@ -10,39 +10,41 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface PersonalTrainersRepository {
-    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>>
+  suspend fun fetchPersonalTrainers(
+    gymLocation: GymLocation
+  ): Result<ImmutableList<PersonalTrainer>>
 
-    suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer>
+  suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer>
 }
 
 class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinComponent {
 
-    private val remoteDataSource: PersonalTrainersRemoteDataSource by inject()
+  private val remoteDataSource: PersonalTrainersRemoteDataSource by inject()
 
-    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
-        try {
-            val personalTrainers = remoteDataSource.fetchPersonalTrainers(gymLocation)
-            val trainers = personalTrainers.map { trainer ->
-                trainer.toPersonalTrainer()
-            }
-            return Result.success(trainers.toImmutableList())
-        } catch (ex: Exception) {
-            if (ex is CancellationException) {
-                throw ex
-            }
-            return Result.failure(ex)
-        }
+  override suspend fun fetchPersonalTrainers(
+    gymLocation: GymLocation
+  ): Result<ImmutableList<PersonalTrainer>> {
+    try {
+      val personalTrainers = remoteDataSource.fetchPersonalTrainers(gymLocation)
+      val trainers = personalTrainers.map { trainer -> trainer.toPersonalTrainer() }
+      return Result.success(trainers.toImmutableList())
+    } catch (ex: Exception) {
+      if (ex is CancellationException) {
+        throw ex
+      }
+      return Result.failure(ex)
     }
+  }
 
-    override suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer> {
-        try {
-            val personalTrainer = remoteDataSource.findPersonalTrainerById(id)
-            return Result.success(personalTrainer.toPersonalTrainer())
-        } catch (ex: Exception) {
-            if (ex is CancellationException) {
-                throw ex
-            }
-            return Result.failure(ex)
-        }
+  override suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer> {
+    try {
+      val personalTrainer = remoteDataSource.findPersonalTrainerById(id)
+      return Result.success(personalTrainer.toPersonalTrainer())
+    } catch (ex: Exception) {
+      if (ex is CancellationException) {
+        throw ex
+      }
+      return Result.failure(ex)
     }
+  }
 }

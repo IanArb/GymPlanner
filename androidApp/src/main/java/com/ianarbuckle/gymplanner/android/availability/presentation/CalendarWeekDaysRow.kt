@@ -33,82 +33,66 @@ import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 
 @Composable
 fun CalendarWeekDaysRow(
-    pagerState: PagerState,
-    daysOfWeek: List<String>,
-    selectedDate: String,
-    onSelectedDateChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+  pagerState: PagerState,
+  daysOfWeek: List<String>,
+  selectedDate: String,
+  onSelectedDateChange: (String) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-    ) {
-        HorizontalPager(
-            state = pagerState,
-        ) { page ->
-            val startIndex = page * PageSize
-            val endIndex = (startIndex + PageSize).coerceAtMost(daysOfWeek.size)
-            val daysSubset = daysOfWeek.subList(startIndex, endIndex)
+  Column(modifier = modifier) {
+    HorizontalPager(state = pagerState) { page ->
+      val startIndex = page * PageSize
+      val endIndex = (startIndex + PageSize).coerceAtMost(daysOfWeek.size)
+      val daysSubset = daysOfWeek.subList(startIndex, endIndex)
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(PageSize),
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = Modifier
-                    .testTag(CalendarGridTestTag)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                itemsIndexed(daysSubset) { index, day ->
-                    val isCurrentDay = day.isCurrentDay() && selectedDate.isEmpty()
+      LazyVerticalGrid(
+        columns = GridCells.Fixed(PageSize),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = Modifier.testTag(CalendarGridTestTag).fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+      ) {
+        itemsIndexed(daysSubset) { index, day ->
+          val isCurrentDay = day.isCurrentDay() && selectedDate.isEmpty()
 
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                onSelectedDateChange(day)
-                            }
-                            .padding(vertical = 12.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        val textColor =
-                            when {
-                                isCurrentDay -> MaterialTheme.colorScheme.primary
-                                selectedDate == day -> MaterialTheme.colorScheme.primary
-                                else -> MaterialTheme.colorScheme.onSurface
-                            }
-                        val primary = MaterialTheme.colorScheme.primary
+          Box(
+            modifier = Modifier.clickable { onSelectedDateChange(day) }.padding(vertical = 12.dp),
+            contentAlignment = Alignment.Center,
+          ) {
+            val textColor =
+              when {
+                isCurrentDay -> MaterialTheme.colorScheme.primary
+                selectedDate == day -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.onSurface
+              }
+            val primary = MaterialTheme.colorScheme.primary
 
-                        val formatDay = convertDate(day)
+            val formatDay = convertDate(day)
 
-                        Text(
-                            text = formatDay,
-                            textAlign = TextAlign.Center,
-                            color = textColor,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .drawBehind {
-                                    // Draw a line underneath the text
-                                    val lineThickness = 2.dp.toPx() // Thickness of the underline
-                                    val yOffset = size.height // Line position just below the text
-                                    if (isCurrentDay || selectedDate == day) {
-                                        drawLine(
-                                            color = primary,
-                                            start = Offset(
-                                                0f,
-                                                yOffset,
-                                            ),
-                                            end = Offset(
-                                                size.width,
-                                                yOffset,
-                                            ),
-                                            strokeWidth = lineThickness,
-                                        )
-                                    }
-                                },
-                        )
-                    }
-                }
-            }
+            Text(
+              text = formatDay,
+              textAlign = TextAlign.Center,
+              color = textColor,
+              style = MaterialTheme.typography.bodyMedium,
+              modifier =
+                Modifier.drawBehind {
+                  // Draw a line underneath the text
+                  val lineThickness = 2.dp.toPx() // Thickness of the underline
+                  val yOffset = size.height // Line position just below the text
+                  if (isCurrentDay || selectedDate == day) {
+                    drawLine(
+                      color = primary,
+                      start = Offset(0f, yOffset),
+                      end = Offset(size.width, yOffset),
+                      strokeWidth = lineThickness,
+                    )
+                  }
+                },
+            )
+          }
         }
+      }
     }
+  }
 }
 
 const val CalendarGridTestTag = "CalendarGridTestTag"
@@ -117,17 +101,17 @@ const val CalendarGridTestTag = "CalendarGridTestTag"
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun CalendarWeekDaysRowPreview() {
-    GymAppTheme {
-        val pagerState = rememberPagerState {
-            PageSize // Calculate the number of pages needed
-        }
-        Surface {
-            CalendarWeekDaysRow(
-                pagerState = pagerState,
-                daysOfWeek = daysOfWeek,
-                selectedDate = "2024-12-12",
-                onSelectedDateChange = { },
-            )
-        }
+  GymAppTheme {
+    val pagerState = rememberPagerState {
+      PageSize // Calculate the number of pages needed
     }
+    Surface {
+      CalendarWeekDaysRow(
+        pagerState = pagerState,
+        daysOfWeek = daysOfWeek,
+        selectedDate = "2024-12-12",
+        onSelectedDateChange = {},
+      )
+    }
+  }
 }

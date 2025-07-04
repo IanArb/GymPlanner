@@ -10,6 +10,9 @@ import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -23,9 +26,6 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import javax.inject.Inject
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 @Stable
 @HiltViewModel
@@ -33,84 +33,87 @@ class DashboardViewModel
 @OptIn(ExperimentalTime::class)
 @Inject
 constructor(
-    private val profileRepository: ProfileRepository,
-    private val fitnessClassRepository: FitnessClassRepository,
-    private val bookingRepository: BookingRepository,
-    private val dataStoreRepository: DataStoreRepository,
-    private val clock: Clock,
+  private val profileRepository: ProfileRepository,
+  private val fitnessClassRepository: FitnessClassRepository,
+  private val bookingRepository: BookingRepository,
+  private val dataStoreRepository: DataStoreRepository,
+  private val clock: Clock,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Idle)
+  private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Idle)
 
-    val uiState = _uiState.asStateFlow()
+  val uiState = _uiState.asStateFlow()
 
-    fun fetchFitnessClasses() {
-        _uiState.update { DashboardUiState.Loading }
+  fun fetchFitnessClasses() {
+    _uiState.update { DashboardUiState.Loading }
 
-        viewModelScope.launch {
-            supervisorScope {
-                val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
+    viewModelScope.launch {
+      supervisorScope {
+        val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
 
-                val profileDeferred = async { profileRepository.fetchProfile(userId) }
-                val classesDeferred = async { fetchTodaysFitnessClasses() }
-                val bookingsDeferred = async { bookingRepository.findBookingsByUserId(userId) }
+        val profileDeferred = async { profileRepository.fetchProfile(userId) }
+        val classesDeferred = async { fetchTodaysFitnessClasses() }
+        val bookingsDeferred = async { bookingRepository.findBookingsByUserId(userId) }
 
-                val profileResult = profileDeferred.await()
-                val classesResult = classesDeferred.await()
-                val bookingsResult = bookingsDeferred.await()
+        val profileResult = profileDeferred.await()
+        val classesResult = classesDeferred.await()
+        val bookingsResult = bookingsDeferred.await()
 
-                val newState = when {
-                    profileResult.isFailure || classesResult.isFailure -> DashboardUiState.Failure
-                    else -> {
-                        val profile = profileResult.getOrThrow()
-                        val classes = classesResult.getOrThrow()
-                        val booking = if (bookingsResult.isFailure) {
-                            persistentListOf()
-                        } else {
-                            bookingsResult.getOrThrow()
-                        }
-                        DashboardUiState.Success(
-                            items = classes.toImmutableList(),
-                            profile = profile,
-                            booking = booking,
-                        )
-                    }
+        val newState =
+          when {
+            profileResult.isFailure || classesResult.isFailure -> DashboardUiState.Failure
+            else -> {
+              val profile = profileResult.getOrThrow()
+              val classes = classesResult.getOrThrow()
+              val booking =
+                if (bookingsResult.isFailure) {
+                  persistentListOf()
+                } else {
+                  bookingsResult.getOrThrow()
                 }
-
-                _uiState.update { newState }
+              DashboardUiState.Success(
+                items = classes.toImmutableList(),
+                profile = profile,
+                booking = booking,
+              )
             }
-        }
+          }
+
+        _uiState.update { newState }
+      }
     }
+  }
 
-    @OptIn(ExperimentalTime::class)
-    @Suppress("ReturnCount")
-    private suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
-        val datetimeInSystemZone: LocalDateTime = clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
+  @OptIn(ExperimentalTime::class)
+  @Suppress("ReturnCount")
+  private suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
+    val datetimeInSystemZone: LocalDateTime =
+      clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-        val dayOfWeek = datetimeInSystemZone.dayOfWeek
+    val dayOfWeek = datetimeInSystemZone.dayOfWeek
 
-        when (dayOfWeek) {
-            DayOfWeek.MONDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.MONDAY.name)
-            }
-            DayOfWeek.TUESDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.TUESDAY.name)
-            }
-            DayOfWeek.WEDNESDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.WEDNESDAY.name)
-            }
-            DayOfWeek.THURSDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.THURSDAY.name)
-            }
-            DayOfWeek.FRIDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.FRIDAY.name)
-            }
-            DayOfWeek.SATURDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.SATURDAY.name)
-            }
-            DayOfWeek.SUNDAY -> {
-                return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.SUNDAY.name)
-            }
-        }
+    when (dayOfWeek) {
+      DayOfWeek.MONDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.MONDAY.name)
+      }
+      DayOfWeek.TUESDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.TUESDAY.name)
+      }
+      DayOfWeek.WEDNESDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.WEDNESDAY.name)
+      }
+      DayOfWeek.THURSDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.THURSDAY.name)
+      }
+      DayOfWeek.FRIDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.FRIDAY.name)
+      }
+      DayOfWeek.SATURDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.SATURDAY.name)
+      }
+      DayOfWeek.SUNDAY -> {
+        return fitnessClassRepository.fetchFitnessClasses(DayOfWeek.SUNDAY.name)
+      }
     }
+  }
 }

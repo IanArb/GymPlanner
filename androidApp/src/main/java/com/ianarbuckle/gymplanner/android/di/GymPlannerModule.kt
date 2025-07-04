@@ -11,9 +11,9 @@ import kotlin.time.ExperimentalTime
 @InstallIn(SingletonComponent::class)
 class GymPlannerModule {
 
-    @OptIn(ExperimentalTime::class)
-    @Provides
-    fun providesCurrentClock(): Clock {
-        return Clock.System
-    }
+  @OptIn(ExperimentalTime::class)
+  @Provides
+  fun providesCurrentClock(): Clock {
+    return Clock.System
+  }
 }

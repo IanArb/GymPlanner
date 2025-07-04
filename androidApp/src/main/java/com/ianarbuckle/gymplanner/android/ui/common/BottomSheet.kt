@@ -12,31 +12,25 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheet(
-    onDismissRequest: () -> Unit,
-    sheetState: SheetState,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+  onDismissRequest: () -> Unit,
+  sheetState: SheetState,
+  modifier: Modifier = Modifier,
+  content: @Composable () -> Unit,
 ) {
-    ModalBottomSheet(
-        onDismissRequest = {
-            onDismissRequest()
-        },
-        sheetState = sheetState,
-        modifier = modifier,
-    ) {
-        content()
-    }
+  ModalBottomSheet(
+    onDismissRequest = { onDismissRequest() },
+    sheetState = sheetState,
+    modifier = modifier,
+  ) {
+    content()
+  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun BookingBottomSheetPreview() {
-    GymAppTheme {
-        BottomSheet(
-            sheetState = rememberModalBottomSheetState(),
-            onDismissRequest = {},
-        ) {
-        }
-    }
+  GymAppTheme {
+    BottomSheet(sheetState = rememberModalBottomSheetState(), onDismissRequest = {}) {}
+  }
 }

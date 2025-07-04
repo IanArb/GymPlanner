@@ -12,31 +12,33 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class AuthenticationRemoteDataSource(
-    private val baseurl: String,
-    private val httpClient: HttpClient,
+  private val baseurl: String,
+  private val httpClient: HttpClient,
 ) {
 
-    suspend fun login(login: Login): LoginResponseDto {
-        val response = httpClient.post(baseurl.plus(LOGIN_ENDPOINT)) {
-            contentType(ContentType.Application.Json)
-            setBody(login)
-        }
+  suspend fun login(login: Login): LoginResponseDto {
+    val response =
+      httpClient.post(baseurl.plus(LOGIN_ENDPOINT)) {
+        contentType(ContentType.Application.Json)
+        setBody(login)
+      }
 
-        return response.body()
-    }
+    return response.body()
+  }
 
-    suspend fun register(register: Register): RegisterResponseDto {
-        val response = httpClient.post(baseurl.plus(REGISTER_ENDPOINT)) {
-            contentType(ContentType.Application.Json)
-            setBody(register)
-        }
+  suspend fun register(register: Register): RegisterResponseDto {
+    val response =
+      httpClient.post(baseurl.plus(REGISTER_ENDPOINT)) {
+        contentType(ContentType.Application.Json)
+        setBody(register)
+      }
 
-        return response.body()
-    }
+    return response.body()
+  }
 
-    companion object {
-        private const val ENDPOINT = "/api/v1/auth"
-        private const val LOGIN_ENDPOINT = "$ENDPOINT/login"
-        private const val REGISTER_ENDPOINT = "$ENDPOINT/register"
-    }
+  companion object {
+    private const val ENDPOINT = "/api/v1/auth"
+    private const val LOGIN_ENDPOINT = "$ENDPOINT/login"
+    private const val REGISTER_ENDPOINT = "$ENDPOINT/register"
+  }
 }

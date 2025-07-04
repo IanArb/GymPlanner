@@ -37,121 +37,104 @@ import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookingsCarousel(
-    bookings: ImmutableList<BookingResponse>,
-    modifier: Modifier = Modifier,
-) {
-    HorizontalUncontainedCarousel(
-        state = rememberCarouselState {
-            bookings.count()
-        },
-        itemSpacing = 8.dp,
-        itemWidth = 320.dp,
-        modifier = modifier,
-    ) { index ->
-        val item = bookings[index]
+fun BookingsCarousel(bookings: ImmutableList<BookingResponse>, modifier: Modifier = Modifier) {
+  HorizontalUncontainedCarousel(
+    state = rememberCarouselState { bookings.count() },
+    itemSpacing = 8.dp,
+    itemWidth = 320.dp,
+    modifier = modifier,
+  ) { index ->
+    val item = bookings[index]
 
-        BookingCard(
-            personalTrainerName = item.personalTrainer.name,
-            personalTrainerImageUrl = item.personalTrainer.imageUrl,
-            date = item.bookingDate.parseToLocalDate().displayShortFormattedDate(),
-            time = item.startTime.toLocalTime().displayTime(),
-            location = item.personalTrainer.gymLocation.toLocalisedString(),
-            modifier = Modifier.padding(8.dp),
-        )
-    }
+    BookingCard(
+      personalTrainerName = item.personalTrainer.name,
+      personalTrainerImageUrl = item.personalTrainer.imageUrl,
+      date = item.bookingDate.parseToLocalDate().displayShortFormattedDate(),
+      time = item.startTime.toLocalTime().displayTime(),
+      location = item.personalTrainer.gymLocation.toLocalisedString(),
+      modifier = Modifier.padding(8.dp),
+    )
+  }
 }
 
 @Composable
 fun BookingCard(
-    personalTrainerName: String,
-    personalTrainerImageUrl: String,
-    date: String,
-    time: String,
-    location: String,
-    modifier: Modifier = Modifier,
+  personalTrainerName: String,
+  personalTrainerImageUrl: String,
+  date: String,
+  time: String,
+  location: String,
+  modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp,
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Row {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp),
-                )
+  Card(
+    modifier = modifier.fillMaxWidth(),
+    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+  ) {
+    Column(modifier = Modifier.padding(16.dp)) {
+      Row {
+        Icon(
+          imageVector = Icons.Default.DateRange,
+          contentDescription = null,
+          modifier = Modifier.padding(start = 8.dp),
+        )
 
-                Text(
-                    text = date,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(start = 8.dp),
-                )
-            }
+        Text(
+          text = date,
+          style = MaterialTheme.typography.titleMedium,
+          modifier = Modifier.padding(start = 8.dp),
+        )
+      }
 
-            Spacer(Modifier.height(8.dp))
+      Spacer(Modifier.height(8.dp))
 
-            Row {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_clock),
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp),
-                )
+      Row {
+        Icon(
+          painter = painterResource(id = R.drawable.ic_clock),
+          contentDescription = null,
+          modifier = Modifier.padding(start = 8.dp),
+        )
 
-                Text(
-                    text = time,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(start = 8.dp),
-                )
-            }
+        Text(
+          text = time,
+          style = MaterialTheme.typography.titleMedium,
+          modifier = Modifier.padding(start = 8.dp),
+        )
+      }
 
-            Spacer(Modifier.height(8.dp))
+      Spacer(Modifier.height(8.dp))
 
-            Row {
-                Avatar(
-                    imageUrl = personalTrainerImageUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(8.dp),
-                )
+      Row {
+        Avatar(
+          imageUrl = personalTrainerImageUrl,
+          contentDescription = null,
+          modifier = Modifier.size(80.dp).padding(8.dp),
+        )
 
-                Column {
-                    Text(
-                        text = personalTrainerName,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                    )
+        Column {
+          Text(
+            text = personalTrainerName,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+          )
 
-                    Text(
-                        text = location,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                    )
-                }
-            }
+          Text(
+            text = location,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+          )
         }
+      }
     }
+  }
 }
 
 @Preview
 @Composable
 private fun BookingsCarouselPreview() {
-    GymAppTheme {
-        Surface {
-            BookingsCarousel(
-                bookings = DataProvider.bookings(),
-                modifier = Modifier.padding(16.dp),
-            )
-        }
+  GymAppTheme {
+    Surface {
+      BookingsCarousel(bookings = DataProvider.bookings(), modifier = Modifier.padding(16.dp))
     }
+  }
 }

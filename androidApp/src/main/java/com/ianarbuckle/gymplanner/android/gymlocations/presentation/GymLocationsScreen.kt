@@ -17,54 +17,43 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun GymLocationsScreen(
-    contentPadding: PaddingValues,
-    onNavigateTo: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    gymLocationsViewModel: GymLocationsViewModel = hiltViewModel(),
+  contentPadding: PaddingValues,
+  onNavigateTo: (String) -> Unit,
+  modifier: Modifier = Modifier,
+  gymLocationsViewModel: GymLocationsViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(true) {
-        gymLocationsViewModel.fetchGymLocations()
+  LaunchedEffect(true) { gymLocationsViewModel.fetchGymLocations() }
+
+  when (val uiState = gymLocationsViewModel.uiState.collectAsState().value) {
+    is GymLocationsUiState.Failure -> {
+      RetryErrorScreen(
+        text = "Failed to retrieve gym locations.",
+        modifier = modifier,
+        onClick = { gymLocationsViewModel.fetchGymLocations() },
+      )
     }
 
-    when (val uiState = gymLocationsViewModel.uiState.collectAsState().value) {
-        is GymLocationsUiState.Failure -> {
-            RetryErrorScreen(
-                text = "Failed to retrieve gym locations.",
-                modifier = modifier,
-                onClick = {
-                    gymLocationsViewModel.fetchGymLocations()
-                },
-            )
-        }
-
-        is GymLocationsUiState.Success -> {
-            GymLocationsSelection(
-                modifier = modifier,
-                innerPadding = contentPadding,
-                gyms = uiState.gymLocations.toImmutableList(),
-                onClick = {
-                    onNavigateTo(it.title)
-                },
-            )
-        }
-
-        is GymLocationsUiState.Loading -> {
-            GymLocationsLoadingShimmer(
-                innerPadding = contentPadding,
-                modifier = modifier,
-                shimmer = rememberShimmer(
-                    shimmerBounds = ShimmerBounds.View,
-                ),
-            )
-        }
+    is GymLocationsUiState.Success -> {
+      GymLocationsSelection(
+        modifier = modifier,
+        innerPadding = contentPadding,
+        gyms = uiState.gymLocations.toImmutableList(),
+        onClick = { onNavigateTo(it.title) },
+      )
     }
+
+    is GymLocationsUiState.Loading -> {
+      GymLocationsLoadingShimmer(
+        innerPadding = contentPadding,
+        modifier = modifier,
+        shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
+      )
+    }
+  }
 }
 
 @Composable
 @Preview
 private fun GymLocationsScreenPreview() {
-    GymLocationsScreen(
-        contentPadding = PaddingValues(16.dp),
-        onNavigateTo = {},
-    )
+  GymLocationsScreen(contentPadding = PaddingValues(16.dp), onNavigateTo = {})
 }

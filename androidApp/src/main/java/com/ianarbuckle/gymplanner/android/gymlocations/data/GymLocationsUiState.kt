@@ -5,9 +5,9 @@ import kotlinx.collections.immutable.ImmutableList
 
 sealed interface GymLocationsUiState {
 
-    data class Success(val gymLocations: ImmutableList<GymLocations>) : GymLocationsUiState
+  data class Success(val gymLocations: ImmutableList<GymLocations>) : GymLocationsUiState
 
-    data object Failure : GymLocationsUiState
+  data object Failure : GymLocationsUiState
 
-    data object Loading : GymLocationsUiState
+  data object Loading : GymLocationsUiState
 }

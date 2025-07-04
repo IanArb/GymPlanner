@@ -21,63 +21,48 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun NextPrevIndicators(
-    pagerState: PagerState,
-    modifier: Modifier = Modifier,
-) {
-    val scope = rememberCoroutineScope()
-    Row(
-        modifier = modifier,
+fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
+  val scope = rememberCoroutineScope()
+  Row(modifier = modifier) {
+    IconButton(
+      onClick = {
+        if (pagerState.currentPage > 0) {
+          scope.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
+        }
+      }
     ) {
-        IconButton(
-            onClick = {
-                if (pagerState.currentPage > 0) {
-                    scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
-                }
-            },
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Previous",
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
-        }
-
-        IconButton(
-            onClick = {
-                if (pagerState.currentPage < pagerState.pageCount - 1) {
-                    scope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                }
-            },
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "Next",
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-            )
-        }
+      Icon(
+        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+        contentDescription = "Previous",
+        modifier = Modifier.size(18.dp),
+        tint = MaterialTheme.colorScheme.onSurface,
+      )
     }
+
+    IconButton(
+      onClick = {
+        if (pagerState.currentPage < pagerState.pageCount - 1) {
+          scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
+        }
+      }
+    ) {
+      Icon(
+        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+        contentDescription = "Next",
+        modifier = Modifier.size(18.dp),
+        tint = MaterialTheme.colorScheme.onSurface,
+      )
+    }
+  }
 }
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun NextPreviousIndicatorsPreview() {
-    val pagerState = rememberPagerState {
-        PageSize
-    }
+  val pagerState = rememberPagerState { PageSize }
 
-    GymAppTheme {
-        Surface {
-            NextPrevIndicators(pagerState = pagerState)
-        }
-    }
+  GymAppTheme { Surface { NextPrevIndicators(pagerState = pagerState) } }
 }
 
 const val PageSize = 5
