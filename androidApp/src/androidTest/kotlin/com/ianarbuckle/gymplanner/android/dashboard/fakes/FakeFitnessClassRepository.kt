@@ -13,10 +13,6 @@ class FakeFitnessClassRepository : FitnessClassRepository {
     return mockFitnessClassSuccess()
   }
 
-  override fun fetchFitnessClassFromLocalStorage(dayOfWeek: String): Flow<List<FitnessClass>> {
-    return flowOf(DataProvider.fitnessClasses())
-  }
-
   private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {
     return Result.success(DataProvider.fitnessClasses())
   }
