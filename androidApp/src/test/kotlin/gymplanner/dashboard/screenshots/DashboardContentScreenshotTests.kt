@@ -34,88 +34,63 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class DashboardContentScreenshotTests {
 
-    @get:Rule
-    val roborazziRule: RoborazziRule = createRoborazziRule()
+  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-    @get:Rule
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-        createComposeTestRule<ComponentActivity>()
+  @get:Rule
+  val composeTestRule:
+    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+    createComposeTestRule<ComponentActivity>()
 
-    private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore() }
+  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+
+  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+
+  @Test
+  @Category(DashboardContentScreenshotTests::class)
+  fun verify_book_trainers_card_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview { Surface { BookPersonalTrainerCard(onBookPersonalTrainerClick = {}) } }
     }
 
-    @get:Rule
-    val koinTestRule = KoinTestRule(listOf(testModule))
+    composeTestRule.onRoot().captureRoboImage()
+  }
 
-    @Test
-    @Category(DashboardContentScreenshotTests::class)
-    fun verify_book_trainers_card_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Surface {
-                    BookPersonalTrainerCard(
-                        onBookPersonalTrainerClick = { },
-                    )
-                }
-            }
+  @Config(qualifiers = "+night")
+  @Test
+  fun verify_book_trainers_card_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Surface { BookPersonalTrainerCard(onBookPersonalTrainerClick = {}) }
+      }
+    }
+
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  fun verify_gym_carouse_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview {
+        Surface(modifier = Modifier.fillMaxWidth().height(350.dp)) {
+          GymClassesCarousel(classesCarouselItems = DataProvider.carouselItems())
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Config(qualifiers = "+night")
-    @Test
-    fun verify_book_trainers_card_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Surface {
-                    BookPersonalTrainerCard(
-                        onBookPersonalTrainerClick = { },
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  @Config(qualifiers = "+night")
+  fun verify_gym_carousel_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Surface(modifier = Modifier.fillMaxWidth().height(350.dp)) {
+          GymClassesCarousel(classesCarouselItems = DataProvider.carouselItems())
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Test
-    fun verify_gym_carouse_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(350.dp),
-                ) {
-                    GymClassesCarousel(
-                        classesCarouselItems = DataProvider.carouselItems(),
-                    )
-                }
-            }
-        }
-
-        composeTestRule.onRoot().captureRoboImage()
-    }
-
-    @Test
-    @Config(qualifiers = "+night")
-    fun verify_gym_carousel_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(350.dp),
-                ) {
-                    GymClassesCarousel(
-                        classesCarouselItems = DataProvider.carouselItems(),
-                    )
-                }
-            }
-        }
-
-        composeTestRule.onRoot().captureRoboImage()
-    }
+    composeTestRule.onRoot().captureRoboImage()
+  }
 }

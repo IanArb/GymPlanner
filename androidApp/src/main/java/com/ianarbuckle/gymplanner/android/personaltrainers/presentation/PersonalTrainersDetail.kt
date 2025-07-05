@@ -30,96 +30,68 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider
 
 @Composable
 fun PersonalTrainersDetail(
-    contentPadding: PaddingValues,
-    name: String,
-    bio: String,
-    imageUrl: String,
-    onBackClick: () -> Unit,
-    onBookClick: () -> Unit,
-    modifier: Modifier = Modifier,
+  contentPadding: PaddingValues,
+  name: String,
+  bio: String,
+  imageUrl: String,
+  onBackClick: () -> Unit,
+  onBookClick: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(contentPadding),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp),
-            )
+  Column(modifier = modifier.padding(contentPadding)) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+      AsyncImage(
+        model = imageUrl,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxWidth().height(300.dp),
+      )
 
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(8.dp)
-                    .padding(8.dp),
-            )
+      Text(
+        text = name,
+        style = MaterialTheme.typography.titleLarge,
+        color = Color.White,
+        modifier = Modifier.align(Alignment.BottomStart).padding(8.dp).padding(8.dp),
+      )
 
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.align(Alignment.TopStart),
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.White,
-                )
-            }
-        }
-
-        Text(
-            text = bio,
-            modifier = Modifier.padding(16.dp),
+      IconButton(onClick = onBackClick, modifier = Modifier.align(Alignment.TopStart)) {
+        Icon(
+          imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+          contentDescription = "Back",
+          tint = Color.White,
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-        ) {
-            Button(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                onClick = { onBookClick() },
-            ) {
-                Text(text = "Book now")
-            }
-        }
+      }
     }
+
+    Text(text = bio, modifier = Modifier.padding(16.dp))
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+      Button(
+        modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp).fillMaxWidth(),
+        onClick = { onBookClick() },
+      ) {
+        Text(text = "Book now")
+      }
+    }
+  }
 }
 
 @Preview
 @Composable
 private fun PersonalTrainerDetailPreview() {
-    GymAppTheme {
-        Column(
-            modifier =
-            Modifier
-                .padding(16.dp)
-                .background(surfaceLight),
-        ) {
-            val personalTrainer = DataProvider.personalTrainers().first()
-            PersonalTrainersDetail(
-                contentPadding = PaddingValues(16.dp),
-                imageUrl = personalTrainer.imageUrl,
-                name = personalTrainer.firstName + " " + personalTrainer.lastName,
-                bio = personalTrainer.bio,
-                onBookClick = { },
-                onBackClick = { },
-            )
-        }
+  GymAppTheme {
+    Column(modifier = Modifier.padding(16.dp).background(surfaceLight)) {
+      val personalTrainer = DataProvider.personalTrainers().first()
+      PersonalTrainersDetail(
+        contentPadding = PaddingValues(16.dp),
+        imageUrl = personalTrainer.imageUrl,
+        name = personalTrainer.firstName + " " + personalTrainer.lastName,
+        bio = personalTrainer.bio,
+        onBookClick = {},
+        onBackClick = {},
+      )
     }
+  }
 }

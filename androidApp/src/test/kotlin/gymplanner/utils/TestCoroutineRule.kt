@@ -12,17 +12,17 @@ import org.junit.runner.Description
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TestCoroutineRule : TestWatcher() {
-    val testDispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
+  val testDispatcher = StandardTestDispatcher()
+  private val testScope = TestScope(testDispatcher)
 
-    override fun starting(description: Description) {
-        super.starting(description)
-        Dispatchers.setMain(testDispatcher)
-    }
+  override fun starting(description: Description) {
+    super.starting(description)
+    Dispatchers.setMain(testDispatcher)
+  }
 
-    override fun finished(description: Description) {
-        super.finished(description)
-        Dispatchers.resetMain()
-        testScope.cancel()
-    }
+  override fun finished(description: Description) {
+    super.finished(description)
+    Dispatchers.resetMain()
+    testScope.cancel()
+  }
 }

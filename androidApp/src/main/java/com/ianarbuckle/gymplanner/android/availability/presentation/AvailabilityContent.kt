@@ -32,73 +32,55 @@ import kotlinx.collections.immutable.toImmutableList
 @Suppress("LongParameterList")
 @Composable
 fun AvailabilityContent(
-    paddingValues: PaddingValues,
-    contentState: AvailabilityContentState,
-    calendarPagerState: PagerState,
-    timeSlotPagerState: PagerState,
-    verticalScrollState: ScrollState,
-    onSelectedDateChange: (String) -> Unit,
-    onTimeSlotChange: (String, String) -> Unit,
-    onBookClick: () -> Unit,
-    modifier: Modifier = Modifier,
+  paddingValues: PaddingValues,
+  contentState: AvailabilityContentState,
+  calendarPagerState: PagerState,
+  timeSlotPagerState: PagerState,
+  verticalScrollState: ScrollState,
+  onSelectedDateChange: (String) -> Unit,
+  onTimeSlotChange: (String, String) -> Unit,
+  onBookClick: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(verticalScrollState)
-            .padding(paddingValues),
-    ) {
-        PersonalTrainerCard(
-            personalTrainerLabel = contentState.personalTrainerLabel,
-            name = contentState.name,
-            imageUrl = contentState.imageUrl,
-            qualifications = contentState.qualifications,
-            isAvailable = contentState.isAvailable,
-        )
+  Column(modifier = modifier.verticalScroll(verticalScrollState).padding(paddingValues)) {
+    PersonalTrainerCard(
+      personalTrainerLabel = contentState.personalTrainerLabel,
+      name = contentState.name,
+      imageUrl = contentState.imageUrl,
+      qualifications = contentState.qualifications,
+      isAvailable = contentState.isAvailable,
+    )
 
-        CalendarPickerCard(
-            daysOfWeek = contentState.daysOfWeek,
-            availableTimes = contentState.availableTimes,
-            calendarPagerState = calendarPagerState,
-            timeSlotPagerState = timeSlotPagerState,
-            timeslotRowsPerPage = contentState.timeslotRowsPerPage,
-            timeslotItemsPerPage = contentState.timeslotItemsPerPage,
-            onTimeSlotClick = { id, time ->
-                onTimeSlotChange(id, time)
-            },
-            selectedDate = contentState.selectedDate,
-            onSelectedDateChange = {
-                onSelectedDateChange(it)
-            },
-            selectedTimeSlot = contentState.selectedTimeSlot,
-            modifier = Modifier,
-        )
-    }
+    CalendarPickerCard(
+      daysOfWeek = contentState.daysOfWeek,
+      availableTimes = contentState.availableTimes,
+      calendarPagerState = calendarPagerState,
+      timeSlotPagerState = timeSlotPagerState,
+      timeslotRowsPerPage = contentState.timeslotRowsPerPage,
+      timeslotItemsPerPage = contentState.timeslotItemsPerPage,
+      onTimeSlotClick = { id, time -> onTimeSlotChange(id, time) },
+      selectedDate = contentState.selectedDate,
+      onSelectedDateChange = { onSelectedDateChange(it) },
+      selectedTimeSlot = contentState.selectedTimeSlot,
+      modifier = Modifier,
+    )
+  }
 
-    if (contentState.selectedTimeSlot.isNotEmpty()) {
-        BookNowButton(
-            onBookClick = onBookClick,
-        )
-    }
+  if (contentState.selectedTimeSlot.isNotEmpty()) {
+    BookNowButton(onBookClick = onBookClick)
+  }
 }
 
 @Composable
-fun BookNowButton(
-    onBookClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
+fun BookNowButton(onBookClick: () -> Unit, modifier: Modifier = Modifier) {
+  Box(modifier = modifier.fillMaxSize()) {
+    Button(
+      onClick = { onBookClick() },
+      modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(16.dp),
     ) {
-        Button(
-            onClick = { onBookClick() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(16.dp),
-        ) {
-            Text(text = "Book appointment")
-        }
+      Text(text = "Book appointment")
     }
+  }
 }
 
 @Suppress("MagicNumber")
@@ -107,60 +89,46 @@ fun BookNowButton(
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun BookingContentPreview() {
-    val timeSlots = availableTimes.map {
-        Time(
-            id = it,
-            startTime = it,
-            endTime = it,
-            status = "AVAILABLE",
-        )
-    }.toImmutableList()
+  val timeSlots =
+    availableTimes
+      .map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
+      .toImmutableList()
 
-    val timeslotPickerPageSize = 3
-    val calendarPagerSize = 4
-    val pagerOffset = 5
+  val timeslotPickerPageSize = 3
+  val calendarPagerSize = 4
+  val pagerOffset = 5
 
-    val contentState = AvailabilityContentState(
-        personalTrainerLabel = "Personal Trainer",
-        name = "John Doe",
-        imageUrl = "https://randomuser.me/api/port",
-        qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
-        daysOfWeek = daysOfWeek,
-        availableTimes = timeSlots,
-        isAvailable = true,
-        selectedDate = "2024-12-09",
-        selectedTimeSlot = "06:00 AM",
-        timeslotRowsPerPage = timeslotPickerPageSize,
-        timeslotItemsPerPage = timeslotPickerPageSize,
+  val contentState =
+    AvailabilityContentState(
+      personalTrainerLabel = "Personal Trainer",
+      name = "John Doe",
+      imageUrl = "https://randomuser.me/api/port",
+      qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
+      daysOfWeek = daysOfWeek,
+      availableTimes = timeSlots,
+      isAvailable = true,
+      selectedDate = "2024-12-09",
+      selectedTimeSlot = "06:00 AM",
+      timeslotRowsPerPage = timeslotPickerPageSize,
+      timeslotItemsPerPage = timeslotPickerPageSize,
     )
 
-    GymAppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text("Westwood Gym")
-                    },
-                )
-            },
-        ) { innerPadding ->
-            AvailabilityContent(
-                paddingValues = innerPadding,
-                contentState = contentState,
-                calendarPagerState = rememberPagerState {
-                    (daysOfWeek.size + calendarPagerSize) / pagerOffset
-                },
-                timeSlotPagerState = rememberPagerState {
-                    availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
-                },
-                verticalScrollState = rememberScrollState(),
-                onSelectedDateChange = {
-                },
-                onTimeSlotChange = { _, _ ->
-                },
-                onBookClick = {
-                },
-            )
-        }
+  GymAppTheme {
+    Scaffold(topBar = { TopAppBar(title = { Text("Westwood Gym") }) }) { innerPadding ->
+      AvailabilityContent(
+        paddingValues = innerPadding,
+        contentState = contentState,
+        calendarPagerState =
+          rememberPagerState { (daysOfWeek.size + calendarPagerSize) / pagerOffset },
+        timeSlotPagerState =
+          rememberPagerState {
+            availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
+          },
+        verticalScrollState = rememberScrollState(),
+        onSelectedDateChange = {},
+        onTimeSlotChange = { _, _ -> },
+        onBookClick = {},
+      )
     }
+  }
 }

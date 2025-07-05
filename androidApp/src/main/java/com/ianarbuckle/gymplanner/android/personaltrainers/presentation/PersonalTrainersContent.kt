@@ -20,29 +20,25 @@ import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun PersonalTrainersContent(
-    innerPadding: PaddingValues,
-    personalTrainers: ImmutableList<PersonalTrainer>,
-    onSocialLinkClick: (String) -> Unit,
-    onBookTrainerClick: (PersonalTrainer) -> Unit,
-    onItemClick: (Triple<String, String, String>) -> Unit,
-    modifier: Modifier = Modifier,
+  innerPadding: PaddingValues,
+  personalTrainers: ImmutableList<PersonalTrainer>,
+  onSocialLinkClick: (String) -> Unit,
+  onBookTrainerClick: (PersonalTrainer) -> Unit,
+  onItemClick: (Triple<String, String, String>) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.padding(innerPadding),
-    ) {
-        LazyColumn(
-            modifier = Modifier.testTag(PersonalTrainersItemsTag),
-        ) {
-            items(personalTrainers) { personalTrainer ->
-                PersonalTrainerItem(
-                    personalTrainer = personalTrainer,
-                    onSocialLinkClick = onSocialLinkClick,
-                    onBookTrainerClick = onBookTrainerClick,
-                    onItemClick = onItemClick,
-                )
-            }
-        }
+  Column(modifier = modifier.padding(innerPadding)) {
+    LazyColumn(modifier = Modifier.testTag(PersonalTrainersItemsTag)) {
+      items(personalTrainers) { personalTrainer ->
+        PersonalTrainerItem(
+          personalTrainer = personalTrainer,
+          onSocialLinkClick = onSocialLinkClick,
+          onBookTrainerClick = onBookTrainerClick,
+          onItemClick = onItemClick,
+        )
+      }
     }
+  }
 }
 
 const val PersonalTrainersItemsTag = "PersonalTrainersItemsTag"
@@ -51,20 +47,15 @@ const val PersonalTrainersItemsTag = "PersonalTrainersItemsTag"
 @Preview(showBackground = true, name = "Light Mode")
 @Preview(showBackground = true, name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun GymLocationsPreview() {
-    GymAppTheme {
-        Column(
-            modifier =
-            Modifier
-                .padding(16.dp)
-                .background(surfaceLight),
-        ) {
-            PersonalTrainersContent(
-                innerPadding = PaddingValues(16.dp),
-                personalTrainers = DataProvider.personalTrainers(),
-                onSocialLinkClick = { },
-                onBookTrainerClick = { },
-                onItemClick = { },
-            )
-        }
+  GymAppTheme {
+    Column(modifier = Modifier.padding(16.dp).background(surfaceLight)) {
+      PersonalTrainersContent(
+        innerPadding = PaddingValues(16.dp),
+        personalTrainers = DataProvider.personalTrainers(),
+        onSocialLinkClick = {},
+        onBookTrainerClick = {},
+        onItemClick = {},
+      )
     }
+  }
 }

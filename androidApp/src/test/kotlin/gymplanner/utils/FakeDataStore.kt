@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakeDataStore : DataStore<Preferences> {
 
-    override val data: Flow<Preferences>
-        get() = flowOf(emptyPreferences())
+  override val data: Flow<Preferences>
+    get() = flowOf(emptyPreferences())
 
-    override suspend fun updateData(transform: suspend (t: Preferences) -> Preferences): Preferences {
-        return emptyPreferences()
-    }
+  override suspend fun updateData(transform: suspend (t: Preferences) -> Preferences): Preferences {
+    return emptyPreferences()
+  }
 }

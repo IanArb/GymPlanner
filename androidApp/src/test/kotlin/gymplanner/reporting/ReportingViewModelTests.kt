@@ -15,48 +15,45 @@ import org.junit.Test
 
 class ReportingViewModelTests {
 
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
+  @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-    private val reportingRepository = mockk<FaultReportingRepository>()
-    private val viewModel: ReportingViewModel = ReportingViewModel(
-        faultReportingRepository = reportingRepository,
-    )
+  private val reportingRepository = mockk<FaultReportingRepository>()
+  private val viewModel: ReportingViewModel =
+    ReportingViewModel(faultReportingRepository = reportingRepository)
 
-    @Test
-    fun `submitFault should update uiState to FormSuccess when API call succeeds`() = runTest {
-        // Arrange
-        val faultReport = mockk<FaultReport>()
-        coEvery { reportingRepository.saveFaultReport(faultReport) } returns Result.success(faultReport)
+  @Test
+  fun `submitFault should update uiState to FormSuccess when API call succeeds`() = runTest {
+    // Arrange
+    val faultReport = mockk<FaultReport>()
+    coEvery { reportingRepository.saveFaultReport(faultReport) } returns Result.success(faultReport)
 
-        // Act
-        viewModel.submitFault(faultReport)
+    // Act
+    viewModel.submitFault(faultReport)
 
-        // Assert
-        viewModel.uiState.test {
-            assertEquals(FormFaultReportUiState.FormLoading, awaitItem())
-            val successState = awaitItem() as FormFaultReportUiState.FormSuccess
-            assertEquals(faultReport, successState.data)
-            cancelAndIgnoreRemainingEvents()
-        }
+    // Assert
+    viewModel.uiState.test {
+      assertEquals(FormFaultReportUiState.FormLoading, awaitItem())
+      val successState = awaitItem() as FormFaultReportUiState.FormSuccess
+      assertEquals(faultReport, successState.data)
+      cancelAndIgnoreRemainingEvents()
     }
+  }
 
-    @Test
-    fun `submitFault should update uiState to FormError when API call fails`() = runTest {
-        // Arrange
-        val faultReport = mockk<FaultReport>()
-        coEvery {
-            reportingRepository.saveFaultReport(faultReport)
-        } returns Result.failure(Exception("Submission failed"))
+  @Test
+  fun `submitFault should update uiState to FormError when API call fails`() = runTest {
+    // Arrange
+    val faultReport = mockk<FaultReport>()
+    coEvery { reportingRepository.saveFaultReport(faultReport) } returns
+      Result.failure(Exception("Submission failed"))
 
-        // Act
-        viewModel.submitFault(faultReport)
+    // Act
+    viewModel.submitFault(faultReport)
 
-        // Assert
-        viewModel.uiState.test {
-            assertEquals(FormFaultReportUiState.FormLoading, awaitItem())
-            assertEquals(FormFaultReportUiState.FormError, awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+    // Assert
+    viewModel.uiState.test {
+      assertEquals(FormFaultReportUiState.FormLoading, awaitItem())
+      assertEquals(FormFaultReportUiState.FormError, awaitItem())
+      cancelAndIgnoreRemainingEvents()
     }
+  }
 }

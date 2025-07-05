@@ -13,13 +13,13 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 class DashboardModule {
 
-    @Provides
-    fun providesProfileRepository(): ProfileRepository {
-        return DefaultProfileRepository()
-    }
+  @Provides
+  fun providesProfileRepository(): ProfileRepository {
+    return DefaultProfileRepository()
+  }
 
-    @Provides
-    fun providesFitnessClassRepository(): FitnessClassRepository {
-        return DefaultFitnessClassRepository()
-    }
+  @Provides
+  fun providesFitnessClassRepository(): FitnessClassRepository {
+    return DefaultFitnessClassRepository()
+  }
 }

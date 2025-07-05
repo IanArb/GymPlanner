@@ -7,15 +7,12 @@ import dagger.Provides
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.testing.TestInstallIn
 
-@TestInstallIn(
-    components = [ViewModelComponent::class],
-    replaces = [AvailabilityModule::class],
-)
+@TestInstallIn(components = [ViewModelComponent::class], replaces = [AvailabilityModule::class])
 @Module
 class FakeAvailabilityModule {
 
-    @Provides
-    fun providesAvailabilityRepository(): AvailabilityRepository {
-        return FakeAvailabilityRepository()
-    }
+  @Provides
+  fun providesAvailabilityRepository(): AvailabilityRepository {
+    return FakeAvailabilityRepository()
+  }
 }

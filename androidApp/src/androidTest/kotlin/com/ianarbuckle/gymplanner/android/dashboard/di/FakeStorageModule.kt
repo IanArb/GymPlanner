@@ -11,20 +11,17 @@ import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [StorageModule::class],
-)
+@TestInstallIn(components = [SingletonComponent::class], replaces = [StorageModule::class])
 @Module
 class FakeStorageModule {
 
-    @Provides
-    fun providesDataStoreRepository(): DataStoreRepository {
-        return FakeDataStoreRepository()
-    }
+  @Provides
+  fun providesDataStoreRepository(): DataStoreRepository {
+    return FakeDataStoreRepository()
+  }
 
-    @Provides
-    fun providesDataStore(): DataStore<Preferences> {
-        return FakeDataStore()
-    }
+  @Provides
+  fun providesDataStore(): DataStore<Preferences> {
+    return FakeDataStore()
+  }
 }

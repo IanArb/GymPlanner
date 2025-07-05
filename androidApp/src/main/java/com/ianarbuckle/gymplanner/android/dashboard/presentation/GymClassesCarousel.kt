@@ -37,87 +37,67 @@ import kotlinx.collections.immutable.ImmutableList
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GymClassesCarousel(
-    classesCarouselItems: ImmutableList<FitnessClass>,
-    modifier: Modifier = Modifier,
+  classesCarouselItems: ImmutableList<FitnessClass>,
+  modifier: Modifier = Modifier,
 ) {
-    if (classesCarouselItems.isEmpty()) {
-        Text(
-            text = "No classes available at the moment.",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyLarge,
+  if (classesCarouselItems.isEmpty()) {
+    Text(
+      text = "No classes available at the moment.",
+      modifier = Modifier.padding(16.dp),
+      style = MaterialTheme.typography.bodyLarge,
+    )
+  } else {
+    HorizontalUncontainedCarousel(
+      state = rememberCarouselState { classesCarouselItems.count() },
+      itemSpacing = 8.dp,
+      itemWidth = 320.dp,
+      modifier = modifier,
+    ) { index ->
+      val item = classesCarouselItems[index]
+
+      Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxHeight(),
+      ) {
+        AsyncImage(
+          modifier = Modifier.height(200.dp).fillMaxWidth(),
+          model = item.imageUrl,
+          contentDescription = null,
+          contentScale = ContentScale.Crop,
+          placeholder = painterResource(id = R.drawable.ic_placeholder),
         )
-    } else {
-        HorizontalUncontainedCarousel(
-            state = rememberCarouselState {
-                classesCarouselItems.count()
-            },
-            itemSpacing = 8.dp,
-            itemWidth = 320.dp,
-            modifier = modifier,
-        ) { index ->
-            val item = classesCarouselItems[index]
+        Column(modifier = Modifier.padding(16.dp)) {
+          Text(text = item.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+          Text(text = item.description)
 
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp,
-                ),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                ),
-                modifier = Modifier.fillMaxHeight(),
-            ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth(),
-                    model = item.imageUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.ic_placeholder),
-                )
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                ) {
-                    Text(
-                        text = item.name,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                    )
-                    Text(text = item.description)
+          Spacer(modifier = Modifier.padding(10.dp))
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+          val startDisplayTime = item.startTime.toLocalTime().displayTime()
+          val endDisplayTime = item.endTime.toLocalTime().displayTime()
 
-                    val startDisplayTime = item.startTime.toLocalTime().displayTime()
-                    val endDisplayTime = item.endTime.toLocalTime().displayTime()
+          val classTime = "$startDisplayTime - $endDisplayTime"
 
-                    val classTime = "$startDisplayTime - $endDisplayTime"
+          Row {
+            Icon(painterResource(id = R.drawable.ic_clock), contentDescription = null)
+            Spacer(modifier = Modifier.padding(4.dp))
+            Text(text = classTime)
+          }
 
-                    Row {
-                        Icon(painterResource(id = R.drawable.ic_clock), contentDescription = null)
-                        Spacer(modifier = Modifier.padding(4.dp))
-                        Text(text = classTime)
-                    }
-
-                    Spacer(modifier = Modifier.padding(4.dp))
-                }
-            }
+          Spacer(modifier = Modifier.padding(4.dp))
         }
+      }
     }
+  }
 }
 
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun GymClassesCarouselPreview() {
-    GymAppTheme {
-        Surface(
-            modifier = Modifier
-                .height(350.dp)
-                .fillMaxWidth(),
-        ) {
-            GymClassesCarousel(
-                classesCarouselItems = DataProvider.fitnessClasses(),
-            )
-        }
+  GymAppTheme {
+    Surface(modifier = Modifier.height(350.dp).fillMaxWidth()) {
+      GymClassesCarousel(classesCarouselItems = DataProvider.fitnessClasses())
     }
+  }
 }

@@ -31,123 +31,112 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun FormFields(
-    machineNumber: String,
-    description: String,
-    isMachineNumberValid: Boolean,
-    isDescriptionValid: Boolean,
-    hasMachineNumberInteracted: Boolean,
-    hasDescriptionInteracted: Boolean,
-    onMachineNumberChange: (String) -> Unit,
-    onDescriptionChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+  machineNumber: String,
+  description: String,
+  isMachineNumberValid: Boolean,
+  isDescriptionValid: Boolean,
+  hasMachineNumberInteracted: Boolean,
+  hasDescriptionInteracted: Boolean,
+  onMachineNumberChange: (String) -> Unit,
+  onDescriptionChange: (String) -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
+  val focusManager = LocalFocusManager.current
+  val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(modifier = modifier) {
-        Text(
-            text = "Please provide the following information",
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            fontStyle = FontStyle.Normal,
-        )
+  Column(modifier = modifier) {
+    Text(
+      text = "Please provide the following information",
+      color = MaterialTheme.colorScheme.onSurface,
+      fontWeight = FontWeight.Bold,
+      fontSize = 16.sp,
+      fontStyle = FontStyle.Normal,
+    )
 
-        Spacer(modifier = Modifier.padding(12.dp))
+    Spacer(modifier = Modifier.padding(12.dp))
 
-        Row {
-            Text(
-                text = "Machine number",
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Spacer(Modifier.padding(2.dp))
-            Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
-        }
-
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        OutlinedTextField(
-            value = machineNumber,
-            onValueChange = onMachineNumberChange,
-            label = { Text("The machine number") },
-            modifier = Modifier.fillMaxWidth(),
-            isError = !isMachineNumberValid && hasMachineNumberInteracted,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done,
-            ),
-            keyboardActions = KeyboardActions {
-                focusManager.moveFocus(FocusDirection.Down)
-            },
-        )
-
-        if (!isMachineNumberValid && hasMachineNumberInteracted) {
-            Spacer(modifier = Modifier.padding(2.dp))
-            Text(
-                text = "Please provide a machine number",
-                color = MaterialTheme.colorScheme.error,
-                fontStyle = FontStyle.Italic,
-            )
-        }
-
-        Spacer(modifier = Modifier.padding(6.dp))
-
-        Text(
-            text = "Description",
-            fontWeight = FontWeight.Bold,
-        )
-
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        OutlinedTextField(
-            value = description,
-            onValueChange = onDescriptionChange,
-            label = { Text("Describe the fault of the machine") },
-            modifier = Modifier.fillMaxWidth(),
-            isError = !isDescriptionValid && hasDescriptionInteracted,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-            ),
-            keyboardActions = KeyboardActions {
-                keyboardController?.hide()
-            },
-        )
-
-        if (!isDescriptionValid && hasDescriptionInteracted) {
-            Spacer(modifier = Modifier.padding(2.dp))
-            Text(
-                text = "Please provide a description",
-                color = MaterialTheme.colorScheme.error,
-                fontStyle = FontStyle.Italic,
-            )
-        }
-
-        Spacer(modifier = Modifier.padding(12.dp))
+    Row {
+      Text(
+        text = "Machine number",
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
+      Spacer(Modifier.padding(2.dp))
+      Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
     }
+
+    Spacer(modifier = Modifier.padding(2.dp))
+
+    OutlinedTextField(
+      value = machineNumber,
+      onValueChange = onMachineNumberChange,
+      label = { Text("The machine number") },
+      modifier = Modifier.fillMaxWidth(),
+      isError = !isMachineNumberValid && hasMachineNumberInteracted,
+      keyboardOptions =
+        KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+      keyboardActions = KeyboardActions { focusManager.moveFocus(FocusDirection.Down) },
+    )
+
+    if (!isMachineNumberValid && hasMachineNumberInteracted) {
+      Spacer(modifier = Modifier.padding(2.dp))
+      Text(
+        text = "Please provide a machine number",
+        color = MaterialTheme.colorScheme.error,
+        fontStyle = FontStyle.Italic,
+      )
+    }
+
+    Spacer(modifier = Modifier.padding(6.dp))
+
+    Text(text = "Description", fontWeight = FontWeight.Bold)
+
+    Spacer(modifier = Modifier.padding(2.dp))
+
+    OutlinedTextField(
+      value = description,
+      onValueChange = onDescriptionChange,
+      label = { Text("Describe the fault of the machine") },
+      modifier = Modifier.fillMaxWidth(),
+      isError = !isDescriptionValid && hasDescriptionInteracted,
+      keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+      keyboardActions = KeyboardActions { keyboardController?.hide() },
+    )
+
+    if (!isDescriptionValid && hasDescriptionInteracted) {
+      Spacer(modifier = Modifier.padding(2.dp))
+      Text(
+        text = "Please provide a description",
+        color = MaterialTheme.colorScheme.error,
+        fontStyle = FontStyle.Italic,
+      )
+    }
+
+    Spacer(modifier = Modifier.padding(12.dp))
+  }
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun FormFieldsPreview() {
-    GymAppTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(start = 16.dp, end = 16.dp),
-        ) {
-            FormFields(
-                machineNumber = "123",
-                description = "This is a description",
-                isMachineNumberValid = false,
-                isDescriptionValid = false,
-                hasMachineNumberInteracted = true,
-                hasDescriptionInteracted = true,
-                onMachineNumberChange = { },
-                onDescriptionChange = { },
-            )
-        }
+  GymAppTheme {
+    Column(
+      modifier =
+        Modifier.fillMaxWidth()
+          .background(MaterialTheme.colorScheme.surface)
+          .padding(start = 16.dp, end = 16.dp)
+    ) {
+      FormFields(
+        machineNumber = "123",
+        description = "This is a description",
+        isMachineNumberValid = false,
+        isDescriptionValid = false,
+        hasMachineNumberInteracted = true,
+        hasDescriptionInteracted = true,
+        onMachineNumberChange = {},
+        onDescriptionChange = {},
+      )
     }
+  }
 }

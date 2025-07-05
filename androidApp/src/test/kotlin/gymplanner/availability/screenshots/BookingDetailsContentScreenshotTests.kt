@@ -27,57 +27,54 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class BookingDetailsContentScreenshotTests {
 
-    @get:Rule
-    val roborazziRule: RoborazziRule = createRoborazziRule()
+  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-    @get:Rule
-    val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-        createComposeTestRule<ComponentActivity>()
+  @get:Rule
+  val composeTestRule:
+    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+    createComposeTestRule<ComponentActivity>()
 
-    private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore() }
-    }
+  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-    @get:Rule
-    val koinTestRule = KoinTestRule(listOf(testModule))
+  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-    @Test
-    fun verify_booking_details_is_displayed_correctly_in_light_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview {
-                Surface {
-                    BookingDetailsContent(
-                        selectedDate = "2022-01-01",
-                        selectedTimeSlot = LocalTime.parse("10:00:00"),
-                        location = "Clontarf",
-                        onConfirmClick = {},
-                        personalTrainerName = "John Joe",
-                        personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
-                    )
-                }
-            }
+  @Test
+  fun verify_booking_details_is_displayed_correctly_in_light_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview {
+        Surface {
+          BookingDetailsContent(
+            selectedDate = "2022-01-01",
+            selectedTimeSlot = LocalTime.parse("10:00:00"),
+            location = "Clontarf",
+            onConfirmClick = {},
+            personalTrainerName = "John Joe",
+            personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
 
-    @Test
-    fun verify_booking_details_is_displayed_correctly_in_dark_mode() {
-        composeTestRule.setContent {
-            ScreenTestPreview(isDarkTheme = true) {
-                Surface {
-                    BookingDetailsContent(
-                        selectedDate = "2022-01-01",
-                        selectedTimeSlot = LocalTime.parse("10:00:00"),
-                        location = "Clontarf",
-                        onConfirmClick = {},
-                        personalTrainerName = "John Joe",
-                        personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
-                    )
-                }
-            }
+    composeTestRule.onRoot().captureRoboImage()
+  }
+
+  @Test
+  fun verify_booking_details_is_displayed_correctly_in_dark_mode() {
+    composeTestRule.setContent {
+      ScreenTestPreview(isDarkTheme = true) {
+        Surface {
+          BookingDetailsContent(
+            selectedDate = "2022-01-01",
+            selectedTimeSlot = LocalTime.parse("10:00:00"),
+            location = "Clontarf",
+            onConfirmClick = {},
+            personalTrainerName = "John Joe",
+            personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
+          )
         }
-
-        composeTestRule.onRoot().captureRoboImage()
+      }
     }
+
+    composeTestRule.onRoot().captureRoboImage()
+  }
 }

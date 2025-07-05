@@ -24,58 +24,52 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun GymLocationCard(
-    imageUrl: String,
-    title: String,
-    subTitle: String,
-    modifier: Modifier = Modifier,
+  imageUrl: String,
+  title: String,
+  subTitle: String,
+  modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            modifier = Modifier
-                .height(120.dp)
-                .fillMaxWidth(),
-            error = painterResource(id = android.R.drawable.ic_menu_report_image),
-        )
+  Card(
+    modifier = modifier.padding(8.dp).fillMaxWidth(),
+    shape = RoundedCornerShape(16.dp),
+    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+  ) {
+    AsyncImage(
+      model = imageUrl,
+      contentDescription = null,
+      modifier = Modifier.height(120.dp).fillMaxWidth(),
+      error = painterResource(id = android.R.drawable.ic_menu_report_image),
+    )
 
-        Column(
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = subTitle,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-        }
+    Column(modifier = Modifier.padding(16.dp)) {
+      Text(
+        text = title,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
+      Text(
+        text = subTitle,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        color = MaterialTheme.colorScheme.onSurface,
+      )
     }
+  }
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun GymLocationCardPreview() {
-    GymAppTheme {
-        Surface {
-            GymLocationCard(
-                imageUrl = "https://www.example.com/image.jpg",
-                title = "Title",
-                subTitle = "SubTitle",
-            )
-        }
+  GymAppTheme {
+    Surface {
+      GymLocationCard(
+        imageUrl = "https://www.example.com/image.jpg",
+        title = "Title",
+        subTitle = "SubTitle",
+      )
     }
+  }
 }

@@ -5,18 +5,15 @@ import androidx.compose.ui.test.onNodeWithText
 
 class LoginVerifier(private val composeTestRule: ComposeTestRule) {
 
-    fun checkErrorText(errorText: String) {
-        composeTestRule.onNodeWithText(errorText)
-            .assertExists()
-    }
+  fun checkErrorText(errorText: String) {
+    composeTestRule.onNodeWithText(errorText).assertExists()
+  }
 
-    fun checkErrorTextIsNotDisplayed(errorText: String) {
-        composeTestRule.onNodeWithText(errorText)
-            .assertDoesNotExist()
-    }
+  fun checkErrorTextIsNotDisplayed(errorText: String) {
+    composeTestRule.onNodeWithText(errorText).assertDoesNotExist()
+  }
 
-    fun verifyDashboardScreenIsDisplayed(text: String) {
-        composeTestRule.onNodeWithText(text)
-            .assertExists()
-    }
+  fun verifyDashboardScreenIsDisplayed(text: String) {
+    composeTestRule.onNodeWithText(text).assertExists()
+  }
 }

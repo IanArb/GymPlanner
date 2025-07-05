@@ -29,82 +29,68 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class GymLocationsInstrumentedTests {
 
-    @get:Rule(order = 1)
-    val hiltTestRule = HiltAndroidRule(this)
+  @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 2)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+  @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore() }
+  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+
+  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+
+  @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+
+  @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+
+  private val loginRobot = LoginRobot(composeTestRule)
+  private val gymLocationsRobot = GymLocationsRobot(composeTestRule)
+  private val gymLocationsVerifier = GymLocationsVerifier(composeTestRule)
+
+  @Test
+  fun verifyGymLocationsSuccessState() {
+    loginRobot.apply {
+      enterUsernamePassword("test", "password")
+      login()
     }
 
-    @get:Rule
-    val koinTestRule = KoinTestRule(
-        modules = listOf(testModule),
-    )
+    coEvery { dashboardViewModel.uiState.value } returns
+      DashboardUiState.Success(
+        items = DataProvider.fitnessClasses(),
+        profile = DataProvider.profile(),
+        booking = DataProvider.bookings(),
+      )
 
-    @BindValue
-    @JvmField
-    val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    coEvery { gymLocationsViewModel.uiState.value } returns
+      GymLocationsUiState.Success(DataProvider.gymLocations())
 
-    @BindValue
-    @JvmField
-    val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    gymLocationsRobot.apply { tapOnGymLocationsNavTab() }
 
-    private val loginRobot = LoginRobot(composeTestRule)
-    private val gymLocationsRobot = GymLocationsRobot(composeTestRule)
-    private val gymLocationsVerifier = GymLocationsVerifier(composeTestRule)
+    gymLocationsVerifier.apply {
+      verifyGymLocationsScreenIsDisplayed()
+      verifyGymLocationsItemsSize(6)
+    }
+  }
 
-    @Test
-    fun verifyGymLocationsSuccessState() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "password")
-            login()
-        }
-
-        coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
-            items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile(),
-            booking = DataProvider.bookings(),
-        )
-
-        coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Success(
-            DataProvider.gymLocations(),
-        )
-
-        gymLocationsRobot.apply {
-            tapOnGymLocationsNavTab()
-        }
-
-        gymLocationsVerifier.apply {
-            verifyGymLocationsScreenIsDisplayed()
-            verifyGymLocationsItemsSize(6)
-        }
+  @Test
+  fun verifyGymLocationsErrorState() {
+    loginRobot.apply {
+      enterUsernamePassword("test", "password")
+      login()
     }
 
-    @Test
-    fun verifyGymLocationsErrorState() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "password")
-            login()
-        }
+    coEvery { dashboardViewModel.uiState.value } returns
+      DashboardUiState.Success(
+        items = DataProvider.fitnessClasses(),
+        profile = DataProvider.profile(),
+        booking = DataProvider.bookings(),
+      )
 
-        coEvery { dashboardViewModel.uiState.value } returns DashboardUiState.Success(
-            items = DataProvider.fitnessClasses(),
-            profile = DataProvider.profile(),
-            booking = DataProvider.bookings(),
-        )
+    coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Failure
 
-        coEvery { gymLocationsViewModel.uiState.value } returns GymLocationsUiState.Failure
+    gymLocationsRobot.apply { tapOnGymLocationsNavTab() }
 
-        gymLocationsRobot.apply {
-            tapOnGymLocationsNavTab()
-        }
-
-        gymLocationsVerifier.apply {
-            verifyGymLocationsScreenIsDisplayed()
-            verifyErrorStateIsDisplayed()
-        }
+    gymLocationsVerifier.apply {
+      verifyGymLocationsScreenIsDisplayed()
+      verifyErrorStateIsDisplayed()
     }
+  }
 }

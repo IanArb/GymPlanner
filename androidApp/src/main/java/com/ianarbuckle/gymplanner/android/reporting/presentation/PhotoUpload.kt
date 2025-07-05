@@ -29,75 +29,51 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun ImagePlaceholder(
-    imageBitmap: ImageBitmap?,
-    isImageError: Boolean,
-    onPhotoClick: () -> Unit,
-    modifier: Modifier = Modifier,
+  imageBitmap: ImageBitmap?,
+  isImageError: Boolean,
+  onPhotoClick: () -> Unit,
+  modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-    ) {
-        if (imageBitmap != null) {
-            Image(
-                bitmap = imageBitmap,
-                contentDescription = "Photo",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-            )
-        } else {
-            ImageSelection(
-                onPhotoClick = onPhotoClick,
-            )
+  Column(modifier = modifier) {
+    if (imageBitmap != null) {
+      Image(
+        bitmap = imageBitmap,
+        contentDescription = "Photo",
+        modifier = Modifier.fillMaxWidth().height(200.dp),
+      )
+    } else {
+      ImageSelection(onPhotoClick = onPhotoClick)
 
-            if (isImageError) {
-                Spacer(modifier = Modifier.padding(2.dp))
-                Text(
-                    text = "Please provide a photo",
-                    color = Color.Red,
-                    fontStyle = FontStyle.Italic,
-                )
-            }
-        }
+      if (isImageError) {
+        Spacer(modifier = Modifier.padding(2.dp))
+        Text(text = "Please provide a photo", color = Color.Red, fontStyle = FontStyle.Italic)
+      }
     }
+  }
 }
 
 @Composable
-private fun ImageSelection(
-    onPhotoClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun ImageSelection(onPhotoClick: () -> Unit, modifier: Modifier = Modifier) {
+  Column(modifier = modifier) {
+    Text(text = "Take a photo", color = Color.Black, fontWeight = FontWeight.Bold)
+
+    Spacer(modifier = Modifier.padding(2.dp))
+
     Column(
-        modifier = modifier,
+      modifier =
+        Modifier.fillMaxWidth()
+          .height(200.dp)
+          .background(Color.LightGray)
+          .padding(16.dp)
+          .testTag(ImageSelectionTestTag)
+          .clickable { onPhotoClick() },
+      horizontalAlignment = CenterHorizontally,
+      verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = "Take a photo",
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-        )
-
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(Color.LightGray)
-                .padding(16.dp)
-                .testTag(ImageSelectionTestTag)
-                .clickable {
-                    onPhotoClick()
-                },
-            horizontalAlignment = CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Spacer(modifier = Modifier.padding(8.dp))
-            Icon(
-                imageVector = Icons.Filled.AddCircle,
-                contentDescription = "Add photo",
-            )
-        }
+      Spacer(modifier = Modifier.padding(8.dp))
+      Icon(imageVector = Icons.Filled.AddCircle, contentDescription = "Add photo")
     }
+  }
 }
 
 const val ImageSelectionTestTag = "ImageSelection"
@@ -106,13 +82,7 @@ const val ImageSelectionTestTag = "ImageSelection"
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ImagePlaceholderPreview() {
-    GymAppTheme {
-        Surface {
-            ImagePlaceholder(
-                imageBitmap = null,
-                isImageError = false,
-                onPhotoClick = {},
-            )
-        }
-    }
+  GymAppTheme {
+    Surface { ImagePlaceholder(imageBitmap = null, isImageError = false, onPhotoClick = {}) }
+  }
 }

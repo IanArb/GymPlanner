@@ -28,76 +28,65 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class DashboardInstrumentedTests {
 
-    @get:Rule(order = 1)
-    val hiltTestRule = HiltAndroidRule(this)
+  @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 2)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+  @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    private val testModule = module {
-        single<DataStore<Preferences>> { FakeDataStore() }
+  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+
+  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+
+  @BindValue @JvmField val viewModel = mockk<DashboardViewModel>(relaxed = true)
+
+  private val loginRobot = LoginRobot(composeTestRule)
+  private val dashboardVerifier = DashboardVerifier(composeTestRule)
+
+  @Test
+  fun verifyDashboardSuccessState() {
+    loginRobot.apply {
+      enterUsernamePassword("test", "password")
+      login()
     }
 
-    @get:Rule
-    val koinTestRule = KoinTestRule(
-        modules = listOf(testModule),
-    )
+    coEvery { viewModel.uiState.value } returns
+      DashboardUiState.Success(
+        items = DataProvider.fitnessClasses().toImmutableList(),
+        profile = DataProvider.profile(),
+        booking = persistentListOf(),
+      )
 
-    @BindValue
-    @JvmField
-    val viewModel = mockk<DashboardViewModel>(relaxed = true)
+    dashboardVerifier.apply {
+      verifyBookPersonalTrainerTextExists()
+      verifyFitnessClassesTextExists()
+    }
+  }
 
-    private val loginRobot = LoginRobot(composeTestRule)
-    private val dashboardVerifier = DashboardVerifier(composeTestRule)
-
-    @Test
-    fun verifyDashboardSuccessState() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "password")
-            login()
-        }
-
-        coEvery { viewModel.uiState.value } returns DashboardUiState.Success(
-            items = DataProvider.fitnessClasses().toImmutableList(),
-            profile = DataProvider.profile(),
-            booking = persistentListOf(),
-        )
-
-        dashboardVerifier.apply {
-            verifyBookPersonalTrainerTextExists()
-            verifyFitnessClassesTextExists()
-        }
+  @Test
+  fun verifyDashboardSuccessStateWithBookings() {
+    loginRobot.apply {
+      enterUsernamePassword("test", "password")
+      login()
     }
 
-    @Test
-    fun verifyDashboardSuccessStateWithBookings() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "password")
-            login()
-        }
+    coEvery { viewModel.uiState.value } returns
+      DashboardUiState.Success(
+        items = DataProvider.fitnessClasses().toImmutableList(),
+        profile = DataProvider.profile(),
+        booking = DataProvider.bookings(),
+      )
 
-        coEvery { viewModel.uiState.value } returns DashboardUiState.Success(
-            items = DataProvider.fitnessClasses().toImmutableList(),
-            profile = DataProvider.profile(),
-            booking = DataProvider.bookings(),
-        )
+    dashboardVerifier.apply { verifyUserBookings() }
+  }
 
-        dashboardVerifier.apply {
-            verifyUserBookings()
-        }
+  @Test
+  fun verifyDashboardErrorState() {
+    loginRobot.apply {
+      enterUsernamePassword("test", "password")
+      login()
     }
 
-    @Test
-    fun verifyDashboardErrorState() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "password")
-            login()
-        }
+    coEvery { viewModel.uiState.value } returns DashboardUiState.Failure
 
-        coEvery { viewModel.uiState.value } returns DashboardUiState.Failure
-
-        dashboardVerifier.apply {
-            verifyErrorState()
-        }
-    }
+    dashboardVerifier.apply { verifyErrorState() }
+  }
 }

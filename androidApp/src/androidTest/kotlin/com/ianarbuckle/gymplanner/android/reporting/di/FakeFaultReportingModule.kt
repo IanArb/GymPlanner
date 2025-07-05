@@ -7,15 +7,12 @@ import dagger.Provides
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.testing.TestInstallIn
 
-@TestInstallIn(
-    components = [ViewModelComponent::class],
-    replaces = [FaultReportingModule::class],
-)
+@TestInstallIn(components = [ViewModelComponent::class], replaces = [FaultReportingModule::class])
 @Module
 class FakeFaultReportingModule {
 
-    @Provides
-    fun provideFaultReportingRepository(): FaultReportingRepository {
-        return FakeFaultRepository()
-    }
+  @Provides
+  fun provideFaultReportingRepository(): FaultReportingRepository {
+    return FakeFaultRepository()
+  }
 }
