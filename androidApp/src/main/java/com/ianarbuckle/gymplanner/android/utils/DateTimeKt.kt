@@ -27,6 +27,11 @@ fun String.toLocalTime(): LocalTime {
   return LocalTime.parse(this)
 }
 
+fun String.toDisplayTime(): String {
+  val dateTime = LocalDateTime.parse(this.replace(" ", "T"))
+  return dateTime.time.displayTime()
+}
+
 fun LocalTime.displayTime(): String {
   val formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.getDefault())
   return this.toJavaLocalTime().format(formatter).lowercase()

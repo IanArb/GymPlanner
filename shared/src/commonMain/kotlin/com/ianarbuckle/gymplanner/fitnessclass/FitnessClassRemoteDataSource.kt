@@ -11,27 +11,27 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
 class FitnessClassRemoteDataSource(
-  private val baseurl: String,
-  private val httpClient: HttpClient,
-  private val dataStoreRepository: DataStoreRepository,
+    private val baseurl: String,
+    private val httpClient: HttpClient,
+    private val dataStoreRepository: DataStoreRepository,
 ) {
 
-  suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
-    val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
-    val response =
-      httpClient.get(baseurl) {
-        url {
-          protocol = URLProtocol.HTTPS
-          path(ENDPOINT)
-          parameters.append("dayOfWeek", dayOfWeek)
-        }
-        headers { append("Authorization", "Bearer $token") }
-      }
+    suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
+        val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
+        val response =
+            httpClient.get(baseurl) {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    path(ENDPOINT)
+                    parameters.append("dayOfWeek", dayOfWeek)
+                }
+                headers { append("Authorization", "Bearer $token") }
+            }
 
-    return response.body()
-  }
+        return response.body()
+    }
 
-  companion object {
-    private const val ENDPOINT = "/api/v1/fitness_class"
-  }
+    companion object {
+        private const val ENDPOINT = "/api/v1/fitness_class"
+    }
 }

@@ -15,4 +15,8 @@ class FakeUrlModule {
   @Named(UrlModule.NAMED_BASE_URL)
   @Singleton
   fun provideUrl(): String = "http://localhost:8080/"
+
+  @Provides
+  @Named(UrlModule.NAMED_WEBSOCKET_URL)
+  fun provideWebSocketUrl(): String = "ws://localhost:8000/"
 }

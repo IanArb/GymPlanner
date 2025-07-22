@@ -17,8 +17,14 @@ class UrlModule {
     return BuildConfig.BASE_URL
   }
 
+  @Provides
+  @Named(NAMED_WEBSOCKET_URL)
+  fun provideWebSocketUrl(): String {
+    return BuildConfig.WEBSOCKET_URL
+  }
+
   companion object {
-    const val BASE_URL = "https://cc13-86-45-28-173.ngrok-free.app"
     const val NAMED_BASE_URL = "BASE_URL"
+    const val NAMED_WEBSOCKET_URL = "WEBSOCKET_URL"
   }
 }

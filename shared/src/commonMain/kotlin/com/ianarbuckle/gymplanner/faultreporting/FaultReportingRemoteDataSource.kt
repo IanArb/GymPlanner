@@ -16,41 +16,41 @@ import io.ktor.http.contentType
 import io.ktor.http.path
 
 class FaultReportingRemoteDataSource(
-  private val baseurl: String,
-  private val httpClient: HttpClient,
-  private val dataStoreRepository: DataStoreRepository,
+    private val baseurl: String,
+    private val httpClient: HttpClient,
+    private val dataStoreRepository: DataStoreRepository,
 ) {
 
-  suspend fun reports(): List<FaultReportDto> {
-    val token = authorisationToken()
-    val response =
-      httpClient.get(baseurl) {
-        url {
-          protocol = URLProtocol.HTTPS
-          path(ENDPOINT)
-        }
-        headers { append("Authorization", "Bearer $token") }
-      }
+    suspend fun reports(): List<FaultReportDto> {
+        val token = authorisationToken()
+        val response =
+            httpClient.get(baseurl) {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    path(ENDPOINT)
+                }
+                headers { append("Authorization", "Bearer $token") }
+            }
 
-    return response.body()
-  }
+        return response.body()
+    }
 
-  suspend fun saveReport(report: FaultReport): FaultReportDto {
-    val token = authorisationToken()
-    val response =
-      httpClient.post(baseurl.plus(ENDPOINT)) {
-        contentType(ContentType.Application.Json)
-        setBody(report)
-        headers { append("Authorization", "Bearer $token") }
-      }
+    suspend fun saveReport(report: FaultReport): FaultReportDto {
+        val token = authorisationToken()
+        val response =
+            httpClient.post(baseurl.plus(ENDPOINT)) {
+                contentType(ContentType.Application.Json)
+                setBody(report)
+                headers { append("Authorization", "Bearer $token") }
+            }
 
-    return response.body()
-  }
+        return response.body()
+    }
 
-  private suspend fun authorisationToken(): String =
-    dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
+    private suspend fun authorisationToken(): String =
+        dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
 
-  companion object {
-    private const val ENDPOINT = "/api/v1/fault"
-  }
+    companion object {
+        private const val ENDPOINT = "/api/v1/fault"
+    }
 }
