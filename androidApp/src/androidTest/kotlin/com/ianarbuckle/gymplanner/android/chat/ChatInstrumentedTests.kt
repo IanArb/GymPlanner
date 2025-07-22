@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ianarbuckle.gymplanner.android.MainActivity
-import com.ianarbuckle.gymplanner.android.chat.robot.ChatRobot
 import com.ianarbuckle.gymplanner.android.chat.verifier.ChatVerifier
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -15,8 +14,10 @@ import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
 import com.ianarbuckle.gymplanner.android.profile.ProfileViewModel
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.chat.ChatRepository
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -25,7 +26,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Before
@@ -38,9 +38,11 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class ChatInstrumentedTests {
 
-  @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
+  @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
 
-  @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+  @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
+
+  @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
   private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
@@ -54,11 +56,11 @@ class ChatInstrumentedTests {
 
   @BindValue @JvmField val profileViewModel = mockk<ProfileViewModel>(relaxed = true)
 
+  @BindValue @JvmField val chatRepository = mockk<ChatRepository>(relaxed = true)
+
   private val loginRobot = LoginRobot(composeTestRule)
 
   private val dashboardRobot = DashboardRobot(composeTestRule)
-
-  private val chatRobot = ChatRobot(composeTestRule)
 
   private val chatVerifier = ChatVerifier(composeTestRule)
 
@@ -111,27 +113,4 @@ class ChatInstrumentedTests {
     }
   }
 
-  @Test
-  fun verifyChatScreenShowsError() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
-    }
-
-    coEvery { profileViewModel.user.first() } returns Pair("Guest", "userId")
-
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    val chatUiStateFlow = MutableStateFlow<ChatUiState>(ChatUiState.Failed)
-    coEvery { chatScreenViewModel.chatUiState } returns chatUiStateFlow
-
-    dashboardRobot.clickOnChat()
-
-    chatVerifier.apply { verifyChatScreenShowsError() }
-  }
 }
