@@ -11,8 +11,8 @@ class FakeChatRepository : ChatRepository {
     return Result.success(Unit)
   }
 
-  override suspend fun sendMessage(message: String) {
-    return
+  override suspend fun sendMessage(message: String): Result<Unit> {
+    return Result.success(Unit)
   }
 
   override fun observeMessages(): Flow<Message> {
