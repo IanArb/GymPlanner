@@ -7,19 +7,19 @@ import com.ianarbuckle.gymplanner.authentication.dto.RegisterResponseDto
 
 object AuthenticationMapper {
 
-  fun LoginDto.toLogin(): Login = Login(username, password)
+    fun LoginDto.toLogin(): Login = Login(username, password)
 
-  fun LoginResponseDto.toLoginResponse(): LoginResponse =
-    LoginResponse(userId = userId, token = token, expiration = expiration)
+    fun LoginResponseDto.toLoginResponse(): LoginResponse =
+        LoginResponse(userId = userId, token = token, expiration = expiration)
 
-  fun RegisterDto.toRegister(): Register =
-    Register(
-      username = username,
-      password = password,
-      email = email,
-      firstName = firstName,
-      lastName = lastName,
-    )
+    fun RegisterDto.toRegister(): Register =
+        Register(
+            username = username,
+            password = password,
+            email = email,
+            firstName = firstName,
+            lastName = lastName,
+        )
 
-  fun RegisterResponseDto.toRegister(): RegisterResponse = RegisterResponse(message)
+    fun RegisterResponseDto.toRegister(): RegisterResponse = RegisterResponse(message)
 }

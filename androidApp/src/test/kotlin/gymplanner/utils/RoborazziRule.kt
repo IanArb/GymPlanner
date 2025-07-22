@@ -10,7 +10,7 @@ internal fun createRoborazziRule(): RoborazziRule {
       RoborazziRule.Options(
         outputDirectoryPath = "screenshots",
         outputFileProvider = { description, outputDirectory, fileExtension ->
-          File(outputDirectory, "${description.className}.${description.methodName}.$fileExtension")
+          File(outputDirectory, "${description.className}/${description.methodName}.$fileExtension")
         },
         roborazziOptions = DefaultRoborazziOptions,
       )

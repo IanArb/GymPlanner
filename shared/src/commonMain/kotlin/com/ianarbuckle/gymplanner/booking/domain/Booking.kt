@@ -6,17 +6,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Booking(
-  val timeSlotId: String,
-  val userId: String,
-  val bookingDate: String,
-  val startTime: LocalTime,
-  val personalTrainer: PersonalTrainer,
+    val timeSlotId: String,
+    val userId: String,
+    val bookingDate: String,
+    val startTime: LocalTime,
+    val personalTrainer: PersonalTrainer,
 )
 
 @Serializable
 data class PersonalTrainer(
-  val id: String,
-  val name: String,
-  val imageUrl: String,
-  val gymLocation: GymLocation,
+    val id: String,
+    val name: String,
+    val imageUrl: String,
+    val gymLocation: GymLocation,
 )

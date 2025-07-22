@@ -45,6 +45,8 @@ data class BookingScreen(
   val location: String,
 )
 
+@Serializable data class ConversationScreen(val username: String, val userId: String)
+
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
   return persistentListOf(
     BottomNavigationItem(
@@ -80,3 +82,5 @@ const val BookingScreenPath =
     "/{personalTrainerName}" +
     "/{personalTrainerAvatarUrl}" +
     "/{location}"
+
+const val ChatScreenPath = "/{username}/{userId}"

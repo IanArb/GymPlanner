@@ -15,8 +15,10 @@ class GymPlannerApplication : BaseApplication() {
 
   @Inject @Named(UrlModule.NAMED_BASE_URL) lateinit var baseUrl: String
 
+  @Inject @Named(UrlModule.NAMED_WEBSOCKET_URL) lateinit var websocketBaseUrl: String
+
   override fun onCreate() {
     super.onCreate()
-    initKoin(baseUrl = baseUrl, dataStore = dataStore)
+    initKoin(baseUrl = baseUrl, dataStore = dataStore, websocketBaseUrl = websocketBaseUrl)
   }
 }

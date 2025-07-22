@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreen
+import com.ianarbuckle.gymplanner.android.navigation.ChatScreenPath
+import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
@@ -42,6 +44,7 @@ fun TopNavigationBar(
             AvailabilityScreen::class
               .qualifiedName
               .plus(("/{name}/{imageUrl}?qualifications={qualifications}")) -> "Book Trainer"
+            ConversationScreen::class.qualifiedName.plus(ChatScreenPath) -> "Chat"
             else -> ""
           },
         color = titleColor,
