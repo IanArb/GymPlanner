@@ -34,109 +34,110 @@ import kotlinx.collections.immutable.toImmutableList
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AvailabilityScreen(
-  paddingValues: PaddingValues,
-  availabilityScreenState: AvailabilityScreenState,
-  onBookingClick: (AvailabilityData) -> Unit,
-  modifier: Modifier = Modifier,
-  availabilityViewModel: AvailabilityViewModel = hiltViewModel(),
+    paddingValues: PaddingValues,
+    availabilityScreenState: AvailabilityScreenState,
+    onBookingClick: (AvailabilityData) -> Unit,
+    modifier: Modifier = Modifier,
+    availabilityViewModel: AvailabilityViewModel = hiltViewModel(),
 ) {
-  LaunchedEffect(Unit) { availabilityViewModel.fetchAvailability() }
+    LaunchedEffect(Unit) { availabilityViewModel.fetchAvailability() }
 
-  val bookingState = availabilityViewModel.availabilityUiState.collectAsState()
+    val bookingState = availabilityViewModel.availabilityUiState.collectAsState()
 
-  val daysOfWeek: ImmutableList<String> = currentWeekDates().toImmutableList()
+    val daysOfWeek: ImmutableList<String> = currentWeekDates().toImmutableList()
 
-  val today = daysOfWeek.find { it.isCurrentDay() } ?: ""
+    val today = daysOfWeek.find { it.isCurrentDay() } ?: ""
 
-  val selectedTimeSlotId = remember { mutableStateOf("") }
-  val selectedTimeSlot = remember { mutableStateOf("") }
-  val selectedDate = remember { mutableStateOf(today) }
-  val availableTimes = remember { mutableStateOf(emptyList<Time>()) }
+    val selectedTimeSlotId = remember { mutableStateOf("") }
+    val selectedTimeSlot = remember { mutableStateOf("") }
+    val selectedDate = remember { mutableStateOf(today) }
+    val availableTimes = remember { mutableStateOf(emptyList<Time>()) }
 
-  when (bookingState.value) {
-    is AvailabilityUiState.Idle -> {
-      // noop
-    }
+    when (bookingState.value) {
+        is AvailabilityUiState.Idle -> {
+            // noop
+        }
 
-    is AvailabilityUiState.Loading -> {
-      AvailabilityLoadingShimmer(
-        modifier = modifier,
-        paddingValues = paddingValues,
-        shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-      )
-    }
-
-    is AvailabilityUiState.Failed -> {
-      RetryErrorScreen(
-        modifier = modifier,
-        text = "Failed to load availability.",
-        onClick = { availabilityViewModel.fetchAvailability() },
-      )
-    }
-
-    is AvailabilityUiState.AvailabilitySuccess -> {
-      val success = bookingState.value as AvailabilityUiState.AvailabilitySuccess
-      val availabilitySlots = success.availability.slots
-      val isAvailable = success.isPersonalTrainerAvailable
-
-      fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> {
-        return availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
-      }
-
-      availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
-
-      val calendarPagerState = rememberPagerState {
-        (daysOfWeek.size + CalendarPagerSize) / PagerOffset
-      }
-
-      val rowsPerPage = TimeslotPickerPageSize
-      val itemsPerPage = rowsPerPage * TimeslotPickerPageSize
-
-      val timeSlotPagerState = rememberPagerState {
-        availableTimes.value.chunked(itemsPerPage).size
-      }
-
-      val verticalScroll = rememberScrollState()
-
-      val contentState =
-        AvailabilityContentState(
-          personalTrainerLabel = "Personal Trainer",
-          name = availabilityScreenState.personalTrainer.name,
-          imageUrl = availabilityScreenState.personalTrainer.imageUrl,
-          qualifications = availabilityScreenState.personalTrainer.qualifications,
-          daysOfWeek = daysOfWeek,
-          availableTimes = availableTimes.value.toImmutableList(),
-          selectedDate = selectedDate.value,
-          selectedTimeSlot = selectedTimeSlotId.value,
-          isAvailable = isAvailable,
-          timeslotRowsPerPage = rowsPerPage,
-          timeslotItemsPerPage = itemsPerPage,
-        )
-
-      AvailabilityContent(
-        paddingValues = paddingValues,
-        contentState = contentState,
-        calendarPagerState = calendarPagerState,
-        timeSlotPagerState = timeSlotPagerState,
-        verticalScrollState = verticalScroll,
-        modifier = modifier,
-        onSelectedDateChange = { selectedDate.value = it },
-        onTimeSlotChange = { id, time ->
-          selectedTimeSlotId.value = id
-          selectedTimeSlot.value = time
-        },
-        onBookClick = {
-          onBookingClick(
-            AvailabilityData(
-              timeSlotId = selectedTimeSlotId.value,
-              selectedDate = selectedDate.value,
-              selectedTimeSlot = selectedTimeSlot.value.toLocalTime(),
+        is AvailabilityUiState.Loading -> {
+            AvailabilityLoadingShimmer(
+                modifier = modifier,
+                paddingValues = paddingValues,
+                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
             )
-          )
-        },
-      )
+        }
+
+        is AvailabilityUiState.Failed -> {
+            RetryErrorScreen(
+                modifier = modifier,
+                text = "Failed to load availability.",
+                onClick = { availabilityViewModel.fetchAvailability() },
+            )
+        }
+
+        is AvailabilityUiState.AvailabilitySuccess -> {
+            val success = bookingState.value as AvailabilityUiState.AvailabilitySuccess
+            val availabilitySlots = success.availability.slots
+            val isAvailable = success.isPersonalTrainerAvailable
+
+            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> {
+                return availabilitySlots.find { it.date.contains(selectedDate) }?.times
+                    ?: emptyList()
+            }
+
+            availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
+
+            val calendarPagerState = rememberPagerState {
+                (daysOfWeek.size + CalendarPagerSize) / PagerOffset
+            }
+
+            val rowsPerPage = TimeslotPickerPageSize
+            val itemsPerPage = rowsPerPage * TimeslotPickerPageSize
+
+            val timeSlotPagerState = rememberPagerState {
+                availableTimes.value.chunked(itemsPerPage).size
+            }
+
+            val verticalScroll = rememberScrollState()
+
+            val contentState =
+                AvailabilityContentState(
+                    personalTrainerLabel = "Personal Trainer",
+                    name = availabilityScreenState.personalTrainer.name,
+                    imageUrl = availabilityScreenState.personalTrainer.imageUrl,
+                    qualifications = availabilityScreenState.personalTrainer.qualifications,
+                    daysOfWeek = daysOfWeek,
+                    availableTimes = availableTimes.value.toImmutableList(),
+                    selectedDate = selectedDate.value,
+                    selectedTimeSlot = selectedTimeSlotId.value,
+                    isAvailable = isAvailable,
+                    timeslotRowsPerPage = rowsPerPage,
+                    timeslotItemsPerPage = itemsPerPage,
+                )
+
+            AvailabilityContent(
+                paddingValues = paddingValues,
+                contentState = contentState,
+                calendarPagerState = calendarPagerState,
+                timeSlotPagerState = timeSlotPagerState,
+                verticalScrollState = verticalScroll,
+                modifier = modifier,
+                onSelectedDateChange = { selectedDate.value = it },
+                onTimeSlotChange = { id, time ->
+                    selectedTimeSlotId.value = id
+                    selectedTimeSlot.value = time
+                },
+                onBookClick = {
+                    onBookingClick(
+                        AvailabilityData(
+                            timeSlotId = selectedTimeSlotId.value,
+                            selectedDate = selectedDate.value,
+                            selectedTimeSlot = selectedTimeSlot.value.toLocalTime(),
+                        )
+                    )
+                },
+            )
+        }
     }
-  }
 }
 
 private const val CalendarPagerSize = 4
@@ -147,32 +148,32 @@ private const val TimeslotPickerPageSize = 3
 @Preview
 @Composable
 private fun BookingScreenPreview() {
-  val availabilityScreenState =
-    AvailabilityScreenState(
-      personalTrainer =
-        com.ianarbuckle.gymplanner.android.availability.presentation.state.PersonalTrainer(
-          personalTrainerId = "1",
-          name = "John Doe",
-          imageUrl = "https://example.com/avatar.jpg",
-          gymLocation = "Clontarf",
-          qualifications = listOf("Qualification 1", "Qualification 2"),
+    val availabilityScreenState =
+        AvailabilityScreenState(
+            personalTrainer =
+                com.ianarbuckle.gymplanner.android.availability.presentation.state.PersonalTrainer(
+                    personalTrainerId = "1",
+                    name = "John Doe",
+                    imageUrl = "https://example.com/avatar.jpg",
+                    gymLocation = "Clontarf",
+                    qualifications = listOf("Qualification 1", "Qualification 2"),
+                )
         )
-    )
 
-  GymAppTheme {
-    Scaffold(
-      topBar = {
-        // TopAppBar
-        TopAppBar(title = { Text("Booking") }, navigationIcon = {}, actions = {})
-      }
-    ) { padding ->
-      AvailabilityScreen(
-        paddingValues = padding,
-        availabilityScreenState = availabilityScreenState,
-        onBookingClick = {
-          // Handle booking click
-        },
-      )
+    GymAppTheme {
+        Scaffold(
+            topBar = {
+                // TopAppBar
+                TopAppBar(title = { Text("Booking") }, navigationIcon = {}, actions = {})
+            }
+        ) { padding ->
+            AvailabilityScreen(
+                paddingValues = padding,
+                availabilityScreenState = availabilityScreenState,
+                onBookingClick = {
+                    // Handle booking click
+                },
+            )
+        }
     }
-  }
 }

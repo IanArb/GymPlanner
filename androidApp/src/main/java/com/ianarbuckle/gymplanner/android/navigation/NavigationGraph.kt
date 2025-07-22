@@ -27,60 +27,60 @@ data class PersonalTrainersDetailScreen(val name: String, val bio: String, val i
 
 @Serializable
 data class AvailabilityScreen(
-  val personalTrainerId: String,
-  val name: String,
-  val imageUrl: String,
-  val gymLocation: String,
-  val qualifications: List<String>,
+    val personalTrainerId: String,
+    val name: String,
+    val imageUrl: String,
+    val gymLocation: String,
+    val qualifications: List<String>,
 )
 
 @Serializable
 data class BookingScreen(
-  val personalTrainerId: String,
-  val timeSlotId: String,
-  val selectedDate: String,
-  val selectedTimeSlot: String,
-  val personalTrainerName: String,
-  val personalTrainerAvatarUrl: String,
-  val location: String,
+    val personalTrainerId: String,
+    val timeSlotId: String,
+    val selectedDate: String,
+    val selectedTimeSlot: String,
+    val personalTrainerName: String,
+    val personalTrainerAvatarUrl: String,
+    val location: String,
 )
 
 @Serializable data class ConversationScreen(val username: String, val userId: String)
 
 fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
-  return persistentListOf(
-    BottomNavigationItem(
-      title = "Dashboard",
-      selectedIcon = Icons.Filled.Home,
-      unselectedIcon = Icons.Outlined.Home,
-    ),
-    BottomNavigationItem(
-      title = "Report Machine",
-      selectedIcon = Icons.Filled.Build,
-      unselectedIcon = Icons.Outlined.Build,
-    ),
-    BottomNavigationItem(
-      title = "Personal Trainers",
-      selectedIcon = Icons.Filled.Face,
-      unselectedIcon = Icons.Outlined.Face,
-    ),
-  )
+    return persistentListOf(
+        BottomNavigationItem(
+            title = "Dashboard",
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
+        ),
+        BottomNavigationItem(
+            title = "Report Machine",
+            selectedIcon = Icons.Filled.Build,
+            unselectedIcon = Icons.Outlined.Build,
+        ),
+        BottomNavigationItem(
+            title = "Personal Trainers",
+            selectedIcon = Icons.Filled.Face,
+            unselectedIcon = Icons.Outlined.Face,
+        ),
+    )
 }
 
 const val AvailabilityScreenPath =
-  "/{personalTrainerId}" +
-    "/{name}" +
-    "/{imageUrl}" +
-    "/{gymLocation}?qualifications={qualifications}"
+    "/{personalTrainerId}" +
+        "/{name}" +
+        "/{imageUrl}" +
+        "/{gymLocation}?qualifications={qualifications}"
 const val PersonalTrainersDetailScreenPath = "/{name}/{bio}/{imageUrl}"
 const val GymLocationsPath = "/{gymLocation}"
 const val BookingScreenPath =
-  "/{personalTrainerId}" +
-    "/{timeSlotId}" +
-    "/{selectedDate}" +
-    "/{selectedTimeSlot}" +
-    "/{personalTrainerName}" +
-    "/{personalTrainerAvatarUrl}" +
-    "/{location}"
+    "/{personalTrainerId}" +
+        "/{timeSlotId}" +
+        "/{selectedDate}" +
+        "/{selectedTimeSlot}" +
+        "/{personalTrainerName}" +
+        "/{personalTrainerAvatarUrl}" +
+        "/{location}"
 
 const val ChatScreenPath = "/{username}/{userId}"

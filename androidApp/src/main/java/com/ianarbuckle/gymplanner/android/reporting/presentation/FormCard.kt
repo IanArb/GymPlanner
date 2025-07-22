@@ -22,86 +22,86 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Suppress("LongParameterList", "LongMethod")
 @Composable
 fun FormCard(
-  machineNumber: String,
-  description: String,
-  isMachineNumberValid: Boolean,
-  isDescriptionValid: Boolean,
-  isImageBitMapValid: Boolean,
-  hasMachineNumberInteracted: Boolean,
-  hasDescriptionInteracted: Boolean,
-  hasPhotoInteracted: Boolean,
-  onPhotoClick: () -> Unit,
-  onSendClick: () -> Unit,
-  onMachineNumberChange: (String) -> Unit,
-  onDescriptionChange: (String) -> Unit,
-  modifier: Modifier = Modifier,
-  isLoading: Boolean = false,
-  hasFailed: Boolean = false,
-  imageBitmap: ImageBitmap? = null,
+    machineNumber: String,
+    description: String,
+    isMachineNumberValid: Boolean,
+    isDescriptionValid: Boolean,
+    isImageBitMapValid: Boolean,
+    hasMachineNumberInteracted: Boolean,
+    hasDescriptionInteracted: Boolean,
+    hasPhotoInteracted: Boolean,
+    onPhotoClick: () -> Unit,
+    onSendClick: () -> Unit,
+    onMachineNumberChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    hasFailed: Boolean = false,
+    imageBitmap: ImageBitmap? = null,
 ) {
-  Card(
-    modifier = modifier.fillMaxWidth(),
-    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-  ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-      FormFields(
-        machineNumber = machineNumber,
-        description = description,
-        isMachineNumberValid = isMachineNumberValid,
-        isDescriptionValid = isDescriptionValid,
-        hasMachineNumberInteracted = hasMachineNumberInteracted,
-        hasDescriptionInteracted = hasDescriptionInteracted,
-        onMachineNumberChange = onMachineNumberChange,
-        onDescriptionChange = onDescriptionChange,
-        modifier = Modifier,
-      )
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            FormFields(
+                machineNumber = machineNumber,
+                description = description,
+                isMachineNumberValid = isMachineNumberValid,
+                isDescriptionValid = isDescriptionValid,
+                hasMachineNumberInteracted = hasMachineNumberInteracted,
+                hasDescriptionInteracted = hasDescriptionInteracted,
+                onMachineNumberChange = onMachineNumberChange,
+                onDescriptionChange = onDescriptionChange,
+                modifier = Modifier,
+            )
 
-      ImagePlaceholder(
-        imageBitmap = imageBitmap,
-        isImageError = !isImageBitMapValid && hasPhotoInteracted,
-        onPhotoClick = onPhotoClick,
-      )
+            ImagePlaceholder(
+                imageBitmap = imageBitmap,
+                isImageError = !isImageBitMapValid && hasPhotoInteracted,
+                onPhotoClick = onPhotoClick,
+            )
 
-      LoadingButton(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
-        text = if (isLoading) "" else "Send",
-        isLoading = isLoading,
-        onClick = onSendClick,
-      )
+            LoadingButton(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                text = if (isLoading) "" else "Send",
+                isLoading = isLoading,
+                onClick = onSendClick,
+            )
 
-      Spacer(modifier = Modifier.padding(4.dp))
+            Spacer(modifier = Modifier.padding(4.dp))
 
-      if (hasFailed) {
-        Text(text = "Failed to send report", color = Color.Red)
-      }
+            if (hasFailed) {
+                Text(text = "Failed to send report", color = Color.Red)
+            }
+        }
     }
-  }
 }
 
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun FormCardPreview() {
-  GymAppTheme {
-    Surface {
-      FormCard(
-        machineNumber = "123",
-        description = "This is a description",
-        isMachineNumberValid = true,
-        isDescriptionValid = true,
-        isImageBitMapValid = true,
-        hasMachineNumberInteracted = false,
-        hasDescriptionInteracted = false,
-        hasPhotoInteracted = false,
-        imageBitmap = null,
-        isLoading = false,
-        hasFailed = false,
-        onMachineNumberChange = {},
-        onDescriptionChange = {},
-        onPhotoClick = {},
-        onSendClick = {},
-      )
+    GymAppTheme {
+        Surface {
+            FormCard(
+                machineNumber = "123",
+                description = "This is a description",
+                isMachineNumberValid = true,
+                isDescriptionValid = true,
+                isImageBitMapValid = true,
+                hasMachineNumberInteracted = false,
+                hasDescriptionInteracted = false,
+                hasPhotoInteracted = false,
+                imageBitmap = null,
+                isLoading = false,
+                hasFailed = false,
+                onMachineNumberChange = {},
+                onDescriptionChange = {},
+                onPhotoClick = {},
+                onSendClick = {},
+            )
+        }
     }
-  }
 }

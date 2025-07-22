@@ -16,18 +16,20 @@ class PersonalTrainersViewModel
 @Inject
 constructor(private val personalTrainersRepository: PersonalTrainersRepository) : ViewModel() {
 
-  private val _uiState: MutableStateFlow<PersonalTrainersUiState> =
-    MutableStateFlow(PersonalTrainersUiState.Loading)
-  val uiState = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<PersonalTrainersUiState> =
+        MutableStateFlow(PersonalTrainersUiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
-  fun fetchPersonalTrainers(gymLocation: GymLocation) {
-    viewModelScope.launch {
-      personalTrainersRepository
-        .fetchPersonalTrainers(gymLocation)
-        .fold(
-          onSuccess = { trainers -> _uiState.update { PersonalTrainersUiState.Success(trainers) } },
-          onFailure = { _uiState.update { PersonalTrainersUiState.Failure } },
-        )
+    fun fetchPersonalTrainers(gymLocation: GymLocation) {
+        viewModelScope.launch {
+            personalTrainersRepository
+                .fetchPersonalTrainers(gymLocation)
+                .fold(
+                    onSuccess = { trainers ->
+                        _uiState.update { PersonalTrainersUiState.Success(trainers) }
+                    },
+                    onFailure = { _uiState.update { PersonalTrainersUiState.Failure } },
+                )
+        }
     }
-  }
 }

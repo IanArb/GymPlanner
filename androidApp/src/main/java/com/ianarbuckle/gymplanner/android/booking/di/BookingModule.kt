@@ -11,8 +11,8 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 class BookingModule {
 
-  @Provides
-  fun providesBookingRepository(): BookingRepository {
-    return DefaultBookingRepository()
-  }
+    @Provides
+    fun providesBookingRepository(): BookingRepository {
+        return DefaultBookingRepository()
+    }
 }

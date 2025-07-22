@@ -11,8 +11,8 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 class FaultReportingModule {
 
-  @Provides
-  fun providesFaultReportingRepository(): FaultReportingRepository {
-    return DefaultFaultReportingRepository()
-  }
+    @Provides
+    fun providesFaultReportingRepository(): FaultReportingRepository {
+        return DefaultFaultReportingRepository()
+    }
 }

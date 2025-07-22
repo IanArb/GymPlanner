@@ -23,80 +23,80 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun PersonalTrainerCard(
-  personalTrainerLabel: String,
-  name: String,
-  imageUrl: String,
-  qualifications: List<String>,
-  isAvailable: Boolean,
-  modifier: Modifier = Modifier,
+    personalTrainerLabel: String,
+    name: String,
+    imageUrl: String,
+    qualifications: List<String>,
+    isAvailable: Boolean,
+    modifier: Modifier = Modifier,
 ) {
-  Card(
-    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    modifier = modifier.padding(16.dp),
-  ) {
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-      PersonalTrainer(
-        personalTrainerLabel = personalTrainerLabel,
-        name = name,
-        imageUrl = imageUrl,
-        qualifications = qualifications,
-        isAvailable = isAvailable,
-      )
-    }
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.padding(16.dp),
+    ) {
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            PersonalTrainer(
+                personalTrainerLabel = personalTrainerLabel,
+                name = name,
+                imageUrl = imageUrl,
+                qualifications = qualifications,
+                isAvailable = isAvailable,
+            )
+        }
 
-    Spacer(modifier = Modifier.padding(8.dp))
-  }
+        Spacer(modifier = Modifier.padding(8.dp))
+    }
 }
 
 @Composable
 fun PersonalTrainer(
-  personalTrainerLabel: String,
-  name: String,
-  imageUrl: String,
-  qualifications: List<String>,
-  isAvailable: Boolean,
-  modifier: Modifier = Modifier,
+    personalTrainerLabel: String,
+    name: String,
+    imageUrl: String,
+    qualifications: List<String>,
+    isAvailable: Boolean,
+    modifier: Modifier = Modifier,
 ) {
-  Column(
-    modifier = modifier.padding(16.dp),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally,
-  ) {
-    Avatar(imageUrl = imageUrl, contentDescription = "Avatar", isAvailable = isAvailable)
+    Column(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Avatar(imageUrl = imageUrl, contentDescription = "Avatar", isAvailable = isAvailable)
 
-    Spacer(modifier = Modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
-    Text(text = name, style = MaterialTheme.typography.titleMedium)
+        Text(text = name, style = MaterialTheme.typography.titleMedium)
 
-    Spacer(modifier = Modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
-    Text(text = personalTrainerLabel, style = MaterialTheme.typography.bodyMedium)
+        Text(text = personalTrainerLabel, style = MaterialTheme.typography.bodyMedium)
 
-    Spacer(modifier = Modifier.padding(2.dp))
+        Spacer(modifier = Modifier.padding(2.dp))
 
-    Text(
-      text = qualifications.joinToString(", "),
-      style = MaterialTheme.typography.bodyMedium,
-      maxLines = 3,
-      textAlign = TextAlign.Center,
-    )
-  }
+        Text(
+            text = qualifications.joinToString(", "),
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 3,
+            textAlign = TextAlign.Center,
+        )
+    }
 }
 
 @Preview(showBackground = true, name = "Light mode")
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PersonalTrainerCardPreview() {
-  GymAppTheme {
-    Surface {
-      PersonalTrainerCard(
-        personalTrainerLabel = "Personal Trainer",
-        name = "John Doe",
-        imageUrl = "https://example.com/image.jpg",
-        qualifications = listOf("qualification1", "qualification2"),
-        isAvailable = true,
-      )
+    GymAppTheme {
+        Surface {
+            PersonalTrainerCard(
+                personalTrainerLabel = "Personal Trainer",
+                name = "John Doe",
+                imageUrl = "https://example.com/image.jpg",
+                qualifications = listOf("qualification1", "qualification2"),
+                isAvailable = true,
+            )
+        }
     }
-  }
 }

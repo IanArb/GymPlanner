@@ -19,38 +19,38 @@ import com.ianarbuckle.gymplanner.android.R
 
 @Composable
 fun Avatar(
-  imageUrl: String,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  isAvailable: Boolean = false,
+    imageUrl: String,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    isAvailable: Boolean = false,
 ) {
-  Box(modifier = modifier.size(100.dp)) {
-    AsyncImage(
-      model = imageUrl,
-      contentDescription = contentDescription,
-      contentScale = ContentScale.Crop,
-      modifier = Modifier.size(100.dp).clip(CircleShape),
-      placeholder = painterResource(id = R.drawable.ic_placeholder),
-    )
-    if (isAvailable) {
-      Box(
-        modifier =
-          Modifier.size(16.dp)
-            .offset(x = (-16).dp)
-            .clip(CircleShape)
-            .background(Color.Green)
-            .align(Alignment.BottomEnd)
-      )
+    Box(modifier = modifier.size(100.dp)) {
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = contentDescription,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(100.dp).clip(CircleShape),
+            placeholder = painterResource(id = R.drawable.ic_placeholder),
+        )
+        if (isAvailable) {
+            Box(
+                modifier =
+                    Modifier.size(16.dp)
+                        .offset(x = (-16).dp)
+                        .clip(CircleShape)
+                        .background(Color.Green)
+                        .align(Alignment.BottomEnd)
+            )
+        }
     }
-  }
 }
 
 @Preview
 @Composable
 private fun AvatarPreview() {
-  Avatar(
-    imageUrl = "https://www.example.com/image.jpg",
-    contentDescription = "Avatar",
-    isAvailable = true,
-  )
+    Avatar(
+        imageUrl = "https://www.example.com/image.jpg",
+        contentDescription = "Avatar",
+        isAvailable = true,
+    )
 }

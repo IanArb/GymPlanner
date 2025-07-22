@@ -19,81 +19,83 @@ import kotlinx.datetime.LocalTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingDetailsScreen(
-  contentPadding: PaddingValues,
-  bookingDetailsData: BookingDetailsData,
-  navigateToHomeScreen: () -> Unit,
-  modifier: Modifier = Modifier,
-  bookingViewModel: BookingViewModel = hiltViewModel(),
+    contentPadding: PaddingValues,
+    bookingDetailsData: BookingDetailsData,
+    navigateToHomeScreen: () -> Unit,
+    modifier: Modifier = Modifier,
+    bookingViewModel: BookingViewModel = hiltViewModel(),
 ) {
-  val uiState = bookingViewModel.bookingUiState.collectAsState()
+    val uiState = bookingViewModel.bookingUiState.collectAsState()
 
-  Column(modifier = modifier.padding(contentPadding)) {
-    when (uiState.value) {
-      is BookingUiState.Idle -> {
-        BookingDetailsContent(
-          selectedDate = bookingDetailsData.selectedDate,
-          selectedTimeSlot = bookingDetailsData.selectedTimeSlot,
-          personalTrainerName = bookingDetailsData.personalTrainerName,
-          personalTrainerAvatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
-          location = bookingDetailsData.location,
-          onConfirmClick = { saveBooking(bookingViewModel, bookingDetailsData) },
-        )
-      }
-      is BookingUiState.Failed -> {
-        BookingFailedContent(onRetry = { saveBooking(bookingViewModel, bookingDetailsData) })
-      }
-      is BookingUiState.Loading -> {
-        BookingDetailsContent(
-          selectedDate = bookingDetailsData.selectedDate,
-          selectedTimeSlot = bookingDetailsData.selectedTimeSlot,
-          personalTrainerName = bookingDetailsData.personalTrainerName,
-          personalTrainerAvatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
-          location = bookingDetailsData.location,
-          onConfirmClick = { saveBooking(bookingViewModel, bookingDetailsData) },
-          isLoading = true,
-        )
-      }
-      is BookingUiState.Success -> {
-        BookingConfirmationContent(
-          trainerName = bookingDetailsData.personalTrainerName,
-          avatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
-          sessionDate = bookingDetailsData.selectedDate,
-          sessionTime = bookingDetailsData.selectedTimeSlot.displayTime(),
-          location = bookingDetailsData.location,
-          goHomeClick = { navigateToHomeScreen() },
-        )
-      }
+    Column(modifier = modifier.padding(contentPadding)) {
+        when (uiState.value) {
+            is BookingUiState.Idle -> {
+                BookingDetailsContent(
+                    selectedDate = bookingDetailsData.selectedDate,
+                    selectedTimeSlot = bookingDetailsData.selectedTimeSlot,
+                    personalTrainerName = bookingDetailsData.personalTrainerName,
+                    personalTrainerAvatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
+                    location = bookingDetailsData.location,
+                    onConfirmClick = { saveBooking(bookingViewModel, bookingDetailsData) },
+                )
+            }
+            is BookingUiState.Failed -> {
+                BookingFailedContent(
+                    onRetry = { saveBooking(bookingViewModel, bookingDetailsData) }
+                )
+            }
+            is BookingUiState.Loading -> {
+                BookingDetailsContent(
+                    selectedDate = bookingDetailsData.selectedDate,
+                    selectedTimeSlot = bookingDetailsData.selectedTimeSlot,
+                    personalTrainerName = bookingDetailsData.personalTrainerName,
+                    personalTrainerAvatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
+                    location = bookingDetailsData.location,
+                    onConfirmClick = { saveBooking(bookingViewModel, bookingDetailsData) },
+                    isLoading = true,
+                )
+            }
+            is BookingUiState.Success -> {
+                BookingConfirmationContent(
+                    trainerName = bookingDetailsData.personalTrainerName,
+                    avatarUrl = bookingDetailsData.personalTrainerAvatarUrl,
+                    sessionDate = bookingDetailsData.selectedDate,
+                    sessionTime = bookingDetailsData.selectedTimeSlot.displayTime(),
+                    location = bookingDetailsData.location,
+                    goHomeClick = { navigateToHomeScreen() },
+                )
+            }
+        }
     }
-  }
 }
 
 private fun saveBooking(
-  bookingViewModel: BookingViewModel,
-  bookingDetailsData: BookingDetailsData,
+    bookingViewModel: BookingViewModel,
+    bookingDetailsData: BookingDetailsData,
 ) {
-  bookingViewModel.saveBooking(bookingDetailsData = bookingDetailsData)
+    bookingViewModel.saveBooking(bookingDetailsData = bookingDetailsData)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun BookingConfirmationScreenPreview() {
-  GymAppTheme {
-    Column {
-      BookingDetailsScreen(
-        contentPadding = PaddingValues(16.dp),
-        bookingDetailsData =
-          BookingDetailsData(
-            timeSlotId = "1",
-            personalTrainerId = "1",
-            selectedDate = "2023-01-01",
-            selectedTimeSlot = LocalTime.parse("10:00:00"),
-            personalTrainerName = "John Doe",
-            personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
-            location = "Gym Location",
-          ),
-        navigateToHomeScreen = {},
-      )
+    GymAppTheme {
+        Column {
+            BookingDetailsScreen(
+                contentPadding = PaddingValues(16.dp),
+                bookingDetailsData =
+                    BookingDetailsData(
+                        timeSlotId = "1",
+                        personalTrainerId = "1",
+                        selectedDate = "2023-01-01",
+                        selectedTimeSlot = LocalTime.parse("10:00:00"),
+                        personalTrainerName = "John Doe",
+                        personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
+                        location = "Gym Location",
+                    ),
+                navigateToHomeScreen = {},
+            )
+        }
     }
-  }
 }

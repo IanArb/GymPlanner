@@ -13,13 +13,13 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 class ChatModule {
 
-  @Provides
-  fun providesChatRepository(): ChatRepository {
-    return DefaultChatRepository()
-  }
+    @Provides
+    fun providesChatRepository(): ChatRepository {
+        return DefaultChatRepository()
+    }
 
-  @Provides
-  fun providesMessageRepository(): MessagesRepository {
-    return DefaultMessagesRepository()
-  }
+    @Provides
+    fun providesMessageRepository(): MessagesRepository {
+        return DefaultMessagesRepository()
+    }
 }

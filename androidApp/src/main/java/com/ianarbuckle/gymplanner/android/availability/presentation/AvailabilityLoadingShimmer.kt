@@ -32,155 +32,179 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun AvailabilityLoadingShimmer(
-  paddingValues: PaddingValues,
-  shimmer: Shimmer,
-  modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    shimmer: Shimmer,
+    modifier: Modifier = Modifier,
 ) {
-  Column(modifier.padding(paddingValues)) {
-    PersonalTrainerCardShimmer(shimmer = shimmer)
+    Column(modifier.padding(paddingValues)) {
+        PersonalTrainerCardShimmer(shimmer = shimmer)
 
-    CalendarPickerCardShimmer(shimmer = shimmer)
-  }
+        CalendarPickerCardShimmer(shimmer = shimmer)
+    }
 }
 
 @Composable
 fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  Column(modifier = modifier) {
-    Card(
-      elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-      colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-      modifier = Modifier.padding(16.dp),
-    ) {
-      Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        Column(
-          modifier = Modifier.padding(16.dp),
-          verticalArrangement = Arrangement.Center,
-          horizontalAlignment = Alignment.CenterHorizontally,
+    Column(modifier = modifier) {
+        Card(
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            modifier = Modifier.padding(16.dp),
         ) {
-          Box(
-            modifier =
-              Modifier.size(100.dp)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Box(
+                        modifier =
+                            Modifier.size(100.dp)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
 
-          Spacer(modifier = Modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(2.dp))
 
-          Box(
-            modifier =
-              Modifier.height(20.dp)
-                .fillMaxWidth(WidthSizeSmall)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+                    Box(
+                        modifier =
+                            Modifier.height(20.dp)
+                                .fillMaxWidth(WidthSizeSmall)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
 
-          Spacer(modifier = Modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(2.dp))
 
-          Box(
-            modifier =
-              Modifier.height(20.dp)
-                .fillMaxWidth(WidthSizeSmall)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+                    Box(
+                        modifier =
+                            Modifier.height(20.dp)
+                                .fillMaxWidth(WidthSizeSmall)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
 
-          Spacer(modifier = Modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(2.dp))
 
-          Box(
-            modifier =
-              Modifier.height(20.dp)
-                .fillMaxWidth(WidthSizeSmall)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+                    Box(
+                        modifier =
+                            Modifier.height(20.dp)
+                                .fillMaxWidth(WidthSizeSmall)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(8.dp))
         }
-      }
-
-      Spacer(modifier = Modifier.padding(8.dp))
     }
-  }
 }
 
 @Composable
 fun CalendarPickerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  Card(
-    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    modifier = modifier.fillMaxWidth().padding(16.dp),
-  ) {
-    Column(modifier = Modifier.height(360.dp).fillMaxWidth().padding(16.dp)) {
-      Box(
-        modifier =
-          Modifier.fillMaxWidth(WidthSizeSmall)
-            .height(24.dp)
-            .shimmer(shimmer)
-            .padding(bottom = 8.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-      )
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+    ) {
+        Column(modifier = Modifier.height(360.dp).fillMaxWidth().padding(16.dp)) {
+            Box(
+                modifier =
+                    Modifier.fillMaxWidth(WidthSizeSmall)
+                        .height(24.dp)
+                        .shimmer(shimmer)
+                        .padding(bottom = 8.dp)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+            )
 
-      Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-      Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        repeat(ItemsCount) {
-          Box(
-            modifier =
-              Modifier.size(40.dp)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                repeat(ItemsCount) {
+                    Box(
+                        modifier =
+                            Modifier.size(40.dp)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            HorizontalDivider()
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TimeSlotsBoxShimmer(shimmer = shimmer, rowsPerPage = Rows, itemsPerPage = Columns)
         }
-      }
-
-      Spacer(modifier = Modifier.height(16.dp))
-
-      HorizontalDivider()
-
-      Spacer(modifier = Modifier.height(8.dp))
-
-      TimeSlotsBoxShimmer(shimmer = shimmer, rowsPerPage = Rows, itemsPerPage = Columns)
     }
-  }
 }
 
 @Composable
 fun TimeSlotsBoxShimmer(
-  shimmer: Shimmer,
-  rowsPerPage: Int,
-  itemsPerPage: Int,
-  modifier: Modifier = Modifier,
+    shimmer: Shimmer,
+    rowsPerPage: Int,
+    itemsPerPage: Int,
+    modifier: Modifier = Modifier,
 ) {
-  Column(modifier = modifier.fillMaxWidth()) {
-    LazyVerticalGrid(
-      columns = GridCells.Fixed(rowsPerPage),
-      verticalArrangement = Arrangement.spacedBy(8.dp),
-      horizontalArrangement = Arrangement.spacedBy(8.dp),
-      contentPadding = PaddingValues(16.dp),
-    ) {
-      items(itemsPerPage) {
-        Box(
-          modifier =
-            Modifier.height(40.dp)
-              .fillMaxWidth(WidthSizeLarge)
-              .shimmer(shimmer)
-              .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-              .padding(4.dp)
-        )
-      }
+    Column(modifier = modifier.fillMaxWidth()) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(rowsPerPage),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(16.dp),
+        ) {
+            items(itemsPerPage) {
+                Box(
+                    modifier =
+                        Modifier.height(40.dp)
+                            .fillMaxWidth(WidthSizeLarge)
+                            .shimmer(shimmer)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .padding(4.dp)
+                )
+            }
+        }
     }
-  }
 }
 
 @Preview
 @Composable
 private fun BookingLoadingShimmerPreview() {
-  GymAppTheme {
-    Surface {
-      AvailabilityLoadingShimmer(
-        paddingValues = PaddingValues(16.dp),
-        shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-      )
+    GymAppTheme {
+        Surface {
+            AvailabilityLoadingShimmer(
+                paddingValues = PaddingValues(16.dp),
+                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
+            )
+        }
     }
-  }
 }
 
 private const val ItemsCount = 7

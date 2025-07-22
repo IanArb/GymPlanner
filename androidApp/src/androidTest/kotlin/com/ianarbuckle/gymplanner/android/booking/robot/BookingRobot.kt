@@ -10,31 +10,31 @@ import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocations
 
 class BookingRobot(private val composeTestRule: ComposeTestRule) {
 
-  fun clickOnBookPersonalTrainer() {
-    composeTestRule.onAllNodesWithText("Book now")[0].performClick()
-  }
+    fun clickOnBookPersonalTrainer() {
+        composeTestRule.onAllNodesWithText("Book now")[0].performClick()
+    }
 
-  fun clickOnGymLocation(position: Int) {
-    composeTestRule.onNodeWithTag(GymLocationsGridTag).onChildAt(position).performClick()
-  }
+    fun clickOnGymLocation(position: Int) {
+        composeTestRule.onNodeWithTag(GymLocationsGridTag).onChildAt(position).performClick()
+    }
 
-  fun clickOnPersonalTrainersNavTab() {
-    composeTestRule.onNodeWithText("Personal Trainers").performClick()
-  }
+    fun clickOnPersonalTrainersNavTab() {
+        composeTestRule.onNodeWithText("Personal Trainers").performClick()
+    }
 
-  fun clickOnTimeSlotDay(position: Int) {
-    composeTestRule.onNodeWithTag("CalendarGridTestTag").onChildAt(position).performClick()
-  }
+    fun clickOnTimeSlotDay(position: Int) {
+        composeTestRule.onNodeWithTag("CalendarGridTestTag").onChildAt(position).performClick()
+    }
 
-  fun clickOnTimeSlot(position: Int) {
-    composeTestRule.onNodeWithTag("AvailableTimesGrid").onChildAt(position).performClick()
-  }
+    fun clickOnTimeSlot(position: Int) {
+        composeTestRule.onNodeWithTag("AvailableTimesGrid").onChildAt(position).performClick()
+    }
 
-  fun clickOnBookAppointment() {
-    composeTestRule.onNodeWithText("Book appointment").performClick()
-  }
+    fun clickOnBookAppointment() {
+        composeTestRule.onNodeWithText("Book appointment").performClick()
+    }
 
-  fun clickOnConfirmAppointment() {
-    composeTestRule.onNodeWithText("Confirm Booking").performClick()
-  }
+    fun clickOnConfirmAppointment() {
+        composeTestRule.onNodeWithText("Confirm Booking").performClick()
+    }
 }

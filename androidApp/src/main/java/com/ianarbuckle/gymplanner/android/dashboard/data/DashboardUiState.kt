@@ -7,15 +7,15 @@ import kotlinx.collections.immutable.ImmutableList
 
 sealed interface DashboardUiState {
 
-  data class Success(
-    val items: ImmutableList<FitnessClass>,
-    val profile: Profile,
-    val booking: ImmutableList<BookingResponse>,
-  ) : DashboardUiState
+    data class Success(
+        val items: ImmutableList<FitnessClass>,
+        val profile: Profile,
+        val booking: ImmutableList<BookingResponse>,
+    ) : DashboardUiState
 
-  data object Failure : DashboardUiState
+    data object Failure : DashboardUiState
 
-  data object Loading : DashboardUiState
+    data object Loading : DashboardUiState
 
-  data object Idle : DashboardUiState
+    data object Idle : DashboardUiState
 }

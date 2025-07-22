@@ -26,76 +26,91 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun PersonalTrainersLoadingShimmer(
-  innerPadding: PaddingValues,
-  shimmer: Shimmer,
-  modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    shimmer: Shimmer,
+    modifier: Modifier = Modifier,
 ) {
-  Column(modifier = modifier.padding(innerPadding)) {
-    LazyColumn { items(ItemsCount) { PersonalTrainerItemShimmer(shimmer = shimmer) } }
-  }
+    Column(modifier = modifier.padding(innerPadding)) {
+        LazyColumn { items(ItemsCount) { PersonalTrainerItemShimmer(shimmer = shimmer) } }
+    }
 }
 
 @Composable
 fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  Card(
-    modifier = modifier.padding(16.dp).fillMaxWidth(),
-    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-  ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-      Row {
-        Box(
-          modifier =
-            Modifier.size(64.dp)
-              .shimmer(shimmer)
-              .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-        )
+    Card(
+        modifier = modifier.padding(16.dp).fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row {
+                Box(
+                    modifier =
+                        Modifier.size(64.dp)
+                            .shimmer(shimmer)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                )
 
-        Column(modifier = Modifier.padding(start = 16.dp)) {
-          Box(
-            modifier =
-              Modifier.height(20.dp)
-                .fillMaxWidth(WidthSizeMedium)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
-          Spacer(modifier = Modifier.padding(4.dp))
-          Box(
-            modifier =
-              Modifier.height(16.dp)
-                .fillMaxWidth(WidthSizeSmall)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
-          Spacer(modifier = Modifier.padding(8.dp))
-          Box(
-            modifier =
-              Modifier.height(16.dp)
-                .fillMaxWidth(WidthSizeLarge)
-                .shimmer(shimmer)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-          )
+                Column(modifier = Modifier.padding(start = 16.dp)) {
+                    Box(
+                        modifier =
+                            Modifier.height(20.dp)
+                                .fillMaxWidth(WidthSizeMedium)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    Box(
+                        modifier =
+                            Modifier.height(16.dp)
+                                .fillMaxWidth(WidthSizeSmall)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Box(
+                        modifier =
+                            Modifier.height(16.dp)
+                                .fillMaxWidth(WidthSizeLarge)
+                                .shimmer(shimmer)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            Box(
+                modifier =
+                    Modifier.height(48.dp)
+                        .fillMaxWidth()
+                        .shimmer(shimmer)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+            )
         }
-      }
-
-      Spacer(modifier = Modifier.padding(8.dp))
-
-      Box(
-        modifier =
-          Modifier.height(48.dp)
-            .fillMaxWidth()
-            .shimmer(shimmer)
-            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-      )
     }
-  }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PersonalTrainersLoadingShimmerPreview() {
-  val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
-  PersonalTrainersLoadingShimmer(innerPadding = PaddingValues(0.dp), shimmer = shimmer)
+    val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
+    PersonalTrainersLoadingShimmer(innerPadding = PaddingValues(0.dp), shimmer = shimmer)
 }
 
 private const val ItemsCount = 6

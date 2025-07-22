@@ -15,19 +15,19 @@ class GymLocationsViewModel
 @Inject
 constructor(private val gymLocationsRepository: GymLocationsRepository) : ViewModel() {
 
-  private val _uiState = MutableStateFlow<GymLocationsUiState>(GymLocationsUiState.Loading)
-  val uiState = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<GymLocationsUiState>(GymLocationsUiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
-  fun fetchGymLocations() {
-    viewModelScope.launch {
-      gymLocationsRepository
-        .fetchGymLocations()
-        .fold(
-          onSuccess = { gymLocations ->
-            _uiState.update { GymLocationsUiState.Success(gymLocations) }
-          },
-          onFailure = { _uiState.update { GymLocationsUiState.Failure } },
-        )
+    fun fetchGymLocations() {
+        viewModelScope.launch {
+            gymLocationsRepository
+                .fetchGymLocations()
+                .fold(
+                    onSuccess = { gymLocations ->
+                        _uiState.update { GymLocationsUiState.Success(gymLocations) }
+                    },
+                    onFailure = { _uiState.update { GymLocationsUiState.Failure } },
+                )
+        }
     }
-  }
 }

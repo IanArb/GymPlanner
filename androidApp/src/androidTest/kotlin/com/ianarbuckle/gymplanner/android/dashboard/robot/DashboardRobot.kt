@@ -6,7 +6,7 @@ import androidx.compose.ui.test.performClick
 
 class DashboardRobot(private val composeTestRule: ComposeTestRule) {
 
-  fun clickOnChat() {
-    composeTestRule.onNodeWithTag("Chat").performClick()
-  }
+    fun clickOnChat() {
+        composeTestRule.onNodeWithTag("Chat").performClick()
+    }
 }

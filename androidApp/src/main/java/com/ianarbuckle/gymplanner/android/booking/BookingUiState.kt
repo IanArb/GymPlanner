@@ -4,11 +4,11 @@ import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 
 sealed interface BookingUiState {
 
-  data class Success(val booking: BookingResponse) : BookingUiState
+    data class Success(val booking: BookingResponse) : BookingUiState
 
-  object Failed : BookingUiState
+    object Failed : BookingUiState
 
-  object Loading : BookingUiState
+    object Loading : BookingUiState
 
-  object Idle : BookingUiState
+    object Idle : BookingUiState
 }

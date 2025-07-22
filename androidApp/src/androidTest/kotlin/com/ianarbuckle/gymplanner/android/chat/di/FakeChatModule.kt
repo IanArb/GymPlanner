@@ -13,13 +13,13 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeChatModule {
 
-  @Provides
-  fun providesChatRepository(): ChatRepository {
-    return FakeChatRepository()
-  }
+    @Provides
+    fun providesChatRepository(): ChatRepository {
+        return FakeChatRepository()
+    }
 
-  @Provides
-  fun providesMessageRepository(): MessagesRepository {
-    return FakeMessagesRepository()
-  }
+    @Provides
+    fun providesMessageRepository(): MessagesRepository {
+        return FakeMessagesRepository()
+    }
 }

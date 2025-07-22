@@ -5,11 +5,11 @@ import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 sealed interface FormFaultReportUiState {
 
-  data object FormLoading : FormFaultReportUiState
+    data object FormLoading : FormFaultReportUiState
 
-  data class FormSuccess(@Stable val data: FaultReport) : FormFaultReportUiState
+    data class FormSuccess(@Stable val data: FaultReport) : FormFaultReportUiState
 
-  data object FormError : FormFaultReportUiState
+    data object FormError : FormFaultReportUiState
 
-  data object FormIdle : FormFaultReportUiState
+    data object FormIdle : FormFaultReportUiState
 }

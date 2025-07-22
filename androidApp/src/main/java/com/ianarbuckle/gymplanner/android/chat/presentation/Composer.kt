@@ -25,65 +25,70 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun Composer(
-  onMessageChange: (String) -> Unit,
-  onSendMessage: () -> Unit,
-  isEnabled: Boolean,
-  modifier: Modifier = Modifier,
-  composerText: String = "",
+    onMessageChange: (String) -> Unit,
+    onSendMessage: () -> Unit,
+    isEnabled: Boolean,
+    modifier: Modifier = Modifier,
+    composerText: String = "",
 ) {
-  val keyboardController = LocalSoftwareKeyboardController.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-  Column(modifier.padding(8.dp)) {
-    OutlinedTextField(
-      value = composerText,
-      onValueChange = onMessageChange,
-      shape = RoundedCornerShape(12.dp),
-      placeholder = { Text("Type a message") },
-      modifier = Modifier.fillMaxWidth(),
-      keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
-      keyboardActions =
-        KeyboardActions(
-          onSend = {
-            if (isEnabled) {
-              onSendMessage()
-              keyboardController?.hide()
-            }
-          }
-        ),
-      trailingIcon = {
-        if (isEnabled) {
-          IconButton(
-            onClick = {
-              onSendMessage()
-              keyboardController?.hide()
+    Column(modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = composerText,
+            onValueChange = onMessageChange,
+            shape = RoundedCornerShape(12.dp),
+            placeholder = { Text("Type a message") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+            keyboardActions =
+                KeyboardActions(
+                    onSend = {
+                        if (isEnabled) {
+                            onSendMessage()
+                            keyboardController?.hide()
+                        }
+                    }
+                ),
+            trailingIcon = {
+                if (isEnabled) {
+                    IconButton(
+                        onClick = {
+                            onSendMessage()
+                            keyboardController?.hide()
+                        },
+                        modifier = Modifier.testTag("SendButton"),
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.Send,
+                            contentDescription = "Send message",
+                        )
+                    }
+                } else {
+                    // Placeholder for the trailing icon when the input is empty
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Default.Send,
+                        contentDescription = "Send message",
+                        tint =
+                            androidx.compose.material3.MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.38f
+                            ),
+                    )
+                }
             },
-            modifier = Modifier.testTag("SendButton"),
-          ) {
-            Icon(imageVector = Icons.AutoMirrored.Default.Send, contentDescription = "Send message")
-          }
-        } else {
-          // Placeholder for the trailing icon when the input is empty
-          Icon(
-            imageVector = Icons.AutoMirrored.Default.Send,
-            contentDescription = "Send message",
-            tint =
-              androidx.compose.material3.MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
-          )
-        }
-      },
-    )
-  }
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun ComposerPreview() {
-  GymAppTheme {
-    Scaffold(
-      bottomBar = { Composer(onMessageChange = {}, onSendMessage = {}, isEnabled = true) }
-    ) { paddingValues ->
-      Column(modifier = Modifier.fillMaxWidth().padding(paddingValues)) {}
+    GymAppTheme {
+        Scaffold(
+            bottomBar = { Composer(onMessageChange = {}, onSendMessage = {}, isEnabled = true) }
+        ) { paddingValues ->
+            Column(modifier = Modifier.fillMaxWidth().padding(paddingValues)) {}
+        }
     }
-  }
 }

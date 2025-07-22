@@ -45,135 +45,147 @@ import java.util.Calendar
 @Suppress("LongMethod")
 @Composable
 fun CalendarPickerCard(
-  daysOfWeek: List<String>,
-  availableTimes: List<Time>,
-  calendarPagerState: PagerState,
-  timeSlotPagerState: PagerState,
-  selectedDate: String,
-  selectedTimeSlot: String,
-  timeslotRowsPerPage: Int,
-  timeslotItemsPerPage: Int,
-  onTimeSlotClick: (String, String) -> Unit,
-  onSelectedDateChange: (String) -> Unit,
-  modifier: Modifier = Modifier,
+    daysOfWeek: List<String>,
+    availableTimes: List<Time>,
+    calendarPagerState: PagerState,
+    timeSlotPagerState: PagerState,
+    selectedDate: String,
+    selectedTimeSlot: String,
+    timeslotRowsPerPage: Int,
+    timeslotItemsPerPage: Int,
+    onTimeSlotClick: (String, String) -> Unit,
+    onSelectedDateChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-  Card(
-    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    modifier = modifier.fillMaxWidth().padding(16.dp),
-  ) {
-    Column(modifier = Modifier.height(360.dp).fillMaxWidth().padding(16.dp)) {
-      Text(
-        text = "Available Time",
-        style = MaterialTheme.typography.titleMedium,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(bottom = 8.dp),
-      )
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+    ) {
+        Column(modifier = Modifier.height(360.dp).fillMaxWidth().padding(16.dp)) {
+            Text(
+                text = "Available Time",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
 
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-      ) {
-        val calendarMonth = Calendar.getInstance().currentMonth()
-        Text(
-          text = calendarMonth,
-          maxLines = 2,
-          overflow = TextOverflow.Ellipsis,
-          style = MaterialTheme.typography.titleMedium,
-          color = MaterialTheme.colorScheme.onSurface,
-          modifier = Modifier.weight(1f),
-        )
-      }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                val calendarMonth = Calendar.getInstance().currentMonth()
+                Text(
+                    text = calendarMonth,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f),
+                )
+            }
 
-      CalendarWeekDaysRow(
-        pagerState = calendarPagerState,
-        daysOfWeek = daysOfWeek,
-        selectedDate = selectedDate,
-        onSelectedDateChange = onSelectedDateChange,
-        modifier = Modifier,
-      )
+            CalendarWeekDaysRow(
+                pagerState = calendarPagerState,
+                daysOfWeek = daysOfWeek,
+                selectedDate = selectedDate,
+                onSelectedDateChange = onSelectedDateChange,
+                modifier = Modifier,
+            )
 
-      Spacer(modifier = Modifier.padding(2.dp))
+            Spacer(modifier = Modifier.padding(2.dp))
 
-      HorizontalDivider()
+            HorizontalDivider()
 
-      TimeSlotsBox(
-        availableTimes = availableTimes,
-        selectedTimeSlotId = selectedTimeSlot,
-        onTimeSlotClick = onTimeSlotClick,
-        pagerState = timeSlotPagerState,
-        rowsPerPage = timeslotRowsPerPage,
-        itemsPerPage = timeslotItemsPerPage,
-        modifier = Modifier.weight(1f),
-      )
+            TimeSlotsBox(
+                availableTimes = availableTimes,
+                selectedTimeSlotId = selectedTimeSlot,
+                onTimeSlotClick = onTimeSlotClick,
+                pagerState = timeSlotPagerState,
+                rowsPerPage = timeslotRowsPerPage,
+                itemsPerPage = timeslotItemsPerPage,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
-  }
 }
 
 @Composable
 fun TimeSlotsBox(
-  availableTimes: List<Time>,
-  selectedTimeSlotId: String,
-  onTimeSlotClick: (String, String) -> Unit,
-  pagerState: PagerState,
-  rowsPerPage: Int,
-  itemsPerPage: Int,
-  modifier: Modifier = Modifier,
+    availableTimes: List<Time>,
+    selectedTimeSlotId: String,
+    onTimeSlotClick: (String, String) -> Unit,
+    pagerState: PagerState,
+    rowsPerPage: Int,
+    itemsPerPage: Int,
+    modifier: Modifier = Modifier,
 ) {
-  val pages = availableTimes.chunked(itemsPerPage)
+    val pages = availableTimes.chunked(itemsPerPage)
 
-  Column(modifier = modifier.fillMaxWidth()) {
-    if (pagerState.pageCount > 1) {
-      Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        NextPrevIndicators(pagerState = pagerState, modifier = Modifier)
-      }
-    } else {
-      Spacer(modifier = Modifier.padding(8.dp))
-    }
-
-    HorizontalPager(state = pagerState, modifier = Modifier.fillMaxWidth()) { pageIndex ->
-      LazyVerticalGrid(
-        columns = GridCells.Fixed(rowsPerPage),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = Modifier.testTag(AvailableTimesGrid).fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-      ) {
-        items(pages[pageIndex]) { timeSlot ->
-          val borderColor =
-            when {
-              timeSlot.id == selectedTimeSlotId -> MaterialTheme.colorScheme.primary
-              timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" -> Color.Gray
-              else -> Color.Gray
+    Column(modifier = modifier.fillMaxWidth()) {
+        if (pagerState.pageCount > 1) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                NextPrevIndicators(pagerState = pagerState, modifier = Modifier)
             }
-
-          Box(
-            modifier =
-              Modifier.border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                .clickable {
-                  if (timeSlot.status == "AVAILABLE") {
-                    onTimeSlotClick(timeSlot.id, timeSlot.startTime)
-                  }
-                }
-                .padding(vertical = 12.dp),
-            contentAlignment = Alignment.Center,
-          ) {
-            val slot = timeSlot.startTime.toLocalTime().displayTime()
-
-            val textColor =
-              when {
-                timeSlot.id == selectedTimeSlotId -> MaterialTheme.colorScheme.primary
-                timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" -> Color.Gray
-                timeSlot.status == "AVAILABLE" -> MaterialTheme.colorScheme.onSurface
-                else -> MaterialTheme.colorScheme.onSurface
-              }
-            Text(text = slot, color = textColor, style = MaterialTheme.typography.bodyMedium)
-          }
+        } else {
+            Spacer(modifier = Modifier.padding(8.dp))
         }
-      }
+
+        HorizontalPager(state = pagerState, modifier = Modifier.fillMaxWidth()) { pageIndex ->
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(rowsPerPage),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                modifier = Modifier.testTag(AvailableTimesGrid).fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(pages[pageIndex]) { timeSlot ->
+                    val borderColor =
+                        when {
+                            timeSlot.id == selectedTimeSlotId -> MaterialTheme.colorScheme.primary
+                            timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" ->
+                                Color.Gray
+                            else -> Color.Gray
+                        }
+
+                    Box(
+                        modifier =
+                            Modifier.border(
+                                    width = 1.dp,
+                                    color = borderColor,
+                                    shape = RoundedCornerShape(8.dp),
+                                )
+                                .clickable {
+                                    if (timeSlot.status == "AVAILABLE") {
+                                        onTimeSlotClick(timeSlot.id, timeSlot.startTime)
+                                    }
+                                }
+                                .padding(vertical = 12.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        val slot = timeSlot.startTime.toLocalTime().displayTime()
+
+                        val textColor =
+                            when {
+                                timeSlot.id == selectedTimeSlotId ->
+                                    MaterialTheme.colorScheme.primary
+                                timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" ->
+                                    Color.Gray
+                                timeSlot.status == "AVAILABLE" ->
+                                    MaterialTheme.colorScheme.onSurface
+                                else -> MaterialTheme.colorScheme.onSurface
+                            }
+                        Text(
+                            text = slot,
+                            color = textColor,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
     }
-  }
 }
 
 const val AvailableTimesGrid = "AvailableTimesGrid"
@@ -182,28 +194,28 @@ const val AvailableTimesGrid = "AvailableTimesGrid"
 @Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun CalendarPickerCardPreview() {
-  GymAppTheme {
-    val pagerState = rememberPagerState {
-      PageSize // Calculate the number of pages needed
-    }
+    GymAppTheme {
+        val pagerState = rememberPagerState {
+            PageSize // Calculate the number of pages needed
+        }
 
-    val timeSlotPagerState = rememberPagerState { PageSize }
+        val timeSlotPagerState = rememberPagerState { PageSize }
 
-    val timeSlots =
-      availableTimes.map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
-    Surface {
-      CalendarPickerCard(
-        daysOfWeek = daysOfWeek,
-        availableTimes = timeSlots,
-        calendarPagerState = pagerState,
-        timeSlotPagerState = timeSlotPagerState,
-        selectedDate = "2024-12-12",
-        selectedTimeSlot = "09:00 AM",
-        timeslotRowsPerPage = 3,
-        timeslotItemsPerPage = 9,
-        onTimeSlotClick = { _, _ -> },
-        onSelectedDateChange = {},
-      )
+        val timeSlots =
+            availableTimes.map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
+        Surface {
+            CalendarPickerCard(
+                daysOfWeek = daysOfWeek,
+                availableTimes = timeSlots,
+                calendarPagerState = pagerState,
+                timeSlotPagerState = timeSlotPagerState,
+                selectedDate = "2024-12-12",
+                selectedTimeSlot = "09:00 AM",
+                timeslotRowsPerPage = 3,
+                timeslotItemsPerPage = 9,
+                onTimeSlotClick = { _, _ -> },
+                onSelectedDateChange = {},
+            )
+        }
     }
-  }
 }

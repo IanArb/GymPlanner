@@ -16,45 +16,45 @@ import org.junit.Test
 
 class GymLocationsViewModelTests {
 
-  @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-  private val gymLocationsRepository = mockk<GymLocationsRepository>()
+    private val gymLocationsRepository = mockk<GymLocationsRepository>()
 
-  private val viewModel: GymLocationsViewModel =
-    GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
+    private val viewModel: GymLocationsViewModel =
+        GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
 
-  @Test
-  fun `fetchGymLocations should update uiState to Success when API call succeeds`() = runTest {
-    // Arrange
-    val gymLocations = persistentListOf(mockk<GymLocations>())
-    coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.success(gymLocations)
+    @Test
+    fun `fetchGymLocations should update uiState to Success when API call succeeds`() = runTest {
+        // Arrange
+        val gymLocations = persistentListOf(mockk<GymLocations>())
+        coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.success(gymLocations)
 
-    // Act
-    viewModel.fetchGymLocations()
+        // Act
+        viewModel.fetchGymLocations()
 
-    // Assert
-    viewModel.uiState.test {
-      assertEquals(GymLocationsUiState.Loading, awaitItem())
-      val successState = awaitItem() as GymLocationsUiState.Success
-      assertEquals(gymLocations, successState.gymLocations)
-      cancelAndIgnoreRemainingEvents()
+        // Assert
+        viewModel.uiState.test {
+            assertEquals(GymLocationsUiState.Loading, awaitItem())
+            val successState = awaitItem() as GymLocationsUiState.Success
+            assertEquals(gymLocations, successState.gymLocations)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
-  }
 
-  @Test
-  fun `fetchGymLocations should update uiState to Failure when API call fails`() = runTest {
-    // Arrange
-    coEvery { gymLocationsRepository.fetchGymLocations() } returns
-      Result.failure(Exception("Fetch failed"))
+    @Test
+    fun `fetchGymLocations should update uiState to Failure when API call fails`() = runTest {
+        // Arrange
+        coEvery { gymLocationsRepository.fetchGymLocations() } returns
+            Result.failure(Exception("Fetch failed"))
 
-    // Act
-    viewModel.fetchGymLocations()
+        // Act
+        viewModel.fetchGymLocations()
 
-    // Assert
-    viewModel.uiState.test {
-      assertEquals(GymLocationsUiState.Loading, awaitItem())
-      assertEquals(GymLocationsUiState.Failure, awaitItem())
-      cancelAndIgnoreRemainingEvents()
+        // Assert
+        viewModel.uiState.test {
+            assertEquals(GymLocationsUiState.Loading, awaitItem())
+            assertEquals(GymLocationsUiState.Failure, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
     }
-  }
 }

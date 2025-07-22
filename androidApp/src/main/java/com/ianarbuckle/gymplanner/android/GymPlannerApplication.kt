@@ -11,14 +11,14 @@ import javax.inject.Named
 @HiltAndroidApp
 class GymPlannerApplication : BaseApplication() {
 
-  @Inject lateinit var dataStore: DataStore<Preferences>
+    @Inject lateinit var dataStore: DataStore<Preferences>
 
-  @Inject @Named(UrlModule.NAMED_BASE_URL) lateinit var baseUrl: String
+    @Inject @Named(UrlModule.NAMED_BASE_URL) lateinit var baseUrl: String
 
-  @Inject @Named(UrlModule.NAMED_WEBSOCKET_URL) lateinit var websocketBaseUrl: String
+    @Inject @Named(UrlModule.NAMED_WEBSOCKET_URL) lateinit var websocketBaseUrl: String
 
-  override fun onCreate() {
-    super.onCreate()
-    initKoin(baseUrl = baseUrl, dataStore = dataStore, websocketBaseUrl = websocketBaseUrl)
-  }
+    override fun onCreate() {
+        super.onCreate()
+        initKoin(baseUrl = baseUrl, dataStore = dataStore, websocketBaseUrl = websocketBaseUrl)
+    }
 }

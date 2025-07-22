@@ -44,112 +44,112 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class ReportingInstrumentedTests {
 
-  @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
+    @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
-  @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-  val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-  val reportingViewModel = mockk<ReportingViewModel>(relaxed = true)
+    val reportingViewModel = mockk<ReportingViewModel>(relaxed = true)
 
-  private val loginRobot = LoginRobot(composeTestRule)
-  private val reportingRobot = ReportingRobot(composeTestRule)
-  private val reportingVerifier = ReportingVerifier(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
+    private val reportingRobot = ReportingRobot(composeTestRule)
+    private val reportingVerifier = ReportingVerifier(composeTestRule)
 
-  val idlingResource = ComposeIdlingResource()
+    val idlingResource = ComposeIdlingResource()
 
-  @Before
-  fun setup() {
-    Intents.init()
-    IdlingRegistry.getInstance().register(idlingResource)
-  }
-
-  @After
-  fun tearDown() {
-    Intents.release()
-    IdlingRegistry.getInstance().unregister(idlingResource)
-  }
-
-  @Test
-  fun testReportingScreenWithSuccessfulReport() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "Travelport")
-      login()
+    @Before
+    fun setup() {
+        Intents.init()
+        IdlingRegistry.getInstance().register(idlingResource)
     }
 
-    // Create a fake bitmap (this will simulate the photo taken by the camera)
-    val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-
-    // Save the fake bitmap to a file (if you need to use a URI result)
-    val context = InstrumentationRegistry.getInstrumentation().targetContext
-    val fakePhotoFile = File(context.cacheDir, "fake_photo.jpg")
-    FileOutputStream(fakePhotoFile).use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
-
-    // Stub the camera intent to return the fake result
-    val resultIntent =
-      Intent().apply {
-        putExtra("data", bitmap) // For camera apps that return a Bitmap in extras
-      }
-    val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultIntent)
-
-    intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result)
-
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    reportingRobot.apply {
-      tapOnReportNavTab()
-      populateForm()
-      performPhotoAction()
+    @After
+    fun tearDown() {
+        Intents.release()
+        IdlingRegistry.getInstance().unregister(idlingResource)
     }
 
-    reportingRobot.apply { performSend() }
+    @Test
+    fun testReportingScreenWithSuccessfulReport() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "Travelport")
+            login()
+        }
 
-    coEvery { reportingViewModel.submitFault(any()) } returns Unit
+        // Create a fake bitmap (this will simulate the photo taken by the camera)
+        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
 
-    coEvery { reportingViewModel.uiState.value } returns
-      FormFaultReportUiState.FormSuccess(
-        data =
-          FaultReport(
-            machineNumber = 123,
-            description = "Broken machine",
-            photoUri = "scheme://path",
-            date = "2021-09-01",
-          )
-      )
+        // Save the fake bitmap to a file (if you need to use a URI result)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val fakePhotoFile = File(context.cacheDir, "fake_photo.jpg")
+        FileOutputStream(fakePhotoFile).use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
 
-    reportingVerifier.apply {
-      verifyFormSuccessResponse(machineNumber = "123", description = "Broken machine")
+        // Stub the camera intent to return the fake result
+        val resultIntent =
+            Intent().apply {
+                putExtra("data", bitmap) // For camera apps that return a Bitmap in extras
+            }
+        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultIntent)
+
+        intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result)
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
+
+        reportingRobot.apply {
+            tapOnReportNavTab()
+            populateForm()
+            performPhotoAction()
+        }
+
+        reportingRobot.apply { performSend() }
+
+        coEvery { reportingViewModel.submitFault(any()) } returns Unit
+
+        coEvery { reportingViewModel.uiState.value } returns
+            FormFaultReportUiState.FormSuccess(
+                data =
+                    FaultReport(
+                        machineNumber = 123,
+                        description = "Broken machine",
+                        photoUri = "scheme://path",
+                        date = "2021-09-01",
+                    )
+            )
+
+        reportingVerifier.apply {
+            verifyFormSuccessResponse(machineNumber = "123", description = "Broken machine")
+        }
     }
-  }
 
-  @Test
-  fun testFieldsWithEmptyValues() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "Travelport")
-      login()
+    @Test
+    fun testFieldsWithEmptyValues() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "Travelport")
+            login()
+        }
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
+
+        reportingRobot.apply {
+            tapOnReportNavTab()
+            performSend()
+        }
+
+        reportingVerifier.apply { verifyEmptyFieldsError() }
     }
-
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    reportingRobot.apply {
-      tapOnReportNavTab()
-      performSend()
-    }
-
-    reportingVerifier.apply { verifyEmptyFieldsError() }
-  }
 }

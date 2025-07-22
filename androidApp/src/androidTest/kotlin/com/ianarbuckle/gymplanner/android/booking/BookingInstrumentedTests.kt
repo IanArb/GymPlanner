@@ -43,135 +43,137 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class BookingInstrumentedTests {
 
-  @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
+    @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
 
-  @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
+    @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
 
-  @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-  @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-  @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
-  @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
+    @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
 
-  @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
+    @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
 
-  @BindValue @JvmField val bookingViewModel = mockk<BookingViewModel>(relaxed = true)
+    @BindValue @JvmField val bookingViewModel = mockk<BookingViewModel>(relaxed = true)
 
-  private val loginRobot = LoginRobot(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
 
-  private val bookingRobot: BookingRobot = BookingRobot(composeTestRule)
+    private val bookingRobot: BookingRobot = BookingRobot(composeTestRule)
 
-  private val bookingVerifier: BookingVerifier = BookingVerifier(composeTestRule)
+    private val bookingVerifier: BookingVerifier = BookingVerifier(composeTestRule)
 
-  private val composeIdleResource = ComposeIdlingResource()
+    private val composeIdleResource = ComposeIdlingResource()
 
-  @Before
-  fun setUp() {
-    IdlingRegistry.getInstance().register(composeIdleResource)
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance().register(composeIdleResource)
 
-    // Correct the static function reference
-    mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
+        // Correct the static function reference
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
 
-    // Define the behavior of the mocked function
-    every { currentWeekDates() } returns DataProvider.daysOfWeek
-  }
-
-  @After
-  fun tearDown() {
-    IdlingRegistry.getInstance().unregister(composeIdleResource)
-  }
-
-  @Test
-  fun testBookingIsSuccessfulWhenEndUserConfirms() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+        // Define the behavior of the mocked function
+        every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-    coEvery { availabilityViewModel.availabilityUiState.value } returns
-      AvailabilityUiState.AvailabilitySuccess(
-        availability = DataProvider.availability(),
-        isPersonalTrainerAvailable = true,
-      )
-
-    val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
-    every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
-
-    bookingRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnBookPersonalTrainer()
-      clickOnTimeSlotDay(0)
-      clickOnTimeSlot(0)
-      clickOnBookAppointment()
-      clickOnConfirmAppointment()
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(composeIdleResource)
     }
 
-    bookingUiStateFlow.update { BookingUiState.Success(booking = DataProvider.bookingResponse()) }
+    @Test
+    fun testBookingIsSuccessfulWhenEndUserConfirms() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    bookingVerifier.verifyBookingIsSuccessful()
-  }
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
 
-  @Test
-  fun testBookingHasFailedWhenEndUserConfirms() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+
+        coEvery { availabilityViewModel.availabilityUiState.value } returns
+            AvailabilityUiState.AvailabilitySuccess(
+                availability = DataProvider.availability(),
+                isPersonalTrainerAvailable = true,
+            )
+
+        val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
+        every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
+
+        bookingRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+            clickOnTimeSlotDay(0)
+            clickOnTimeSlot(0)
+            clickOnBookAppointment()
+            clickOnConfirmAppointment()
+        }
+
+        bookingUiStateFlow.update {
+            BookingUiState.Success(booking = DataProvider.bookingResponse())
+        }
+
+        bookingVerifier.verifyBookingIsSuccessful()
     }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
+    @Test
+    fun testBookingHasFailedWhenEndUserConfirms() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
 
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-    coEvery { availabilityViewModel.availabilityUiState.value } returns
-      AvailabilityUiState.AvailabilitySuccess(
-        availability = DataProvider.availability(),
-        isPersonalTrainerAvailable = true,
-      )
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
 
-    val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
-    every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
+        coEvery { availabilityViewModel.availabilityUiState.value } returns
+            AvailabilityUiState.AvailabilitySuccess(
+                availability = DataProvider.availability(),
+                isPersonalTrainerAvailable = true,
+            )
 
-    bookingRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnBookPersonalTrainer()
-      clickOnTimeSlotDay(0)
-      clickOnTimeSlot(0)
-      clickOnBookAppointment()
-      clickOnConfirmAppointment()
+        val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
+        every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
+
+        bookingRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+            clickOnTimeSlotDay(0)
+            clickOnTimeSlot(0)
+            clickOnBookAppointment()
+            clickOnConfirmAppointment()
+        }
+
+        bookingUiStateFlow.update { BookingUiState.Failed }
+
+        bookingVerifier.verifyBookingFailed()
     }
-
-    bookingUiStateFlow.update { BookingUiState.Failed }
-
-    bookingVerifier.verifyBookingFailed()
-  }
 }

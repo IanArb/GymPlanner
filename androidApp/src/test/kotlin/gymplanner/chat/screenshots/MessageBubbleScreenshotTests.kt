@@ -27,88 +27,88 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class MessageBubbleScreenshotTests {
 
-  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
+    @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-  @get:Rule
-  val composeTestRule:
-    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-    createComposeTestRule<ComponentActivity>()
+    @get:Rule
+    val composeTestRule:
+        AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createComposeTestRule<ComponentActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-  @Test
-  fun verify_message_user_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Surface {
-          MessageBubble(
-            message = "Hello, this is a test message!",
-            timestamp = "2025-10-01 12:35:56",
-            username = "User1",
-            isMyself = true,
-          )
+    @Test
+    fun verify_message_user_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Surface {
+                    MessageBubble(
+                        message = "Hello, this is a test message!",
+                        timestamp = "2025-10-01 12:35:56",
+                        username = "User1",
+                        isMyself = true,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Test
-  fun verify_message_business_user_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Surface {
-          MessageBubble(
-            message = "Hello, this is a test message!",
-            timestamp = "2025-10-01 12:35:56",
-            username = "User1",
-            isMyself = false,
-          )
+    @Test
+    fun verify_message_business_user_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Surface {
+                    MessageBubble(
+                        message = "Hello, this is a test message!",
+                        timestamp = "2025-10-01 12:35:56",
+                        username = "User1",
+                        isMyself = false,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_message_user_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          MessageBubble(
-            message = "Hello, this is a test message!",
-            timestamp = "2025-10-01 12:35:56",
-            username = "User1",
-            isMyself = true,
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_message_user_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    MessageBubble(
+                        message = "Hello, this is a test message!",
+                        timestamp = "2025-10-01 12:35:56",
+                        username = "User1",
+                        isMyself = true,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_message_business_user_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          MessageBubble(
-            message = "Hello, this is a test message!",
-            timestamp = "2025-10-01 12:35:56",
-            username = "User1",
-            isMyself = false,
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_message_business_user_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    MessageBubble(
+                        message = "Hello, this is a test message!",
+                        timestamp = "2025-10-01 12:35:56",
+                        username = "User1",
+                        isMyself = false,
+                    )
+                }
+            }
         }
-      }
-    }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+        composeTestRule.onRoot().captureRoboImage()
+    }
 }

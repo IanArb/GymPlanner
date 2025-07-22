@@ -6,7 +6,7 @@ import androidx.compose.ui.test.performClick
 
 class GymLocationsRobot(private val composeTestRule: ComposeTestRule) {
 
-  fun tapOnGymLocationsNavTab() {
-    composeTestRule.onNodeWithText("Personal Trainers").performClick()
-  }
+    fun tapOnGymLocationsNavTab() {
+        composeTestRule.onNodeWithText("Personal Trainers").performClick()
+    }
 }

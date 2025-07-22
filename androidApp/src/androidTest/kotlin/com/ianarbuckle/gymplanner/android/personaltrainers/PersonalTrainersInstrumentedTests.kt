@@ -31,117 +31,117 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class PersonalTrainersInstrumentedTests {
 
-  @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
+    @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
-  @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-  @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-  @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
-  @BindValue
-  @JvmField
-  val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
+    @BindValue
+    @JvmField
+    val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
 
-  private val loginRobot = LoginRobot(composeTestRule)
-  private val personalTrainersRobot = PersonalTrainersRobot(composeTestRule)
-  private val personalTrainersVerifier = PersonalTrainersVerifier(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
+    private val personalTrainersRobot = PersonalTrainersRobot(composeTestRule)
+    private val personalTrainersVerifier = PersonalTrainersVerifier(composeTestRule)
 
-  @Test
-  fun testPersonalTrainersSuccessState() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+    @Test
+    fun testPersonalTrainersSuccessState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
+
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+
+        personalTrainersRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+        }
+
+        personalTrainersVerifier.apply {
+            verifyPersonalTrainersScreenIsDisplayed()
+            verifyPersonalTrainerCard(0)
+            verifyPersonalTrainersCount(3)
+        }
     }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
+    @Test
+    fun testPersonalTrainersErrorState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
 
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-    personalTrainersRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
+        coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Failure
+
+        personalTrainersRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+        }
+
+        personalTrainersVerifier.apply { verifyErrorState() }
     }
 
-    personalTrainersVerifier.apply {
-      verifyPersonalTrainersScreenIsDisplayed()
-      verifyPersonalTrainerCard(0)
-      verifyPersonalTrainersCount(3)
+    @Test
+    fun testPersonalTrainersDetailScreenIsDisplayed() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
+
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+
+        personalTrainersRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnPersonalTrainerCard(0)
+        }
+
+        personalTrainersVerifier.apply {
+            val trainer = DataProvider.personalTrainers().first()
+            verifyPersonalTrainerDetail(
+                name = trainer.firstName.plus(" ").plus(trainer.lastName),
+                description = trainer.bio,
+            )
+        }
     }
-  }
-
-  @Test
-  fun testPersonalTrainersErrorState() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
-    }
-
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-    coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Failure
-
-    personalTrainersRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-    }
-
-    personalTrainersVerifier.apply { verifyErrorState() }
-  }
-
-  @Test
-  fun testPersonalTrainersDetailScreenIsDisplayed() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
-    }
-
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-    personalTrainersRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnPersonalTrainerCard(0)
-    }
-
-    personalTrainersVerifier.apply {
-      val trainer = DataProvider.personalTrainers().first()
-      verifyPersonalTrainerDetail(
-        name = trainer.firstName.plus(" ").plus(trainer.lastName),
-        description = trainer.bio,
-      )
-    }
-  }
 }

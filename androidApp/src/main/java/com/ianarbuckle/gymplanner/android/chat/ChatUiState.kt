@@ -5,11 +5,11 @@ import kotlinx.collections.immutable.ImmutableList
 
 sealed interface ChatUiState {
 
-  data object Idle : ChatUiState
+    data object Idle : ChatUiState
 
-  data object Failed : ChatUiState
+    data object Failed : ChatUiState
 
-  data object Loading : ChatUiState
+    data object Loading : ChatUiState
 
-  data class MessagesSuccess(val messages: ImmutableList<Message>) : ChatUiState
+    data class MessagesSuccess(val messages: ImmutableList<Message>) : ChatUiState
 }

@@ -28,53 +28,53 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ConnectionBannerScreenshotTests {
 
-  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
+    @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-  @get:Rule
-  val composeTestRule:
-    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-    createComposeTestRule<ComponentActivity>()
+    @get:Rule
+    val composeTestRule:
+        AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createComposeTestRule<ComponentActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-  @Test
-  fun verify_connection_banner_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Surface {
-          ConnectionBanner(
-            visible = true,
-            connectionText = "Connecting...",
-            backgroundColor = Color.Black,
-            textColor = Color.White,
-            iconColor = Color.White,
-          )
+    @Test
+    fun verify_connection_banner_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Surface {
+                    ConnectionBanner(
+                        visible = true,
+                        connectionText = "Connecting...",
+                        backgroundColor = Color.Black,
+                        textColor = Color.White,
+                        iconColor = Color.White,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_connection_banner_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          ConnectionBanner(
-            visible = true,
-            connectionText = "Connecting...",
-            backgroundColor = Color.White,
-            textColor = Color.Black,
-            iconColor = Color.Black,
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_connection_banner_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    ConnectionBanner(
+                        visible = true,
+                        connectionText = "Connecting...",
+                        backgroundColor = Color.White,
+                        textColor = Color.Black,
+                        iconColor = Color.Black,
+                    )
+                }
+            }
         }
-      }
-    }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+        composeTestRule.onRoot().captureRoboImage()
+    }
 }

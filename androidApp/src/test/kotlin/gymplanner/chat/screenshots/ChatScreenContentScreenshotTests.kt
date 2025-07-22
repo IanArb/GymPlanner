@@ -29,69 +29,77 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class ChatScreenContentScreenshotTests {
 
-  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
+    @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-  @get:Rule
-  val composeTestRule:
-    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-    createComposeTestRule<ComponentActivity>()
+    @get:Rule
+    val composeTestRule:
+        AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createComposeTestRule<ComponentActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-  @Test
-  fun verify_composer_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Surface {
-          ChatScreenContent(
-            username = "Ian",
-            messages =
-              persistentListOf(
-                Message(
-                  text = "Hello, this is a test message!",
-                  username = "Ian",
-                  formattedTime = "2025-10-01 12:35:56",
-                ),
-                Message(text = "Hello!", username = "Jane", formattedTime = "2025-10-01 12:35:56"),
-              ),
-            messageText = "Send message",
-            onSendMessage = {},
-            onMessageChange = {},
-          )
+    @Test
+    fun verify_composer_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Surface {
+                    ChatScreenContent(
+                        username = "Ian",
+                        messages =
+                            persistentListOf(
+                                Message(
+                                    text = "Hello, this is a test message!",
+                                    username = "Ian",
+                                    formattedTime = "2025-10-01 12:35:56",
+                                ),
+                                Message(
+                                    text = "Hello!",
+                                    username = "Jane",
+                                    formattedTime = "2025-10-01 12:35:56",
+                                ),
+                            ),
+                        messageText = "Send message",
+                        onSendMessage = {},
+                        onMessageChange = {},
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_composer_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          ChatScreenContent(
-            username = "Ian",
-            messages =
-              persistentListOf(
-                Message(
-                  text = "Hello, this is a test message!",
-                  username = "Ian",
-                  formattedTime = "2025-10-01 12:35:56",
-                ),
-                Message(text = "Hello!", username = "Jane", formattedTime = "2025-10-01 12:35:56"),
-              ),
-            messageText = "Send message",
-            onSendMessage = {},
-            onMessageChange = {},
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_composer_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    ChatScreenContent(
+                        username = "Ian",
+                        messages =
+                            persistentListOf(
+                                Message(
+                                    text = "Hello, this is a test message!",
+                                    username = "Ian",
+                                    formattedTime = "2025-10-01 12:35:56",
+                                ),
+                                Message(
+                                    text = "Hello!",
+                                    username = "Jane",
+                                    formattedTime = "2025-10-01 12:35:56",
+                                ),
+                            ),
+                        messageText = "Send message",
+                        onSendMessage = {},
+                        onMessageChange = {},
+                    )
+                }
+            }
         }
-      }
-    }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+        composeTestRule.onRoot().captureRoboImage()
+    }
 }

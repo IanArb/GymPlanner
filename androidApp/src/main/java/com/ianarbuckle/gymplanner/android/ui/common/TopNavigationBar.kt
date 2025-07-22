@@ -24,51 +24,55 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopNavigationBar(
-  currentRoute: String?,
-  modifier: Modifier = Modifier,
-  titleColor: Color = Color.Black,
-  enableBackButton: Boolean = false,
-  onBackClick: (() -> Unit)? = null,
+    currentRoute: String?,
+    modifier: Modifier = Modifier,
+    titleColor: Color = Color.Black,
+    enableBackButton: Boolean = false,
+    onBackClick: (() -> Unit)? = null,
 ) {
-  TopAppBar(
-    modifier = modifier,
-    title = {
-      Text(
-        text =
-          when (currentRoute) {
-            DashboardScreen::class.qualifiedName -> "Dashboard"
-            ReportMachineBroken::class.qualifiedName -> "Report Machine"
-            GymLocationsScreen::class.qualifiedName -> "Gym Locations"
-            PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") ->
-              "Personal Trainers"
-            AvailabilityScreen::class
-              .qualifiedName
-              .plus(("/{name}/{imageUrl}?qualifications={qualifications}")) -> "Book Trainer"
-            ConversationScreen::class.qualifiedName.plus(ChatScreenPath) -> "Chat"
-            else -> ""
-          },
-        color = titleColor,
-        fontWeight = FontWeight.Bold,
-      )
-    },
-    navigationIcon = {
-      if (enableBackButton) {
-        IconButton(onClick = { onBackClick?.invoke() }) {
-          Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-        }
-      }
-    },
-  )
+    TopAppBar(
+        modifier = modifier,
+        title = {
+            Text(
+                text =
+                    when (currentRoute) {
+                        DashboardScreen::class.qualifiedName -> "Dashboard"
+                        ReportMachineBroken::class.qualifiedName -> "Report Machine"
+                        GymLocationsScreen::class.qualifiedName -> "Gym Locations"
+                        PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") ->
+                            "Personal Trainers"
+                        AvailabilityScreen::class
+                            .qualifiedName
+                            .plus(("/{name}/{imageUrl}?qualifications={qualifications}")) ->
+                            "Book Trainer"
+                        ConversationScreen::class.qualifiedName.plus(ChatScreenPath) -> "Chat"
+                        else -> ""
+                    },
+                color = titleColor,
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        navigationIcon = {
+            if (enableBackButton) {
+                IconButton(onClick = { onBackClick?.invoke() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                    )
+                }
+            }
+        },
+    )
 }
 
 @Preview
 @Composable
 private fun NavigationBarPreview() {
-  GymAppTheme {
-    TopNavigationBar(
-      currentRoute = DashboardScreen::class.qualifiedName,
-      enableBackButton = true,
-      onBackClick = {},
-    )
-  }
+    GymAppTheme {
+        TopNavigationBar(
+            currentRoute = DashboardScreen::class.qualifiedName,
+            enableBackButton = true,
+            onBackClick = {},
+        )
+    }
 }

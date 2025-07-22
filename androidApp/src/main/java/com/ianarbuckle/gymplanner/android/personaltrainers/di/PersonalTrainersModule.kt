@@ -11,8 +11,8 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 class PersonalTrainersModule {
 
-  @Provides
-  fun providesPersonalTrainersRepository(): PersonalTrainersRepository {
-    return DefaultPersonalTrainersRepository()
-  }
+    @Provides
+    fun providesPersonalTrainersRepository(): PersonalTrainersRepository {
+        return DefaultPersonalTrainersRepository()
+    }
 }

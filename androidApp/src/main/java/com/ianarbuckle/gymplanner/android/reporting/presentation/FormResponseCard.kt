@@ -25,71 +25,71 @@ import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 @Composable
 fun FormResponseCard(faultReport: FaultReport, onClick: () -> Unit, modifier: Modifier = Modifier) {
-  Card(
-    modifier = modifier.fillMaxWidth(),
-    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-  ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-      Text(
-        text = "Your report",
-        color = MaterialTheme.colorScheme.onSurface,
-        fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        fontStyle = FontStyle.Normal,
-      )
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = "Your report",
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                fontStyle = FontStyle.Normal,
+            )
 
-      Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.padding(12.dp))
 
-      Text(text = "Machine number", fontWeight = FontWeight.Bold)
-      Spacer(Modifier.padding(2.dp))
+            Text(text = "Machine number", fontWeight = FontWeight.Bold)
+            Spacer(Modifier.padding(2.dp))
 
-      Spacer(modifier = Modifier.padding(2.dp))
+            Spacer(modifier = Modifier.padding(2.dp))
 
-      Text(text = faultReport.machineNumber.toString(), fontWeight = FontWeight.Normal)
+            Text(text = faultReport.machineNumber.toString(), fontWeight = FontWeight.Normal)
 
-      Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.padding(6.dp))
 
-      Text(text = "Description", fontWeight = FontWeight.Bold)
+            Text(text = "Description", fontWeight = FontWeight.Bold)
 
-      Spacer(modifier = Modifier.padding(2.dp))
+            Spacer(modifier = Modifier.padding(2.dp))
 
-      Text(text = faultReport.description, fontWeight = FontWeight.Normal)
+            Text(text = faultReport.description, fontWeight = FontWeight.Normal)
 
-      Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.padding(12.dp))
 
-      ImageFromUri(
-        uri = Uri.parse(faultReport.photoUri),
-        modifier = Modifier.fillMaxWidth().height(200.dp),
-      )
+            ImageFromUri(
+                uri = Uri.parse(faultReport.photoUri),
+                modifier = Modifier.fillMaxWidth().height(200.dp),
+            )
 
-      Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.padding(6.dp))
 
-      Button(onClick = { onClick() }, modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Report again")
-      }
+            Button(onClick = { onClick() }, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Report again")
+            }
+        }
     }
-  }
 }
 
 @Preview(showBackground = true, name = "Light Mode")
 @Preview(showBackground = true, name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun FormResponseCardPreview() {
-  GymAppTheme {
-    Surface {
-      FormResponseCard(
-        faultReport =
-          FaultReport(
-            machineNumber = 1,
-            description = "description",
-            photoUri = "https://www.example.com/image.jpg",
-            date = "2022-01-01",
-          ),
-        onClick = {
-          // Handle click
-        },
-      )
+    GymAppTheme {
+        Surface {
+            FormResponseCard(
+                faultReport =
+                    FaultReport(
+                        machineNumber = 1,
+                        description = "description",
+                        photoUri = "https://www.example.com/image.jpg",
+                        date = "2022-01-01",
+                    ),
+                onClick = {
+                    // Handle click
+                },
+            )
+        }
     }
-  }
 }

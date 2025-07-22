@@ -36,180 +36,182 @@ import kotlinx.datetime.LocalTime
 
 @Composable
 fun BookingDetailsContent(
-  onConfirmClick: () -> Unit,
-  selectedDate: String,
-  selectedTimeSlot: LocalTime,
-  personalTrainerName: String,
-  personalTrainerAvatarUrl: String,
-  location: String,
-  modifier: Modifier = Modifier,
-  isLoading: Boolean = false,
+    onConfirmClick: () -> Unit,
+    selectedDate: String,
+    selectedTimeSlot: LocalTime,
+    personalTrainerName: String,
+    personalTrainerAvatarUrl: String,
+    location: String,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
-  Column(modifier = modifier) {
-    Column {
-      BookingDetailCard(
-        selectedDate = selectedDate,
-        selectedTimeSlot = selectedTimeSlot.displayTime(),
-        location = location,
-      )
+    Column(modifier = modifier) {
+        Column {
+            BookingDetailCard(
+                selectedDate = selectedDate,
+                selectedTimeSlot = selectedTimeSlot.displayTime(),
+                location = location,
+            )
 
-      PersonalTrainerCard(avatarUrl = personalTrainerAvatarUrl, name = personalTrainerName)
-    }
+            PersonalTrainerCard(avatarUrl = personalTrainerAvatarUrl, name = personalTrainerName)
+        }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-      Column(modifier = Modifier.align(Alignment.BottomCenter)) {
-        LoadingButton(
-          onClick = { onConfirmClick() },
-          isLoading = isLoading,
-          text = if (isLoading) "" else "Confirm Booking",
-          modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
-        )
-        Spacer(modifier = Modifier.padding(4.dp))
-      }
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+                LoadingButton(
+                    onClick = { onConfirmClick() },
+                    isLoading = isLoading,
+                    text = if (isLoading) "" else "Confirm Booking",
+                    modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+                )
+                Spacer(modifier = Modifier.padding(4.dp))
+            }
+        }
     }
-  }
 }
 
 @Composable
 fun PersonalTrainerCard(avatarUrl: String, name: String, modifier: Modifier = Modifier) {
-  Card(
-    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    modifier = modifier.fillMaxWidth().padding(16.dp),
-  ) {
-    Row {
-      Avatar(imageUrl = avatarUrl, modifier = Modifier.size(80.dp).padding(16.dp))
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+    ) {
+        Row {
+            Avatar(imageUrl = avatarUrl, modifier = Modifier.size(80.dp).padding(16.dp))
 
-      Column {
-        Text(
-          text = name,
-          fontWeight = FontWeight.SemiBold,
-          fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
-          modifier = Modifier.padding(top = 16.dp, start = 8.dp),
-        )
+            Column {
+                Text(
+                    text = name,
+                    fontWeight = FontWeight.SemiBold,
+                    fontStyle = MaterialTheme.typography.titleMedium.fontStyle,
+                    modifier = Modifier.padding(top = 16.dp, start = 8.dp),
+                )
 
-        Text(
-          text = "Personal Trainer",
-          fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
-          modifier = Modifier.padding(top = 4.dp, start = 8.dp),
-        )
-      }
+                Text(
+                    text = "Personal Trainer",
+                    fontStyle = MaterialTheme.typography.labelSmall.fontStyle,
+                    modifier = Modifier.padding(top = 4.dp, start = 8.dp),
+                )
+            }
+        }
     }
-  }
 }
 
 @Composable
 fun BookingDetailCard(
-  selectedDate: String,
-  selectedTimeSlot: String,
-  location: String,
-  modifier: Modifier = Modifier,
+    selectedDate: String,
+    selectedTimeSlot: String,
+    location: String,
+    modifier: Modifier = Modifier,
 ) {
-  Card(
-    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    modifier = modifier.fillMaxWidth().padding(16.dp),
-  ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-      Spacer(modifier = Modifier.padding(8.dp))
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Spacer(modifier = Modifier.padding(8.dp))
 
-      val date = selectedDate.parseToLocalDate().displayFormattedDate()
-      BookingDetailSlot(icon = Icons.Filled.DateRange, title = "Date", value = date)
+            val date = selectedDate.parseToLocalDate().displayFormattedDate()
+            BookingDetailSlot(icon = Icons.Filled.DateRange, title = "Date", value = date)
 
-      Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(8.dp))
 
-      BookingDetailSlot(
-        icon = ImageVector.vectorResource(id = R.drawable.ic_clock),
-        title = "Time",
-        value = selectedTimeSlot,
-      )
+            BookingDetailSlot(
+                icon = ImageVector.vectorResource(id = R.drawable.ic_clock),
+                title = "Time",
+                value = selectedTimeSlot,
+            )
 
-      Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(8.dp))
 
-      val gymLocation = resolveGymLocation(location)
+            val gymLocation = resolveGymLocation(location)
 
-      BookingDetailSlot(
-        icon = ImageVector.vectorResource(id = R.drawable.ic_location),
-        title = "Location",
-        value = gymLocation,
-      )
+            BookingDetailSlot(
+                icon = ImageVector.vectorResource(id = R.drawable.ic_location),
+                title = "Location",
+                value = gymLocation,
+            )
+        }
     }
-  }
 }
 
 private fun resolveGymLocation(location: String): String {
-  val gymLocation =
-    when (location) {
-      CLONTARF -> {
-        "Clontarf"
-      }
+    val gymLocation =
+        when (location) {
+            CLONTARF -> {
+                "Clontarf"
+            }
 
-      ASTONQUAY -> {
-        "Aston Quay"
-      }
+            ASTONQUAY -> {
+                "Aston Quay"
+            }
 
-      LEOPARDSTOWN -> {
-        "Leopardstown"
-      }
+            LEOPARDSTOWN -> {
+                "Leopardstown"
+            }
 
-      WESTMANSTOWN -> {
-        "Westmanstown"
-      }
+            WESTMANSTOWN -> {
+                "Westmanstown"
+            }
 
-      BLANCHARDSTOWN -> {
-        "Blanchardstown"
-      }
+            BLANCHARDSTOWN -> {
+                "Blanchardstown"
+            }
 
-      DUNLOAGHAIRE -> {
-        "Dun Laoghaire"
-      }
+            DUNLOAGHAIRE -> {
+                "Dun Laoghaire"
+            }
 
-      SANDYMOUNT -> {
-        "Sandymount"
-      }
+            SANDYMOUNT -> {
+                "Sandymount"
+            }
 
-      else -> {
-        "Clontarf"
-      }
-    }
-  return gymLocation
+            else -> {
+                "Clontarf"
+            }
+        }
+    return gymLocation
 }
 
 @Composable
 fun BookingDetailSlot(
-  title: String,
-  icon: ImageVector,
-  value: String,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
+    title: String,
+    icon: ImageVector,
+    value: String,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
-  Row(modifier = modifier) {
-    Icon(
-      imageVector = icon,
-      contentDescription = contentDescription,
-      modifier = Modifier.padding(end = 8.dp),
-    )
+    Row(modifier = modifier) {
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            modifier = Modifier.padding(end = 8.dp),
+        )
 
-    Text(text = "$title: $value", modifier = Modifier.padding(bottom = 8.dp))
-  }
+        Text(text = "$title: $value", modifier = Modifier.padding(bottom = 8.dp))
+    }
 }
 
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun BookingDetailsPreview() {
-  GymAppTheme {
-    Column(modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp)) {
-      BookingDetailsContent(
-        selectedDate = "2025-02-13",
-        selectedTimeSlot = LocalTime.parse("10:00:00"),
-        personalTrainerName = "John Doe",
-        personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
-        location = "Clontarf",
-        onConfirmClick = {},
-      )
+    GymAppTheme {
+        Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp)
+        ) {
+            BookingDetailsContent(
+                selectedDate = "2025-02-13",
+                selectedTimeSlot = LocalTime.parse("10:00:00"),
+                personalTrainerName = "John Doe",
+                personalTrainerAvatarUrl = "https://example.com/avatar.jpg",
+                location = "Clontarf",
+                onConfirmClick = {},
+            )
+        }
     }
-  }
 }
 
 private const val CLONTARF = "CLONTARF"

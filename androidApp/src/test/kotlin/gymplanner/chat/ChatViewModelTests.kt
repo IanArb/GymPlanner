@@ -27,124 +27,132 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class ChatViewModelTests {
 
-  @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-  private val chatRepository: ChatRepository = mockk()
-  private val messagesRepository: MessagesRepository = mockk()
-  private val savedStateHandle: SavedStateHandle = mockk()
-  private val viewModel: ChatScreenViewModel =
-    ChatScreenViewModel(chatRepository, messagesRepository, savedStateHandle)
+    private val chatRepository: ChatRepository = mockk()
+    private val messagesRepository: MessagesRepository = mockk()
+    private val savedStateHandle: SavedStateHandle = mockk()
+    private val viewModel: ChatScreenViewModel =
+        ChatScreenViewModel(chatRepository, messagesRepository, savedStateHandle)
 
-  @Test
-  fun `test getAllMessages success updates state to MessagesSuccess`() = runTest {
-    every { savedStateHandle.get<String>("userId") } returns "testUserId"
-    every { savedStateHandle.get<String>("username") } returns "TestUser"
+    @Test
+    fun `test getAllMessages success updates state to MessagesSuccess`() = runTest {
+        every { savedStateHandle.get<String>("userId") } returns "testUserId"
+        every { savedStateHandle.get<String>("username") } returns "TestUser"
 
-    val messages =
-      persistentListOf(
-        Message(
-          username = "User1",
-          text = "Hello, this is a test message!",
-          formattedTime = "2025-10-01 12:34:56",
-        ),
-        Message(username = "User2", text = "Hi there!", formattedTime = "2025-10-01 12:35:56"),
-      )
+        val messages =
+            persistentListOf(
+                Message(
+                    username = "User1",
+                    text = "Hello, this is a test message!",
+                    formattedTime = "2025-10-01 12:34:56",
+                ),
+                Message(
+                    username = "User2",
+                    text = "Hi there!",
+                    formattedTime = "2025-10-01 12:35:56",
+                ),
+            )
 
-    coEvery { chatRepository.initSession(any(), any()) } returns Result.success(Unit)
-    coEvery { messagesRepository.getMessages() } returns Result.success(messages)
-    coEvery { chatRepository.observeMessages() } returns flowOf()
+        coEvery { chatRepository.initSession(any(), any()) } returns Result.success(Unit)
+        coEvery { messagesRepository.getMessages() } returns Result.success(messages)
+        coEvery { chatRepository.observeMessages() } returns flowOf()
 
-    viewModel.connect()
+        viewModel.connect()
 
-    viewModel.chatUiState.test {
-      assert(awaitItem() is ChatUiState.Idle)
-      assert(awaitItem() is ChatUiState.Loading)
-      val success = awaitItem() as ChatUiState.MessagesSuccess
-      assert(success.messages == messages)
+        viewModel.chatUiState.test {
+            assert(awaitItem() is ChatUiState.Idle)
+            assert(awaitItem() is ChatUiState.Loading)
+            val success = awaitItem() as ChatUiState.MessagesSuccess
+            assert(success.messages == messages)
+        }
     }
-  }
 
-  @Test
-  fun `test getAllMessages success updates state to Failed`() = runTest {
-    every { savedStateHandle.get<String>("userId") } returns "testUserId"
-    every { savedStateHandle.get<String>("username") } returns "TestUser"
+    @Test
+    fun `test getAllMessages success updates state to Failed`() = runTest {
+        every { savedStateHandle.get<String>("userId") } returns "testUserId"
+        every { savedStateHandle.get<String>("username") } returns "TestUser"
 
-    coEvery { chatRepository.initSession(any(), any()) } returns Result.success(Unit)
-    coEvery { messagesRepository.getMessages() } returns Result.failure(IOException())
-    coEvery { chatRepository.observeMessages() } returns flowOf()
+        coEvery { chatRepository.initSession(any(), any()) } returns Result.success(Unit)
+        coEvery { messagesRepository.getMessages() } returns Result.failure(IOException())
+        coEvery { chatRepository.observeMessages() } returns flowOf()
 
-    viewModel.connect()
+        viewModel.connect()
 
-    viewModel.chatUiState.test {
-      assert(awaitItem() is ChatUiState.Idle)
-      assert(awaitItem() is ChatUiState.Loading)
-      assert(awaitItem() is ChatUiState.Failed)
+        viewModel.chatUiState.test {
+            assert(awaitItem() is ChatUiState.Idle)
+            assert(awaitItem() is ChatUiState.Loading)
+            assert(awaitItem() is ChatUiState.Failed)
+        }
     }
-  }
 
-  @Test
-  fun `test state returns failed when initSession() failed`() = runTest {
-    every { savedStateHandle.get<String>("userId") } returns "testUserId"
-    every { savedStateHandle.get<String>("username") } returns "TestUser"
+    @Test
+    fun `test state returns failed when initSession() failed`() = runTest {
+        every { savedStateHandle.get<String>("userId") } returns "testUserId"
+        every { savedStateHandle.get<String>("username") } returns "TestUser"
 
-    val messages =
-      persistentListOf(
-        Message(
-          username = "User1",
-          text = "Hello, this is a test message!",
-          formattedTime = "2025-10-01 12:34:56",
-        ),
-        Message(username = "User2", text = "Hi there!", formattedTime = "2025-10-01 12:35:56"),
-      )
+        val messages =
+            persistentListOf(
+                Message(
+                    username = "User1",
+                    text = "Hello, this is a test message!",
+                    formattedTime = "2025-10-01 12:34:56",
+                ),
+                Message(
+                    username = "User2",
+                    text = "Hi there!",
+                    formattedTime = "2025-10-01 12:35:56",
+                ),
+            )
 
-    coEvery { chatRepository.initSession(any(), any()) } returns Result.failure(IOException())
-    coEvery { messagesRepository.getMessages() } returns Result.success(messages)
-    coEvery { chatRepository.observeMessages() } returns flowOf()
+        coEvery { chatRepository.initSession(any(), any()) } returns Result.failure(IOException())
+        coEvery { messagesRepository.getMessages() } returns Result.success(messages)
+        coEvery { chatRepository.observeMessages() } returns flowOf()
 
-    viewModel.connect()
+        viewModel.connect()
 
-    viewModel.chatUiState.test {
-      assert(awaitItem() is ChatUiState.Idle)
-      assert(awaitItem() is ChatUiState.Loading)
-      assert(awaitItem() is ChatUiState.MessagesSuccess)
-      assert(awaitItem() is ChatUiState.Failed)
+        viewModel.chatUiState.test {
+            assert(awaitItem() is ChatUiState.Idle)
+            assert(awaitItem() is ChatUiState.Loading)
+            assert(awaitItem() is ChatUiState.MessagesSuccess)
+            assert(awaitItem() is ChatUiState.Failed)
+        }
     }
-  }
 
-  @Test
-  fun `test sendMessage updates message text state to empty when successful`() = runTest {
-    coEvery { chatRepository.sendMessage(any()) } returns Result.success(Unit)
+    @Test
+    fun `test sendMessage updates message text state to empty when successful`() = runTest {
+        coEvery { chatRepository.sendMessage(any()) } returns Result.success(Unit)
 
-    viewModel.sendMessage()
+        viewModel.sendMessage()
 
-    viewModel.messageText.test { assertEquals("", awaitItem()) }
-  }
+        viewModel.messageText.test { assertEquals("", awaitItem()) }
+    }
 
-  @Test
-  fun `test sendMessage updates message text state to empty when failed`() = runTest {
-    coEvery { chatRepository.sendMessage(any()) } returns Result.failure(IOException())
+    @Test
+    fun `test sendMessage updates message text state to empty when failed`() = runTest {
+        coEvery { chatRepository.sendMessage(any()) } returns Result.failure(IOException())
 
-    viewModel.sendMessage()
+        viewModel.sendMessage()
 
-    viewModel.messageText.test { assertEquals("", awaitItem()) }
-  }
+        viewModel.messageText.test { assertEquals("", awaitItem()) }
+    }
 
-  @Test
-  fun `test onMessageChanged updates message text state`() = runTest {
-    val newMessage = "New message text"
-    viewModel.onMessageChanged(newMessage)
+    @Test
+    fun `test onMessageChanged updates message text state`() = runTest {
+        val newMessage = "New message text"
+        viewModel.onMessageChanged(newMessage)
 
-    viewModel.messageText.test { assertEquals(newMessage, awaitItem()) }
-  }
+        viewModel.messageText.test { assertEquals(newMessage, awaitItem()) }
+    }
 
-  @Test
-  fun `test disconnect calls closeSession on chatRepository`() = runTest {
-    coEvery { chatRepository.closeSession() } just Runs
+    @Test
+    fun `test disconnect calls closeSession on chatRepository`() = runTest {
+        coEvery { chatRepository.closeSession() } just Runs
 
-    viewModel.disconnect()
+        viewModel.disconnect()
 
-    advanceUntilIdle()
+        advanceUntilIdle()
 
-    coVerify { chatRepository.closeSession() }
-  }
+        coVerify { chatRepository.closeSession() }
+    }
 }

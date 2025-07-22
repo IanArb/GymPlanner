@@ -28,51 +28,51 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class PersonalTrainersScreenshotTests {
 
-  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
+    @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-  @get:Rule
-  val composeTestRule:
-    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-    createComposeTestRule<ComponentActivity>()
+    @get:Rule
+    val composeTestRule:
+        AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createComposeTestRule<ComponentActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-  @Test
-  fun verify_personal_trainers_card_is_displayed_correctly_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Surface {
-          PersonalTrainerItem(
-            personalTrainer = DataProvider.personalTrainers().first(),
-            onSocialLinkClick = {},
-            onBookTrainerClick = {},
-            onItemClick = {},
-          )
+    @Test
+    fun verify_personal_trainers_card_is_displayed_correctly_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Surface {
+                    PersonalTrainerItem(
+                        personalTrainer = DataProvider.personalTrainers().first(),
+                        onSocialLinkClick = {},
+                        onBookTrainerClick = {},
+                        onItemClick = {},
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "night")
-  @Test
-  fun verify_personal_trainers_card_is_displayed_correctly_in_night_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          PersonalTrainerItem(
-            personalTrainer = DataProvider.personalTrainers().first(),
-            onSocialLinkClick = {},
-            onBookTrainerClick = {},
-            onItemClick = {},
-          )
+    @Config(qualifiers = "night")
+    @Test
+    fun verify_personal_trainers_card_is_displayed_correctly_in_night_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    PersonalTrainerItem(
+                        personalTrainer = DataProvider.personalTrainers().first(),
+                        onSocialLinkClick = {},
+                        onBookTrainerClick = {},
+                        onItemClick = {},
+                    )
+                }
+            }
         }
-      }
-    }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+        composeTestRule.onRoot().captureRoboImage()
+    }
 }
