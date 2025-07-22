@@ -23,65 +23,68 @@ class AvailabilityViewModel
 @OptIn(ExperimentalTime::class)
 @Inject
 constructor(
-  private val availabilityRepository: AvailabilityRepository,
-  val savedStateHandle: SavedStateHandle,
-  private val clock: Clock,
+    private val availabilityRepository: AvailabilityRepository,
+    val savedStateHandle: SavedStateHandle,
+    private val clock: Clock,
 ) : ViewModel() {
 
-  private val _availabilityUiState = MutableStateFlow<AvailabilityUiState>(AvailabilityUiState.Idle)
-  val availabilityUiState = _availabilityUiState.asStateFlow()
+    private val _availabilityUiState =
+        MutableStateFlow<AvailabilityUiState>(AvailabilityUiState.Idle)
+    val availabilityUiState = _availabilityUiState.asStateFlow()
 
-  private val personalTrainerId = savedStateHandle.get<String>("personalTrainerId")
+    private val personalTrainerId = savedStateHandle.get<String>("personalTrainerId")
 
-  @OptIn(ExperimentalTime::class)
-  fun fetchAvailability() {
-    viewModelScope.launch {
-      val currentDateTime = clock.now().toLocalDateTime(TimeZone.Companion.currentSystemDefault())
+    @OptIn(ExperimentalTime::class)
+    fun fetchAvailability() {
+        viewModelScope.launch {
+            val currentDateTime =
+                clock.now().toLocalDateTime(TimeZone.Companion.currentSystemDefault())
 
-      _availabilityUiState.update { AvailabilityUiState.Loading }
+            _availabilityUiState.update { AvailabilityUiState.Loading }
 
-      if (!personalTrainerId.isNullOrEmpty()) {
-        val checkAvailabilityDeferred = async {
-          availabilityRepository.checkAvailability(
-            personalTrainerId = personalTrainerId,
-            month = currentDateTime.calendarMonth(),
-          )
+            if (!personalTrainerId.isNullOrEmpty()) {
+                val checkAvailabilityDeferred = async {
+                    availabilityRepository.checkAvailability(
+                        personalTrainerId = personalTrainerId,
+                        month = currentDateTime.calendarMonth(),
+                    )
+                }
+
+                val fetchAvailabilityDeferred = async {
+                    availabilityRepository.getAvailability(
+                        personalTrainerId = personalTrainerId,
+                        month = currentDateTime.calendarMonth(),
+                    )
+                }
+
+                supervisorScope {
+                    val checkAvailabilityResponse = checkAvailabilityDeferred.await()
+                    val fetchAvailabilityResponse = fetchAvailabilityDeferred.await()
+
+                    launch {
+                        val state =
+                            fetchAvailabilityResponse.fold(
+                                onSuccess = { availability ->
+                                    checkAvailabilityResponse.fold(
+                                        onSuccess = { checkAvailability ->
+                                            AvailabilityUiState.AvailabilitySuccess(
+                                                availability = availability,
+                                                isPersonalTrainerAvailable =
+                                                    checkAvailability.isAvailable,
+                                            )
+                                        },
+                                        onFailure = { AvailabilityUiState.Failed },
+                                    )
+                                },
+                                onFailure = { AvailabilityUiState.Failed },
+                            )
+
+                        _availabilityUiState.update { state }
+                    }
+                }
+            } else {
+                _availabilityUiState.update { AvailabilityUiState.Failed }
+            }
         }
-
-        val fetchAvailabilityDeferred = async {
-          availabilityRepository.getAvailability(
-            personalTrainerId = personalTrainerId,
-            month = currentDateTime.calendarMonth(),
-          )
-        }
-
-        supervisorScope {
-          val checkAvailabilityResponse = checkAvailabilityDeferred.await()
-          val fetchAvailabilityResponse = fetchAvailabilityDeferred.await()
-
-          launch {
-            val state =
-              fetchAvailabilityResponse.fold(
-                onSuccess = { availability ->
-                  checkAvailabilityResponse.fold(
-                    onSuccess = { checkAvailability ->
-                      AvailabilityUiState.AvailabilitySuccess(
-                        availability = availability,
-                        isPersonalTrainerAvailable = checkAvailability.isAvailable,
-                      )
-                    },
-                    onFailure = { AvailabilityUiState.Failed },
-                  )
-                },
-                onFailure = { AvailabilityUiState.Failed },
-              )
-
-            _availabilityUiState.update { state }
-          }
-        }
-      } else {
-        _availabilityUiState.update { AvailabilityUiState.Failed }
-      }
     }
-  }
 }

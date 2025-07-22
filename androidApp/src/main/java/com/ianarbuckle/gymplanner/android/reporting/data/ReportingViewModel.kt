@@ -16,18 +16,18 @@ class ReportingViewModel
 @Inject
 constructor(private val faultReportingRepository: FaultReportingRepository) : ViewModel() {
 
-  private val _uiState = MutableStateFlow<FormFaultReportUiState>(FormFaultReportUiState.FormIdle)
+    private val _uiState = MutableStateFlow<FormFaultReportUiState>(FormFaultReportUiState.FormIdle)
 
-  val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
-  fun submitFault(faultReport: FaultReport) {
-    _uiState.update { FormFaultReportUiState.FormLoading }
-    viewModelScope.launch {
-      val result = faultReportingRepository.saveFaultReport(faultReport)
+    fun submitFault(faultReport: FaultReport) {
+        _uiState.update { FormFaultReportUiState.FormLoading }
+        viewModelScope.launch {
+            val result = faultReportingRepository.saveFaultReport(faultReport)
 
-      result.onSuccess { _uiState.update { FormFaultReportUiState.FormSuccess(faultReport) } }
+            result.onSuccess { _uiState.update { FormFaultReportUiState.FormSuccess(faultReport) } }
 
-      result.onFailure { _uiState.update { FormFaultReportUiState.FormError } }
+            result.onFailure { _uiState.update { FormFaultReportUiState.FormError } }
+        }
     }
-  }
 }

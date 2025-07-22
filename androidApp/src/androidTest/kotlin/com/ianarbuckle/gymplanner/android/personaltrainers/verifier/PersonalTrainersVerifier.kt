@@ -11,29 +11,29 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.Personal
 
 class PersonalTrainersVerifier(private val composeTestRule: ComposeTestRule) {
 
-  fun verifyPersonalTrainersScreenIsDisplayed() {
-    composeTestRule.onNodeWithText("Personal Trainers").assertExists()
-  }
+    fun verifyPersonalTrainersScreenIsDisplayed() {
+        composeTestRule.onNodeWithText("Personal Trainers").assertExists()
+    }
 
-  fun verifyPersonalTrainersCount(size: Int) {
-    composeTestRule.onNodeWithTag(PersonalTrainersItemsTag).onChildren().assertCountEquals(size)
-  }
+    fun verifyPersonalTrainersCount(size: Int) {
+        composeTestRule.onNodeWithTag(PersonalTrainersItemsTag).onChildren().assertCountEquals(size)
+    }
 
-  fun verifyPersonalTrainerCard(position: Int) {
-    composeTestRule
-      .onNodeWithTag("PersonalTrainersItemsTag")
-      .onChildAt(position)
-      .assertHasClickAction()
-  }
+    fun verifyPersonalTrainerCard(position: Int) {
+        composeTestRule
+            .onNodeWithTag("PersonalTrainersItemsTag")
+            .onChildAt(position)
+            .assertHasClickAction()
+    }
 
-  fun verifyErrorState() {
-    composeTestRule.onNodeWithText("Failed to retrieve personal trainers.").assertExists()
-    composeTestRule.onNodeWithText("Tap to retry").assertExists()
-  }
+    fun verifyErrorState() {
+        composeTestRule.onNodeWithText("Failed to retrieve personal trainers.").assertExists()
+        composeTestRule.onNodeWithText("Tap to retry").assertExists()
+    }
 
-  fun verifyPersonalTrainerDetail(name: String, description: String) {
-    composeTestRule.onNodeWithText(name).assertExists()
-    composeTestRule.onNodeWithText(description).assertExists()
-    composeTestRule.onNodeWithText("Book now")
-  }
+    fun verifyPersonalTrainerDetail(name: String, description: String) {
+        composeTestRule.onNodeWithText(name).assertExists()
+        composeTestRule.onNodeWithText(description).assertExists()
+        composeTestRule.onNodeWithText("Book now")
+    }
 }

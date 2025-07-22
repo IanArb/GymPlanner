@@ -17,45 +17,47 @@ import org.junit.Test
 
 class PersonalTrainersViewModelTests {
 
-  @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-  private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
-  private val viewModel: PersonalTrainersViewModel =
-    PersonalTrainersViewModel(personalTrainersRepository = personalTrainersRepository)
+    private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
+    private val viewModel: PersonalTrainersViewModel =
+        PersonalTrainersViewModel(personalTrainersRepository = personalTrainersRepository)
 
-  @Test
-  fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() = runTest {
-    // Arrange
-    val personalTrainers = persistentListOf(mockk<PersonalTrainer>())
-    coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns
-      Result.success(personalTrainers)
+    @Test
+    fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() =
+        runTest {
+            // Arrange
+            val personalTrainers = persistentListOf(mockk<PersonalTrainer>())
+            coEvery {
+                personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF)
+            } returns Result.success(personalTrainers)
 
-    // Act
-    viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
+            // Act
+            viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
 
-    // Assert
-    viewModel.uiState.test {
-      assertEquals(PersonalTrainersUiState.Loading, awaitItem())
-      val successState = awaitItem() as PersonalTrainersUiState.Success
-      assertEquals(personalTrainers, successState.personalTrainers)
-      cancelAndIgnoreRemainingEvents()
+            // Assert
+            viewModel.uiState.test {
+                assertEquals(PersonalTrainersUiState.Loading, awaitItem())
+                val successState = awaitItem() as PersonalTrainersUiState.Success
+                assertEquals(personalTrainers, successState.personalTrainers)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `fetchPersonalTrainers should update uiState to Failure when API call fails`() = runTest {
+        // Arrange
+        coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns
+            Result.failure(Exception("Fetch failed"))
+
+        // Act
+        viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
+
+        // Assert
+        viewModel.uiState.test {
+            assertEquals(PersonalTrainersUiState.Loading, awaitItem())
+            assertEquals(PersonalTrainersUiState.Failure, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
     }
-  }
-
-  @Test
-  fun `fetchPersonalTrainers should update uiState to Failure when API call fails`() = runTest {
-    // Arrange
-    coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns
-      Result.failure(Exception("Fetch failed"))
-
-    // Act
-    viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
-
-    // Assert
-    viewModel.uiState.test {
-      assertEquals(PersonalTrainersUiState.Loading, awaitItem())
-      assertEquals(PersonalTrainersUiState.Failure, awaitItem())
-      cancelAndIgnoreRemainingEvents()
-    }
-  }
 }

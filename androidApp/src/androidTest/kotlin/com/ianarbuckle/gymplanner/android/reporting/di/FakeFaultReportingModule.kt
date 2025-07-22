@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeFaultReportingModule {
 
-  @Provides
-  fun provideFaultReportingRepository(): FaultReportingRepository {
-    return FakeFaultRepository()
-  }
+    @Provides
+    fun provideFaultReportingRepository(): FaultReportingRepository {
+        return FakeFaultRepository()
+    }
 }

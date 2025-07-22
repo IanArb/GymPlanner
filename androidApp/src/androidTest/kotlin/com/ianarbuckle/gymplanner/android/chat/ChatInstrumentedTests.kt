@@ -38,78 +38,78 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class ChatInstrumentedTests {
 
-  @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
+    @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
 
-  @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
+    @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
 
-  @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-  private val composeIdlingResource = ComposeIdlingResource()
+    private val composeIdlingResource = ComposeIdlingResource()
 
-  @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-  @BindValue @JvmField val chatScreenViewModel = mockk<ChatScreenViewModel>(relaxed = true)
+    @BindValue @JvmField val chatScreenViewModel = mockk<ChatScreenViewModel>(relaxed = true)
 
-  @BindValue @JvmField val profileViewModel = mockk<ProfileViewModel>(relaxed = true)
+    @BindValue @JvmField val profileViewModel = mockk<ProfileViewModel>(relaxed = true)
 
-  @BindValue @JvmField val chatRepository = mockk<ChatRepository>(relaxed = true)
+    @BindValue @JvmField val chatRepository = mockk<ChatRepository>(relaxed = true)
 
-  private val loginRobot = LoginRobot(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
 
-  private val dashboardRobot = DashboardRobot(composeTestRule)
+    private val dashboardRobot = DashboardRobot(composeTestRule)
 
-  private val chatVerifier = ChatVerifier(composeTestRule)
+    private val chatVerifier = ChatVerifier(composeTestRule)
 
-  @Before
-  fun setup() {
-    IdlingRegistry.getInstance().register(composeIdlingResource)
-    hiltTestRule.inject()
-  }
-
-  @After
-  fun tearDown() {
-    IdlingRegistry.getInstance().unregister(composeIdlingResource)
-  }
-
-  @Test
-  fun verifyChatScreenIsDisplayed() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+    @Before
+    fun setup() {
+        IdlingRegistry.getInstance().register(composeIdlingResource)
+        hiltTestRule.inject()
     }
 
-    coEvery { profileViewModel.user.first() } returns Pair("Guest", "userId")
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(composeIdlingResource)
+    }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
+    @Test
+    fun verifyChatScreenIsDisplayed() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    coEvery { chatScreenViewModel.chatUiState.value } returns
-      ChatUiState.MessagesSuccess(
-        messages =
-          persistentListOf(
-              Message(
-                text = "Welcome to the chat!",
-                username = "System",
-                formattedTime = "2025-10-01 12:34:56",
-              )
+        coEvery { profileViewModel.user.first() } returns Pair("Guest", "userId")
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
             )
-            .toImmutableList()
-      )
 
-    dashboardRobot.clickOnChat()
+        coEvery { chatScreenViewModel.chatUiState.value } returns
+            ChatUiState.MessagesSuccess(
+                messages =
+                    persistentListOf(
+                            Message(
+                                text = "Welcome to the chat!",
+                                username = "System",
+                                formattedTime = "2025-10-01 12:34:56",
+                            )
+                        )
+                        .toImmutableList()
+            )
 
-    chatVerifier.apply {
-      verifyChatScreenIsDisplayed()
-      verifyComposerIsDisplayed()
-      verifyMessage("Welcome to the chat!")
+        dashboardRobot.clickOnChat()
+
+        chatVerifier.apply {
+            verifyChatScreenIsDisplayed()
+            verifyComposerIsDisplayed()
+            verifyMessage("Welcome to the chat!")
+        }
     }
-  }
 }

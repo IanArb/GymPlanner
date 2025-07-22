@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeBookingModule {
 
-  @Provides
-  fun provideBookingRepository(): BookingRepository {
-    return FakeBookingRepository()
-  }
+    @Provides
+    fun provideBookingRepository(): BookingRepository {
+        return FakeBookingRepository()
+    }
 }

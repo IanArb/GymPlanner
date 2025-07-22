@@ -37,216 +37,220 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class BookingContentScreenshotTests {
 
-  @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
+    @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
-  @get:Rule
-  val composeTestRule:
-    AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
-    createComposeTestRule<ComponentActivity>()
+    @get:Rule
+    val composeTestRule:
+        AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createComposeTestRule<ComponentActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(listOf(testModule))
 
-  @Test
-  fun verify_booking_trainers_card_is_displayed_correctly_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Column {
-          PersonalTrainerCard(
-            personalTrainerLabel = "Personal Trainer",
-            name = "John Doe",
-            imageUrl = "https://example.com/image.jpg",
-            qualifications = listOf("Qualification 1", "Qualification 2"),
-            isAvailable = true,
-          )
+    @Test
+    fun verify_booking_trainers_card_is_displayed_correctly_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Column {
+                    PersonalTrainerCard(
+                        personalTrainerLabel = "Personal Trainer",
+                        name = "John Doe",
+                        imageUrl = "https://example.com/image.jpg",
+                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        isAvailable = true,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Test
-  fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_light_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview {
-        Column {
-          PersonalTrainerCard(
-            personalTrainerLabel = "Personal Trainer",
-            name = "John Doe",
-            imageUrl = "https://example.com/image.jpg",
-            qualifications = listOf("Qualification 1", "Qualification 2"),
-            isAvailable = false,
-          )
+    @Test
+    fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_light_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview {
+                Column {
+                    PersonalTrainerCard(
+                        personalTrainerLabel = "Personal Trainer",
+                        name = "John Doe",
+                        imageUrl = "https://example.com/image.jpg",
+                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        isAvailable = false,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_booking_trainers_card_is_displayed_correctly_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          PersonalTrainerCard(
-            personalTrainerLabel = "Personal Trainer",
-            name = "John Doe",
-            imageUrl = "https://example.com/image.jpg",
-            qualifications = listOf("Qualification 1", "Qualification 2"),
-            isAvailable = true,
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_booking_trainers_card_is_displayed_correctly_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    PersonalTrainerCard(
+                        personalTrainerLabel = "Personal Trainer",
+                        name = "John Doe",
+                        imageUrl = "https://example.com/image.jpg",
+                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        isAvailable = true,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_dark_mode() {
-    composeTestRule.setContent {
-      ScreenTestPreview(isDarkTheme = true) {
-        Surface {
-          PersonalTrainerCard(
-            personalTrainerLabel = "Personal Trainer",
-            name = "John Doe",
-            imageUrl = "https://example.com/image.jpg",
-            qualifications = listOf("Qualification 1", "Qualification 2"),
-            isAvailable = false,
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_booking_trainers_card_without_available_icon_is_displayed_correctly_in_dark_mode() {
+        composeTestRule.setContent {
+            ScreenTestPreview(isDarkTheme = true) {
+                Surface {
+                    PersonalTrainerCard(
+                        personalTrainerLabel = "Personal Trainer",
+                        name = "John Doe",
+                        imageUrl = "https://example.com/image.jpg",
+                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        isAvailable = false,
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Test
-  fun verify_booking_calendar_header_is_displayed_correctly_in_light_mode() {
-    composeTestRule.setContent {
-      val pagerState = rememberPagerState { 7 }
-      ScreenTestPreview {
-        Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
-          CalendarWeekDaysRow(
-            daysOfWeek = daysOfWeek,
-            pagerState = pagerState,
-            selectedDate = "2024-12-12",
-            onSelectedDateChange = {},
-          )
+    @Test
+    fun verify_booking_calendar_header_is_displayed_correctly_in_light_mode() {
+        composeTestRule.setContent {
+            val pagerState = rememberPagerState { 7 }
+            ScreenTestPreview {
+                Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
+                    CalendarWeekDaysRow(
+                        daysOfWeek = daysOfWeek,
+                        pagerState = pagerState,
+                        selectedDate = "2024-12-12",
+                        onSelectedDateChange = {},
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
-
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_booking_calendar_header_is_displayed_correctly_in_dark_mode() {
-    composeTestRule.setContent {
-      val pagerState = rememberPagerState { 7 }
-      ScreenTestPreview(isDarkTheme = true) {
-        Column(Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)) {
-          CalendarWeekDaysRow(
-            daysOfWeek = daysOfWeek,
-            pagerState = pagerState,
-            selectedDate = "2024-12-12",
-            onSelectedDateChange = {},
-          )
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_booking_calendar_header_is_displayed_correctly_in_dark_mode() {
+        composeTestRule.setContent {
+            val pagerState = rememberPagerState { 7 }
+            ScreenTestPreview(isDarkTheme = true) {
+                Column(
+                    Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)
+                ) {
+                    CalendarWeekDaysRow(
+                        daysOfWeek = daysOfWeek,
+                        pagerState = pagerState,
+                        selectedDate = "2024-12-12",
+                        onSelectedDateChange = {},
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+    @Test
+    fun verify_booking_calendar_time_slots_is_displayed_correctly_in_light_mode() {
+        composeTestRule.setContent {
+            val pagerState = rememberPagerState {
+                TimeSlotPagerSize // Calculate the number of pages needed
+            }
 
-  @Test
-  fun verify_booking_calendar_time_slots_is_displayed_correctly_in_light_mode() {
-    composeTestRule.setContent {
-      val pagerState = rememberPagerState {
-        TimeSlotPagerSize // Calculate the number of pages needed
-      }
-
-      ScreenTestPreview {
-        Column(Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)) {
-          TimeSlotsBox(
-            availableTimes = timeSlots,
-            selectedTimeSlotId = "1",
-            pagerState = pagerState,
-            rowsPerPage = RowsPerPage,
-            itemsPerPage = ItemsPerPage,
-            onTimeSlotClick = { _, _ -> },
-          )
+            ScreenTestPreview {
+                Column(
+                    Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)
+                ) {
+                    TimeSlotsBox(
+                        availableTimes = timeSlots,
+                        selectedTimeSlotId = "1",
+                        pagerState = pagerState,
+                        rowsPerPage = RowsPerPage,
+                        itemsPerPage = ItemsPerPage,
+                        onTimeSlotClick = { _, _ -> },
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+    @Config(qualifiers = "+night")
+    @Test
+    fun verify_booking_calendar_time_slots_is_displayed_correctly_in_dark_mode() {
+        composeTestRule.setContent {
+            val pagerState = rememberPagerState {
+                TimeSlotPagerSize // Calculate the number of pages needed
+            }
 
-  @Config(qualifiers = "+night")
-  @Test
-  fun verify_booking_calendar_time_slots_is_displayed_correctly_in_dark_mode() {
-    composeTestRule.setContent {
-      val pagerState = rememberPagerState {
-        TimeSlotPagerSize // Calculate the number of pages needed
-      }
-
-      ScreenTestPreview(isDarkTheme = true) {
-        Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
-          TimeSlotsBox(
-            availableTimes = timeSlots,
-            selectedTimeSlotId = "2",
-            pagerState = pagerState,
-            rowsPerPage = RowsPerPage,
-            itemsPerPage = ItemsPerPage,
-            onTimeSlotClick = { _, _ -> },
-          )
+            ScreenTestPreview(isDarkTheme = true) {
+                Column(Modifier.background(MaterialTheme.colorScheme.surface)) {
+                    TimeSlotsBox(
+                        availableTimes = timeSlots,
+                        selectedTimeSlotId = "2",
+                        pagerState = pagerState,
+                        rowsPerPage = RowsPerPage,
+                        itemsPerPage = ItemsPerPage,
+                        onTimeSlotClick = { _, _ -> },
+                    )
+                }
+            }
         }
-      }
+
+        composeTestRule.onRoot().captureRoboImage()
     }
 
-    composeTestRule.onRoot().captureRoboImage()
-  }
+    companion object {
+        val daysOfWeek: List<String> =
+            listOf(
+                "2024-12-08",
+                "2024-12-09",
+                "2024-12-10",
+                "2024-12-11",
+                "2024-12-12",
+                "2024-12-13",
+                "2024-12-14",
+            )
 
-  companion object {
-    val daysOfWeek: List<String> =
-      listOf(
-        "2024-12-08",
-        "2024-12-09",
-        "2024-12-10",
-        "2024-12-11",
-        "2024-12-12",
-        "2024-12-13",
-        "2024-12-14",
-      )
+        private val availableTimes: List<String> =
+            listOf(
+                "06:00:00",
+                "06:30:00",
+                "07:00:00",
+                "07:30:00",
+                "08:00:00",
+                "08:30:00",
+                "09:00:00",
+                "10:00:00",
+                "10:30:00",
+                "11:00:00",
+                "12:00:00",
+                "12:30:00",
+            )
 
-    private val availableTimes: List<String> =
-      listOf(
-        "06:00:00",
-        "06:30:00",
-        "07:00:00",
-        "07:30:00",
-        "08:00:00",
-        "08:30:00",
-        "09:00:00",
-        "10:00:00",
-        "10:30:00",
-        "11:00:00",
-        "12:00:00",
-        "12:30:00",
-      )
+        val timeSlots =
+            availableTimes.map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
 
-    val timeSlots =
-      availableTimes.map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
-
-    const val TimeSlotPagerSize = 6
-    const val RowsPerPage = 3
-    const val ItemsPerPage = 9
-  }
+        const val TimeSlotPagerSize = 6
+        const val RowsPerPage = 3
+        const val ItemsPerPage = 9
+    }
 }

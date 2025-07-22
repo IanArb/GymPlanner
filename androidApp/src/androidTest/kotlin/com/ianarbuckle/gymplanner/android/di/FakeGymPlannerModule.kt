@@ -13,17 +13,17 @@ import kotlin.time.Instant
 @Module
 class FakeGymPlannerModule {
 
-  @OptIn(ExperimentalTime::class)
-  @Provides
-  @Singleton
-  fun providesCurrentClock(): Clock {
-    val fixedInstant = Instant.parse("2024-12-01T00:00:00Z")
-    return FixedClock(fixedInstant)
-  }
+    @OptIn(ExperimentalTime::class)
+    @Provides
+    @Singleton
+    fun providesCurrentClock(): Clock {
+        val fixedInstant = Instant.parse("2024-12-01T00:00:00Z")
+        return FixedClock(fixedInstant)
+    }
 }
 
 @OptIn(ExperimentalTime::class)
 class FixedClock @OptIn(ExperimentalTime::class) constructor(private val fixedInstant: Instant) :
-  Clock {
-  @OptIn(ExperimentalTime::class) override fun now(): Instant = fixedInstant
+    Clock {
+    @OptIn(ExperimentalTime::class) override fun now(): Instant = fixedInstant
 }

@@ -11,20 +11,20 @@ import javax.inject.Named
 @InstallIn(SingletonComponent::class)
 class UrlModule {
 
-  @Provides
-  @Named(NAMED_BASE_URL)
-  fun provideBaseUrl(): String {
-    return BuildConfig.BASE_URL
-  }
+    @Provides
+    @Named(NAMED_BASE_URL)
+    fun provideBaseUrl(): String {
+        return BuildConfig.BASE_URL
+    }
 
-  @Provides
-  @Named(NAMED_WEBSOCKET_URL)
-  fun provideWebSocketUrl(): String {
-    return BuildConfig.WEBSOCKET_URL
-  }
+    @Provides
+    @Named(NAMED_WEBSOCKET_URL)
+    fun provideWebSocketUrl(): String {
+        return BuildConfig.WEBSOCKET_URL
+    }
 
-  companion object {
-    const val NAMED_BASE_URL = "BASE_URL"
-    const val NAMED_WEBSOCKET_URL = "WEBSOCKET_URL"
-  }
+    companion object {
+        const val NAMED_BASE_URL = "BASE_URL"
+        const val NAMED_WEBSOCKET_URL = "WEBSOCKET_URL"
+    }
 }

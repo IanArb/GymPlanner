@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeGymLocationsModule {
 
-  @Provides
-  fun provideGymLocationsRepository(): GymLocationsRepository {
-    return FakeGymLocationsRepository()
-  }
+    @Provides
+    fun provideGymLocationsRepository(): GymLocationsRepository {
+        return FakeGymLocationsRepository()
+    }
 }

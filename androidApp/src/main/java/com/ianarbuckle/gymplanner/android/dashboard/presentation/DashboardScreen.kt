@@ -14,43 +14,43 @@ import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 fun DashboardScreen(
-  contentPadding: PaddingValues,
-  modifier: Modifier = Modifier,
-  dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
-  LaunchedEffect(true) { dashboardViewModel.fetchFitnessClasses() }
+    LaunchedEffect(true) { dashboardViewModel.fetchFitnessClasses() }
 
-  val uiState = dashboardViewModel.uiState.collectAsState()
+    val uiState = dashboardViewModel.uiState.collectAsState()
 
-  when (uiState.value) {
-    is DashboardUiState.Failure -> {
-      RetryErrorScreen(
-        modifier = modifier,
-        text = "Failed to retrieve dashboard.",
-        onClick = { dashboardViewModel.fetchFitnessClasses() },
-      )
+    when (uiState.value) {
+        is DashboardUiState.Failure -> {
+            RetryErrorScreen(
+                modifier = modifier,
+                text = "Failed to retrieve dashboard.",
+                onClick = { dashboardViewModel.fetchFitnessClasses() },
+            )
+        }
+
+        is DashboardUiState.Success -> {
+            DashboardContent(
+                modifier = modifier,
+                innerPadding = contentPadding,
+                classes = (uiState.value as DashboardUiState.Success).items,
+                onViewScheduleClick = {},
+                onBookPersonalTrainerClick = {},
+                bookings = (uiState.value as DashboardUiState.Success).booking,
+            )
+        }
+
+        is DashboardUiState.Loading -> {
+            DashboardLoadingShimmer(
+                modifier = modifier,
+                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
+            )
+        }
+
+        DashboardUiState.Idle -> {
+            // Do nothing
+        }
     }
-
-    is DashboardUiState.Success -> {
-      DashboardContent(
-        modifier = modifier,
-        innerPadding = contentPadding,
-        classes = (uiState.value as DashboardUiState.Success).items,
-        onViewScheduleClick = {},
-        onBookPersonalTrainerClick = {},
-        bookings = (uiState.value as DashboardUiState.Success).booking,
-      )
-    }
-
-    is DashboardUiState.Loading -> {
-      DashboardLoadingShimmer(
-        modifier = modifier,
-        shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-      )
-    }
-
-    DashboardUiState.Idle -> {
-      // Do nothing
-    }
-  }
 }

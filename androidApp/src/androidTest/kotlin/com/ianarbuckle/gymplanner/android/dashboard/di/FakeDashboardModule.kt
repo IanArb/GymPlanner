@@ -13,13 +13,13 @@ import dagger.hilt.testing.TestInstallIn
 @TestInstallIn(components = [ViewModelComponent::class], replaces = [DashboardModule::class])
 class FakeDashboardModule {
 
-  @Provides
-  fun providesFitnessClassesRepository(): FitnessClassRepository {
-    return FakeFitnessClassRepository()
-  }
+    @Provides
+    fun providesFitnessClassesRepository(): FitnessClassRepository {
+        return FakeFitnessClassRepository()
+    }
 
-  @Provides
-  fun providesProfileRepository(): ProfileRepository {
-    return FakeProfileRepository()
-  }
+    @Provides
+    fun providesProfileRepository(): ProfileRepository {
+        return FakeProfileRepository()
+    }
 }

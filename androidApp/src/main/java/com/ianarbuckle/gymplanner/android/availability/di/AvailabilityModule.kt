@@ -11,8 +11,8 @@ import dagger.hilt.android.components.ViewModelComponent
 @Module
 class AvailabilityModule {
 
-  @Provides
-  fun providesAvailabilityRepository(): AvailabilityRepository {
-    return DefaultAvailabilityRepository()
-  }
+    @Provides
+    fun providesAvailabilityRepository(): AvailabilityRepository {
+        return DefaultAvailabilityRepository()
+    }
 }

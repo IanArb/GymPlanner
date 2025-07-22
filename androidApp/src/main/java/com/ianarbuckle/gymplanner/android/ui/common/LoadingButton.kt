@@ -12,24 +12,24 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoadingButton(
-  text: String,
-  isLoading: Boolean,
-  onClick: () -> Unit,
-  modifier: Modifier = Modifier,
+    text: String,
+    isLoading: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-  Button(onClick = onClick, modifier = modifier, enabled = !isLoading) {
-    if (isLoading) {
-      CircularProgressIndicator(
-        modifier = Modifier.size(24.dp).padding(end = 8.dp),
-        strokeWidth = 2.dp,
-      )
+    Button(onClick = onClick, modifier = modifier, enabled = !isLoading) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp).padding(end = 8.dp),
+                strokeWidth = 2.dp,
+            )
+        }
+        Text(text = text)
     }
-    Text(text = text)
-  }
 }
 
 @Preview
 @Composable
 private fun LoadingButtonPreview(modifier: Modifier = Modifier) {
-  LoadingButton(text = "Click me", isLoading = false, modifier = modifier, onClick = {})
+    LoadingButton(text = "Click me", isLoading = false, modifier = modifier, onClick = {})
 }

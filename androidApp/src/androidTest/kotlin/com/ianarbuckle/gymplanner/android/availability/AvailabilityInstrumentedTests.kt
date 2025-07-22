@@ -41,166 +41,167 @@ import org.koin.dsl.module
 @RunWith(AndroidJUnit4::class)
 class AvailabilityInstrumentedTests {
 
-  @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
+    @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
 
-  @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
+    @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
 
-  @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-  private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
+    private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
-  @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
+    @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-  @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-  @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
-  @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
+    @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
 
-  @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
+    @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
 
-  private val availabilityRobot = AvailabilityRobot(composeTestRule)
-  private val loginRobot = LoginRobot(composeTestRule)
-  private val availabilityVerifier = AvailabilityVerifier(composeTestRule)
+    private val availabilityRobot = AvailabilityRobot(composeTestRule)
+    private val loginRobot = LoginRobot(composeTestRule)
+    private val availabilityVerifier = AvailabilityVerifier(composeTestRule)
 
-  private val composeIdleResource = ComposeIdlingResource()
+    private val composeIdleResource = ComposeIdlingResource()
 
-  @Before
-  fun setUp() {
-    IdlingRegistry.getInstance().register(composeIdleResource)
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance().register(composeIdleResource)
 
-    mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
 
-    every { currentWeekDates() } returns DataProvider.daysOfWeek
-  }
-
-  @After
-  fun tearDown() {
-    IdlingRegistry.getInstance().unregister(composeIdleResource)
-  }
-
-  @Test
-  fun testBookingAvailabilitySuccessState() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+        every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
-
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-    coEvery { availabilityViewModel.availabilityUiState.value } returns
-      AvailabilityUiState.AvailabilitySuccess(
-        availability = DataProvider.availability(),
-        isPersonalTrainerAvailable = true,
-      )
-
-    availabilityRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnBookPersonalTrainer()
-      clickOnTimeSlotDay(0)
-      clickOnTimeSlot(0)
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(composeIdleResource)
     }
 
-    val calendarMonth = Calendar.getInstance().currentMonth()
+    @Test
+    fun testBookingAvailabilitySuccessState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    availabilityVerifier.apply {
-      val trainer = DataProvider.personalTrainers().first()
-      verifyCalendarMonth(month = calendarMonth)
-      verifyPersonalTrainerNameAndDescription(
-        name = trainer.firstName.plus(" ").plus(trainer.lastName),
-        qualifications = trainer.qualifications,
-      )
-      verifyAvailableTimesSize(9)
-      verifyCalendarGridSize(5)
-      verifyBookAppointmentButton()
-    }
-  }
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
 
-  @Test
-  fun testBookingAvailabilitySuccessStateWhenEndUserSelectsBookAppointment() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
-    }
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
 
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+        coEvery { availabilityViewModel.availabilityUiState.value } returns
+            AvailabilityUiState.AvailabilitySuccess(
+                availability = DataProvider.availability(),
+                isPersonalTrainerAvailable = true,
+            )
 
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+        availabilityRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+            clickOnTimeSlotDay(0)
+            clickOnTimeSlot(0)
+        }
 
-    coEvery { availabilityViewModel.availabilityUiState.value } returns
-      AvailabilityUiState.AvailabilitySuccess(
-        availability = DataProvider.availability(),
-        isPersonalTrainerAvailable = true,
-      )
+        val calendarMonth = Calendar.getInstance().currentMonth()
 
-    availabilityRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnBookPersonalTrainer()
-      clickOnTimeSlotDay(0)
-      clickOnTimeSlot(0)
-      clickOnBookAppointment()
-    }
-
-    availabilityVerifier.apply {
-      verifyConfirmAppointmentButton()
-      verifyBookingDetails(
-        location = "Clontarf",
-        bookingDate = "Sunday 8th December, 2024",
-        bookingTime = "6:00 am",
-      )
-    }
-  }
-
-  @Test
-  fun testBookingAvailabilityFailedState() {
-    loginRobot.apply {
-      enterUsernamePassword("test", "password")
-      login()
+        availabilityVerifier.apply {
+            val trainer = DataProvider.personalTrainers().first()
+            verifyCalendarMonth(month = calendarMonth)
+            verifyPersonalTrainerNameAndDescription(
+                name = trainer.firstName.plus(" ").plus(trainer.lastName),
+                qualifications = trainer.qualifications,
+            )
+            verifyAvailableTimesSize(9)
+            verifyCalendarGridSize(5)
+            verifyBookAppointmentButton()
+        }
     }
 
-    coEvery { dashboardViewModel.uiState.value } returns
-      DashboardUiState.Success(
-        items = DataProvider.fitnessClasses(),
-        profile = DataProvider.profile(),
-        booking = DataProvider.bookings(),
-      )
+    @Test
+    fun testBookingAvailabilitySuccessStateWhenEndUserSelectsBookAppointment() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
 
-    coEvery { gymLocationsViewModel.uiState.value } returns
-      GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
 
-    coEvery { personalTrainersViewModel.uiState.value } returns
-      PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-    coEvery { availabilityViewModel.availabilityUiState.value } returns AvailabilityUiState.Failed
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
 
-    availabilityRobot.apply {
-      clickOnPersonalTrainersNavTab()
-      clickOnGymLocation(0)
-      clickOnBookPersonalTrainer()
+        coEvery { availabilityViewModel.availabilityUiState.value } returns
+            AvailabilityUiState.AvailabilitySuccess(
+                availability = DataProvider.availability(),
+                isPersonalTrainerAvailable = true,
+            )
+
+        availabilityRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+            clickOnTimeSlotDay(0)
+            clickOnTimeSlot(0)
+            clickOnBookAppointment()
+        }
+
+        availabilityVerifier.apply {
+            verifyConfirmAppointmentButton()
+            verifyBookingDetails(
+                location = "Clontarf",
+                bookingDate = "Sunday 8th December, 2024",
+                bookingTime = "6:00 am",
+            )
+        }
     }
 
-    availabilityVerifier.apply { verifyErrorState() }
-  }
+    @Test
+    fun testBookingAvailabilityFailedState() {
+        loginRobot.apply {
+            enterUsernamePassword("test", "password")
+            login()
+        }
+
+        coEvery { dashboardViewModel.uiState.value } returns
+            DashboardUiState.Success(
+                items = DataProvider.fitnessClasses(),
+                profile = DataProvider.profile(),
+                booking = DataProvider.bookings(),
+            )
+
+        coEvery { gymLocationsViewModel.uiState.value } returns
+            GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
+
+        coEvery { personalTrainersViewModel.uiState.value } returns
+            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
+
+        coEvery { availabilityViewModel.availabilityUiState.value } returns
+            AvailabilityUiState.Failed
+
+        availabilityRobot.apply {
+            clickOnPersonalTrainersNavTab()
+            clickOnGymLocation(0)
+            clickOnBookPersonalTrainer()
+        }
+
+        availabilityVerifier.apply { verifyErrorState() }
+    }
 }

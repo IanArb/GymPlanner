@@ -10,15 +10,15 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.Personal
 
 class PersonalTrainersRobot(private val composeTestRule: ComposeTestRule) {
 
-  fun clickOnPersonalTrainersNavTab() {
-    composeTestRule.onNodeWithText("Personal Trainers").performClick()
-  }
+    fun clickOnPersonalTrainersNavTab() {
+        composeTestRule.onNodeWithText("Personal Trainers").performClick()
+    }
 
-  fun clickOnGymLocation(position: Int) {
-    composeTestRule.onNodeWithTag(GymLocationsGridTag).onChildAt(position).performClick()
-  }
+    fun clickOnGymLocation(position: Int) {
+        composeTestRule.onNodeWithTag(GymLocationsGridTag).onChildAt(position).performClick()
+    }
 
-  fun clickOnPersonalTrainerCard(position: Int) {
-    composeTestRule.onNodeWithTag(PersonalTrainersItemsTag).onChildAt(position).performClick()
-  }
+    fun clickOnPersonalTrainerCard(position: Int) {
+        composeTestRule.onNodeWithTag(PersonalTrainersItemsTag).onChildAt(position).performClick()
+    }
 }

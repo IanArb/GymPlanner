@@ -15,13 +15,13 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeStorageModule {
 
-  @Provides
-  fun providesDataStoreRepository(): DataStoreRepository {
-    return FakeDataStoreRepository()
-  }
+    @Provides
+    fun providesDataStoreRepository(): DataStoreRepository {
+        return FakeDataStoreRepository()
+    }
 
-  @Provides
-  fun providesDataStore(): DataStore<Preferences> {
-    return FakeDataStore()
-  }
+    @Provides
+    fun providesDataStore(): DataStore<Preferences> {
+        return FakeDataStore()
+    }
 }

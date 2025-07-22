@@ -15,12 +15,12 @@ class NavigationViewModel
 @Inject
 constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() {
 
-  private val _rememberMe = Channel<Boolean>()
-  val rememberMe = _rememberMe.receiveAsFlow()
+    private val _rememberMe = Channel<Boolean>()
+    val rememberMe = _rememberMe.receiveAsFlow()
 
-  init {
-    viewModelScope.launch {
-      _rememberMe.send(dataStoreRepository.getBooleanData(key = REMEMBER_ME_KEY) ?: false)
+    init {
+        viewModelScope.launch {
+            _rememberMe.send(dataStoreRepository.getBooleanData(key = REMEMBER_ME_KEY) ?: false)
+        }
     }
-  }
 }

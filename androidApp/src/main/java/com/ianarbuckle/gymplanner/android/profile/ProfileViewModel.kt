@@ -15,22 +15,22 @@ import kotlinx.coroutines.launch
 class ProfileViewModel
 @Inject
 constructor(
-  private val dataStoreRepository: DataStoreRepository,
-  private val profileRepository: ProfileRepository,
+    private val dataStoreRepository: DataStoreRepository,
+    private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
-  private val _user = MutableStateFlow(Pair("", ""))
-  val user = _user.asSharedFlow()
+    private val _user = MutableStateFlow(Pair("", ""))
+    val user = _user.asSharedFlow()
 
-  init {
-    viewModelScope.launch {
-      val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
-      profileRepository
-        .fetchProfile(userId)
-        .fold(
-          onSuccess = { _user.emit(Pair(it.username, it.userId)) },
-          onFailure = { _user.emit(Pair("Guest", "")) },
-        )
+    init {
+        viewModelScope.launch {
+            val userId = dataStoreRepository.getStringData(USER_ID) ?: ""
+            profileRepository
+                .fetchProfile(userId)
+                .fold(
+                    onSuccess = { _user.emit(Pair(it.username, it.userId)) },
+                    onFailure = { _user.emit(Pair("Guest", "")) },
+                )
+        }
     }
-  }
 }

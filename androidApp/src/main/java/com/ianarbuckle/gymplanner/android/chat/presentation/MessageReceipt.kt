@@ -11,15 +11,17 @@ import com.ianarbuckle.gymplanner.android.utils.toDisplayTime
 
 @Composable
 fun MessageReceipt(timestamp: String, modifier: Modifier = Modifier) {
-  Text(
-    text = timestamp.toDisplayTime(),
-    modifier = modifier,
-    style = MaterialTheme.typography.bodySmall,
-  )
+    Text(
+        text = timestamp.toDisplayTime(),
+        modifier = modifier,
+        style = MaterialTheme.typography.bodySmall,
+    )
 }
 
 @Preview
 @Composable
 private fun MessageReceiptPreview() {
-  GymAppTheme { Surface { MessageReceipt(timestamp = "2023-10-01 12:34:56", modifier = Modifier) } }
+    GymAppTheme {
+        Surface { MessageReceipt(timestamp = "2023-10-01 12:34:56", modifier = Modifier) }
+    }
 }

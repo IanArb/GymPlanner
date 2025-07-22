@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakeAvailabilityModule {
 
-  @Provides
-  fun providesAvailabilityRepository(): AvailabilityRepository {
-    return FakeAvailabilityRepository()
-  }
+    @Provides
+    fun providesAvailabilityRepository(): AvailabilityRepository {
+        return FakeAvailabilityRepository()
+    }
 }

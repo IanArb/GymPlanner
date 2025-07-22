@@ -17,40 +17,40 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun PersonalTrainersScreen(
-  contentPadding: PaddingValues,
-  gymLocation: GymLocation,
-  onNavigateTo: (Triple<String, String, String>) -> Unit,
-  onBookClick: (PersonalTrainer) -> Unit,
-  modifier: Modifier = Modifier,
-  personalTrainersViewModel: PersonalTrainersViewModel = hiltViewModel(),
+    contentPadding: PaddingValues,
+    gymLocation: GymLocation,
+    onNavigateTo: (Triple<String, String, String>) -> Unit,
+    onBookClick: (PersonalTrainer) -> Unit,
+    modifier: Modifier = Modifier,
+    personalTrainersViewModel: PersonalTrainersViewModel = hiltViewModel(),
 ) {
-  LaunchedEffect(true) { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) }
+    LaunchedEffect(true) { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) }
 
-  when (val uiState = personalTrainersViewModel.uiState.collectAsState().value) {
-    is PersonalTrainersUiState.Failure -> {
-      RetryErrorScreen(
-        text = "Failed to retrieve personal trainers.",
-        onClick = { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) },
-      )
-    }
+    when (val uiState = personalTrainersViewModel.uiState.collectAsState().value) {
+        is PersonalTrainersUiState.Failure -> {
+            RetryErrorScreen(
+                text = "Failed to retrieve personal trainers.",
+                onClick = { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) },
+            )
+        }
 
-    is PersonalTrainersUiState.Success -> {
-      PersonalTrainersContent(
-        modifier = modifier,
-        innerPadding = contentPadding,
-        personalTrainers = uiState.personalTrainers.toImmutableList(),
-        onSocialLinkClick = {},
-        onBookTrainerClick = { onBookClick(it) },
-        onItemClick = { item -> onNavigateTo(Triple(item.first, item.second, item.third)) },
-      )
-    }
+        is PersonalTrainersUiState.Success -> {
+            PersonalTrainersContent(
+                modifier = modifier,
+                innerPadding = contentPadding,
+                personalTrainers = uiState.personalTrainers.toImmutableList(),
+                onSocialLinkClick = {},
+                onBookTrainerClick = { onBookClick(it) },
+                onItemClick = { item -> onNavigateTo(Triple(item.first, item.second, item.third)) },
+            )
+        }
 
-    is PersonalTrainersUiState.Loading -> {
-      PersonalTrainersLoadingShimmer(
-        innerPadding = contentPadding,
-        modifier = modifier,
-        shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-      )
+        is PersonalTrainersUiState.Loading -> {
+            PersonalTrainersLoadingShimmer(
+                innerPadding = contentPadding,
+                modifier = modifier,
+                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
+            )
+        }
     }
-  }
 }

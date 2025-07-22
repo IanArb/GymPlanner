@@ -16,12 +16,12 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class StorageModule {
 
-  @Provides
-  fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-    createDataStore(context)
+    @Provides
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        createDataStore(context)
 
-  @Provides
-  fun providesDataStoreRepository(): DataStoreRepository {
-    return DefaultDataStoreRepository()
-  }
+    @Provides
+    fun providesDataStoreRepository(): DataStoreRepository {
+        return DefaultDataStoreRepository()
+    }
 }

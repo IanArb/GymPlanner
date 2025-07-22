@@ -14,37 +14,37 @@ import org.junit.Test
 
 class NavigationViewModelTests {
 
-  @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule val testCoroutineRule = TestCoroutineRule()
 
-  private val dataStoreRepository = mockk<DataStoreRepository>()
+    private val dataStoreRepository = mockk<DataStoreRepository>()
 
-  @Test
-  fun `init should update rememberMe to true when fetchRememberMe returns true`() = runTest {
-    // Arrange
-    coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns true
+    @Test
+    fun `init should update rememberMe to true when fetchRememberMe returns true`() = runTest {
+        // Arrange
+        coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns true
 
-    // Act
-    val viewModel = NavigationViewModel(dataStoreRepository)
+        // Act
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
-    // Assert
-    viewModel.rememberMe.test {
-      assertEquals(true, awaitItem())
-      cancelAndIgnoreRemainingEvents()
+        // Assert
+        viewModel.rememberMe.test {
+            assertEquals(true, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
     }
-  }
 
-  @Test
-  fun `init should update rememberMe to false when fetchRememberMe returns false`() = runTest {
-    // Arrange
-    coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns false
+    @Test
+    fun `init should update rememberMe to false when fetchRememberMe returns false`() = runTest {
+        // Arrange
+        coEvery { dataStoreRepository.getBooleanData(REMEMBER_ME_KEY) } returns false
 
-    // Act
-    val viewModel = NavigationViewModel(dataStoreRepository)
+        // Act
+        val viewModel = NavigationViewModel(dataStoreRepository)
 
-    // Assert
-    viewModel.rememberMe.test {
-      assertEquals(false, awaitItem())
-      cancelAndIgnoreRemainingEvents()
+        // Assert
+        viewModel.rememberMe.test {
+            assertEquals(false, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
     }
-  }
 }

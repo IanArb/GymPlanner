@@ -37,38 +37,38 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 
 @Composable
 fun ConnectionBanner(
-  visible: Boolean,
-  connectionText: String,
-  backgroundColor: Color,
-  textColor: Color,
-  iconColor: Color,
-  modifier: Modifier = Modifier,
+    visible: Boolean,
+    connectionText: String,
+    backgroundColor: Color,
+    textColor: Color,
+    iconColor: Color,
+    modifier: Modifier = Modifier,
 ) {
-  AnimatedVisibility(visible = visible, exit = fadeOut(), modifier = modifier) {
-    Box(
-      modifier =
-        Modifier.fillMaxWidth().drawBehind {
-          drawRoundRect(
-            cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx()),
-            color = backgroundColor,
-          )
+    AnimatedVisibility(visible = visible, exit = fadeOut(), modifier = modifier) {
+        Box(
+            modifier =
+                Modifier.fillMaxWidth().drawBehind {
+                    drawRoundRect(
+                        cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx()),
+                        color = backgroundColor,
+                    )
+                }
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.Absolute.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(text = connectionText, color = textColor)
+                Spacer(modifier = Modifier.width(12.dp))
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = "Connection status icon",
+                    tint = iconColor,
+                )
+            }
         }
-    ) {
-      Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.Absolute.Center,
-        verticalAlignment = Alignment.CenterVertically,
-      ) {
-        Text(text = connectionText, color = textColor)
-        Spacer(modifier = Modifier.width(12.dp))
-        Icon(
-          imageVector = Icons.Filled.Refresh,
-          contentDescription = "Connection status icon",
-          tint = iconColor,
-        )
-      }
     }
-  }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,27 +76,27 @@ fun ConnectionBanner(
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun ConnectionBannerPreview() {
-  val isDark = isSystemInDarkTheme()
-  val backgroundColor =
-    if (isDark) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
-  val textColor =
-    if (isDark) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surface
-  val iconColor = textColor
-  var showBanner by remember { mutableStateOf(true) }
+    val isDark = isSystemInDarkTheme()
+    val backgroundColor =
+        if (isDark) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
+    val textColor =
+        if (isDark) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surface
+    val iconColor = textColor
+    var showBanner by remember { mutableStateOf(true) }
 
-  GymAppTheme {
-    Scaffold(topBar = { TopAppBar(title = { Text("Connection Banner Preview") }) }) { padding ->
-      Surface(modifier = Modifier.padding(padding).fillMaxWidth().padding(16.dp)) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-          ConnectionBanner(
-            visible = showBanner,
-            connectionText = "Connection Lost",
-            backgroundColor = backgroundColor,
-            textColor = textColor,
-            iconColor = iconColor,
-          )
+    GymAppTheme {
+        Scaffold(topBar = { TopAppBar(title = { Text("Connection Banner Preview") }) }) { padding ->
+            Surface(modifier = Modifier.padding(padding).fillMaxWidth().padding(16.dp)) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    ConnectionBanner(
+                        visible = showBanner,
+                        connectionText = "Connection Lost",
+                        backgroundColor = backgroundColor,
+                        textColor = textColor,
+                        iconColor = iconColor,
+                    )
+                }
+            }
         }
-      }
     }
-  }
 }

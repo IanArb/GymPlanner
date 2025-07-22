@@ -8,21 +8,21 @@ import androidx.compose.ui.test.onNodeWithText
 
 class ChatVerifier(private val composeTestRule: ComposeTestRule) {
 
-  fun verifyChatScreenIsDisplayed() {
-    composeTestRule.onNodeWithTag("Chat").assertExists("Chat screen should be displayed")
-  }
+    fun verifyChatScreenIsDisplayed() {
+        composeTestRule.onNodeWithTag("Chat").assertExists("Chat screen should be displayed")
+    }
 
-  fun verifyMessage(message: String) {
-    composeTestRule.onNodeWithText(message).isDisplayed()
-  }
+    fun verifyMessage(message: String) {
+        composeTestRule.onNodeWithText(message).isDisplayed()
+    }
 
-  fun verifyComposerIsDisplayed() {
-    composeTestRule.onNodeWithText("Type a message").isDisplayed()
-    composeTestRule.onNodeWithTag("SendButton").isDisplayed()
-  }
+    fun verifyComposerIsDisplayed() {
+        composeTestRule.onNodeWithText("Type a message").isDisplayed()
+        composeTestRule.onNodeWithTag("SendButton").isDisplayed()
+    }
 
-  fun verifyErrorState() {
-    composeTestRule.onNodeWithText("Failed to load messages.").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Tap to retry").assertIsDisplayed()
-  }
+    fun verifyErrorState() {
+        composeTestRule.onNodeWithText("Failed to load messages.").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Tap to retry").assertIsDisplayed()
+    }
 }

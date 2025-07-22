@@ -31,131 +31,150 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun DashboardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  LazyColumn(modifier = modifier) {
-    item {
-      Column {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-          Text(
-            text = "Today's Classes",
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-          )
-          Text(
-            text = "View Weekly Schedule",
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            color = Color.Blue,
-          )
+    LazyColumn(modifier = modifier) {
+        item {
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "Today's Classes",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(
+                        text = "View Weekly Schedule",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        color = Color.Blue,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                ClassesShimmer(shimmer = shimmer)
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                TrainerCardShimmer(shimmer = shimmer)
+            }
         }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        ClassesShimmer(shimmer = shimmer)
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        TrainerCardShimmer(shimmer = shimmer)
-      }
     }
-  }
 }
 
 @Composable
 private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  Column(modifier = modifier.fillMaxWidth().padding(vertical = 10.dp).shimmer(shimmer)) {
-    Box(
-      modifier =
-        Modifier.height(24.dp)
-          .fillMaxWidth()
-          .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-    )
-    Spacer(modifier = Modifier.height(6.dp))
-
-    Card(
-      elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-      colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-      modifier = Modifier.fillMaxWidth(),
-    ) {
-      Column {
+    Column(modifier = modifier.fillMaxWidth().padding(vertical = 10.dp).shimmer(shimmer)) {
         Box(
-          modifier =
-            Modifier.height(200.dp)
-              .fillMaxWidth()
-              .background(MaterialTheme.colorScheme.surfaceVariant)
+            modifier =
+                Modifier.height(24.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
         )
-
         Spacer(modifier = Modifier.height(6.dp))
 
-        Box(
-          modifier =
-            Modifier.height(16.dp)
-              .fillMaxWidth(WidthSizeLarge)
-              .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-        )
+        Card(
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Column {
+                Box(
+                    modifier =
+                        Modifier.height(200.dp)
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
 
-        Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
-        Box(
-          modifier =
-            Modifier.height(40.dp)
-              .fillMaxWidth()
-              .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
-        )
-      }
+                Box(
+                    modifier =
+                        Modifier.height(16.dp)
+                            .fillMaxWidth(WidthSizeLarge)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Box(
+                    modifier =
+                        Modifier.height(40.dp)
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(8.dp),
+                            )
+                )
+            }
+        }
     }
-  }
 }
 
 @Composable
 private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-  LazyRow(
-    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
-    horizontalArrangement = Arrangement.spacedBy(8.dp),
-    modifier = modifier.shimmer(shimmer),
-  ) {
-    items(ItemsCount) {
-      Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = Modifier.width(320.dp).height(300.dp),
-      ) {
-        Column {
-          Box(
-            modifier =
-              Modifier.height(200.dp)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-          )
-          Spacer(modifier = Modifier.height(16.dp))
-          Column(modifier = Modifier.padding(16.dp)) {
-            Box(
-              modifier =
-                Modifier.height(24.dp)
-                  .fillMaxWidth(WidthSizeMedium)
-                  .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-              modifier =
-                Modifier.height(16.dp)
-                  .fillMaxWidth(WidthSizeLarge)
-                  .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Box(
-              modifier =
-                Modifier.height(16.dp)
-                  .fillMaxWidth(WidthSizeSmall)
-                  .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-            )
-          }
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.shimmer(shimmer),
+    ) {
+        items(ItemsCount) {
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                colors =
+                    CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                modifier = Modifier.width(320.dp).height(300.dp),
+            ) {
+                Column {
+                    Box(
+                        modifier =
+                            Modifier.height(200.dp)
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Box(
+                            modifier =
+                                Modifier.height(24.dp)
+                                    .fillMaxWidth(WidthSizeMedium)
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceVariant,
+                                        RoundedCornerShape(4.dp),
+                                    )
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(
+                            modifier =
+                                Modifier.height(16.dp)
+                                    .fillMaxWidth(WidthSizeLarge)
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceVariant,
+                                        RoundedCornerShape(4.dp),
+                                    )
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Box(
+                            modifier =
+                                Modifier.height(16.dp)
+                                    .fillMaxWidth(WidthSizeSmall)
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceVariant,
+                                        RoundedCornerShape(4.dp),
+                                    )
+                        )
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
 
 private const val ItemsCount = 3

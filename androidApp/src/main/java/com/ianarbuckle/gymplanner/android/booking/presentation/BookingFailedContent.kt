@@ -25,39 +25,40 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
-  Column(
-    modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally,
-  ) {
-    Icon(
-      imageVector = Icons.Default.Close,
-      contentDescription = "Booking Failed",
-      tint = MaterialTheme.colorScheme.error,
-      modifier = Modifier.size(96.dp),
-    )
+    Column(
+        modifier =
+            modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = "Booking Failed",
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(96.dp),
+        )
 
-    Text(
-      text = "Booking Failed",
-      style = MaterialTheme.typography.headlineSmall,
-      color = MaterialTheme.colorScheme.error,
-      modifier = Modifier.padding(top = 16.dp),
-    )
+        Text(
+            text = "Booking Failed",
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.error,
+            modifier = Modifier.padding(top = 16.dp),
+        )
 
-    Text(
-      text =
-        "We couldn’t confirm your session. Please check your internet connection and try again.",
-      style = MaterialTheme.typography.bodyMedium,
-      textAlign = TextAlign.Center,
-      modifier = Modifier.padding(top = 12.dp).fillMaxWidth(TextMaxWidth),
-    )
+        Text(
+            text =
+                "We couldn’t confirm your session. Please check your internet connection and try again.",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 12.dp).fillMaxWidth(TextMaxWidth),
+        )
 
-    Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-    Row(modifier = Modifier.fillMaxWidth()) {
-      Button(onClick = onRetry, modifier = Modifier.weight(1f)) { Text("Retry") }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = onRetry, modifier = Modifier.weight(1f)) { Text("Retry") }
+        }
     }
-  }
 }
 
 private const val TextMaxWidth = 0.85f
@@ -65,5 +66,5 @@ private const val TextMaxWidth = 0.85f
 @Preview(showBackground = true)
 @Composable
 private fun BookingFailedContentPreview() {
-  BookingFailedContent(onRetry = {})
+    BookingFailedContent(onRetry = {})
 }

@@ -11,8 +11,8 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 class FakePersonalTrainersModule {
 
-  @Provides
-  fun providePersonalTrainersRepository(): PersonalTrainersRepository {
-    return FakePersonalTrainersRepository()
-  }
+    @Provides
+    fun providePersonalTrainersRepository(): PersonalTrainersRepository {
+        return FakePersonalTrainersRepository()
+    }
 }
