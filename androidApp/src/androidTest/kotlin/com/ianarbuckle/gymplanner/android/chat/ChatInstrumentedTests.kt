@@ -112,5 +112,4 @@ class ChatInstrumentedTests {
       verifyMessage("Welcome to the chat!")
     }
   }
-
 }
