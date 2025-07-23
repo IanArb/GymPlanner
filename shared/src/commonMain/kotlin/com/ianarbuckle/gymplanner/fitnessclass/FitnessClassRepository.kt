@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.fitnessclass
 
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
-import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClassUiModelMapper.transformToFitnessClass
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CancellationException

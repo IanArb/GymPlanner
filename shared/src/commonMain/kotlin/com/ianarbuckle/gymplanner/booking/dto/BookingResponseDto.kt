@@ -1,5 +1,8 @@
 package com.ianarbuckle.gymplanner.booking.dto
 
+import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
+import com.ianarbuckle.gymplanner.booking.domain.BookingStatus
+import com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.serialization.Serializable
 
@@ -12,15 +15,34 @@ data class BookingResponseDto(
     val startTime: String,
     val personalTrainer: PersonalTrainerDto,
     val status: BookingStatusDto,
-)
+) {
+    fun toBookingResponse(): BookingResponse =
+        BookingResponse(
+            userId = this.userId,
+            timeSlotId = this.timeSlotId,
+            bookingDate = this.bookingDate,
+            startTime = this.startTime,
+            personalTrainer = this.personalTrainer.toPersonalTrainer(),
+            status = this.status.toBookingStatus(),
+        )
 
-@Serializable
-data class ClientDto(
-    val userId: String,
-    val firstName: String,
-    val surname: String,
-    val email: String,
-)
+    private fun BookingStatusDto.toBookingStatus(): BookingStatus =
+        when (this) {
+            BookingStatusDto.PENDING -> BookingStatus.PENDING
+            BookingStatusDto.CONFIRMED -> BookingStatus.CONFIRMED
+            BookingStatusDto.CANCELLED -> BookingStatus.CANCELLED
+            BookingStatusDto.COMPLETED -> BookingStatus.COMPLETED
+            else -> BookingStatus.UNKNOWN
+        }
+
+    private fun PersonalTrainerDto.toPersonalTrainer(): PersonalTrainer =
+        PersonalTrainer(
+            id = this.id,
+            name = this.name,
+            imageUrl = this.imageUrl,
+            gymLocation = this.gymLocation,
+        )
+}
 
 @Serializable
 data class PersonalTrainerDto(
@@ -28,7 +50,17 @@ data class PersonalTrainerDto(
     val name: String,
     val imageUrl: String,
     val gymLocation: GymLocation,
-)
+) {
+
+    fun toPersonalTrainer(): PersonalTrainer {
+        return PersonalTrainer(
+            id = this.id,
+            name = this.name,
+            imageUrl = this.imageUrl,
+            gymLocation = this.gymLocation,
+        )
+    }
+}
 
 enum class BookingStatusDto {
     PENDING,

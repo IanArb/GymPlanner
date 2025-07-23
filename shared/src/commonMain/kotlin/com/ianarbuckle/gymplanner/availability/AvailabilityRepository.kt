@@ -2,8 +2,6 @@ package com.ianarbuckle.gymplanner.availability
 
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.availability.domain.Availability
-import com.ianarbuckle.gymplanner.availability.domain.AvailabilityMapper.toAvailability
-import com.ianarbuckle.gymplanner.availability.domain.AvailabilityMapper.toCheckAvailability
 import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 import kotlinx.coroutines.CancellationException
 import org.koin.core.component.KoinComponent
