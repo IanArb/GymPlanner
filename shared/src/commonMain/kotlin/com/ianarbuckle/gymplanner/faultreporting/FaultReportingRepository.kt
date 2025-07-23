@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.faultreporting
 
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
-import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReportMapper.toFaultReport
 import kotlinx.coroutines.CancellationException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

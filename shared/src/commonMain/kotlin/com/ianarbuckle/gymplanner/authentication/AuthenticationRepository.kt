@@ -1,8 +1,6 @@
 package com.ianarbuckle.gymplanner.authentication
 
 import co.touchlab.kermit.Logger
-import com.ianarbuckle.gymplanner.authentication.domain.AuthenticationMapper.toLoginResponse
-import com.ianarbuckle.gymplanner.authentication.domain.AuthenticationMapper.toRegister
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.Register

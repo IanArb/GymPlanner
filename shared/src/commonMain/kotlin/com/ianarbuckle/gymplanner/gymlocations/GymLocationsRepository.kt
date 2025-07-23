@@ -2,7 +2,6 @@ package com.ianarbuckle.gymplanner.gymlocations
 
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
-import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocationsMapper.transformToGymLocations
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CancellationException

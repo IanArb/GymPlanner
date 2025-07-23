@@ -2,8 +2,6 @@ package com.ianarbuckle.gymplanner.booking
 
 import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.booking.domain.Booking
-import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingDto
-import com.ianarbuckle.gymplanner.booking.domain.BookingMapper.toBookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

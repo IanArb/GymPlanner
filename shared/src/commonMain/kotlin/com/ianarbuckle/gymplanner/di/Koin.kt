@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.booking.BookingRemoteDataSource
 import com.ianarbuckle.gymplanner.chat.ChatSocketService
 import com.ianarbuckle.gymplanner.chat.ChatSocketServiceImpl
 import com.ianarbuckle.gymplanner.chat.MessagesRemoteDataSource
-import com.ianarbuckle.gymplanner.clients.ClientsRemoteDataSource
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRemoteDataSource
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRemoteDataSource
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRemoteDataSource
@@ -41,7 +40,6 @@ fun initKoin(
         modules(
             networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
             databaseModule(dataStore),
-            clientsModule(baseUrl),
             fitnessClassModule(baseUrl),
             faultReportingModule(baseUrl),
             personalTrainersModule(baseUrl),
@@ -78,12 +76,6 @@ fun createHttpClient(json: Json, enableNetworkLogs: Boolean, baseUrl: String) =
 
         defaultRequest { url(baseUrl) }
     }
-
-fun clientsModule(baseUrl: String) = module {
-    single {
-        ClientsRemoteDataSource(httpClient = get(), baseurl = baseUrl, dataStoreRepository = get())
-    }
-}
 
 fun fitnessClassModule(baseUrl: String) = module {
     single {
