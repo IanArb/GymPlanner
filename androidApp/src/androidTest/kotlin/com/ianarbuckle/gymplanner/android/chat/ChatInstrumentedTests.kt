@@ -98,6 +98,7 @@ class ChatInstrumentedTests {
                             Message(
                                 text = "Welcome to the chat!",
                                 username = "System",
+                                userId = "support",
                                 formattedTime = "2025-10-01 12:34:56",
                             )
                         )

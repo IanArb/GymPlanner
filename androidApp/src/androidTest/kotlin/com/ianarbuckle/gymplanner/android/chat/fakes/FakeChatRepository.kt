@@ -20,6 +20,7 @@ class FakeChatRepository : ChatRepository {
             Message(
                 username = "Test User",
                 text = "Hello, this is a test message!",
+                userId = "test-user",
                 formattedTime = "2025-10-01 12:34:56",
             )
         )
