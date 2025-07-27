@@ -52,11 +52,13 @@ class ChatScreenContentScreenshotTests {
                                 Message(
                                     text = "Hello, this is a test message!",
                                     username = "Ian",
+                                    userId = "testUserId",
                                     formattedTime = "2025-10-01 12:35:56",
                                 ),
                                 Message(
                                     text = "Hello!",
                                     username = "Jane",
+                                    userId = "anotherUserId",
                                     formattedTime = "2025-10-01 12:35:56",
                                 ),
                             ),
@@ -84,11 +86,13 @@ class ChatScreenContentScreenshotTests {
                                 Message(
                                     text = "Hello, this is a test message!",
                                     username = "Ian",
+                                    userId = "testUserId",
                                     formattedTime = "2025-10-01 12:35:56",
                                 ),
                                 Message(
                                     text = "Hello!",
                                     username = "Jane",
+                                    userId = "anotherUserId",
                                     formattedTime = "2025-10-01 12:35:56",
                                 ),
                             ),
