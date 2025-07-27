@@ -8,6 +8,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -18,8 +20,9 @@ class ChatModule {
         return DefaultChatRepository()
     }
 
+    @OptIn(ExperimentalTime::class)
     @Provides
     fun providesMessageRepository(): MessagesRepository {
-        return DefaultMessagesRepository()
+        return DefaultMessagesRepository(Clock.System)
     }
 }
