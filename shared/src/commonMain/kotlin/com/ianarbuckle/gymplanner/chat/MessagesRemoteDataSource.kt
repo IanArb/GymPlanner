@@ -8,6 +8,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
 class MessagesRemoteDataSource(
     private val httpClient: HttpClient,
@@ -27,6 +31,22 @@ class MessagesRemoteDataSource(
         } catch (e: Exception) {
             Logger.e("MessagesRemoteDataSource", e)
             emptyList()
+        }
+    }
+
+    suspend fun sendMessage(message: MessageDto) {
+        val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
+        val url = baseUrl.plus(MESSAGES_ENDPOINT)
+        try {
+            httpClient.post(url) {
+                headers { append("Authorization", "Bearer $token") }
+                contentType(ContentType.Application.Json)
+                setBody(message)
+            }
+            Logger.d { "MessagesRemoteDataSource: sendMessage() - Message sent successfully." }
+        } catch (e: Exception) {
+            Logger.e("MessagesRemoteDataSource", e)
+            throw e
         }
     }
 

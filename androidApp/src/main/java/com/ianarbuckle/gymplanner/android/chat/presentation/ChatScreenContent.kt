@@ -74,36 +74,43 @@ private fun ChatScreenContentPreview() {
                                 text = "Hello",
                                 username = "Support",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "support_user_id",
                             ),
                             Message(
                                 text = "Hey! I have a question about my last workout.",
                                 username = "You",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "your_user_id",
                             ),
                             Message(
                                 text = "Sure! What would you like to know?",
                                 username = "Support",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "support_user_id",
                             ),
                             Message(
                                 text = "I want to know how to improve my deadlift technique.",
                                 username = "You",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "your_user_id",
                             ),
                             Message(
                                 text = "When are you free?.",
                                 username = "Support",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "support_user_id",
                             ),
                             Message(
                                 text = "Now. I'm here at the gym.",
                                 username = "You",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "your_user_id",
                             ),
                             Message(
                                 text = "Sweet! let's go to the deadlift platform.",
                                 username = "Support",
                                 formattedTime = "2023-10-01 12:34:56",
+                                userId = "support_user_id",
                             ),
                         )
                         .toImmutableList(),

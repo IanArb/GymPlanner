@@ -69,26 +69,27 @@ Ngrok will provide a public URL, for example:
 https://abcd1234.ngrok.io
 ```
 
-4. Use this public URL in the UrlModule class by replacing the constant ```BASE_URL```
+4. Expose the WebSocket endpoint: The WebSocket URL will typically be the same as the HTTP URL but with the `wss://` protocol.
 
-
-```kotlin
-@Module
-@InstallIn(SingletonComponent::class)
-class UrlModule {
-
-    @Provides
-    @Named(NAMED_BASE_URL)
-    fun provideBaseUrl(): String {
-        return BASE_URL
-    }
-
-    companion object {
-        const val BASE_URL = "https://abcd1234.ngrok.io"
-        const val NAMED_BASE_URL = "BASE_URL"
-    }
-}
+```bash
+ngrok http 8000
 ```
+
+5. Use this public URL in the `androidApp/build.gradle.kts` file. Update the `buildConfigField` for `BASE_URL` with your ngrok HTTP URL, and create a corresponding `WEBSOCKET_URL` with the WebSocket protocol (`wss://`).
+
+   For example, if your ngrok URL is `https://abcd1234.ngrok-free.app`, you would update the file as follows:
+
+    ```kotlin
+    // androidApp/build.gradle.kts
+    android {
+        defaultConfig {
+            // ...
+            buildConfigField("String", "BASE_URL", "\"https://your-ngrok-url\"")
+            buildConfigField("String", "WEBSOCKET_URL", "\"wss://your-ngrok-url\"")
+        }
+        // ...
+    }
+    ```
 
 ## Contributing
 We welcome contributions to improve the app! Feel free to fork the repository and submit pull requests.

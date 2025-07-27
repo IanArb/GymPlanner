@@ -44,11 +44,13 @@ class ChatViewModelTests {
             persistentListOf(
                 Message(
                     username = "User1",
+                    userId = "testUserId",
                     text = "Hello, this is a test message!",
                     formattedTime = "2025-10-01 12:34:56",
                 ),
                 Message(
                     username = "User2",
+                    userId = "anotherUserId",
                     text = "Hi there!",
                     formattedTime = "2025-10-01 12:35:56",
                 ),
@@ -95,11 +97,13 @@ class ChatViewModelTests {
             persistentListOf(
                 Message(
                     username = "User1",
+                    userId = "testUserId",
                     text = "Hello, this is a test message!",
                     formattedTime = "2025-10-01 12:34:56",
                 ),
                 Message(
                     username = "User2",
+                    userId = "anotherUserId",
                     text = "Hi there!",
                     formattedTime = "2025-10-01 12:35:56",
                 ),
