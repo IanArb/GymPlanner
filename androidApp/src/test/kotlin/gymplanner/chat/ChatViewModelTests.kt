@@ -46,7 +46,6 @@ class ChatViewModelTests {
 
     @Test
     fun `test getAllMessages success updates state to MessagesSuccess`() = runTest {
-
         val messages =
             persistentListOf(
                 Message(
