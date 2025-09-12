@@ -28,7 +28,6 @@ fun ChatScreenContent(
     messageText: String,
     onSendMessage: () -> Unit,
     onMessageChange: (String) -> Unit,
-    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
     isFailedMessage: Boolean = false,
 ) {
@@ -121,7 +120,6 @@ private fun ChatScreenContentPreview() {
                 onSendMessage = {},
                 onMessageChange = {},
                 messageText = "",
-                onRetryClick = {},
             )
         }
     }

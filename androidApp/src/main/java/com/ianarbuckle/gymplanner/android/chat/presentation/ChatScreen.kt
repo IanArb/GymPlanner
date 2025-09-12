@@ -80,7 +80,6 @@ fun ChatScreen(
                 messageText = messageText.value,
                 modifier = modifier.padding(paddingValues).imePadding(),
                 isFailedMessage = state.hasFailedMessage,
-                onRetryClick = { chatScreenViewModel.dispatchAction(ChatAction.Retry) },
             )
         }
         is ChatUiState.Failed -> {
