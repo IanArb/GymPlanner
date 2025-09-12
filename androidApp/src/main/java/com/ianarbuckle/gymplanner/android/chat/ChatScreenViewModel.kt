@@ -6,8 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.chat.ChatRepository
 import com.ianarbuckle.gymplanner.chat.MessagesRepository
+import com.ianarbuckle.gymplanner.chat.domain.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +26,7 @@ class ChatScreenViewModel
 constructor(
     private val chatRepository: ChatRepository,
     private val messagesRepository: MessagesRepository,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _chatUiState = MutableStateFlow<ChatUiState>(ChatUiState.Idle)
@@ -31,11 +35,11 @@ constructor(
     private val _messageText = MutableStateFlow("")
     val messageText = _messageText.asStateFlow()
 
+    private val username = savedStateHandle.get<String>("username") ?: "Guest"
+    private val userId = savedStateHandle.get<String>("userId") ?: ""
+
     fun connect() {
         getAllMessages()
-
-        val userId = savedStateHandle.get<String>("userId") ?: ""
-        val username = savedStateHandle.get<String>("username") ?: "Guest"
 
         if (userId.isNotBlank()) {
             viewModelScope.launch {
@@ -48,14 +52,13 @@ constructor(
                             .onEach { message ->
                                 _chatUiState.update { state ->
                                     val currentMessages =
-                                        (state as? ChatUiState.MessagesSuccess)?.messages
-                                            ?: emptyList()
+                                        (state as? ChatUiState.Messages)?.messages ?: emptyList()
                                     val updatedMessages = currentMessages + message
                                     Log.d(
                                         "ChatScreenViewModel",
                                         "Updated messages: $updatedMessages",
                                     )
-                                    ChatUiState.MessagesSuccess(
+                                    ChatUiState.Messages(
                                         messages = updatedMessages.toImmutableList()
                                     )
                                 }
@@ -71,20 +74,54 @@ constructor(
         }
     }
 
-    fun onMessageChanged(message: String) {
+    fun dispatchAction(action: ChatAction) {
+        when (action) {
+            is ChatAction.SendMessage -> sendMessage()
+            is ChatAction.Retry -> sendMessage()
+            is ChatAction.MessageChanged -> onMessageChanged(action.message)
+            is ChatAction.Reconnect -> connect()
+        }
+    }
+
+    private fun onMessageChanged(message: String) {
         _messageText.update { message }
     }
 
-    fun sendMessage() {
+    @OptIn(ExperimentalTime::class)
+    private fun sendMessage() {
         viewModelScope.launch {
-            val message = _messageText.value
-            if (message.isNotBlank()) {
+            val messageText = _messageText.value
+
+            val timestamp = Clock.System.now().plus(1.seconds).toString()
+
+            val message =
+                Message(
+                    username = username,
+                    userId = userId,
+                    text = messageText,
+                    formattedTime = timestamp,
+                )
+
+            if (messageText.isNotBlank()) {
                 chatRepository
                     .sendMessage(message)
                     .fold(
                         onSuccess = {
                             _messageText.update { "" } // Clear the message input after sending
-                            Log.d("ChatScreenViewModel", "Message sent successfully: $message")
+                            messagesRepository
+                                .sendMessage(message)
+                                .fold(
+                                    onSuccess = {
+                                        Log.d("ChatScreenViewModel", "Message saved successfully")
+                                    },
+                                    onFailure = {
+                                        Log.e(
+                                            "ChatScreenViewModel",
+                                            "Failed to save message: ${it.message}",
+                                        )
+                                    },
+                                )
+                            Log.d("ChatScreenViewModel", "Message sent successfully: $messageText")
                         },
                         onFailure = {
                             _messageText.update { "" }
@@ -105,7 +142,7 @@ constructor(
                 onSuccess = { messages ->
                     Log.d("ChatScreenViewModel", "Loaded messages: $messages")
                     _chatUiState.update {
-                        ChatUiState.MessagesSuccess(messages = messages.toImmutableList())
+                        ChatUiState.Messages(messages = messages.toImmutableList())
                     }
                 },
                 onFailure = {

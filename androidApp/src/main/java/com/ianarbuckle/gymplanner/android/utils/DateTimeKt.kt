@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -27,9 +28,12 @@ fun String.toLocalTime(): LocalTime {
     return LocalTime.parse(this)
 }
 
+@OptIn(ExperimentalTime::class)
 fun String.toDisplayTime(): String {
-    val dateTime = LocalDateTime.parse(this.replace(" ", "T"))
-    return dateTime.time.displayTime()
+    val instantStr = if (this.endsWith("Z")) this else this + "Z"
+    val instant = Instant.parse(instantStr)
+    val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    return localDateTime.time.displayTime()
 }
 
 fun LocalTime.displayTime(): String {

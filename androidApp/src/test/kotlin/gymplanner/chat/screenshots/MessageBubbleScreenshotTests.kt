@@ -45,9 +45,10 @@ class MessageBubbleScreenshotTests {
                 Surface {
                     MessageBubble(
                         message = "Hello, this is a test message!",
-                        timestamp = "2025-10-01 12:35:56",
+                        timestamp = "2025-09-12T20:08:55.806Z",
                         username = "User1",
                         isMyself = true,
+                        isFailedMessage = false,
                     )
                 }
             }
@@ -63,9 +64,10 @@ class MessageBubbleScreenshotTests {
                 Surface {
                     MessageBubble(
                         message = "Hello, this is a test message!",
-                        timestamp = "2025-10-01 12:35:56",
+                        timestamp = "2025-09-12T20:08:55.806Z",
                         username = "User1",
                         isMyself = false,
+                        isFailedMessage = false,
                     )
                 }
             }
@@ -82,9 +84,10 @@ class MessageBubbleScreenshotTests {
                 Surface {
                     MessageBubble(
                         message = "Hello, this is a test message!",
-                        timestamp = "2025-10-01 12:35:56",
+                        timestamp = "2025-09-12T20:08:55.806Z",
                         username = "User1",
                         isMyself = true,
+                        isFailedMessage = false,
                     )
                 }
             }
@@ -101,9 +104,10 @@ class MessageBubbleScreenshotTests {
                 Surface {
                     MessageBubble(
                         message = "Hello, this is a test message!",
-                        timestamp = "2025-10-01 12:35:56",
+                        timestamp = "2025-09-12T20:08:55.806Z",
                         username = "User1",
                         isMyself = false,
+                        isFailedMessage = false,
                     )
                 }
             }

@@ -4,10 +4,6 @@ import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import com.ianarbuckle.gymplanner.chat.dto.MessageDto
 import io.ktor.utils.io.CancellationException
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.core.component.KoinComponent
@@ -20,9 +16,7 @@ interface MessagesRepository {
     suspend fun sendMessage(message: Message): Result<Unit>
 }
 
-class DefaultMessagesRepository
-@OptIn(ExperimentalTime::class)
-constructor(private val clock: Clock) : MessagesRepository, KoinComponent {
+class DefaultMessagesRepository : MessagesRepository, KoinComponent {
 
     private val messagesRemoteDataSource: MessagesRemoteDataSource by inject()
 
@@ -41,19 +35,18 @@ constructor(private val clock: Clock) : MessagesRepository, KoinComponent {
         }
     }
 
-    @OptIn(ExperimentalTime::class, ExperimentalUuidApi::class)
     override suspend fun sendMessage(message: Message): Result<Unit> {
         return try {
-            val message =
+            messagesRemoteDataSource.sendMessage(
                 MessageDto(
-                    id = Uuid.random().toString(),
                     content = message.text,
-                    timestamp = clock.now().epochSeconds.toString(),
-                    userId = message.userId,
+                    timestamp = message.formattedTime,
                     username = message.username,
+                    userId = message.userId,
                 )
-            messagesRemoteDataSource.sendMessage(message)
-            return Result.success(Unit)
+            )
+            Logger.d { "MessagesRepository: sendMessage() - $message" }
+            Result.success(Unit)
         } catch (e: Exception) {
             if (e is CancellationException) {
                 throw e

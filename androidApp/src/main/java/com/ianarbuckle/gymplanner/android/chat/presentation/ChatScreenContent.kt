@@ -28,7 +28,9 @@ fun ChatScreenContent(
     messageText: String,
     onSendMessage: () -> Unit,
     onMessageChange: (String) -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isFailedMessage: Boolean = false,
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -49,6 +51,7 @@ fun ChatScreenContent(
                     timestamp = message.formattedTime,
                     username = message.username,
                     isMyself = message.username == username,
+                    isFailedMessage = isFailedMessage,
                 )
             }
         }
@@ -118,6 +121,7 @@ private fun ChatScreenContentPreview() {
                 onSendMessage = {},
                 onMessageChange = {},
                 messageText = "",
+                onRetryClick = {},
             )
         }
     }
