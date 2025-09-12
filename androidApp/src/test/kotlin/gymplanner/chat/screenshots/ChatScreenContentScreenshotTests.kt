@@ -65,7 +65,6 @@ class ChatScreenContentScreenshotTests {
                         messageText = "Send message",
                         onSendMessage = {},
                         onMessageChange = {},
-                        onRetryClick = {},
                     )
                 }
             }
@@ -100,7 +99,6 @@ class ChatScreenContentScreenshotTests {
                         messageText = "Send message",
                         onSendMessage = {},
                         onMessageChange = {},
-                        onRetryClick = {},
                     )
                 }
             }
