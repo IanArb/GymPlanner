@@ -52,7 +52,7 @@ class DefaultChatRepository() : ChatRepository, KoinComponent {
             )
 
         return try {
-            chatSocketService.sendMessage(message.content ?: "")
+            chatSocketService.sendMessage(message.content)
         } catch (e: Exception) {
             if (e is CancellationException) {
                 throw e
