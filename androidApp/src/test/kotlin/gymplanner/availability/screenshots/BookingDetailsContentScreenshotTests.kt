@@ -23,7 +23,6 @@ import org.junit.runner.RunWith
 import org.koin.dsl.module
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
-import kotlin.intArrayOf
 
 @RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
