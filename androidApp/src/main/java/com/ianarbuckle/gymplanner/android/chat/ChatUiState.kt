@@ -11,5 +11,8 @@ sealed interface ChatUiState {
 
     data object Loading : ChatUiState
 
-    data class MessagesSuccess(val messages: ImmutableList<Message>) : ChatUiState
+    data class Messages(
+        val messages: ImmutableList<Message>,
+        val hasFailedMessage: Boolean = false,
+    ) : ChatUiState
 }

@@ -92,14 +92,14 @@ class ChatInstrumentedTests {
             )
 
         coEvery { chatScreenViewModel.chatUiState.value } returns
-            ChatUiState.MessagesSuccess(
+            ChatUiState.Messages(
                 messages =
                     persistentListOf(
                             Message(
                                 text = "Welcome to the chat!",
                                 username = "System",
                                 userId = "support",
-                                formattedTime = "2025-10-01 12:34:56",
+                                formattedTime = "2025-09-12T20:08:55.806Z",
                             )
                         )
                         .toImmutableList()

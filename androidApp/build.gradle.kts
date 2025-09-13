@@ -16,14 +16,14 @@ android {
     compileSdk = 36
     defaultConfig {
         applicationId = "com.ianarbuckle.gymplanner.android"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://bb77a7aa73ce.ngrok-free.app\"")
-        buildConfigField("String", "WEBSOCKET_URL", "\"wss://0f162b4c5b45.ngrok-free.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://497a50c200c2.ngrok-free.app\"")
+        buildConfigField("String", "WEBSOCKET_URL", "\"wss://0fe5dce64a68.ngrok-free.app\"")
     }
     buildFeatures {
         compose = true

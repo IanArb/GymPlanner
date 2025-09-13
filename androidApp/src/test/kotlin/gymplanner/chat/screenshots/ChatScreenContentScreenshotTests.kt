@@ -27,6 +27,7 @@ import org.robolectric.annotation.GraphicsMode
 
 @RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [34])
 class ChatScreenContentScreenshotTests {
 
     @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
@@ -53,13 +54,13 @@ class ChatScreenContentScreenshotTests {
                                     text = "Hello, this is a test message!",
                                     username = "Ian",
                                     userId = "testUserId",
-                                    formattedTime = "2025-10-01 12:35:56",
+                                    formattedTime = "2025-09-12T20:08:55.806Z",
                                 ),
                                 Message(
                                     text = "Hello!",
                                     username = "Jane",
                                     userId = "anotherUserId",
-                                    formattedTime = "2025-10-01 12:35:56",
+                                    formattedTime = "2025-09-12T20:09:55.806Z",
                                 ),
                             ),
                         messageText = "Send message",
@@ -87,13 +88,13 @@ class ChatScreenContentScreenshotTests {
                                     text = "Hello, this is a test message!",
                                     username = "Ian",
                                     userId = "testUserId",
-                                    formattedTime = "2025-10-01 12:35:56",
+                                    formattedTime = "2025-09-12T20:08:55.806Z",
                                 ),
                                 Message(
                                     text = "Hello!",
                                     username = "Jane",
                                     userId = "anotherUserId",
-                                    formattedTime = "2025-10-01 12:35:56",
+                                    formattedTime = "2025-09-12T20:09:55.806Z",
                                 ),
                             ),
                         messageText = "Send message",

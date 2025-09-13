@@ -32,6 +32,7 @@ fun MessageBubble(
     timestamp: String,
     username: String,
     isMyself: Boolean,
+    isFailedMessage: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -48,6 +49,7 @@ fun MessageBubble(
                 bottomLeft = 16.dp,
                 bottomRight = 16.dp,
                 isMyself = true,
+                isFailedMessage = isFailedMessage,
             )
         } else {
             TextMessageBubble(
@@ -59,6 +61,7 @@ fun MessageBubble(
                 bottomLeft = 16.dp,
                 bottomRight = 0.dp,
                 isMyself = false,
+                isFailedMessage = isFailedMessage,
             )
         }
     }
@@ -74,6 +77,7 @@ fun TextMessageBubble(
     bottomLeft: Dp,
     bottomRight: Dp,
     isMyself: Boolean,
+    isFailedMessage: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -87,8 +91,11 @@ fun TextMessageBubble(
             modifier = Modifier.padding(start = 0.dp, top = 8.dp),
         )
         Column {
-            val primaryColor = MaterialTheme.colorScheme.primary
-            val secondaryColor = MaterialTheme.colorScheme.secondary
+            val errorColor = MaterialTheme.colorScheme.error
+            val primaryColor =
+                if (isFailedMessage) errorColor else MaterialTheme.colorScheme.primary
+            val secondaryColor =
+                if (isFailedMessage) errorColor else MaterialTheme.colorScheme.secondary
             Text(
                 text = message,
                 fontSize = 16.sp,
@@ -96,13 +103,14 @@ fun TextMessageBubble(
                 modifier =
                     Modifier.drawBehind {
                             // Draw a background for the message bubble
+                            val color =
+                                if (isMyself) {
+                                    primaryColor
+                                } else {
+                                    secondaryColor
+                                }
                             drawCustomBubble(
-                                color =
-                                    if (isMyself) {
-                                        primaryColor
-                                    } else {
-                                        secondaryColor
-                                    },
+                                color = color,
                                 size = size,
                                 topLeft = topLeft.toPx(), // squared
                                 topRight = topRight.toPx(),
@@ -112,7 +120,11 @@ fun TextMessageBubble(
                         }
                         .padding(16.dp),
             )
-            MessageReceipt(timestamp = timestamp, modifier = Modifier.align(Alignment.End))
+            MessageReceipt(
+                timestamp = timestamp,
+                modifier = Modifier.align(Alignment.End),
+                hasFailedMessage = isFailedMessage,
+            )
         }
     }
 }
@@ -155,6 +167,7 @@ private fun MessageBubblePreview() {
                     isMyself = true,
                     timestamp = "2023-10-01 12:34:56",
                     username = "User1",
+                    isFailedMessage = false,
                 )
 
                 Spacer(Modifier.padding(10.dp))
@@ -164,6 +177,17 @@ private fun MessageBubblePreview() {
                     isMyself = false,
                     timestamp = "2023-10-01 12:35:56",
                     username = "User2",
+                    isFailedMessage = false,
+                )
+
+                Spacer(Modifier.padding(10.dp))
+
+                MessageBubble(
+                    message = "Hello, this is a failed message!",
+                    isMyself = false,
+                    timestamp = "2023-10-01 12:35:56",
+                    username = "User2",
+                    isFailedMessage = true,
                 )
             }
         }

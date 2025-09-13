@@ -11,7 +11,7 @@ class FakeChatRepository : ChatRepository {
         return Result.success(Unit)
     }
 
-    override suspend fun sendMessage(message: String): Result<Unit> {
+    override suspend fun sendMessage(message: Message): Result<Unit> {
         return Result.success(Unit)
     }
 
@@ -21,7 +21,7 @@ class FakeChatRepository : ChatRepository {
                 username = "Test User",
                 text = "Hello, this is a test message!",
                 userId = "test-user",
-                formattedTime = "2025-10-01 12:34:56",
+                formattedTime = "2025-09-12T20:08:55.806Z",
             )
         )
     }

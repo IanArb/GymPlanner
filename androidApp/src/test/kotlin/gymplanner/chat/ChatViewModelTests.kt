@@ -2,6 +2,7 @@ package gymplanner.chat
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.ianarbuckle.gymplanner.android.chat.ChatAction
 import com.ianarbuckle.gymplanner.android.chat.ChatScreenViewModel
 import com.ianarbuckle.gymplanner.android.chat.ChatUiState
 import com.ianarbuckle.gymplanner.chat.ChatRepository
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.io.IOException
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,14 +34,18 @@ class ChatViewModelTests {
     private val chatRepository: ChatRepository = mockk()
     private val messagesRepository: MessagesRepository = mockk()
     private val savedStateHandle: SavedStateHandle = mockk()
-    private val viewModel: ChatScreenViewModel =
-        ChatScreenViewModel(chatRepository, messagesRepository, savedStateHandle)
+    private lateinit var viewModel: ChatScreenViewModel
+
+    @Before
+    fun setup() {
+        every { savedStateHandle.get<String>("username") } returns "testUserId"
+        every { savedStateHandle.get<String>("userId") } returns "testUserId"
+
+        viewModel = ChatScreenViewModel(chatRepository, messagesRepository, savedStateHandle)
+    }
 
     @Test
     fun `test getAllMessages success updates state to MessagesSuccess`() = runTest {
-        every { savedStateHandle.get<String>("userId") } returns "testUserId"
-        every { savedStateHandle.get<String>("username") } returns "TestUser"
-
         val messages =
             persistentListOf(
                 Message(
@@ -65,16 +71,13 @@ class ChatViewModelTests {
         viewModel.chatUiState.test {
             assert(awaitItem() is ChatUiState.Idle)
             assert(awaitItem() is ChatUiState.Loading)
-            val success = awaitItem() as ChatUiState.MessagesSuccess
+            val success = awaitItem() as ChatUiState.Messages
             assert(success.messages == messages)
         }
     }
 
     @Test
     fun `test getAllMessages success updates state to Failed`() = runTest {
-        every { savedStateHandle.get<String>("userId") } returns "testUserId"
-        every { savedStateHandle.get<String>("username") } returns "TestUser"
-
         coEvery { chatRepository.initSession(any(), any()) } returns Result.success(Unit)
         coEvery { messagesRepository.getMessages() } returns Result.failure(IOException())
         coEvery { chatRepository.observeMessages() } returns flowOf()
@@ -90,9 +93,6 @@ class ChatViewModelTests {
 
     @Test
     fun `test state returns failed when initSession() failed`() = runTest {
-        every { savedStateHandle.get<String>("userId") } returns "testUserId"
-        every { savedStateHandle.get<String>("username") } returns "TestUser"
-
         val messages =
             persistentListOf(
                 Message(
@@ -118,7 +118,7 @@ class ChatViewModelTests {
         viewModel.chatUiState.test {
             assert(awaitItem() is ChatUiState.Idle)
             assert(awaitItem() is ChatUiState.Loading)
-            assert(awaitItem() is ChatUiState.MessagesSuccess)
+            assert(awaitItem() is ChatUiState.Messages)
             assert(awaitItem() is ChatUiState.Failed)
         }
     }
@@ -127,7 +127,7 @@ class ChatViewModelTests {
     fun `test sendMessage updates message text state to empty when successful`() = runTest {
         coEvery { chatRepository.sendMessage(any()) } returns Result.success(Unit)
 
-        viewModel.sendMessage()
+        viewModel.dispatchAction(ChatAction.SendMessage)
 
         viewModel.messageText.test { assertEquals("", awaitItem()) }
     }
@@ -136,7 +136,7 @@ class ChatViewModelTests {
     fun `test sendMessage updates message text state to empty when failed`() = runTest {
         coEvery { chatRepository.sendMessage(any()) } returns Result.failure(IOException())
 
-        viewModel.sendMessage()
+        viewModel.dispatchAction(ChatAction.SendMessage)
 
         viewModel.messageText.test { assertEquals("", awaitItem()) }
     }
@@ -144,7 +144,7 @@ class ChatViewModelTests {
     @Test
     fun `test onMessageChanged updates message text state`() = runTest {
         val newMessage = "New message text"
-        viewModel.onMessageChanged(newMessage)
+        viewModel.dispatchAction(ChatAction.MessageChanged(newMessage))
 
         viewModel.messageText.test { assertEquals(newMessage, awaitItem()) }
     }

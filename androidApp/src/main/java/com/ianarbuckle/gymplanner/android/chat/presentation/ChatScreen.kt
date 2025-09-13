@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.ianarbuckle.gymplanner.android.chat.ChatAction
 import com.ianarbuckle.gymplanner.android.chat.ChatScreenViewModel
 import com.ianarbuckle.gymplanner.android.chat.ChatUiState
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
@@ -64,22 +65,27 @@ fun ChatScreen(
         is ChatUiState.Loading -> {
             CircularProgressIndicator(modifier = modifier)
         }
-        is ChatUiState.MessagesSuccess -> {
+        is ChatUiState.Messages -> {
             val messageText = chatScreenViewModel.messageText.collectAsState()
 
             ChatScreenContent(
                 messages = state.messages,
                 username = username,
-                onSendMessage = chatScreenViewModel::sendMessage,
-                onMessageChange = chatScreenViewModel::onMessageChanged,
+                onSendMessage = { chatScreenViewModel.dispatchAction(ChatAction.SendMessage) },
+                onMessageChange = { messageText ->
+                    chatScreenViewModel.dispatchAction(
+                        ChatAction.MessageChanged(message = messageText)
+                    )
+                },
                 messageText = messageText.value,
                 modifier = modifier.padding(paddingValues).imePadding(),
+                isFailedMessage = state.hasFailedMessage,
             )
         }
         is ChatUiState.Failed -> {
             RetryErrorScreen(
                 text = "Failed to load messages.",
-                onClick = { chatScreenViewModel.connect() },
+                onClick = { chatScreenViewModel.dispatchAction(ChatAction.Reconnect) },
                 modifier = modifier,
             )
         }
