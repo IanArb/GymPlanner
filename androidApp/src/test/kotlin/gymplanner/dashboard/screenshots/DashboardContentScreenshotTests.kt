@@ -32,6 +32,7 @@ import org.robolectric.annotation.GraphicsMode
 
 @RunWith(AndroidJUnit4::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [34])
 class DashboardContentScreenshotTests {
 
     @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
