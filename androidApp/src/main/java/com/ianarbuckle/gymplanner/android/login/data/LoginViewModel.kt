@@ -2,9 +2,7 @@ package com.ianarbuckle.gymplanner.android.login.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.messaging
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
@@ -28,7 +26,7 @@ constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val dataStoreRepository: DataStoreRepository,
     private val fcmTokenRepository: FcmTokenRepository,
-    private val firebaseMessaging: FirebaseMessaging
+    private val firebaseMessaging: FirebaseMessaging,
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)

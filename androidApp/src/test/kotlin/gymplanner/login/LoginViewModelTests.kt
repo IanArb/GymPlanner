@@ -35,7 +35,7 @@ class LoginViewModelTests {
             authenticationRepository = authenticationRepository,
             dataStoreRepository = dataStoreRepository,
             fcmTokenRepository = fcmTokenRepository,
-            firebaseMessaging = firebaseMessaging
+            firebaseMessaging = firebaseMessaging,
         )
 
     @Test
