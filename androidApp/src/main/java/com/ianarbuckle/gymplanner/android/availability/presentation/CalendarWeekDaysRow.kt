@@ -25,8 +25,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.convertDate
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 

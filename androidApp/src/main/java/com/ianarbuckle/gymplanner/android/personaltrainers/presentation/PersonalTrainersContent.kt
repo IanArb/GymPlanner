@@ -12,8 +12,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.ui.theme.surfaceLight
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import kotlinx.collections.immutable.ImmutableList
 

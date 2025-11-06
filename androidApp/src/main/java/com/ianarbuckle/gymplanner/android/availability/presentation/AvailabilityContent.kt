@@ -22,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityContentState
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import kotlinx.collections.immutable.toImmutableList
 

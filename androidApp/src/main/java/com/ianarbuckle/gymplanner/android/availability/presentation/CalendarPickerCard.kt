@@ -32,9 +32,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime

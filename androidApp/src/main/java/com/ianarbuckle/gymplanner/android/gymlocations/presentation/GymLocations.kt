@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

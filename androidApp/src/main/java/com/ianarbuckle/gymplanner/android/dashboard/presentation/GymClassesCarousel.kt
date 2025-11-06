@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass

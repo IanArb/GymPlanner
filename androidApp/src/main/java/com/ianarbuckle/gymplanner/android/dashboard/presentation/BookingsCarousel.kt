@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
-import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.displayShortFormattedDate
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.parseToLocalDate
