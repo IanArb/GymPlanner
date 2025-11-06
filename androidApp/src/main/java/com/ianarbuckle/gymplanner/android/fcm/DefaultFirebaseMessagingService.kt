@@ -52,7 +52,10 @@ class DefaultFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
 
         remoteMessage.notification?.let {
-            gymPlannerNotificationManager.showNotification(it.title ?: "", it.body ?: "")
+            gymPlannerNotificationManager.showNotification(
+                title = it.title ?: "",
+                message = it.body ?: "",
+            )
         }
     }
 
