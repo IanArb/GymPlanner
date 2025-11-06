@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.availability.presentation
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,10 +19,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityContentState
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.availability.domain.Time
@@ -85,8 +84,7 @@ fun BookNowButton(onBookClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @Suppress("MagicNumber")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun BookingContentPreview() {
     val timeSlots =

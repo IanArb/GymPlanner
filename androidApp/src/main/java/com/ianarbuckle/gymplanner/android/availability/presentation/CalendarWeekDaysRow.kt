@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.availability.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,9 +23,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.android.utils.convertDate
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
@@ -99,8 +98,7 @@ fun CalendarWeekDaysRow(
 
 const val CalendarGridTestTag = "CalendarGridTestTag"
 
-@Preview(showBackground = true, name = "Light mode")
-@Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun CalendarWeekDaysRowPreview() {
     GymAppTheme {

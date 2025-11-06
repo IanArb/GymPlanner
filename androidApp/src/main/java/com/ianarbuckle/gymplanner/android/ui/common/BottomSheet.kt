@@ -6,8 +6,8 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,7 +27,7 @@ fun BottomSheet(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@PreviewsCombined
 @Composable
 private fun BookingBottomSheetPreview() {
     GymAppTheme {

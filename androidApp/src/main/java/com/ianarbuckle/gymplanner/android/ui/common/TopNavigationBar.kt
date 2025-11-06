@@ -5,13 +5,13 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreen
 import com.ianarbuckle.gymplanner.android.navigation.ChatScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
@@ -20,13 +20,14 @@ import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopNavigationBar(
     currentRoute: String?,
     modifier: Modifier = Modifier,
-    titleColor: Color = Color.Black,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
     enableBackButton: Boolean = false,
     onBackClick: (() -> Unit)? = null,
 ) {
@@ -65,7 +66,7 @@ fun TopNavigationBar(
     )
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun NavigationBarPreview() {
     GymAppTheme {

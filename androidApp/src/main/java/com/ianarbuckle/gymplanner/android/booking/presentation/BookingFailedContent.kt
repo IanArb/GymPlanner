@@ -20,8 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
@@ -49,6 +50,7 @@ fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
             text =
                 "We couldn’t confirm your session. Please check your internet connection and try again.",
             style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp).fillMaxWidth(TextMaxWidth),
         )
@@ -63,8 +65,8 @@ fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
 
 private const val TextMaxWidth = 0.85f
 
-@Preview(showBackground = true)
+@PreviewsCombined
 @Composable
 private fun BookingFailedContentPreview() {
-    BookingFailedContent(onRetry = {})
+    GymAppTheme { BookingFailedContent(onRetry = {}) }
 }

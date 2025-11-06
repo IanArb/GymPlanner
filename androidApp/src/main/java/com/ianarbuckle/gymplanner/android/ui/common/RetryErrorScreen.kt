@@ -12,32 +12,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 fun RetryErrorScreen(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text)
+        Text(text = text, color = MaterialTheme.colorScheme.onSurface)
         Row(modifier = Modifier.clickable { onClick() }) {
-            Text("Tap to retry")
+            Text(text = "Tap to retry", color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.padding(6.dp))
-            Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Retry icon")
+            Icon(
+                imageVector = Icons.Filled.Refresh,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = "Retry icon",
+            )
         }
     }
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun EmptyWorkoutPreview() {
     GymAppTheme {

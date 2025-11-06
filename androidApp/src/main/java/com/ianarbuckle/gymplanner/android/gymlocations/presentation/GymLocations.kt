@@ -14,9 +14,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import kotlinx.collections.immutable.ImmutableList
@@ -48,7 +48,7 @@ fun GymLocationsSelection(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@PreviewsCombined
 @Composable
 private fun GymLocationsSelectionPreview() {
     GymAppTheme {
