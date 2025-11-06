@@ -13,7 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.reporting.data.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.utils.imageBitmapToUri

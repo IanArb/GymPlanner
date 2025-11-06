@@ -2,8 +2,13 @@ package com.ianarbuckle.gymplanner.android.login.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.messaging
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
+import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
@@ -14,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @HiltViewModel
 class LoginViewModel
@@ -21,6 +27,8 @@ class LoginViewModel
 constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val dataStoreRepository: DataStoreRepository,
+    private val fcmTokenRepository: FcmTokenRepository,
+    private val firebaseMessaging: FirebaseMessaging
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
@@ -36,6 +44,7 @@ constructor(
                         dataStoreRepository.saveData(key = USER_ID, value = response.userId)
                         dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
                         _loginState.update { LoginState.Success(response = response) }
+                        registerPushToken(userId = response.userId)
                     },
                     onFailure = { _loginState.update { LoginState.Error } },
                 )
@@ -46,5 +55,12 @@ constructor(
         viewModelScope.launch {
             dataStoreRepository.saveData(key = REMEMBER_ME_KEY, value = rememberMe)
         }
+    }
+
+    private suspend fun registerPushToken(userId: String) {
+        val token = firebaseMessaging.token.await()
+        fcmTokenRepository.registerToken(
+            fcmTokenRequest = FcmTokenRequest(userId = userId, token = token)
+        )
     }
 }

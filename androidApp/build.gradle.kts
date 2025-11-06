@@ -22,7 +22,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://497a50c200c2.ngrok-free.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://7e910e7d3a9d.ngrok-free.app\"")
         buildConfigField("String", "WEBSOCKET_URL", "\"wss://0fe5dce64a68.ngrok-free.app\"")
     }
     buildFeatures {
@@ -56,7 +56,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions { jvmTarget = "1.8" }
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+    }
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
@@ -97,6 +100,7 @@ dependencies {
     implementation(libs.androidx.tracing)
 
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.cloud.messaging)
 
     implementation(libs.ktor.client.android)
 
