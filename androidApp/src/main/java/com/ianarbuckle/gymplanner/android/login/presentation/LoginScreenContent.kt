@@ -30,17 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.ianarbuckle.gymplanner.android.ui.common.LoadingButton
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Suppress("LongParameterList", "LongMethod", "MaxLineLength")
 @Composable
@@ -62,7 +61,13 @@ fun LoginScreenContent(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Box(modifier = modifier.padding(innerPaddingValues).fillMaxSize().background(Color.White)) {
+    Box(
+        modifier =
+            modifier
+                .padding(innerPaddingValues)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+    ) {
         SubcomposeAsyncImage(
             model =
                 "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D100064453849645&f=1&nofb=1&ipt=956c582251b3095306494eab9d93e7c34c7629841134fa12b97bf1af1a82ca44",
@@ -150,7 +155,7 @@ fun LoginScreenContent(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@PreviewsCombined
 @Composable
 private fun LoginScreenPreview() {
     var username by rememberSaveable { mutableStateOf("") }

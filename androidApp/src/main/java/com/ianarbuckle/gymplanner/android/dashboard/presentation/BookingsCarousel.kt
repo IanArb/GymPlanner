@@ -21,12 +21,12 @@ import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.displayShortFormattedDate
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.parseToLocalDate
@@ -129,7 +129,7 @@ fun BookingCard(
     }
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun BookingsCarouselPreview() {
     GymAppTheme {

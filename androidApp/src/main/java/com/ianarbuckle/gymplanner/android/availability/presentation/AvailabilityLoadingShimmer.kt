@@ -22,9 +22,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -194,7 +194,7 @@ fun TimeSlotsBoxShimmer(
     }
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun BookingLoadingShimmerPreview() {
     GymAppTheme {

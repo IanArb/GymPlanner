@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.reporting.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,10 +23,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 fun FormFields(
@@ -116,8 +115,7 @@ fun FormFields(
     }
 }
 
-@Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun FormFieldsPreview() {
     GymAppTheme {

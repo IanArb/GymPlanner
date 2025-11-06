@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -47,7 +46,7 @@ fun AnimatedIcon(
     )
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun AnimatedIconPreview() {
     AnimatedIcon(state = AnimatedIconState())

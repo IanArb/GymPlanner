@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.dashboard.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,15 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun DashboardContent(
@@ -96,8 +94,7 @@ fun DashboardContent(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun DashboardPreview() {
     GymAppTheme {
@@ -108,24 +105,6 @@ private fun DashboardPreview() {
                 onViewScheduleClick = {},
                 onBookPersonalTrainerClick = {},
                 bookings = DataProvider.bookings(),
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun DashboardPreviewEmptyBookings() {
-    GymAppTheme {
-        Scaffold(topBar = { TopAppBar(title = { Text("Westwood Gym") }) }) { innerPadding ->
-            DashboardContent(
-                innerPadding = innerPadding,
-                classes = DataProvider.fitnessClasses(),
-                onViewScheduleClick = {},
-                onBookPersonalTrainerClick = {},
-                bookings = persistentListOf(),
             )
         }
     }

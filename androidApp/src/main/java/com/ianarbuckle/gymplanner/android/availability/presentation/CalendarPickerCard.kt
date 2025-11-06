@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.availability.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.availableTimes
 import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
@@ -190,8 +189,7 @@ fun TimeSlotsBox(
 
 const val AvailableTimesGrid = "AvailableTimesGrid"
 
-@Preview(showBackground = true, name = "Light mode")
-@Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun CalendarPickerCardPreview() {
     GymAppTheme {

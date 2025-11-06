@@ -13,9 +13,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -63,7 +63,7 @@ fun BottomNavigationBar(
     }
 }
 
-@Preview
+@PreviewsCombined
 @Composable
 private fun BottomNavigationBarPreview() {
     val navigationItems =

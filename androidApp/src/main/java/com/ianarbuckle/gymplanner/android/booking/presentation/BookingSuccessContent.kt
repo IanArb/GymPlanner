@@ -24,12 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
+import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.AnimatedIcon
 import com.ianarbuckle.gymplanner.android.utils.AnimatedIconState
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 fun BookingConfirmationContent(
@@ -52,6 +53,7 @@ fun BookingConfirmationContent(
 
         Text(
             text = "Session Confirmed!",
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(top = 16.dp),
         )
@@ -75,8 +77,16 @@ fun BookingConfirmationContent(
             ) {
                 Avatar(imageUrl = avatarUrl, modifier = Modifier.size(48.dp))
                 Column {
-                    Text(trainerName, style = MaterialTheme.typography.titleMedium)
-                    Text("Personal Trainer", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = trainerName,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = "Personal Trainer",
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 }
             }
         }
@@ -99,19 +109,25 @@ fun InfoRow(icon: ImageVector, text: String, modifier: Modifier = Modifier) {
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Text(text = text, style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyLarge,
+        )
     }
 }
 
-@Preview(showBackground = true)
+@PreviewsCombined
 @Composable
 private fun BookingConfirmationContentPreview() {
-    BookingConfirmationContent(
-        trainerName = "John Doe",
-        sessionDate = "Thursday, 12 Feburary 2025",
-        sessionTime = "10:00 am",
-        location = "Clontarf",
-        avatarUrl = "",
-        goHomeClick = {},
-    )
+    GymAppTheme {
+        BookingConfirmationContent(
+            trainerName = "John Doe",
+            sessionDate = "Thursday, 12 Feburary 2025",
+            sessionTime = "10:00 am",
+            location = "Clontarf",
+            avatarUrl = "",
+            goHomeClick = {},
+        )
+    }
 }

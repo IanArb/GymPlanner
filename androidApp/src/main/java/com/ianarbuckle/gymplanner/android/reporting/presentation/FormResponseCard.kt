@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.reporting.presentation
 
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 @Composable
@@ -72,8 +71,7 @@ fun FormResponseCard(faultReport: FaultReport, onClick: () -> Unit, modifier: Mo
     }
 }
 
-@Preview(showBackground = true, name = "Light Mode")
-@Preview(showBackground = true, name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun FormResponseCardPreview() {
     GymAppTheme {

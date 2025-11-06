@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.chat.domain.Message
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -64,7 +66,8 @@ fun ChatScreenContent(
     }
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalTime::class)
+@PreviewsCombined
 @Composable
 private fun ChatScreenContentPreview() {
     GymAppTheme {
@@ -75,43 +78,43 @@ private fun ChatScreenContentPreview() {
                             Message(
                                 text = "Hello",
                                 username = "Support",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "support_user_id",
                             ),
                             Message(
                                 text = "Hey! I have a question about my last workout.",
                                 username = "You",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "your_user_id",
                             ),
                             Message(
                                 text = "Sure! What would you like to know?",
                                 username = "Support",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "support_user_id",
                             ),
                             Message(
                                 text = "I want to know how to improve my deadlift technique.",
                                 username = "You",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "your_user_id",
                             ),
                             Message(
                                 text = "When are you free?.",
                                 username = "Support",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "support_user_id",
                             ),
                             Message(
                                 text = "Now. I'm here at the gym.",
                                 username = "You",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "your_user_id",
                             ),
                             Message(
                                 text = "Sweet! let's go to the deadlift platform.",
                                 username = "Support",
-                                formattedTime = "2023-10-01 12:34:56",
+                                formattedTime = Clock.System.now().toString(),
                                 userId = "support_user_id",
                             ),
                         )

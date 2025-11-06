@@ -7,10 +7,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.toDisplayTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun MessageReceipt(timestamp: String, hasFailedMessage: Boolean, modifier: Modifier = Modifier) {
@@ -26,13 +28,14 @@ fun MessageReceipt(timestamp: String, hasFailedMessage: Boolean, modifier: Modif
     }
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalTime::class)
+@PreviewsCombined
 @Composable
 private fun MessageReceiptPreview() {
     GymAppTheme {
         Column {
             MessageReceipt(
-                timestamp = "2023-10-01 12:34:56",
+                timestamp = Clock.System.now().toString(),
                 modifier = Modifier,
                 hasFailedMessage = true,
             )
@@ -40,7 +43,7 @@ private fun MessageReceiptPreview() {
             Spacer(modifier = Modifier.height(16.dp))
 
             MessageReceipt(
-                timestamp = "2023-10-01 12:34:56",
+                timestamp = Clock.System.now().toString(),
                 modifier = Modifier,
                 hasFailedMessage = false,
             )

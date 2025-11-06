@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.dashboard.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,12 +18,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
 @Composable
 fun BookPersonalTrainerCard(onBookPersonalTrainerClick: () -> Unit, modifier: Modifier = Modifier) {
@@ -65,8 +64,7 @@ fun BookPersonalTrainerCard(onBookPersonalTrainerClick: () -> Unit, modifier: Mo
     }
 }
 
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun BookPersonalTrainerCardPreview() {
     GymAppTheme {

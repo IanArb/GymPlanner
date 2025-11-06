@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.chat.presentation
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,11 +19,13 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun MessageBubble(
@@ -120,6 +121,7 @@ fun TextMessageBubble(
                         }
                         .padding(16.dp),
             )
+            Spacer(modifier = Modifier.padding(top = 8.dp))
             MessageReceipt(
                 timestamp = timestamp,
                 modifier = Modifier.align(Alignment.End),
@@ -155,8 +157,8 @@ fun DrawScope.drawCustomBubble(
     drawPath(path, color)
 }
 
-@Preview(showBackground = true)
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@OptIn(ExperimentalTime::class)
+@PreviewsCombined
 @Composable
 private fun MessageBubblePreview() {
     GymAppTheme {
@@ -165,7 +167,7 @@ private fun MessageBubblePreview() {
                 MessageBubble(
                     message = "Hello",
                     isMyself = true,
-                    timestamp = "2023-10-01 12:34:56",
+                    timestamp = Clock.System.now().toString(),
                     username = "User1",
                     isFailedMessage = false,
                 )
@@ -175,7 +177,7 @@ private fun MessageBubblePreview() {
                 MessageBubble(
                     message = "Hello, this is a test message!",
                     isMyself = false,
-                    timestamp = "2023-10-01 12:35:56",
+                    timestamp = Clock.System.now().toString(),
                     username = "User2",
                     isFailedMessage = false,
                 )
@@ -185,7 +187,7 @@ private fun MessageBubblePreview() {
                 MessageBubble(
                     message = "Hello, this is a failed message!",
                     isMyself = false,
-                    timestamp = "2023-10-01 12:35:56",
+                    timestamp = Clock.System.now().toString(),
                     username = "User2",
                     isFailedMessage = true,
                 )

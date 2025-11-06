@@ -17,8 +17,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.valentinilk.shimmer.Shimmer
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -106,7 +106,7 @@ fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
     }
 }
 
-@Preview(showBackground = true)
+@PreviewsCombined
 @Composable
 private fun PersonalTrainersLoadingShimmerPreview() {
     val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)

@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.availability.presentation
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
@@ -15,9 +14,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,8 +55,7 @@ fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true, name = "Light mode")
-@Preview(showBackground = true, name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@PreviewsCombined
 @Composable
 private fun NextPreviousIndicatorsPreview() {
     val pagerState = rememberPagerState { PageSize }
