@@ -81,7 +81,6 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.jar.Manifest
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
@@ -105,24 +104,10 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 
-            val context = LocalContext.current
-            var hasNotificationPermission by remember {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    mutableStateOf(
-                        ContextCompat.checkSelfPermission(
-                            context,
-                            android.Manifest.permission.POST_NOTIFICATIONS,
-                        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-                    )
-                } else {
-                    mutableStateOf(true)
-                }
-            }
-
             val permissionLauncher =
                 rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission(),
-                    onResult = { isGranted -> hasNotificationPermission = isGranted },
+                    onResult = {  },
                 )
 
             LaunchedEffect(Unit) {
