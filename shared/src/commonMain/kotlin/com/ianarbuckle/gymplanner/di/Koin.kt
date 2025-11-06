@@ -9,6 +9,7 @@ import com.ianarbuckle.gymplanner.chat.ChatSocketService
 import com.ianarbuckle.gymplanner.chat.ChatSocketServiceImpl
 import com.ianarbuckle.gymplanner.chat.MessagesRemoteDataSource
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRemoteDataSource
+import com.ianarbuckle.gymplanner.fcm.FcmTokenRemoteDataSource
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRemoteDataSource
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRemoteDataSource
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
@@ -50,6 +51,7 @@ fun initKoin(
             bookingModule(baseUrl),
             availabilityModule(baseUrl),
             chatModule(baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl),
+            fcmModule(baseUrl),
         )
     }
 }
@@ -153,5 +155,11 @@ fun chatModule(baseUrl: String, websocketBaseUrl: String) = module {
     }
     single {
         MessagesRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+    }
+}
+
+fun fcmModule(baseUrl: String) = module {
+    single {
+        FcmTokenRemoteDataSource(baseurl = baseUrl, httpClient = get(), dataStoreRepository = get())
     }
 }

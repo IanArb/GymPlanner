@@ -1,11 +1,13 @@
 package gymplanner.login
 
 import app.cash.turbine.test
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
+import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
@@ -25,10 +27,15 @@ class LoginViewModelTests {
 
     private val authenticationRepository = mockk<AuthenticationRepository>()
     private val dataStoreRepository = mockk<DataStoreRepository>()
+    private val fcmTokenRepository = mockk<FcmTokenRepository>()
+
+    private val firebaseMessaging = mockk<FirebaseMessaging>(relaxed = true)
     private val viewModel: LoginViewModel =
         LoginViewModel(
             authenticationRepository = authenticationRepository,
             dataStoreRepository = dataStoreRepository,
+            fcmTokenRepository = fcmTokenRepository,
+            firebaseMessaging = firebaseMessaging,
         )
 
     @Test
