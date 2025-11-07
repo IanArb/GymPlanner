@@ -1,7 +1,5 @@
 package com.ianarbuckle.gymplanner.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRemoteDataSource
 import com.ianarbuckle.gymplanner.availability.AvailabilityRemoteDataSource
 import com.ianarbuckle.gymplanner.booking.BookingRemoteDataSource
@@ -31,16 +29,15 @@ import org.koin.dsl.module
 
 fun initKoin(
     enableNetworkLogs: Boolean = false,
-    appDeclaration: KoinAppDeclaration = {},
     baseUrl: String,
     websocketBaseUrl: String,
-    dataStore: DataStore<Preferences>,
+    appDeclaration: KoinAppDeclaration = {},
 ) {
     startKoin {
         appDeclaration()
         modules(
             networkModule(enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl),
-            databaseModule(dataStore),
+            platformModule,
             fitnessClassModule(baseUrl),
             faultReportingModule(baseUrl),
             personalTrainersModule(baseUrl),
@@ -55,6 +52,10 @@ fun initKoin(
         )
     }
 }
+
+// init iOS
+fun initKoin(baseUrl: String, websocketBaseUrl: String) =
+    initKoin(enableNetworkLogs = false, baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl)
 
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     singleOf(::createJson)
@@ -146,8 +147,6 @@ fun availabilityModule(baseUrl: String) = module {
         )
     }
 }
-
-fun databaseModule(dataStore: DataStore<Preferences>) = module { single { dataStore } }
 
 fun chatModule(baseUrl: String, websocketBaseUrl: String) = module {
     single<ChatSocketService> {

@@ -22,7 +22,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://7e910e7d3a9d.ngrok-free.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://4544cad2ace6.ngrok-free.app\"")
         buildConfigField("String", "WEBSOCKET_URL", "\"wss://0fe5dce64a68.ngrok-free.app\"")
     }
     buildFeatures {
@@ -104,12 +104,14 @@ dependencies {
 
     implementation(libs.ktor.client.android)
 
+    implementation(libs.koin.android)
+
     androidTestImplementation(libs.compose.ui.test)
     androidTestImplementation(libs.ktor.client.mock)
     androidTestImplementation(libs.mockwebserver)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.androidx.espresso.idling.resource)
-    // Add the AndroidJUnitRunner dependency
+
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.koin.android)
     androidTestImplementation(libs.mockk.android)

@@ -11,10 +11,6 @@ class HiltTestApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initKoin(
-            baseUrl = "http://localhost:8080/",
-            websocketBaseUrl = "wss://localhost:8000/",
-            dataStore = FakeDataStore(),
-        )
+        initKoin(baseUrl = "http://localhost:8080/", websocketBaseUrl = "wss://localhost:8000/")
     }
 }
