@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -113,7 +111,11 @@ fun BookingDetailCard(
             Spacer(modifier = Modifier.padding(8.dp))
 
             val date = selectedDate.parseToLocalDate().displayFormattedDate()
-            BookingDetailSlot(icon = Icons.Filled.DateRange, title = "Date", value = date)
+            BookingDetailSlot(
+                icon = ImageVector.vectorResource(R.drawable.ic_date_range_filled),
+                title = "Date",
+                value = date,
+            )
 
             Spacer(modifier = Modifier.padding(8.dp))
 

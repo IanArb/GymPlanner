@@ -7,13 +7,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -61,6 +54,7 @@ import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsPath
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
+import com.ianarbuckle.gymplanner.android.navigation.IconSource
 import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
@@ -445,18 +439,18 @@ private fun DefaultPreview() {
         persistentListOf(
             BottomNavigationItem(
                 title = "Dashboard",
-                selectedIcon = Icons.Filled.Home,
-                unselectedIcon = Icons.Outlined.Home,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_home_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_home_icon_outlined),
             ),
             BottomNavigationItem(
                 title = "Report Machine",
-                selectedIcon = Icons.Filled.Email,
-                unselectedIcon = Icons.Outlined.Email,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_gym_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_gym_icon_outlined),
             ),
             BottomNavigationItem(
                 title = "Trainers",
-                selectedIcon = Icons.Filled.Face,
-                unselectedIcon = Icons.Outlined.Face,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_groups_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_groups_icon_outlined),
             ),
         )
 

@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -17,14 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
@@ -61,7 +62,10 @@ fun FormFields(
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(Modifier.padding(2.dp))
-            Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_info_outlined),
+                contentDescription = null,
+            )
         }
 
         Spacer(modifier = Modifier.padding(2.dp))

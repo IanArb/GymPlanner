@@ -4,9 +4,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -14,7 +11,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
             }
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_back),
                 contentDescription = "Previous",
                 modifier = Modifier.size(18.dp),
                 tint = MaterialTheme.colorScheme.onSurface,
@@ -46,7 +46,7 @@ fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
             }
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_forward),
                 contentDescription = "Next",
                 modifier = Modifier.size(18.dp),
                 tint = MaterialTheme.colorScheme.onSurface,

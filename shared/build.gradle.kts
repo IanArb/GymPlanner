@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -11,14 +9,8 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            compilerOptions.configure {
-                // Use the new compilerOptions DSL
-                jvmTarget.set(JvmTarget.JVM_1_8) // Set the JVM target using the new syntax
-            }
-        }
-    }
+    jvmToolchain(17)
+    androidTarget()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
@@ -83,11 +75,9 @@ android {
     namespace = "com.ianarbuckle.gymplanner"
     compileSdk = 36
     defaultConfig { minSdk = 24 }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
+
+kotlin.sourceSets.all { languageSettings.optIn("kotlin.experimental.ExperimentalObjCName") }
 
 spotless {
     kotlin {

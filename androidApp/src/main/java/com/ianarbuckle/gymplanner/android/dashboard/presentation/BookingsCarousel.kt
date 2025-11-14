@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +18,9 @@ import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
@@ -74,7 +74,7 @@ fun BookingCard(
         Column(modifier = Modifier.padding(16.dp)) {
             Row {
                 Icon(
-                    imageVector = Icons.Default.DateRange,
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_date_range_filled),
                     contentDescription = null,
                     modifier = Modifier.padding(start = 8.dp),
                 )

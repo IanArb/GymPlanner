@@ -5,14 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -27,10 +19,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
+import com.ianarbuckle.gymplanner.android.navigation.IconSource
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
@@ -65,18 +61,18 @@ private fun ReportingFormResponsePreview() {
         listOf(
             BottomNavigationItem(
                 title = "Dashboard",
-                selectedIcon = Icons.Filled.Home,
-                unselectedIcon = Icons.Outlined.Home,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_home_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_home_icon_outlined),
             ),
             BottomNavigationItem(
                 title = "Chat",
-                selectedIcon = Icons.Filled.Email,
-                unselectedIcon = Icons.Outlined.Email,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_gym_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_gym_icon_outlined),
             ),
             BottomNavigationItem(
                 title = "Trainers",
-                selectedIcon = Icons.Filled.Face,
-                unselectedIcon = Icons.Outlined.Face,
+                selectedIcon = IconSource.FromResource(R.drawable.ic_groups_icon_filled),
+                unselectedIcon = IconSource.FromResource(R.drawable.ic_groups_icon_outlined),
             ),
         )
 
@@ -91,7 +87,10 @@ private fun ReportingFormResponsePreview() {
                         // TODO
                     }
                 ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_add_filled),
+                        contentDescription = "Add",
+                    )
                 }
             },
             bottomBar = {
@@ -104,11 +103,9 @@ private fun ReportingFormResponsePreview() {
                             icon = {
                                 Icon(
                                     imageVector =
-                                        if (index == selectedItemIndex) {
-                                            item.selectedIcon
-                                        } else {
-                                            item.unselectedIcon
-                                        },
+                                        ImageVector.vectorResource(
+                                            R.drawable.ic_groups_icon_outlined
+                                        ),
                                     contentDescription = item.title,
                                 )
                             },

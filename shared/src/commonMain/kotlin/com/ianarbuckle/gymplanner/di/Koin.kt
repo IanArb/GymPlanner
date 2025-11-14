@@ -54,8 +54,9 @@ fun initKoin(
 }
 
 // init iOS
-fun initKoin(baseUrl: String, websocketBaseUrl: String) =
-    initKoin(enableNetworkLogs = false, baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl)
+fun initKoinIOS(baseUrl: String, websocketBaseUrl: String) {
+    initKoin(enableNetworkLogs = false, baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl) {}
+}
 
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     singleOf(::createJson)
