@@ -27,6 +27,7 @@ import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.reporting.robot.ReportingRobot
 import com.ianarbuckle.gymplanner.android.reporting.verifier.ReportingVerifier
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
+import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
@@ -54,13 +55,10 @@ class ReportingInstrumentedTests {
 
     // This rule will now only be active on API 33+
     @get:Rule(order = 3)
-    @get:SdkSuppress(minSdkVersion = 33)
-    val permissionRule: GrantPermissionRule? =
-        if (Build.VERSION.SDK_INT >= 33) {
-            GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            null
-        }
+    val postNotificationsPermissionRule = ConditionalPermissionRule(
+        permission = Manifest.permission.POST_NOTIFICATIONS,
+        minSdk = 33
+    )
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

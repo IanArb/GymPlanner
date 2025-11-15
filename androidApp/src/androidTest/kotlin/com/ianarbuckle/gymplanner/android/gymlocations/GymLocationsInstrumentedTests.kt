@@ -16,6 +16,7 @@ import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewMode
 import com.ianarbuckle.gymplanner.android.gymlocations.robot.GymLocationsRobot
 import com.ianarbuckle.gymplanner.android.gymlocations.verifier.GymLocationsVerifier
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
+import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
@@ -38,13 +39,10 @@ class GymLocationsInstrumentedTests {
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 3)
-    @get:SdkSuppress(minSdkVersion = 33)
-    val permissionRule: GrantPermissionRule? =
-        if (Build.VERSION.SDK_INT >= 33) {
-            GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            null
-        }
+    val postNotificationsPermissionRule = ConditionalPermissionRule(
+        permission = Manifest.permission.POST_NOTIFICATIONS,
+        minSdk = 33
+    )
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
