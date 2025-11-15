@@ -6,15 +6,11 @@ import android.content.Context
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.ianarbuckle.gymplanner.android.R
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class GymPlannerNotificationManager
 @Inject
-constructor(@ApplicationContext private val context: Context) {
-
-    private val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+constructor(private val notificationManager: NotificationManager) {
 
     fun createNotificationChannel() {
         val channel =
@@ -26,7 +22,7 @@ constructor(@ApplicationContext private val context: Context) {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun showNotification(title: String, message: String) {
+    fun showNotification(context: Context, title: String, message: String) {
         val builder =
             NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_chat_bubble)
