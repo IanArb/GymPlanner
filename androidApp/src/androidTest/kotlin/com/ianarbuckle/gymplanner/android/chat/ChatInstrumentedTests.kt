@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.chat
 
+import android.Manifest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,6 +14,7 @@ import com.ianarbuckle.gymplanner.android.dashboard.robot.DashboardRobot
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
 import com.ianarbuckle.gymplanner.android.profile.ProfileViewModel
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
+import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
@@ -43,6 +45,10 @@ class ChatInstrumentedTests {
     @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 4)
+    val postNotificationsPermissionRule =
+        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

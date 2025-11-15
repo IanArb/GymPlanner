@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.reporting
 
+import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
@@ -23,6 +24,7 @@ import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
 import com.ianarbuckle.gymplanner.android.reporting.robot.ReportingRobot
 import com.ianarbuckle.gymplanner.android.reporting.verifier.ReportingVerifier
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
+import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
@@ -47,6 +49,11 @@ class ReportingInstrumentedTests {
     @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    // This rule will now only be active on API 33+
+    @get:Rule(order = 3)
+    val postNotificationsPermissionRule =
+        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

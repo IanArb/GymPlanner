@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,10 +17,13 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
@@ -74,7 +75,13 @@ private fun ImageSelection(onPhotoClick: () -> Unit, modifier: Modifier = Modifi
             verticalArrangement = Arrangement.Center,
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
-            Icon(imageVector = Icons.Filled.AddCircle, contentDescription = "Add photo")
+            Icon(
+                imageVector =
+                    ImageVector.vectorResource(
+                        com.ianarbuckle.gymplanner.android.R.drawable.ic_add_circle_filled
+                    ),
+                contentDescription = "Add photo",
+            )
         }
     }
 }
