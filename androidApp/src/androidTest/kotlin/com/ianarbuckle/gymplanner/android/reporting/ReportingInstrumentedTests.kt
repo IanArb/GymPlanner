@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Build
 import android.provider.MediaStore
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
@@ -15,9 +14,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -55,10 +52,8 @@ class ReportingInstrumentedTests {
 
     // This rule will now only be active on API 33+
     @get:Rule(order = 3)
-    val postNotificationsPermissionRule = ConditionalPermissionRule(
-        permission = Manifest.permission.POST_NOTIFICATIONS,
-        minSdk = 33
-    )
+    val postNotificationsPermissionRule =
+        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

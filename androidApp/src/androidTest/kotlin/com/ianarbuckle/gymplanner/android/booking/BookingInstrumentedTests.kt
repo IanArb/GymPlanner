@@ -1,14 +1,11 @@
 package com.ianarbuckle.gymplanner.android.booking
 
 import android.Manifest
-import android.os.Build
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SdkSuppress
-import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
 import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
@@ -55,10 +52,8 @@ class BookingInstrumentedTests {
     @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 4)
-    val postNotificationsPermissionRule = ConditionalPermissionRule(
-        permission = Manifest.permission.POST_NOTIFICATIONS,
-        minSdk = 33
-    )
+    val postNotificationsPermissionRule =
+        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

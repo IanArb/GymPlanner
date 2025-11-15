@@ -1,13 +1,10 @@
 package com.ianarbuckle.gymplanner.android.gymlocations
 
 import android.Manifest
-import android.os.Build
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SdkSuppress
-import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -39,10 +36,8 @@ class GymLocationsInstrumentedTests {
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 3)
-    val postNotificationsPermissionRule = ConditionalPermissionRule(
-        permission = Manifest.permission.POST_NOTIFICATIONS,
-        minSdk = 33
-    )
+    val postNotificationsPermissionRule =
+        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
