@@ -1,10 +1,12 @@
 package com.ianarbuckle.gymplanner.android.availability
 
+import android.Manifest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.availability.robot.AvailabilityRobot
 import com.ianarbuckle.gymplanner.android.availability.verifier.AvailabilityVerifier
@@ -46,6 +48,11 @@ class AvailabilityInstrumentedTests {
     @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 4)
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.POST_NOTIFICATIONS
+    )
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

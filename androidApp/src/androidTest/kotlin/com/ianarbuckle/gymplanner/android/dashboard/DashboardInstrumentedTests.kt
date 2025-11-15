@@ -1,9 +1,11 @@
 package com.ianarbuckle.gymplanner.android.dashboard
 
+import android.Manifest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -31,6 +33,11 @@ class DashboardInstrumentedTests {
     @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 3)
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.POST_NOTIFICATIONS
+    )
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

@@ -46,7 +46,9 @@ fun BookingConfirmationContent(
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        AnimatedIcon(state = AnimatedIconState())
+        AnimatedIcon(state = AnimatedIconState(
+            vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline),
+        ))
 
         Text(
             text = "Session Confirmed!",

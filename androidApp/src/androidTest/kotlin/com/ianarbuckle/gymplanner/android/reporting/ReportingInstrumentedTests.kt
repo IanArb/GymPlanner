@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.reporting
 
+import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
@@ -14,6 +15,7 @@ import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
 import com.ianarbuckle.gymplanner.android.MainActivity
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -47,6 +49,11 @@ class ReportingInstrumentedTests {
     @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 3)
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.POST_NOTIFICATIONS
+    )
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

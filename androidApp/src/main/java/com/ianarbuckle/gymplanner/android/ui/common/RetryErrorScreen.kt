@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 
@@ -34,7 +35,7 @@ fun RetryErrorScreen(text: String, onClick: () -> Unit, modifier: Modifier = Mod
             Text(text = "Tap to retry", color = MaterialTheme.colorScheme.onSurface)
             Spacer(modifier = Modifier.padding(6.dp))
             Icon(
-                imageVector = Icons.Filled.Refresh,
+                imageVector = ImageVector.vectorResource(R.drawable.ic_refresh),
                 tint = MaterialTheme.colorScheme.onSurface,
                 contentDescription = "Retry icon",
             )
