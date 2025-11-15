@@ -75,7 +75,13 @@ private fun ImageSelection(onPhotoClick: () -> Unit, modifier: Modifier = Modifi
             verticalArrangement = Arrangement.Center,
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
-            Icon(imageVector = ImageVector.vectorResource(com.ianarbuckle.gymplanner.android.R.drawable.ic_add_circle_filled), contentDescription = "Add photo")
+            Icon(
+                imageVector =
+                    ImageVector.vectorResource(
+                        com.ianarbuckle.gymplanner.android.R.drawable.ic_add_circle_filled
+                    ),
+                contentDescription = "Add photo",
+            )
         }
     }
 }

@@ -27,9 +27,9 @@ fun PersonalTrainersContent(
     onItemClick: (Triple<String, String, String>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier
-        .background(MaterialTheme.colorScheme.background)
-        .padding(innerPadding)) {
+    Column(
+        modifier = modifier.background(MaterialTheme.colorScheme.background).padding(innerPadding)
+    ) {
         LazyColumn(modifier = Modifier.testTag(PersonalTrainersItemsTag)) {
             items(personalTrainers) { personalTrainer ->
                 PersonalTrainerItem(

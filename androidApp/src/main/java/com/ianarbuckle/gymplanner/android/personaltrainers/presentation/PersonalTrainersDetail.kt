@@ -71,7 +71,10 @@ fun PersonalTrainersDetail(
 
             IconButton(onClick = onBackClick, modifier = Modifier.align(Alignment.TopStart)) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(com.ianarbuckle.gymplanner.android.R.drawable.ic_arrow_back),
+                    imageVector =
+                        ImageVector.vectorResource(
+                            com.ianarbuckle.gymplanner.android.R.drawable.ic_arrow_back
+                        ),
                     contentDescription = "Back",
                     tint = Color.White,
                 )

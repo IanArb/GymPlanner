@@ -49,9 +49,12 @@ fun AnimatedIcon(
 @PreviewsCombined
 @Composable
 private fun AnimatedIconPreview() {
-    AnimatedIcon(state = AnimatedIconState(
-        vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline)
-    ))
+    AnimatedIcon(
+        state =
+            AnimatedIconState(
+                vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline)
+            )
+    )
 }
 
 data class AnimatedIconState(

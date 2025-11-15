@@ -50,9 +50,8 @@ class AvailabilityInstrumentedTests {
     @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 4)
-    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.POST_NOTIFICATIONS
-    )
+    val permissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
