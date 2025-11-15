@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -64,9 +61,15 @@ fun BookingConfirmationContent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            InfoRow(Icons.Outlined.DateRange, sessionDate)
-            InfoRow(ImageVector.vectorResource(id = R.drawable.ic_clock), sessionTime)
-            InfoRow(Icons.Outlined.Place, location)
+            InfoRow(
+                ImageVector.vectorResource(id = R.drawable.ic_date_range_filled),
+                text = sessionDate,
+            )
+            InfoRow(ImageVector.vectorResource(id = R.drawable.ic_clock), text = sessionTime)
+            InfoRow(
+                ImageVector.vectorResource(id = R.drawable.ic_add_location_filled),
+                text = location,
+            )
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 

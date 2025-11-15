@@ -1,12 +1,6 @@
 package com.ianarbuckle.gymplanner.android.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.Home
+import com.ianarbuckle.gymplanner.android.R as Ui
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -51,18 +45,18 @@ fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
     return persistentListOf(
         BottomNavigationItem(
             title = "Dashboard",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
+            selectedIcon = IconSource.FromResource(Ui.drawable.ic_home_icon_filled),
+            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_home_icon_outlined),
         ),
         BottomNavigationItem(
             title = "Report Machine",
-            selectedIcon = Icons.Filled.Build,
-            unselectedIcon = Icons.Outlined.Build,
+            selectedIcon = IconSource.FromResource(Ui.drawable.ic_gym_icon_filled),
+            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_gym_icon_outlined),
         ),
         BottomNavigationItem(
             title = "Personal Trainers",
-            selectedIcon = Icons.Filled.Face,
-            unselectedIcon = Icons.Outlined.Face,
+            selectedIcon = IconSource.FromResource(Ui.drawable.ic_groups_icon_filled),
+            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_groups_icon_outlined),
         ),
     )
 }

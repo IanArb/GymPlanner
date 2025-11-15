@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.google.services.gms)
 }
 
+kotlin { jvmToolchain(17) }
+
 android {
     namespace = "com.ianarbuckle.gymplanner.android"
     compileSdk = 36
@@ -52,12 +54,8 @@ android {
             resValue("string", "clear_text_config", "true")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
 

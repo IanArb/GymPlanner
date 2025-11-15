@@ -53,6 +53,7 @@ class DefaultFirebaseMessagingService : FirebaseMessagingService() {
 
         remoteMessage.notification?.let {
             gymPlannerNotificationManager.showNotification(
+                context = this.applicationContext,
                 title = it.title ?: "",
                 message = it.body ?: "",
             )
