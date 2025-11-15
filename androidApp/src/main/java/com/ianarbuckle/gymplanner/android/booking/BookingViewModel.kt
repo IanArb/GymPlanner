@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.booking
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.android.booking.presentation.BookingDetailsData
