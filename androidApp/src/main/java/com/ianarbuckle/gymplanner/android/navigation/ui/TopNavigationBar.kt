@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.android.ui.common
+package com.ianarbuckle.gymplanner.android.navigation.ui
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -10,11 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreen
-import com.ianarbuckle.gymplanner.android.navigation.ChatScreenPath
+import com.ianarbuckle.gymplanner.android.navigation.BookingScreen
 import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
@@ -26,34 +27,35 @@ import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun TopNavigationBar(
-    currentRoute: String?,
+    currentDestination: Any?,
     modifier: Modifier = Modifier,
     titleColor: Color = MaterialTheme.colorScheme.onSurface,
-    enableBackButton: Boolean = false,
     onBackClick: (() -> Unit)? = null,
 ) {
+    val title =
+        when (currentDestination) {
+            is DashboardScreen -> stringResource(id = R.string.title_dashboard)
+            is ReportMachineBroken -> stringResource(id = R.string.title_report_machine)
+            is GymLocationsScreen -> stringResource(id = R.string.title_gym_locations)
+            is PersonalTrainersScreen -> stringResource(id = R.string.title_personal_trainers)
+            is AvailabilityScreen -> stringResource(id = R.string.title_availability)
+            is BookingScreen -> stringResource(id = R.string.title_booking)
+            is ConversationScreen -> stringResource(id = R.string.title_chat)
+            else -> "" // Default or empty title
+        }
+
+    val enableBackButton =
+        when (currentDestination) {
+            is PersonalTrainersScreen,
+            is AvailabilityScreen,
+            is BookingScreen,
+            is ConversationScreen -> true
+            else -> false
+        }
+
     TopAppBar(
         modifier = modifier,
-        title = {
-            Text(
-                text =
-                    when (currentRoute) {
-                        DashboardScreen::class.qualifiedName -> "Dashboard"
-                        ReportMachineBroken::class.qualifiedName -> "Report Machine"
-                        GymLocationsScreen::class.qualifiedName -> "Gym Locations"
-                        PersonalTrainersScreen::class.qualifiedName.plus("/{gymLocation}") ->
-                            "Personal Trainers"
-                        AvailabilityScreen::class
-                            .qualifiedName
-                            .plus(("/{name}/{imageUrl}?qualifications={qualifications}")) ->
-                            "Book Trainer"
-                        ConversationScreen::class.qualifiedName.plus(ChatScreenPath) -> "Chat"
-                        else -> ""
-                    },
-                color = titleColor,
-                fontWeight = FontWeight.Bold,
-            )
-        },
+        title = { Text(text = title, color = titleColor, fontWeight = FontWeight.Bold) },
         navigationIcon = {
             if (enableBackButton) {
                 IconButton(onClick = { onBackClick?.invoke() }) {
@@ -70,11 +72,5 @@ fun TopNavigationBar(
 @PreviewsCombined
 @Composable
 private fun NavigationBarPreview() {
-    GymAppTheme {
-        TopNavigationBar(
-            currentRoute = DashboardScreen::class.qualifiedName,
-            enableBackButton = true,
-            onBackClick = {},
-        )
-    }
+    GymAppTheme { TopNavigationBar(currentDestination = DashboardScreen, onBackClick = {}) }
 }

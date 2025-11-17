@@ -24,7 +24,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://4544cad2ace6.ngrok-free.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://431e69876a84.ngrok-free.app\"")
         buildConfigField("String", "WEBSOCKET_URL", "\"wss://0fe5dce64a68.ngrok-free.app\"")
     }
     buildFeatures {
@@ -77,7 +77,9 @@ dependencies {
     implementation(libs.shimmer)
 
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.viewmodel)
 
     implementation(libs.coil)
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_report_machine">Report Machine</string>
+    <string name="title_gym_locations">Gym Locations</string>
+    <string name="title_personal_trainers">Personal Trainers</string>
+    <string name="title_availability">Book Trainer</string>
+    <string name="title_booking">Booking</string>
+    <string name="title_chat">Chat</string>
+</resources>

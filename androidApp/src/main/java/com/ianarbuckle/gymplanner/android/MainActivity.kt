@@ -1,5 +1,7 @@
 package com.ianarbuckle.gymplanner.android
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,6 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -21,19 +24,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.ianarbuckle.gymplanner.android.availability.presentation.AvailabilityScreen
 import com.ianarbuckle.gymplanner.android.availability.presentation.state.AvailabilityScreenState
 import com.ianarbuckle.gymplanner.android.availability.presentation.state.PersonalTrainer
@@ -45,55 +46,50 @@ import com.ianarbuckle.gymplanner.android.dashboard.presentation.DashboardScreen
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.login.presentation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreen
-import com.ianarbuckle.gymplanner.android.navigation.AvailabilityScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.BookingScreen
-import com.ianarbuckle.gymplanner.android.navigation.BookingScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
-import com.ianarbuckle.gymplanner.android.navigation.ChatScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
 import com.ianarbuckle.gymplanner.android.navigation.DashboardScreen
-import com.ianarbuckle.gymplanner.android.navigation.GymLocationsPath
 import com.ianarbuckle.gymplanner.android.navigation.GymLocationsScreen
 import com.ianarbuckle.gymplanner.android.navigation.IconSource
 import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
+import com.ianarbuckle.gymplanner.android.navigation.NavigationEvent
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
-import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreenPath
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
-import com.ianarbuckle.gymplanner.android.navigation.createBottomNavigationItems
+import com.ianarbuckle.gymplanner.android.navigation.Root
+import com.ianarbuckle.gymplanner.android.navigation.ui.BottomNavigationBar
+import com.ianarbuckle.gymplanner.android.navigation.ui.TopNavigationBar
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersDetailScreen
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.profile.ProfileViewModel
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ReportMachineBrokenScreen
-import com.ianarbuckle.gymplanner.android.ui.common.BottomNavigationBar
-import com.ianarbuckle.gymplanner.android.ui.common.TopNavigationBar
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
-    @Suppress("CyclomaticComplexMethod", "LongMethod", "MaxLineLength", "ComplexCondition")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         setContent {
+            val context = LocalContext.current
             val navigationViewModel = hiltViewModel<NavigationViewModel>()
             val profileViewModel = hiltViewModel<ProfileViewModel>()
-            val navController = rememberNavController()
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
+            val currentScreen: NavKey? = navigationViewModel.navigationBackStack.lastOrNull()
+
+            val user by
+                profileViewModel.user.collectAsStateWithLifecycle(initialValue = Pair("", ""))
 
             val permissionLauncher =
                 rememberLauncherForActivityResult(
@@ -102,242 +98,175 @@ class MainActivity : ComponentActivity() {
                 )
 
             LaunchedEffect(Unit) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-                }
-            }
-
-            LaunchedEffect(true) {
                 val rememberMe = navigationViewModel.rememberMe.first()
                 if (rememberMe) {
-                    navController.navigate(DashboardScreen)
+                    navigationViewModel.onNavigate(event = NavigationEvent.NavigateToDashboard)
+                } else {
+                    navigationViewModel.onNavigate(event = NavigationEvent.NavigateToLogin)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        val isPermissionGranted =
+                            ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) ==
+                                PackageManager.PERMISSION_GRANTED
+
+                        if (!isPermissionGranted) {
+                            permissionLauncher.launch(POST_NOTIFICATIONS)
+                        }
+                    }
                 }
             }
 
             GymAppTheme {
                 Scaffold(
-                    topBar = {
-                        if (
-                            currentRoute !=
-                                PersonalTrainersDetailScreen::class
-                                    .qualifiedName
-                                    .plus((PersonalTrainersDetailScreenPath)) &&
-                                currentRoute != LoginScreen::class.qualifiedName
-                        ) {
-                            TopNavigationBar(
-                                currentRoute = currentRoute,
-                                enableBackButton =
-                                    currentRoute ==
-                                        PersonalTrainersScreen::class
-                                            .qualifiedName
-                                            .plus(GymLocationsPath) ||
-                                        currentRoute ==
-                                            AvailabilityScreen::class
-                                                .qualifiedName
-                                                .plus(AvailabilityScreenPath) ||
-                                        currentRoute ==
-                                            BookingScreen::class
-                                                .qualifiedName
-                                                .plus(BookingScreenPath) ||
-                                        currentRoute ==
-                                            ConversationScreen::class
-                                                .qualifiedName
-                                                .plus(ChatScreenPath),
-                                modifier = Modifier,
-                                onBackClick = { navController.popBackStack() },
-                            )
-                        }
-                    },
-                    bottomBar = {
-                        var selectedItemIndex by remember { mutableIntStateOf(0) }
-
-                        if (
-                            currentRoute !=
-                                PersonalTrainersScreen::class
-                                    .qualifiedName
-                                    .plus(GymLocationsPath) &&
-                                currentRoute !=
-                                    PersonalTrainersDetailScreen::class
-                                        .qualifiedName
-                                        .plus(PersonalTrainersDetailScreenPath) &&
-                                currentRoute != LoginScreen::class.qualifiedName &&
-                                currentRoute !=
-                                    AvailabilityScreen::class
-                                        .qualifiedName
-                                        .plus(AvailabilityScreenPath) &&
-                                currentRoute !=
-                                    BookingScreen::class.qualifiedName.plus(BookingScreenPath) &&
-                                currentRoute !=
-                                    ConversationScreen::class.qualifiedName.plus(ChatScreenPath)
-                        ) {
-                            BottomNavigationBar(
-                                navigationItems = createBottomNavigationItems(),
-                                selectItemIndex = selectedItemIndex,
-                                onItemSelect = { index -> selectedItemIndex = index },
-                                onNavigateTo = { index ->
-                                    when (index) {
-                                        0 ->
-                                            navController.navigate(DashboardScreen) {
-                                                popUpTo(
-                                                    navController.graph.findStartDestination().id
-                                                ) {
-                                                    saveState = true
-                                                }
-                                            }
-                                        1 ->
-                                            navController.navigate(ReportMachineBroken) {
-                                                popUpTo(
-                                                    navController.graph.findStartDestination().id
-                                                ) {
-                                                    saveState = true
-                                                }
-                                            }
-                                        2 ->
-                                            navController.navigate(GymLocationsScreen) {
-                                                popUpTo(
-                                                    navController.graph.findStartDestination().id
-                                                ) {
-                                                    saveState = true
-                                                }
-                                            }
-                                    }
-                                },
-                            )
-                        }
-                    },
+                    topBar = { TopNavigationBar(currentScreen = currentScreen) },
+                    bottomBar = { BottomNavigationBar(currentScreen = currentScreen) },
                     floatingActionButton = {
-                        if (
-                            currentRoute !=
-                                ConversationScreen::class.qualifiedName.plus(ChatScreenPath) &&
-                                currentRoute != LoginScreen::class.qualifiedName
-                        ) {
-                            FloatingActionButton(
-                                onClick = {
-                                    lifecycleScope.launch {
-                                        repeatOnLifecycle(Lifecycle.State.CREATED) {
-                                            profileViewModel.user.collectLatest { user ->
-                                                if (user.first.isEmpty() && user.second.isEmpty()) {
-                                                    return@collectLatest
-                                                }
-
-                                                navController.navigate(
-                                                    ConversationScreen(
-                                                        username = user.first,
-                                                        userId = user.second,
-                                                    )
-                                                )
-                                            }
-                                        }
-                                    }
-                                },
-                                modifier = Modifier.testTag("Chat"),
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_chat_bubble),
-                                    contentDescription = "Open Chat",
-                                )
-                            }
-                        }
+                        FloatingActionButton(currentScreen = currentScreen, user = user)
                     },
                 ) { contentPadding ->
-                    NavHost(navController = navController, startDestination = LoginScreen) {
-                        composable<LoginScreen> {
-                            LoginScreen(
-                                contentPadding = contentPadding,
-                                onNavigateTo = { navController.navigate(DashboardScreen) },
+                    NavigationRoot(contentPadding = contentPadding)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TopNavigationBar(
+    currentScreen: Any?,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
+) {
+    if (currentScreen !is PersonalTrainersDetailScreen && currentScreen !is LoginScreen) {
+        TopNavigationBar(
+            currentDestination = currentScreen,
+            modifier = Modifier,
+            onBackClick = { navigationViewModel.onNavigate(NavigationEvent.NavigateBack) },
+        )
+    }
+}
+
+@Suppress("ComplexCondition")
+@Composable
+private fun BottomNavigationBar(
+    currentScreen: Any?,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
+) {
+    val bottomNavItems = remember {
+        persistentListOf(DashboardScreen, ReportMachineBroken, GymLocationsScreen)
+    }
+
+    if (
+        currentScreen !is PersonalTrainersScreen &&
+            currentScreen !is PersonalTrainersDetailScreen &&
+            currentScreen !is LoginScreen &&
+            currentScreen !is AvailabilityScreen &&
+            currentScreen !is BookingScreen &&
+            currentScreen !is ConversationScreen
+    ) {
+        BottomNavigationBar(
+            destinations = bottomNavItems,
+            currentDestination = currentScreen,
+            onNavigate = { destination ->
+                navigationViewModel.onNavigate(
+                    event = NavigationEvent.NavigationBottomBar(destination = destination as NavKey)
+                )
+            },
+        )
+    }
+}
+
+@Composable
+private fun FloatingActionButton(
+    currentScreen: Any?,
+    user: Pair<String, String>,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
+) {
+    if (currentScreen !is ConversationScreen && currentScreen !is LoginScreen) {
+        FloatingActionButton(
+            onClick = {
+                if (user.first.isNotEmpty() && user.second.isNotEmpty()) {
+                    navigationViewModel.onNavigate(
+                        event =
+                            NavigationEvent.NavigateToChat(
+                                username = user.first,
+                                userId = user.second,
                             )
-                        }
+                    )
+                }
+            },
+            modifier = Modifier.testTag("Chat"),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_chat_bubble),
+                contentDescription = "Open Chat",
+            )
+        }
+    }
+}
 
-                        composable<DashboardScreen> {
-                            DashboardScreen(contentPadding = contentPadding)
-                        }
-
-                        composable<ReportMachineBroken> {
-                            ReportMachineBrokenScreen(contentPadding = contentPadding)
-                        }
-
-                        composable<GymLocationsScreen> {
-                            GymLocationsScreen(
-                                contentPadding = contentPadding,
-                                onNavigateTo = { gymLocation ->
-                                    when (gymLocation) {
-                                        "Clontarf" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.CLONTARF
-                                                )
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-
-                                        "Aston Quay" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.ASTONQUAY
-                                                )
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-
-                                        "Leopardstown" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.LEOPARDSTOWN
-                                                )
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-
-                                        "Westmanstown" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(
-                                                    gymLocation = GymLocation.WESTMANSTOWN
-                                                )
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-
-                                        "Dun Laoghaoire" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(GymLocation.DUNLOAGHAIRE)
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-
-                                        "Sandymount" -> {
-                                            navController.navigate(
-                                                PersonalTrainersScreen(GymLocation.SANDYMOUNT)
-                                            ) {
-                                                restoreState = true
-                                            }
-                                        }
-                                    }
-                                },
-                            )
-                        }
-
-                        composable<PersonalTrainersScreen> {
-                            val args = it.toRoute<PersonalTrainersScreen>()
-                            PersonalTrainersScreen(
-                                contentPadding = contentPadding,
-                                gymLocation = args.gymLocation,
-                                onNavigateTo = { trainer ->
-                                    navController.navigate(
-                                        PersonalTrainersDetailScreen(
+@Composable
+private fun NavigationRoot(
+    contentPadding: PaddingValues,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
+) {
+    NavDisplay(
+        backStack = navigationViewModel.navigationBackStack,
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+        entryProvider = { key ->
+            when (key) {
+                is Root ->
+                    NavEntry(key) {
+                        // No-op
+                    }
+                is LoginScreen ->
+                    NavEntry(key) {
+                        LoginScreen(
+                            contentPadding = contentPadding,
+                            onNavigateTo = {
+                                navigationViewModel.onNavigate(NavigationEvent.NavigateToDashboard)
+                            },
+                        )
+                    }
+                is DashboardScreen ->
+                    NavEntry(key) { DashboardScreen(contentPadding = contentPadding) }
+                is ReportMachineBroken ->
+                    NavEntry(key) { ReportMachineBrokenScreen(contentPadding = contentPadding) }
+                is GymLocationsScreen ->
+                    NavEntry(key) {
+                        GymLocationsScreen(
+                            contentPadding = contentPadding,
+                            onNavigateTo = { gymLocationEnum ->
+                                navigationViewModel.onNavigate(
+                                    event =
+                                        NavigationEvent.NavigateToPersonalTrainers(
+                                            gymLocation = gymLocationEnum
+                                        )
+                                )
+                            },
+                        )
+                    }
+                is PersonalTrainersScreen ->
+                    NavEntry(key) {
+                        PersonalTrainersScreen(
+                            contentPadding = contentPadding,
+                            gymLocation = key.gymLocation,
+                            onNavigateTo = { trainer ->
+                                navigationViewModel.onNavigate(
+                                    event =
+                                        NavigationEvent.NavigateToPersonalTrainersDetails(
                                             name = trainer.first,
                                             bio = trainer.second,
                                             imageUrl = trainer.third,
                                         )
-                                    )
-                                },
-                                onBookClick = { personalTrainer ->
-                                    navController.navigate(
-                                        AvailabilityScreen(
+                                )
+                            },
+                            onBookClick = { personalTrainer ->
+                                navigationViewModel.onNavigate(
+                                    event =
+                                        NavigationEvent.NavigateToAvailability(
                                             personalTrainerId = personalTrainer.id ?: "",
                                             name =
                                                 personalTrainer.firstName +
@@ -345,94 +274,91 @@ class MainActivity : ComponentActivity() {
                                                     personalTrainer.lastName,
                                             imageUrl = personalTrainer.imageUrl,
                                             qualifications = personalTrainer.qualifications,
-                                            gymLocation = args.gymLocation.name,
-                                        )
-                                    )
-                                },
-                            )
-                        }
-
-                        composable<PersonalTrainersDetailScreen> {
-                            val args = it.toRoute<PersonalTrainersDetailScreen>()
-                            PersonalTrainersDetailScreen(
-                                contentPadding = contentPadding,
-                                name = args.name,
-                                bio = args.bio,
-                                imageUrl = args.imageUrl,
-                                onNavigateTo = { navController.popBackStack() },
-                                onBookClick = {},
-                            )
-                        }
-
-                        composable<AvailabilityScreen> {
-                            val args = it.toRoute<AvailabilityScreen>()
-
-                            val availabilityScreenState =
-                                AvailabilityScreenState(
-                                    personalTrainer =
-                                        PersonalTrainer(
-                                            personalTrainerId = args.personalTrainerId,
-                                            name = args.name,
-                                            imageUrl = args.imageUrl,
-                                            gymLocation = args.gymLocation,
-                                            qualifications = args.qualifications,
+                                            gymLocation = key.gymLocation.name,
                                         )
                                 )
-                            AvailabilityScreen(
-                                paddingValues = contentPadding,
-                                availabilityScreenState = availabilityScreenState,
-                                onBookingClick = { availabilityData ->
-                                    navController.navigate(
-                                        BookingScreen(
-                                            personalTrainerId = args.personalTrainerId,
+                            },
+                        )
+                    }
+                is PersonalTrainersDetailScreen ->
+                    NavEntry(key) {
+                        PersonalTrainersDetailScreen(
+                            contentPadding = contentPadding,
+                            name = key.name,
+                            bio = key.bio,
+                            imageUrl = key.imageUrl,
+                            onNavigateTo = {
+                                navigationViewModel.onNavigate(NavigationEvent.NavigateBack)
+                            },
+                            onBookClick = {},
+                        )
+                    }
+                is AvailabilityScreen ->
+                    NavEntry(key) {
+                        val availabilityScreenState =
+                            AvailabilityScreenState(
+                                personalTrainer =
+                                    PersonalTrainer(
+                                        personalTrainerId = key.personalTrainerId,
+                                        name = key.name,
+                                        imageUrl = key.imageUrl,
+                                        gymLocation = key.gymLocation,
+                                        qualifications = key.qualifications,
+                                    )
+                            )
+                        AvailabilityScreen(
+                            paddingValues = contentPadding,
+                            availabilityScreenState = availabilityScreenState,
+                            onBookingClick = { availabilityData ->
+                                navigationViewModel.onNavigate(
+                                    event =
+                                        NavigationEvent.NavigateToBooking(
+                                            personalTrainerId = key.personalTrainerId,
                                             timeSlotId = availabilityData.timeSlotId,
                                             selectedDate = availabilityData.selectedDate,
                                             selectedTimeSlot =
                                                 availabilityData.selectedTimeSlot.toString(),
-                                            personalTrainerName = args.name,
-                                            personalTrainerAvatarUrl = args.imageUrl,
-                                            location = args.gymLocation,
+                                            personalTrainerName = key.name,
+                                            personalTrainerAvatarUrl = key.imageUrl,
+                                            location = key.gymLocation,
                                         )
-                                    )
-                                },
-                            )
-                        }
-
-                        composable<BookingScreen> {
-                            val args = it.toRoute<BookingScreen>()
-
-                            val bookingScreenState =
-                                BookingDetailsData(
-                                    personalTrainerId = args.personalTrainerId,
-                                    timeSlotId = args.timeSlotId,
-                                    selectedDate = args.selectedDate,
-                                    selectedTimeSlot = LocalTime.parse(args.selectedTimeSlot),
-                                    personalTrainerName = args.personalTrainerName,
-                                    personalTrainerAvatarUrl = args.personalTrainerAvatarUrl,
-                                    location = args.location,
                                 )
-
-                            BookingDetailsScreen(
-                                contentPadding = contentPadding,
-                                bookingDetailsData = bookingScreenState,
-                                navigateToHomeScreen = { navController.navigate(DashboardScreen) },
-                            )
-                        }
-
-                        composable<ConversationScreen> {
-                            val args = it.toRoute<ConversationScreen>()
-
-                            ChatScreen(paddingValues = contentPadding, username = args.username)
-                        }
+                            },
+                        )
                     }
-                }
+                is BookingScreen ->
+                    NavEntry(key) {
+                        val bookingScreenState =
+                            BookingDetailsData(
+                                personalTrainerId = key.personalTrainerId,
+                                timeSlotId = key.timeSlotId,
+                                selectedDate = key.selectedDate,
+                                selectedTimeSlot = LocalTime.parse(key.selectedTimeSlot),
+                                personalTrainerName = key.personalTrainerName,
+                                personalTrainerAvatarUrl = key.personalTrainerAvatarUrl,
+                                location = key.location,
+                            )
+
+                        BookingDetailsScreen(
+                            contentPadding = contentPadding,
+                            bookingDetailsData = bookingScreenState,
+                            navigateToHomeScreen = {
+                                navigationViewModel.onNavigate(NavigationEvent.NavigateToDashboard)
+                            },
+                        )
+                    }
+                is ConversationScreen ->
+                    NavEntry(key) {
+                        ChatScreen(paddingValues = contentPadding, username = key.username)
+                    }
+                else -> NavEntry(key) { IllegalArgumentException("Unknown key: $key") }
             }
-        }
-    }
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@PreviewsCombined
 @Composable
 private fun DefaultPreview() {
     val navigationItems =
@@ -461,10 +387,9 @@ private fun DefaultPreview() {
             topBar = { TopAppBar(title = { Text("Gym Plan") }) },
             bottomBar = {
                 BottomNavigationBar(
-                    navigationItems = navigationItems,
-                    selectItemIndex = selectedItemIndex,
-                    onItemSelect = { index -> selectedItemIndex = index },
-                    onNavigateTo = {},
+                    destinations = navigationItems,
+                    currentDestination = navigationItems[selectedItemIndex],
+                    onNavigate = { selectedItemIndex = navigationItems.indexOf(it) },
                 )
             },
             floatingActionButton = {

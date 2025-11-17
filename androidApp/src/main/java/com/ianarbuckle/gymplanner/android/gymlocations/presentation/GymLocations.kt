@@ -19,6 +19,7 @@ import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
+import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -26,7 +27,7 @@ import kotlinx.collections.immutable.toImmutableList
 fun GymLocationsSelection(
     innerPadding: PaddingValues,
     gyms: ImmutableList<GymLocations>,
-    onClick: (GymLocations) -> Unit,
+    onClick: (GymLocation) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(innerPadding)) {
@@ -40,7 +41,18 @@ fun GymLocationsSelection(
                     imageUrl = gym.imageUrl,
                     title = gym.title,
                     subTitle = gym.subTitle,
-                    modifier = Modifier.clickable { onClick(gym) },
+                    modifier =
+                        Modifier.clickable {
+                            when (gym.title) {
+                                "Clontarf" -> onClick(GymLocation.CLONTARF)
+                                "Aston Quay" -> onClick(GymLocation.ASTONQUAY)
+                                "Leonardstown" -> onClick(GymLocation.LEOPARDSTOWN)
+                                "Sandymount" -> onClick(GymLocation.SANDYMOUNT)
+                                "Dunloaghaire" -> onClick(GymLocation.DUNLOAGHAIRE)
+                                "Westmanstown" -> onClick(GymLocation.WESTMANSTOWN)
+                                else -> onClick(GymLocation.UNKNOWN)
+                            }
+                        },
                 )
             }
         }
