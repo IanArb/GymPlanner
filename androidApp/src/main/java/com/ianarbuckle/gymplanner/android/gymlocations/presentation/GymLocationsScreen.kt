@@ -9,6 +9,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
+import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.collections.immutable.toImmutableList
@@ -16,7 +17,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun GymLocationsScreen(
     contentPadding: PaddingValues,
-    onNavigateTo: (String) -> Unit,
+    onNavigateTo: (GymLocation) -> Unit,
     modifier: Modifier = Modifier,
     gymLocationsViewModel: GymLocationsViewModel = hiltViewModel(),
 ) {
@@ -36,7 +37,7 @@ fun GymLocationsScreen(
                 modifier = modifier,
                 innerPadding = contentPadding,
                 gyms = uiState.gymLocations.toImmutableList(),
-                onClick = { onNavigateTo(it.title) },
+                onClick = { onNavigateTo(it) },
             )
         }
 

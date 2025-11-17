@@ -1,9 +1,10 @@
-package com.ianarbuckle.gymplanner.android.fcm
+package gymplanner.fcm
 
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import com.ianarbuckle.gymplanner.android.fcm.GymPlannerNotificationManager
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkConstructor

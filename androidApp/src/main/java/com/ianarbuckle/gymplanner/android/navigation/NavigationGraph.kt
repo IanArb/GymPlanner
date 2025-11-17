@@ -1,23 +1,24 @@
 package com.ianarbuckle.gymplanner.android.navigation
 
-import com.ianarbuckle.gymplanner.android.R as Ui
+import androidx.navigation3.runtime.NavKey
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable
 
-@Serializable object DashboardScreen
+@Serializable object Root : NavKey
 
-@Serializable object ReportMachineBroken
+@Serializable object DashboardScreen : NavKey
 
-@Serializable object GymLocationsScreen
+@Serializable object ReportMachineBroken : NavKey
 
-@Serializable data class PersonalTrainersScreen(val gymLocation: GymLocation)
+@Serializable object GymLocationsScreen : NavKey
+
+@Serializable data class PersonalTrainersScreen(val gymLocation: GymLocation) : NavKey
 
 @Serializable
-data class PersonalTrainersDetailScreen(val name: String, val bio: String, val imageUrl: String)
+data class PersonalTrainersDetailScreen(val name: String, val bio: String, val imageUrl: String) :
+    NavKey
 
-@Serializable object LoginScreen
+@Serializable object LoginScreen : NavKey
 
 @Serializable
 data class AvailabilityScreen(
@@ -26,7 +27,7 @@ data class AvailabilityScreen(
     val imageUrl: String,
     val gymLocation: String,
     val qualifications: List<String>,
-)
+) : NavKey
 
 @Serializable
 data class BookingScreen(
@@ -37,44 +38,6 @@ data class BookingScreen(
     val personalTrainerName: String,
     val personalTrainerAvatarUrl: String,
     val location: String,
-)
+) : NavKey
 
-@Serializable data class ConversationScreen(val username: String, val userId: String)
-
-fun createBottomNavigationItems(): PersistentList<BottomNavigationItem> {
-    return persistentListOf(
-        BottomNavigationItem(
-            title = "Dashboard",
-            selectedIcon = IconSource.FromResource(Ui.drawable.ic_home_icon_filled),
-            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_home_icon_outlined),
-        ),
-        BottomNavigationItem(
-            title = "Report Machine",
-            selectedIcon = IconSource.FromResource(Ui.drawable.ic_gym_icon_filled),
-            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_gym_icon_outlined),
-        ),
-        BottomNavigationItem(
-            title = "Personal Trainers",
-            selectedIcon = IconSource.FromResource(Ui.drawable.ic_groups_icon_filled),
-            unselectedIcon = IconSource.FromResource(Ui.drawable.ic_groups_icon_outlined),
-        ),
-    )
-}
-
-const val AvailabilityScreenPath =
-    "/{personalTrainerId}" +
-        "/{name}" +
-        "/{imageUrl}" +
-        "/{gymLocation}?qualifications={qualifications}"
-const val PersonalTrainersDetailScreenPath = "/{name}/{bio}/{imageUrl}"
-const val GymLocationsPath = "/{gymLocation}"
-const val BookingScreenPath =
-    "/{personalTrainerId}" +
-        "/{timeSlotId}" +
-        "/{selectedDate}" +
-        "/{selectedTimeSlot}" +
-        "/{personalTrainerName}" +
-        "/{personalTrainerAvatarUrl}" +
-        "/{location}"
-
-const val ChatScreenPath = "/{username}/{userId}"
+@Serializable data class ConversationScreen(val username: String, val userId: String) : NavKey
