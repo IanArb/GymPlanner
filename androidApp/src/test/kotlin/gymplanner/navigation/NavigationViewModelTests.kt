@@ -85,11 +85,11 @@ class NavigationViewModelTests {
     fun `onNavigate with NavigateBack should remove last item from back stack`() = runTest {
         // Act
         val viewModel = createViewModel()
-        viewModel.navigationBackStack.add(DashboardScreen)
+        viewModel.navigationBackStack.add(GymLocationsScreen)
         viewModel.onNavigate(NavigationEvent.NavigateBack)
 
         // Assert
-        assertEquals(Root, viewModel.navigationBackStack.last())
+        assertEquals(DashboardScreen, viewModel.navigationBackStack.last())
     }
 
     @Test
