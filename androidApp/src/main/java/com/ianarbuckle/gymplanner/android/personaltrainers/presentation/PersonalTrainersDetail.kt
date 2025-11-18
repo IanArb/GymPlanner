@@ -39,7 +39,9 @@ fun PersonalTrainersDetail(
     onBookClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(contentPadding)) {
+    Column(
+        modifier = modifier.background(MaterialTheme.colorScheme.surface).padding(contentPadding)
+    ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
                 model = imageUrl,

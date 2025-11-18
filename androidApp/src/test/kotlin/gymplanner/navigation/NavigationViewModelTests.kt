@@ -49,7 +49,7 @@ class NavigationViewModelTests {
         val viewModel = createViewModel()
 
         // Assert
-        viewModel.rememberMe.test {
+        viewModel.isLoggedIn.test {
             assertEquals(true, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
@@ -64,7 +64,7 @@ class NavigationViewModelTests {
         val viewModel = createViewModel()
 
         // Assert
-        viewModel.rememberMe.test {
+        viewModel.isLoggedIn.test {
             assertEquals(false, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }

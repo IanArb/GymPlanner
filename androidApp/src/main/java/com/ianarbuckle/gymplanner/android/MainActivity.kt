@@ -9,6 +9,14 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -58,7 +66,6 @@ import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
-import com.ianarbuckle.gymplanner.android.navigation.Root
 import com.ianarbuckle.gymplanner.android.navigation.ui.BottomNavigationBar
 import com.ianarbuckle.gymplanner.android.navigation.ui.TopNavigationBar
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersDetailScreen
@@ -98,8 +105,8 @@ class MainActivity : ComponentActivity() {
                 )
 
             LaunchedEffect(Unit) {
-                val rememberMe = navigationViewModel.rememberMe.first()
-                if (rememberMe) {
+                val isLoggedIn = navigationViewModel.isLoggedIn.first()
+                if (isLoggedIn) {
                     navigationViewModel.onNavigate(event = NavigationEvent.NavigateToDashboard)
                 } else {
                     navigationViewModel.onNavigate(event = NavigationEvent.NavigateToLogin)
@@ -215,12 +222,23 @@ private fun NavigationRoot(
                 rememberSaveableStateHolderNavEntryDecorator(),
                 rememberViewModelStoreNavEntryDecorator(),
             ),
+        transitionSpec = {
+            // Slide in from right when navigating forward
+            slideInHorizontally(initialOffsetX = { it }) togetherWith
+                slideOutHorizontally(targetOffsetX = { -it })
+        },
+        popTransitionSpec = {
+            // Slide in from left when navigating back
+            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                slideOutHorizontally(targetOffsetX = { it })
+        },
+        predictivePopTransitionSpec = {
+            // Slide in from left when navigating back
+            slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                slideOutHorizontally(targetOffsetX = { it })
+        },
         entryProvider = { key ->
             when (key) {
-                is Root ->
-                    NavEntry(key) {
-                        // No-op
-                    }
                 is LoginScreen ->
                     NavEntry(key) {
                         LoginScreen(
@@ -280,8 +298,36 @@ private fun NavigationRoot(
                             },
                         )
                     }
-                is PersonalTrainersDetailScreen ->
-                    NavEntry(key) {
+                is PersonalTrainersDetailScreen -> {
+                    NavEntry(
+                        key = key,
+                        metadata =
+                            NavDisplay.transitionSpec {
+                                // Slide new content up, keeping the old content in place underneath
+                                slideInVertically(
+                                    initialOffsetY = { it },
+                                    animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                                ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                            } +
+                                NavDisplay.popTransitionSpec {
+                                    // Slide old content down, revealing the new content in place
+                                    // underneath
+                                    EnterTransition.None togetherWith
+                                        slideOutVertically(
+                                            targetOffsetY = { it },
+                                            animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                                        )
+                                } +
+                                NavDisplay.predictivePopTransitionSpec {
+                                    // Slide old content down, revealing the new content in place
+                                    // underneath
+                                    EnterTransition.None togetherWith
+                                        slideOutVertically(
+                                            targetOffsetY = { it },
+                                            animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                                        )
+                                },
+                    ) {
                         PersonalTrainersDetailScreen(
                             contentPadding = contentPadding,
                             name = key.name,
@@ -293,6 +339,7 @@ private fun NavigationRoot(
                             onBookClick = {},
                         )
                     }
+                }
                 is AvailabilityScreen ->
                     NavEntry(key) {
                         val availabilityScreenState =
@@ -356,6 +403,8 @@ private fun NavigationRoot(
         },
     )
 }
+
+private const val TWEEN_DURATION_MILLIS_SECONDS = 1000
 
 @OptIn(ExperimentalMaterial3Api::class)
 @PreviewsCombined
