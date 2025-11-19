@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationEvent
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
-import com.ianarbuckle.gymplanner.android.navigation.Root
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import gymplanner.navigation.TestDataFactory.createAvailabilityScreen
