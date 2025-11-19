@@ -40,7 +40,11 @@ private data class ShimmerElement(
     private val inboundColor: Long = InboundColor,
     private val outboundColor: Long = OutboundColor,
 ) : ModifierNodeElement<ShimmerNode>() {
-    override fun create() = ShimmerNode(progress, inboundColor, outboundColor)
+    override fun create() = ShimmerNode(
+        progress = progress,
+        inboundColor = inboundColor,
+        outboundColor = outboundColor
+    )
 
     override fun update(node: ShimmerNode) {
         node.progress = progress
@@ -51,7 +55,7 @@ private data class ShimmerElement(
     }
 }
 
-private class ShimmerNode(var progress: Float, var inboundColor: Long, var outboundColor: Long) :
+private class ShimmerNode(var progress: Float, val inboundColor: Long, val outboundColor: Long) :
     DrawModifierNode, Modifier.Node() {
 
     override fun ContentDrawScope.draw() {
