@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.android.dashboard.data
 
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.booking.BookingRepository
@@ -27,7 +26,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-@Stable
 @HiltViewModel
 class DashboardViewModel
 @OptIn(ExperimentalTime::class)

@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.android.navigation.LoginScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationEvent
 import com.ianarbuckle.gymplanner.android.navigation.NavigationViewModel
 import com.ianarbuckle.gymplanner.android.navigation.ReportMachineBroken
-import com.ianarbuckle.gymplanner.android.navigation.Root
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import gymplanner.navigation.TestDataFactory.createAvailabilityScreen
@@ -49,7 +48,7 @@ class NavigationViewModelTests {
         val viewModel = createViewModel()
 
         // Assert
-        viewModel.rememberMe.test {
+        viewModel.isLoggedIn.test {
             assertEquals(true, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
@@ -64,7 +63,7 @@ class NavigationViewModelTests {
         val viewModel = createViewModel()
 
         // Assert
-        viewModel.rememberMe.test {
+        viewModel.isLoggedIn.test {
             assertEquals(false, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
@@ -85,11 +84,11 @@ class NavigationViewModelTests {
     fun `onNavigate with NavigateBack should remove last item from back stack`() = runTest {
         // Act
         val viewModel = createViewModel()
-        viewModel.navigationBackStack.add(DashboardScreen)
+        viewModel.navigationBackStack.add(GymLocationsScreen)
         viewModel.onNavigate(NavigationEvent.NavigateBack)
 
         // Assert
-        assertEquals(Root, viewModel.navigationBackStack.last())
+        assertEquals(DashboardScreen, viewModel.navigationBackStack.last())
     }
 
     @Test

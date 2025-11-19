@@ -17,14 +17,14 @@ class NavigationViewModel
 @Inject
 constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() {
 
-    private val _rememberMe = Channel<Boolean>()
-    val rememberMe = _rememberMe.receiveAsFlow()
+    private val _isLoggedIn = Channel<Boolean>()
+    val isLoggedIn = _isLoggedIn.receiveAsFlow()
 
-    val navigationBackStack = mutableStateListOf<NavKey>(Root)
+    val navigationBackStack = mutableStateListOf<NavKey>(DashboardScreen)
 
     init {
         viewModelScope.launch {
-            _rememberMe.send(dataStoreRepository.getBooleanData(key = REMEMBER_ME_KEY) ?: false)
+            _isLoggedIn.send(dataStoreRepository.getBooleanData(key = REMEMBER_ME_KEY) ?: false)
         }
     }
 
