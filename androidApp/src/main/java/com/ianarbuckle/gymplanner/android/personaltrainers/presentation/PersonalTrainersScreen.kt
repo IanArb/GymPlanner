@@ -11,8 +11,6 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainers
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -46,11 +44,7 @@ fun PersonalTrainersScreen(
         }
 
         is PersonalTrainersUiState.Loading -> {
-            PersonalTrainersLoadingShimmer(
-                innerPadding = contentPadding,
-                modifier = modifier,
-                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-            )
+            PersonalTrainersLoadingShimmer(innerPadding = contentPadding, modifier = modifier)
         }
     }
 }

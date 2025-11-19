@@ -17,30 +17,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.valentinilk.shimmer.Shimmer
-import com.valentinilk.shimmer.shimmer
+import com.ianarbuckle.gymplanner.android.utils.shimmerEffect
 
 @Composable
-fun GymLocationsLoadingShimmer(
-    innerPadding: PaddingValues,
-    shimmer: Shimmer,
-    modifier: Modifier = Modifier,
-) {
+fun GymLocationsLoadingShimmer(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(innerPadding)) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(128.dp),
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier,
         ) {
-            items(ItemsCount) { // Number of shimmer cards to display
-                GymLocationCardLoadingShimmer(shimmer = shimmer)
-            }
+            items(ItemsCount) { GymLocationCardLoadingShimmer() }
         }
     }
 }
 
 @Composable
-fun GymLocationCardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
+fun GymLocationCardLoadingShimmer(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.padding(8.dp).fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -52,11 +45,11 @@ fun GymLocationCardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifie
                 modifier =
                     Modifier.height(120.dp)
                         .fillMaxWidth()
-                        .shimmer(shimmer)
                         .background(
                             MaterialTheme.colorScheme.surfaceVariant,
                             RoundedCornerShape(16.dp),
                         )
+                        .shimmerEffect()
             )
 
             Column(modifier = Modifier.padding(16.dp)) {
@@ -64,22 +57,22 @@ fun GymLocationCardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifie
                     modifier =
                         Modifier.height(20.dp)
                             .fillMaxWidth(WidthSizeMedium)
-                            .shimmer(shimmer)
                             .background(
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(4.dp),
                             )
+                            .shimmerEffect()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier =
                         Modifier.height(16.dp)
                             .fillMaxWidth(WidthSizeLarge)
-                            .shimmer(shimmer)
                             .background(
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(4.dp),
                             )
+                            .shimmerEffect()
                 )
             }
         }

@@ -29,11 +29,12 @@ import com.ianarbuckle.gymplanner.android.utils.DataProvider.daysOfWeek
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.android.utils.convertDate
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CalendarWeekDaysRow(
     pagerState: PagerState,
-    daysOfWeek: List<String>,
+    daysOfWeek: ImmutableList<String>,
     selectedDate: String,
     onSelectedDateChange: (String) -> Unit,
     modifier: Modifier = Modifier,

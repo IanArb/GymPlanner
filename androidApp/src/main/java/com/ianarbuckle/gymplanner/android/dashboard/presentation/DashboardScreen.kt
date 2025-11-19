@@ -9,8 +9,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
 
 @Composable
 fun DashboardScreen(
@@ -43,10 +41,7 @@ fun DashboardScreen(
         }
 
         is DashboardUiState.Loading -> {
-            DashboardLoadingShimmer(
-                modifier = modifier,
-                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-            )
+            DashboardLoadingShimmer(innerPadding = contentPadding, modifier = modifier)
         }
 
         DashboardUiState.Idle -> {

@@ -25,26 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
-import com.valentinilk.shimmer.Shimmer
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
-import com.valentinilk.shimmer.shimmer
+import com.ianarbuckle.gymplanner.android.utils.shimmerEffect
 
 @Composable
-fun AvailabilityLoadingShimmer(
-    paddingValues: PaddingValues,
-    shimmer: Shimmer,
-    modifier: Modifier = Modifier,
-) {
+fun AvailabilityLoadingShimmer(paddingValues: PaddingValues, modifier: Modifier = Modifier) {
     Column(modifier.padding(paddingValues)) {
-        PersonalTrainerCardShimmer(shimmer = shimmer)
+        PersonalTrainerCardShimmer()
 
-        CalendarPickerCardShimmer(shimmer = shimmer)
+        CalendarPickerCardShimmer()
     }
 }
 
 @Composable
-fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
+fun PersonalTrainerCardShimmer(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
@@ -60,11 +53,11 @@ fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                     Box(
                         modifier =
                             Modifier.size(100.dp)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -73,11 +66,11 @@ fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                         modifier =
                             Modifier.height(20.dp)
                                 .fillMaxWidth(WidthSizeSmall)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -86,11 +79,11 @@ fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                         modifier =
                             Modifier.height(20.dp)
                                 .fillMaxWidth(WidthSizeSmall)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
@@ -99,11 +92,11 @@ fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                         modifier =
                             Modifier.height(20.dp)
                                 .fillMaxWidth(WidthSizeSmall)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
                 }
             }
@@ -114,7 +107,7 @@ fun PersonalTrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
 }
 
 @Composable
-fun CalendarPickerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
+fun CalendarPickerCardShimmer(modifier: Modifier = Modifier) {
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -125,12 +118,12 @@ fun CalendarPickerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                 modifier =
                     Modifier.fillMaxWidth(WidthSizeSmall)
                         .height(24.dp)
-                        .shimmer(shimmer)
                         .padding(bottom = 8.dp)
                         .background(
                             MaterialTheme.colorScheme.surfaceVariant,
                             RoundedCornerShape(4.dp),
                         )
+                        .shimmerEffect()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -143,11 +136,11 @@ fun CalendarPickerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                     Box(
                         modifier =
                             Modifier.size(40.dp)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
                 }
             }
@@ -158,18 +151,13 @@ fun CalendarPickerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            TimeSlotsBoxShimmer(shimmer = shimmer, rowsPerPage = Rows, itemsPerPage = Columns)
+            TimeSlotsBoxShimmer(rowsPerPage = Rows, itemsPerPage = Columns)
         }
     }
 }
 
 @Composable
-fun TimeSlotsBoxShimmer(
-    shimmer: Shimmer,
-    rowsPerPage: Int,
-    itemsPerPage: Int,
-    modifier: Modifier = Modifier,
-) {
+fun TimeSlotsBoxShimmer(rowsPerPage: Int, itemsPerPage: Int, modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(rowsPerPage),
@@ -182,12 +170,12 @@ fun TimeSlotsBoxShimmer(
                     modifier =
                         Modifier.height(40.dp)
                             .fillMaxWidth(WidthSizeLarge)
-                            .shimmer(shimmer)
                             .background(
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(4.dp),
                             )
                             .padding(4.dp)
+                            .shimmerEffect()
                 )
             }
         }
@@ -197,14 +185,7 @@ fun TimeSlotsBoxShimmer(
 @PreviewsCombined
 @Composable
 private fun BookingLoadingShimmerPreview() {
-    GymAppTheme {
-        Surface {
-            AvailabilityLoadingShimmer(
-                paddingValues = PaddingValues(16.dp),
-                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-            )
-        }
-    }
+    GymAppTheme { Surface { AvailabilityLoadingShimmer(paddingValues = PaddingValues(16.dp)) } }
 }
 
 private const val ItemsCount = 7

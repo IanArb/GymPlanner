@@ -101,7 +101,8 @@ private fun BookingContentPreview() {
             personalTrainerLabel = "Personal Trainer",
             name = "John Doe",
             imageUrl = "https://randomuser.me/api/port",
-            qualifications = listOf("Certified Personal Trainer", "Certified Nutritionist"),
+            qualifications =
+                listOf("Certified Personal Trainer", "Certified Nutritionist").toImmutableList(),
             daysOfWeek = daysOfWeek,
             availableTimes = timeSlots,
             isAvailable = true,

@@ -19,24 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
-import com.valentinilk.shimmer.Shimmer
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
-import com.valentinilk.shimmer.shimmer
+import com.ianarbuckle.gymplanner.android.utils.shimmerEffect
 
 @Composable
-fun PersonalTrainersLoadingShimmer(
-    innerPadding: PaddingValues,
-    shimmer: Shimmer,
-    modifier: Modifier = Modifier,
-) {
+fun PersonalTrainersLoadingShimmer(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(innerPadding)) {
-        LazyColumn { items(ItemsCount) { PersonalTrainerItemShimmer(shimmer = shimmer) } }
+        LazyColumn { items(ItemsCount) { PersonalTrainerItemShimmer() } }
     }
 }
 
 @Composable
-fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
+fun PersonalTrainerItemShimmer(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.padding(16.dp).fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -47,11 +40,11 @@ fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                 Box(
                     modifier =
                         Modifier.size(64.dp)
-                            .shimmer(shimmer)
                             .background(
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(4.dp),
                             )
+                            .shimmerEffect()
                 )
 
                 Column(modifier = Modifier.padding(start = 16.dp)) {
@@ -59,33 +52,33 @@ fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                         modifier =
                             Modifier.height(20.dp)
                                 .fillMaxWidth(WidthSizeMedium)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
                     Spacer(modifier = Modifier.padding(4.dp))
                     Box(
                         modifier =
                             Modifier.height(16.dp)
                                 .fillMaxWidth(WidthSizeSmall)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
                     Box(
                         modifier =
                             Modifier.height(16.dp)
                                 .fillMaxWidth(WidthSizeLarge)
-                                .shimmer(shimmer)
                                 .background(
                                     MaterialTheme.colorScheme.surfaceVariant,
                                     RoundedCornerShape(4.dp),
                                 )
+                                .shimmerEffect()
                     )
                 }
             }
@@ -96,11 +89,11 @@ fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                 modifier =
                     Modifier.height(48.dp)
                         .fillMaxWidth()
-                        .shimmer(shimmer)
                         .background(
                             MaterialTheme.colorScheme.surfaceVariant,
                             RoundedCornerShape(4.dp),
                         )
+                        .shimmerEffect()
             )
         }
     }
@@ -109,8 +102,7 @@ fun PersonalTrainerItemShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
 @PreviewsCombined
 @Composable
 private fun PersonalTrainersLoadingShimmerPreview() {
-    val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
-    PersonalTrainersLoadingShimmer(innerPadding = PaddingValues(0.dp), shimmer = shimmer)
+    PersonalTrainersLoadingShimmer(innerPadding = PaddingValues(0.dp))
 }
 
 private const val ItemsCount = 6

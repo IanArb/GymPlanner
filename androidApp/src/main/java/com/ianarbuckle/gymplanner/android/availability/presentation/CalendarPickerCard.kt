@@ -40,12 +40,14 @@ import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import java.util.Calendar
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Suppress("LongMethod")
 @Composable
 fun CalendarPickerCard(
-    daysOfWeek: List<String>,
-    availableTimes: List<Time>,
+    daysOfWeek: ImmutableList<String>,
+    availableTimes: ImmutableList<Time>,
     calendarPagerState: PagerState,
     timeSlotPagerState: PagerState,
     selectedDate: String,
@@ -112,7 +114,7 @@ fun CalendarPickerCard(
 
 @Composable
 fun TimeSlotsBox(
-    availableTimes: List<Time>,
+    availableTimes: ImmutableList<Time>,
     selectedTimeSlotId: String,
     onTimeSlotClick: (String, String) -> Unit,
     pagerState: PagerState,
@@ -204,7 +206,7 @@ private fun CalendarPickerCardPreview() {
         Surface {
             CalendarPickerCard(
                 daysOfWeek = daysOfWeek,
-                availableTimes = timeSlots,
+                availableTimes = timeSlots.toImmutableList(),
                 calendarPagerState = pagerState,
                 timeSlotPagerState = timeSlotPagerState,
                 selectedDate = "2024-12-12",

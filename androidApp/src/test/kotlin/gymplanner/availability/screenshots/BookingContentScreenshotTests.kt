@@ -26,6 +26,9 @@ import gymplanner.utils.KoinTestRule
 import gymplanner.utils.ScreenTestPreview
 import gymplanner.utils.createComposeTestRule
 import gymplanner.utils.createRoborazziRule
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,7 +61,7 @@ class BookingContentScreenshotTests {
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
-                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        qualifications = persistentListOf("Qualification 1", "Qualification 2"),
                         isAvailable = true,
                     )
                 }
@@ -77,7 +80,7 @@ class BookingContentScreenshotTests {
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
-                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        qualifications = persistentListOf("Qualification 1", "Qualification 2"),
                         isAvailable = false,
                     )
                 }
@@ -97,7 +100,7 @@ class BookingContentScreenshotTests {
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
-                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        qualifications = persistentListOf("Qualification 1", "Qualification 2"),
                         isAvailable = true,
                     )
                 }
@@ -117,7 +120,7 @@ class BookingContentScreenshotTests {
                         personalTrainerLabel = "Personal Trainer",
                         name = "John Doe",
                         imageUrl = "https://example.com/image.jpg",
-                        qualifications = listOf("Qualification 1", "Qualification 2"),
+                        qualifications = persistentListOf("Qualification 1", "Qualification 2"),
                         isAvailable = false,
                     )
                 }
@@ -220,8 +223,8 @@ class BookingContentScreenshotTests {
     }
 
     companion object {
-        val daysOfWeek: List<String> =
-            listOf(
+        val daysOfWeek: ImmutableList<String> =
+            persistentListOf(
                 "2024-12-08",
                 "2024-12-09",
                 "2024-12-10",
@@ -231,8 +234,8 @@ class BookingContentScreenshotTests {
                 "2024-12-14",
             )
 
-        private val availableTimes: List<String> =
-            listOf(
+        private val availableTimes: ImmutableList<String> =
+            persistentListOf(
                 "06:00:00",
                 "06:30:00",
                 "07:00:00",
@@ -248,7 +251,9 @@ class BookingContentScreenshotTests {
             )
 
         val timeSlots =
-            availableTimes.map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
+            availableTimes
+                .map { Time(id = it, startTime = it, endTime = it, status = "AVAILABLE") }
+                .toImmutableList()
 
         const val TimeSlotPagerSize = 6
         const val RowsPerPage = 3

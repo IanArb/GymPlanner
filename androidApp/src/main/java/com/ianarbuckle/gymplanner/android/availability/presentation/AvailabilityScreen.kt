@@ -21,8 +21,6 @@ import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.availability.domain.Time
-import com.valentinilk.shimmer.ShimmerBounds
-import com.valentinilk.shimmer.rememberShimmer
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -54,11 +52,7 @@ fun AvailabilityScreen(
         }
 
         is AvailabilityUiState.Loading -> {
-            AvailabilityLoadingShimmer(
-                modifier = modifier,
-                paddingValues = paddingValues,
-                shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View),
-            )
+            AvailabilityLoadingShimmer(modifier = modifier, paddingValues = paddingValues)
         }
 
         is AvailabilityUiState.Failed -> {
@@ -99,7 +93,8 @@ fun AvailabilityScreen(
                     personalTrainerLabel = "Personal Trainer",
                     name = availabilityScreenState.personalTrainer.name,
                     imageUrl = availabilityScreenState.personalTrainer.imageUrl,
-                    qualifications = availabilityScreenState.personalTrainer.qualifications,
+                    qualifications =
+                        availabilityScreenState.personalTrainer.qualifications.toImmutableList(),
                     daysOfWeek = daysOfWeek,
                     availableTimes = availableTimes.value.toImmutableList(),
                     selectedDate = selectedDate.value,

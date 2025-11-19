@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,12 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.valentinilk.shimmer.Shimmer
-import com.valentinilk.shimmer.shimmer
+import com.ianarbuckle.gymplanner.android.utils.shimmerEffect
 
 @Composable
-fun DashboardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
+fun DashboardLoadingShimmer(innerPadding: PaddingValues, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier.fillMaxSize().padding(innerPadding).padding(16.dp)) {
         item {
             Column {
                 Row(
@@ -56,24 +56,25 @@ fun DashboardLoadingShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                ClassesShimmer(shimmer = shimmer)
+                ClassesShimmer()
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                TrainerCardShimmer(shimmer = shimmer)
+                TrainerCardShimmer()
             }
         }
     }
 }
 
 @Composable
-private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxWidth().padding(vertical = 10.dp).shimmer(shimmer)) {
+private fun TrainerCardShimmer(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxWidth().padding(vertical = 10.dp)) {
         Box(
             modifier =
                 Modifier.height(24.dp)
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                    .shimmerEffect()
         )
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -88,6 +89,7 @@ private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                         Modifier.height(200.dp)
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .shimmerEffect()
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -100,6 +102,7 @@ private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(4.dp),
                             )
+                            .shimmerEffect()
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -112,6 +115,7 @@ private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
                                 MaterialTheme.colorScheme.surfaceVariant,
                                 RoundedCornerShape(8.dp),
                             )
+                            .shimmerEffect()
                 )
             }
         }
@@ -119,12 +123,8 @@ private fun TrainerCardShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) 
 }
 
 @Composable
-private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
-    LazyRow(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.shimmer(shimmer),
-    ) {
+private fun ClassesShimmer(modifier: Modifier = Modifier) {
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = modifier) {
         items(ItemsCount) {
             Card(
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
@@ -138,6 +138,7 @@ private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                             Modifier.height(200.dp)
                                 .fillMaxWidth()
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .shimmerEffect()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -149,6 +150,7 @@ private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                                         MaterialTheme.colorScheme.surfaceVariant,
                                         RoundedCornerShape(4.dp),
                                     )
+                                    .shimmerEffect()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Box(
@@ -159,6 +161,7 @@ private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                                         MaterialTheme.colorScheme.surfaceVariant,
                                         RoundedCornerShape(4.dp),
                                     )
+                                    .shimmerEffect()
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Box(
@@ -169,6 +172,7 @@ private fun ClassesShimmer(shimmer: Shimmer, modifier: Modifier = Modifier) {
                                         MaterialTheme.colorScheme.surfaceVariant,
                                         RoundedCornerShape(4.dp),
                                     )
+                                    .shimmerEffect()
                         )
                     }
                 }

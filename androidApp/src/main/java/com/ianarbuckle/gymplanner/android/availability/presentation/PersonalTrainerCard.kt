@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.common.Avatar
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun PersonalTrainerCard(
     personalTrainerLabel: String,
     name: String,
     imageUrl: String,
-    qualifications: List<String>,
+    qualifications: ImmutableList<String>,
     isAvailable: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -53,7 +55,7 @@ fun PersonalTrainer(
     personalTrainerLabel: String,
     name: String,
     imageUrl: String,
-    qualifications: List<String>,
+    qualifications: ImmutableList<String>,
     isAvailable: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -92,7 +94,7 @@ private fun PersonalTrainerCardPreview() {
                 personalTrainerLabel = "Personal Trainer",
                 name = "John Doe",
                 imageUrl = "https://example.com/image.jpg",
-                qualifications = listOf("qualification1", "qualification2"),
+                qualifications = listOf("qualification1", "qualification2").toImmutableList(),
                 isAvailable = true,
             )
         }
