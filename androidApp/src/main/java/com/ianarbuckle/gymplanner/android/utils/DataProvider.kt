@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.utils
 
 import com.ianarbuckle.gymplanner.availability.domain.Availability
+import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 import com.ianarbuckle.gymplanner.availability.domain.Slot
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import com.ianarbuckle.gymplanner.booking.domain.Booking
@@ -666,6 +667,13 @@ object DataProvider {
                     )
                 ),
         )
+    }
+
+    fun checkAvailability(
+        personalTrainerId: String = "123",
+        isAvailable: Boolean = true,
+    ): CheckAvailability {
+        return CheckAvailability(personalTrainerId = personalTrainerId, isAvailable = isAvailable)
     }
 
     fun createBooking(

@@ -10,6 +10,7 @@ import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
+import com.ianarbuckle.gymplanner.android.gymlocations.fakes.FakeGymLocationsRepository
 import com.ianarbuckle.gymplanner.android.gymlocations.robot.GymLocationsRobot
 import com.ianarbuckle.gymplanner.android.gymlocations.verifier.GymLocationsVerifier
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
@@ -17,11 +18,14 @@ import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
+import javax.inject.Inject
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,9 +51,19 @@ class GymLocationsInstrumentedTests {
 
     @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
+    @Inject lateinit var gymLocationsRepository: GymLocationsRepository
+
+    private val fakeGymLocationsRepository: FakeGymLocationsRepository
+        get() = gymLocationsRepository as FakeGymLocationsRepository
+
     private val loginRobot = LoginRobot(composeTestRule)
     private val gymLocationsRobot = GymLocationsRobot(composeTestRule)
     private val gymLocationsVerifier = GymLocationsVerifier(composeTestRule)
+
+    @Before
+    fun setup() {
+        hiltTestRule.inject()
+    }
 
     @Test
     fun verifyGymLocationsSuccessState() {
@@ -78,6 +92,8 @@ class GymLocationsInstrumentedTests {
 
     @Test
     fun verifyGymLocationsErrorState() {
+        fakeGymLocationsRepository.shouldReturnError = true
+
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()

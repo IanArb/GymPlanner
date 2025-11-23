@@ -11,19 +11,21 @@ import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
-import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
-import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
+import com.ianarbuckle.gymplanner.android.personaltrainers.fakes.FakePersonalTrainersRepository
 import com.ianarbuckle.gymplanner.android.personaltrainers.robot.PersonalTrainersRobot
 import com.ianarbuckle.gymplanner.android.personaltrainers.verifier.PersonalTrainersVerifier
 import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
+import javax.inject.Inject
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -49,13 +51,19 @@ class PersonalTrainersInstrumentedTests {
 
     @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
-    @BindValue
-    @JvmField
-    val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
+    @Inject lateinit var personalTrainersRepository: PersonalTrainersRepository
+
+    private val fakePersonalTrainersRepository: FakePersonalTrainersRepository
+        get() = personalTrainersRepository as FakePersonalTrainersRepository
 
     private val loginRobot = LoginRobot(composeTestRule)
     private val personalTrainersRobot = PersonalTrainersRobot(composeTestRule)
     private val personalTrainersVerifier = PersonalTrainersVerifier(composeTestRule)
+
+    @Before
+    fun setup() {
+        hiltTestRule.inject()
+    }
 
     @Test
     fun testPersonalTrainersSuccessState() {
@@ -74,9 +82,6 @@ class PersonalTrainersInstrumentedTests {
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-        coEvery { personalTrainersViewModel.uiState.value } returns
-            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
         personalTrainersRobot.apply {
             clickOnPersonalTrainersNavTab()
             clickOnGymLocation(0)
@@ -91,6 +96,8 @@ class PersonalTrainersInstrumentedTests {
 
     @Test
     fun testPersonalTrainersErrorState() {
+        fakePersonalTrainersRepository.shouldReturnError = true
+
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()
@@ -105,8 +112,6 @@ class PersonalTrainersInstrumentedTests {
 
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-        coEvery { personalTrainersViewModel.uiState.value } returns PersonalTrainersUiState.Failure
 
         personalTrainersRobot.apply {
             clickOnPersonalTrainersNavTab()
@@ -132,9 +137,6 @@ class PersonalTrainersInstrumentedTests {
 
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-        coEvery { personalTrainersViewModel.uiState.value } returns
-            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
 
         personalTrainersRobot.apply {
             clickOnPersonalTrainersNavTab()

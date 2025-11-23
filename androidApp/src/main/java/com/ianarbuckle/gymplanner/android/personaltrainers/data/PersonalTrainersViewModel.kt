@@ -4,23 +4,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = PersonalTrainersViewModel.Factory::class)
 class PersonalTrainersViewModel
-@Inject
-constructor(private val personalTrainersRepository: PersonalTrainersRepository) : ViewModel() {
+@AssistedInject
+constructor(
+    private val personalTrainersRepository: PersonalTrainersRepository,
+    @Assisted private val gymLocation: GymLocation,
+) : ViewModel() {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(gymLocation: GymLocation): PersonalTrainersViewModel
+    }
 
     private val _uiState: MutableStateFlow<PersonalTrainersUiState> =
         MutableStateFlow(PersonalTrainersUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun fetchPersonalTrainers(gymLocation: GymLocation) {
+    init {
+        fetchPersonalTrainers()
+    }
+
+    fun fetchPersonalTrainers() {
         viewModelScope.launch {
             personalTrainersRepository
                 .fetchPersonalTrainers(gymLocation)

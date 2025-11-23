@@ -6,18 +6,21 @@ import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
 @Module
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [DashboardModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [DashboardModule::class])
 class FakeDashboardModule {
 
+    @Singleton
     @Provides
     fun providesFitnessClassesRepository(): FitnessClassRepository {
         return FakeFitnessClassRepository()
     }
 
+    @Singleton
     @Provides
     fun providesProfileRepository(): ProfileRepository {
         return FakeProfileRepository()

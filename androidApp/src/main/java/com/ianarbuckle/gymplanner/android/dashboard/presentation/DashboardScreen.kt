@@ -2,10 +2,10 @@ package com.ianarbuckle.gymplanner.android.dashboard.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
@@ -16,16 +16,14 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(true) { dashboardViewModel.fetchFitnessClasses() }
+    val uiState by dashboardViewModel.uiState.collectAsStateWithLifecycle()
 
-    val uiState = dashboardViewModel.uiState.collectAsState()
-
-    when (uiState.value) {
+    when (val state = uiState) {
         is DashboardUiState.Failure -> {
             RetryErrorScreen(
                 modifier = modifier,
                 text = "Failed to retrieve dashboard.",
-                onClick = { dashboardViewModel.fetchFitnessClasses() },
+                onClick = dashboardViewModel::fetchFitnessClasses,
             )
         }
 
@@ -33,10 +31,10 @@ fun DashboardScreen(
             DashboardContent(
                 modifier = modifier,
                 innerPadding = contentPadding,
-                classes = (uiState.value as DashboardUiState.Success).items,
+                classes = state.items,
                 onViewScheduleClick = {},
                 onBookPersonalTrainerClick = {},
-                bookings = (uiState.value as DashboardUiState.Success).booking,
+                bookings = state.booking,
             )
         }
 

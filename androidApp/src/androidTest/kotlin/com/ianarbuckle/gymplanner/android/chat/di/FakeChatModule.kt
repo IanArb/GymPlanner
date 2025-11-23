@@ -6,18 +6,21 @@ import com.ianarbuckle.gymplanner.chat.ChatRepository
 import com.ianarbuckle.gymplanner.chat.MessagesRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [ChatModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [ChatModule::class])
 @Module
 class FakeChatModule {
 
+    @Singleton
     @Provides
     fun providesChatRepository(): ChatRepository {
         return FakeChatRepository()
     }
 
+    @Singleton
     @Provides
     fun providesMessageRepository(): MessagesRepository {
         return FakeMessagesRepository()

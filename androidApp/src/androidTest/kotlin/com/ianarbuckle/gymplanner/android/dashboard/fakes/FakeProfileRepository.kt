@@ -5,8 +5,14 @@ import com.ianarbuckle.gymplanner.profile.domain.Profile
 
 class FakeProfileRepository : ProfileRepository {
 
+    var shouldReturnError = false
+
     override suspend fun fetchProfile(userId: String): Result<Profile> {
-        return mockProfileSuccess()
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockProfileSuccess()
+        }
     }
 
     private fun mockProfileSuccess(): Result<Profile> {

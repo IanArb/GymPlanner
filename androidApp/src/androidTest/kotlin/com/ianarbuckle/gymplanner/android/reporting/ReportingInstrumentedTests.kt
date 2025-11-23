@@ -16,25 +16,22 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ianarbuckle.gymplanner.android.MainActivity
-import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
-import com.ianarbuckle.gymplanner.android.reporting.data.FormFaultReportUiState
-import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
+import com.ianarbuckle.gymplanner.android.reporting.fakes.FakeFaultRepository
 import com.ianarbuckle.gymplanner.android.reporting.robot.ReportingRobot
 import com.ianarbuckle.gymplanner.android.reporting.verifier.ReportingVerifier
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
 import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
-import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
-import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
+import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.mockk.coEvery
 import io.mockk.mockk
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -50,7 +47,6 @@ class ReportingInstrumentedTests {
 
     @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    // This rule will now only be active on API 33+
     @get:Rule(order = 3)
     val postNotificationsPermissionRule =
         ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
@@ -61,7 +57,10 @@ class ReportingInstrumentedTests {
 
     val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-    val reportingViewModel = mockk<ReportingViewModel>(relaxed = true)
+    @Inject lateinit var faultRepository: FaultReportingRepository
+
+    val fakeFaultRepository: FakeFaultRepository
+        get() = faultRepository as FakeFaultRepository
 
     private val loginRobot = LoginRobot(composeTestRule)
     private val reportingRobot = ReportingRobot(composeTestRule)
@@ -71,6 +70,7 @@ class ReportingInstrumentedTests {
 
     @Before
     fun setup() {
+        hiltTestRule.inject()
         Intents.init()
         IdlingRegistry.getInstance().register(idlingResource)
     }
@@ -105,13 +105,6 @@ class ReportingInstrumentedTests {
 
         intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result)
 
-        coEvery { dashboardViewModel.uiState.value } returns
-            DashboardUiState.Success(
-                items = DataProvider.fitnessClasses(),
-                profile = DataProvider.profile(),
-                booking = DataProvider.bookings(),
-            )
-
         reportingRobot.apply {
             tapOnReportNavTab()
             populateForm()
@@ -119,19 +112,6 @@ class ReportingInstrumentedTests {
         }
 
         reportingRobot.apply { performSend() }
-
-        coEvery { reportingViewModel.submitFault(any()) } returns Unit
-
-        coEvery { reportingViewModel.uiState.value } returns
-            FormFaultReportUiState.FormSuccess(
-                data =
-                    FaultReport(
-                        machineNumber = 123,
-                        description = "Broken machine",
-                        photoUri = "scheme://path",
-                        date = "2021-09-01",
-                    )
-            )
 
         reportingVerifier.apply {
             verifyFormSuccessResponse(machineNumber = "123", description = "Broken machine")
@@ -145,18 +125,48 @@ class ReportingInstrumentedTests {
             login()
         }
 
-        coEvery { dashboardViewModel.uiState.value } returns
-            DashboardUiState.Success(
-                items = DataProvider.fitnessClasses(),
-                profile = DataProvider.profile(),
-                booking = DataProvider.bookings(),
-            )
-
         reportingRobot.apply {
             tapOnReportNavTab()
             performSend()
         }
 
         reportingVerifier.apply { verifyEmptyFieldsError() }
+    }
+
+    @Test
+    fun testReportingScreenWithFailedReport() {
+        fakeFaultRepository.shouldReturnError = true
+
+        loginRobot.apply {
+            enterUsernamePassword("test", "Travelport")
+            login()
+        }
+
+        // Create a fake bitmap (this will simulate the photo taken by the camera)
+        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+
+        // Save the fake bitmap to a file (if you need to use a URI result)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val fakePhotoFile = File(context.cacheDir, "fake_photo.jpg")
+        FileOutputStream(fakePhotoFile).use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
+
+        // Stub the camera intent to return the fake result
+        val resultIntent =
+            Intent().apply {
+                putExtra("data", bitmap) // For camera apps that return a Bitmap in extras
+            }
+        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultIntent)
+
+        intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result)
+
+        reportingRobot.apply {
+            tapOnReportNavTab()
+            populateForm()
+            performPhotoAction()
+        }
+
+        reportingRobot.apply { performSend() }
+
+        reportingVerifier.apply { verifyFormErrorResponse() }
     }
 }

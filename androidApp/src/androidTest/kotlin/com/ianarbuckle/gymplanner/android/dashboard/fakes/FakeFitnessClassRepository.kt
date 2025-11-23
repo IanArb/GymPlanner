@@ -7,10 +7,16 @@ import kotlinx.collections.immutable.ImmutableList
 
 class FakeFitnessClassRepository : FitnessClassRepository {
 
+    var shouldReturnError = false
+
     override suspend fun fetchFitnessClasses(
         dayOfWeek: String
     ): Result<ImmutableList<FitnessClass>> {
-        return mockFitnessClassSuccess()
+        return if (shouldReturnError) {
+            mockFitnessClassFailure()
+        } else {
+            mockFitnessClassSuccess()
+        }
     }
 
     private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {

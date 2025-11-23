@@ -4,13 +4,15 @@ import com.ianarbuckle.gymplanner.android.booking.fakes.FakeBookingRepository
 import com.ianarbuckle.gymplanner.booking.BookingRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [BookingModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [BookingModule::class])
 @Module
 class FakeBookingModule {
 
+    @Singleton
     @Provides
     fun provideBookingRepository(): BookingRepository {
         return FakeBookingRepository()
