@@ -18,6 +18,10 @@ constructor(private val gymLocationsRepository: GymLocationsRepository) : ViewMo
     private val _uiState = MutableStateFlow<GymLocationsUiState>(GymLocationsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
+    init {
+        fetchGymLocations()
+    }
+
     fun fetchGymLocations() {
         viewModelScope.launch {
             gymLocationsRepository

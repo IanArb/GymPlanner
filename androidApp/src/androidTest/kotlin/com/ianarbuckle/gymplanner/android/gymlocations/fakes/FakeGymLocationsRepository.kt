@@ -7,8 +7,14 @@ import kotlinx.collections.immutable.ImmutableList
 
 class FakeGymLocationsRepository : GymLocationsRepository {
 
+    var shouldReturnError = false
+
     override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> {
-        return mockGymLocationsSuccess()
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockGymLocationsSuccess()
+        }
     }
 
     private fun mockGymLocationsSuccess(): Result<ImmutableList<GymLocations>> {

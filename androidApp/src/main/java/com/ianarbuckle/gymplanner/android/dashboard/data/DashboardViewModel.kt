@@ -42,6 +42,10 @@ constructor(
 
     val uiState = _uiState.asStateFlow()
 
+    init {
+        fetchFitnessClasses()
+    }
+
     fun fetchFitnessClasses() {
         _uiState.update { DashboardUiState.Loading }
 

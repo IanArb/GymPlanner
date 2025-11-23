@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ianarbuckle.gymplanner.android.MainActivity
+import com.ianarbuckle.gymplanner.android.availability.fakes.FakeAvailabilityRepository
 import com.ianarbuckle.gymplanner.android.availability.robot.AvailabilityRobot
 import com.ianarbuckle.gymplanner.android.availability.verifier.AvailabilityVerifier
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
@@ -24,6 +25,7 @@ import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
+import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -31,6 +33,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import jakarta.inject.Inject
 import java.util.Calendar
 import org.junit.After
 import org.junit.Before
@@ -59,11 +62,16 @@ class AvailabilityInstrumentedTests {
 
     @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-    @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
-    @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
+    val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
 
-    @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
+    val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
+
+    @Inject lateinit var availabilityRepository: AvailabilityRepository
+
+    private val fakeAvailabilityRepository: FakeAvailabilityRepository
+        get() = availabilityRepository as FakeAvailabilityRepository
 
     private val availabilityRobot = AvailabilityRobot(composeTestRule)
     private val loginRobot = LoginRobot(composeTestRule)
@@ -73,9 +81,12 @@ class AvailabilityInstrumentedTests {
 
     @Before
     fun setUp() {
+        hiltTestRule.inject()
+
         IdlingRegistry.getInstance().register(composeIdleResource)
 
-        mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.LocalTimeExtKt")
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.ListExtKt")
 
         every { currentWeekDates() } returns DataProvider.daysOfWeek
     }
@@ -101,15 +112,6 @@ class AvailabilityInstrumentedTests {
 
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-        coEvery { personalTrainersViewModel.uiState.value } returns
-            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-        coEvery { availabilityViewModel.availabilityUiState.value } returns
-            AvailabilityUiState.AvailabilitySuccess(
-                availability = DataProvider.availability(),
-                isPersonalTrainerAvailable = true,
-            )
 
         availabilityRobot.apply {
             clickOnPersonalTrainersNavTab()
@@ -181,6 +183,8 @@ class AvailabilityInstrumentedTests {
 
     @Test
     fun testBookingAvailabilityFailedState() {
+        fakeAvailabilityRepository.shouldReturnError = true
+
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()

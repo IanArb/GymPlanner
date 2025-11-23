@@ -20,8 +20,6 @@ class PersonalTrainersViewModelTests {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
-    private val viewModel: PersonalTrainersViewModel =
-        PersonalTrainersViewModel(personalTrainersRepository = personalTrainersRepository)
 
     @Test
     fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() =
@@ -32,8 +30,13 @@ class PersonalTrainersViewModelTests {
                 personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF)
             } returns Result.success(personalTrainers)
 
-            // Act
-            viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
+            val viewModel =
+                PersonalTrainersViewModel(
+                    personalTrainersRepository = personalTrainersRepository,
+                    gymLocation = GymLocation.CLONTARF,
+                )
+
+            viewModel.fetchPersonalTrainers()
 
             // Assert
             viewModel.uiState.test {
@@ -50,8 +53,13 @@ class PersonalTrainersViewModelTests {
         coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns
             Result.failure(Exception("Fetch failed"))
 
-        // Act
-        viewModel.fetchPersonalTrainers(GymLocation.CLONTARF)
+        val viewModel =
+            PersonalTrainersViewModel(
+                personalTrainersRepository = personalTrainersRepository,
+                gymLocation = GymLocation.CLONTARF,
+            )
+
+        viewModel.fetchPersonalTrainers()
 
         // Assert
         viewModel.uiState.test {

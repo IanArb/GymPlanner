@@ -1,9 +1,9 @@
 package com.ianarbuckle.gymplanner.android.utils
 
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toJavaLocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaLocalDate
 
 @Suppress("MagicNumber")
 fun LocalDate.displayFormattedDate(): String {

@@ -38,8 +38,8 @@ class LoginInstrumentedTests {
 
     @Before
     fun setup() {
-        IdlingRegistry.getInstance().register(composeIdlingResource)
         hiltTestRule.inject()
+        IdlingRegistry.getInstance().register(composeIdlingResource)
     }
 
     @After

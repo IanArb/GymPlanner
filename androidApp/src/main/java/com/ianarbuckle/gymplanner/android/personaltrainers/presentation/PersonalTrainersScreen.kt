@@ -2,10 +2,10 @@ package com.ianarbuckle.gymplanner.android.personaltrainers.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
@@ -20,15 +20,20 @@ fun PersonalTrainersScreen(
     onNavigateTo: (Triple<String, String, String>) -> Unit,
     onBookClick: (PersonalTrainer) -> Unit,
     modifier: Modifier = Modifier,
-    personalTrainersViewModel: PersonalTrainersViewModel = hiltViewModel(),
+    personalTrainersViewModel: PersonalTrainersViewModel =
+        hiltViewModel(
+            creationCallback = { factory: PersonalTrainersViewModel.Factory ->
+                factory.create(gymLocation)
+            }
+        ),
 ) {
-    LaunchedEffect(true) { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) }
+    val uiState by personalTrainersViewModel.uiState.collectAsStateWithLifecycle()
 
-    when (val uiState = personalTrainersViewModel.uiState.collectAsState().value) {
+    when (val state = uiState) {
         is PersonalTrainersUiState.Failure -> {
             RetryErrorScreen(
                 text = "Failed to retrieve personal trainers.",
-                onClick = { personalTrainersViewModel.fetchPersonalTrainers(gymLocation) },
+                onClick = personalTrainersViewModel::fetchPersonalTrainers,
             )
         }
 
@@ -36,7 +41,7 @@ fun PersonalTrainersScreen(
             PersonalTrainersContent(
                 modifier = modifier,
                 innerPadding = contentPadding,
-                personalTrainers = uiState.personalTrainers.toImmutableList(),
+                personalTrainers = state.personalTrainers.toImmutableList(),
                 onSocialLinkClick = {},
                 onBookTrainerClick = { onBookClick(it) },
                 onItemClick = { item -> onNavigateTo(Triple(item.first, item.second, item.third)) },

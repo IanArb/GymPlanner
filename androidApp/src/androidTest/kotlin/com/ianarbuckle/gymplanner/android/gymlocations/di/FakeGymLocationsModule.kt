@@ -4,13 +4,15 @@ import com.ianarbuckle.gymplanner.android.gymlocations.fakes.FakeGymLocationsRep
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [GymLocationsModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [GymLocationsModule::class])
 @Module
 class FakeGymLocationsModule {
 
+    @Singleton
     @Provides
     fun provideGymLocationsRepository(): GymLocationsRepository {
         return FakeGymLocationsRepository()

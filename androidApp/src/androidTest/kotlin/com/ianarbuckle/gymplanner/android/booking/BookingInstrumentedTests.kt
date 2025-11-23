@@ -7,8 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ianarbuckle.gymplanner.android.MainActivity
-import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
-import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
+import com.ianarbuckle.gymplanner.android.booking.fakes.FakeBookingRepository
 import com.ianarbuckle.gymplanner.android.booking.robot.BookingRobot
 import com.ianarbuckle.gymplanner.android.booking.verifier.BookingVerifier
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
@@ -16,8 +15,6 @@ import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
-import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
-import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
 import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
@@ -25,6 +22,7 @@ import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
+import com.ianarbuckle.gymplanner.booking.BookingRepository
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -32,6 +30,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.junit.After
@@ -61,13 +60,14 @@ class BookingInstrumentedTests {
 
     @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-    @BindValue val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
-
-    @BindValue val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
-
-    @BindValue @JvmField val availabilityViewModel = mockk<AvailabilityViewModel>(relaxed = true)
+    @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
     @BindValue @JvmField val bookingViewModel = mockk<BookingViewModel>(relaxed = true)
+
+    @Inject lateinit var bookingRepository: BookingRepository
+
+    private val fakeBookingRepository: FakeBookingRepository
+        get() = bookingRepository as FakeBookingRepository
 
     private val loginRobot = LoginRobot(composeTestRule)
 
@@ -79,10 +79,14 @@ class BookingInstrumentedTests {
 
     @Before
     fun setUp() {
+        hiltTestRule.inject()
+
         IdlingRegistry.getInstance().register(composeIdleResource)
 
         // Correct the static function reference
-        mockkStatic("com.ianarbuckle.gymplanner.android.utils.DateTimeKtKt")
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.ListExtKt")
+        // Correct the static function reference
+        mockkStatic("com.ianarbuckle.gymplanner.android.utils.LocalTimeExtKt")
 
         // Define the behavior of the mocked function
         every { currentWeekDates() } returns DataProvider.daysOfWeek
@@ -110,15 +114,6 @@ class BookingInstrumentedTests {
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
 
-        coEvery { personalTrainersViewModel.uiState.value } returns
-            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-        coEvery { availabilityViewModel.availabilityUiState.value } returns
-            AvailabilityUiState.AvailabilitySuccess(
-                availability = DataProvider.availability(),
-                isPersonalTrainerAvailable = true,
-            )
-
         val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
         every { bookingViewModel.bookingUiState } returns bookingUiStateFlow
 
@@ -141,6 +136,8 @@ class BookingInstrumentedTests {
 
     @Test
     fun testBookingHasFailedWhenEndUserConfirms() {
+        fakeBookingRepository.shouldReturnError = true
+
         loginRobot.apply {
             enterUsernamePassword("test", "password")
             login()
@@ -155,15 +152,6 @@ class BookingInstrumentedTests {
 
         coEvery { gymLocationsViewModel.uiState.value } returns
             GymLocationsUiState.Success(gymLocations = DataProvider.gymLocations())
-
-        coEvery { personalTrainersViewModel.uiState.value } returns
-            PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
-
-        coEvery { availabilityViewModel.availabilityUiState.value } returns
-            AvailabilityUiState.AvailabilitySuccess(
-                availability = DataProvider.availability(),
-                isPersonalTrainerAvailable = true,
-            )
 
         val bookingUiStateFlow = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
         every { bookingViewModel.bookingUiState } returns bookingUiStateFlow

@@ -7,18 +7,28 @@ import com.ianarbuckle.gymplanner.availability.domain.CheckAvailability
 
 class FakeAvailabilityRepository : AvailabilityRepository {
 
+    var shouldReturnError = false
+
     override suspend fun getAvailability(
         personalTrainerId: String,
         month: String,
     ): Result<Availability> {
-        return mockAvailabilitySuccess(personalTrainerId = personalTrainerId, month = month)
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockAvailabilitySuccess(personalTrainerId = personalTrainerId, month = month)
+        }
     }
 
     override suspend fun checkAvailability(
         personalTrainerId: String,
         month: String,
     ): Result<CheckAvailability> {
-        return mockCheckAvailabilitySuccess(personalTrainerId = personalTrainerId)
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockCheckAvailabilitySuccess(personalTrainerId = personalTrainerId)
+        }
     }
 
     private fun mockAvailabilitySuccess(

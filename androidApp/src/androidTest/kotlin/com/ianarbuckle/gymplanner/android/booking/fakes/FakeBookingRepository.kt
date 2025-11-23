@@ -11,14 +11,24 @@ import kotlinx.collections.immutable.persistentListOf
 
 class FakeBookingRepository : BookingRepository {
 
+    var shouldReturnError: Boolean = false
+
     override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
-        return mockSaveBookingSuccess()
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockSaveBookingSuccess()
+        }
     }
 
     override suspend fun findBookingsByUserId(
         userId: String
     ): Result<ImmutableList<BookingResponse>> {
-        return mockSaveBookingSuccess().map { persistentListOf(it) }
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockSaveBookingSuccess().map { persistentListOf(it) }
+        }
     }
 
     private fun mockSaveBookingSuccess(): Result<BookingResponse> {

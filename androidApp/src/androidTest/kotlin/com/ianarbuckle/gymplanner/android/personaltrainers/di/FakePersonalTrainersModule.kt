@@ -4,14 +4,16 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.fakes.FakePersonalTra
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [PersonalTrainersModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [PersonalTrainersModule::class])
 @Module
 class FakePersonalTrainersModule {
 
     @Provides
+    @Singleton
     fun providePersonalTrainersRepository(): PersonalTrainersRepository {
         return FakePersonalTrainersRepository()
     }

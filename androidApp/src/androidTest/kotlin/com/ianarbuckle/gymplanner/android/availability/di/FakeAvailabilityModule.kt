@@ -4,13 +4,15 @@ import com.ianarbuckle.gymplanner.android.availability.fakes.FakeAvailabilityRep
 import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Singleton
 
-@TestInstallIn(components = [ViewModelComponent::class], replaces = [AvailabilityModule::class])
+@TestInstallIn(components = [SingletonComponent::class], replaces = [AvailabilityModule::class])
 @Module
 class FakeAvailabilityModule {
 
+    @Singleton
     @Provides
     fun providesAvailabilityRepository(): AvailabilityRepository {
         return FakeAvailabilityRepository()

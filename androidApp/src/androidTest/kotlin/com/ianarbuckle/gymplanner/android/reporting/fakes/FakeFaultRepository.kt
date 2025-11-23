@@ -5,15 +5,22 @@ import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 class FakeFaultRepository : FaultReportingRepository {
 
+    var shouldReturnError = false
+
     override suspend fun fetchFaultReports(): Result<List<FaultReport>> {
-        return Result.success(listOf(mockFaultReport()))
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            Result.success(listOf(mockFaultReport()))
+        }
     }
 
     override suspend fun saveFaultReport(report: FaultReport): Result<FaultReport> {
-        if (report.description == "Failure") {
-            return Result.failure(Exception("Error"))
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            Result.success(mockFaultReport())
         }
-        return Result.success(mockFaultReport())
     }
 
     private fun mockFaultReport(): FaultReport {

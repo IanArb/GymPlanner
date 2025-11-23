@@ -1,6 +1,5 @@
 package gymplanner.availability
 
-import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.availability.AvailabilityUiState
 import com.ianarbuckle.gymplanner.android.availability.AvailabilityViewModel
@@ -32,28 +31,18 @@ class AvailabilityViewModelTests {
     @OptIn(ExperimentalTime::class)
     private val clock: Clock =
         mockk(relaxed = true) { every { now() } returns Instant.parse("2023-01-01T00:00:00Z") }
-    private val savedStateHandle: SavedStateHandle =
-        mockk(relaxed = true) {
-            every { get<String>("personalTrainerId") } returns "trainer123"
-            every { set("personalTrainerId", any<String>()) } returns Unit
-        }
-
-    private val viewModel: AvailabilityViewModel =
-        AvailabilityViewModel(
-            availabilityRepository = availabilityRepository,
-            savedStateHandle = savedStateHandle,
-            clock = clock,
-        )
 
     @Test
     fun `init should update state to AvailabilitySuccess when API calls succeed`() = runTest {
         // Arrange
         val personalTrainerId = "trainer123"
         val currentDateTime = Instant.parse("2023-01-01T00:00:00Z").toLocalDateTime(TimeZone.UTC)
+        val month = currentDateTime.calendarMonth()
+
         coEvery {
             availabilityRepository.checkAvailability(
-                personalTrainerId,
-                currentDateTime.calendarMonth(),
+                personalTrainerId = personalTrainerId,
+                month = month,
             )
         } returns
             Result.success(
@@ -61,18 +50,28 @@ class AvailabilityViewModelTests {
             )
         coEvery {
             availabilityRepository.getAvailability(
-                personalTrainerId,
-                currentDateTime.calendarMonth(),
+                personalTrainerId = personalTrainerId,
+                month = month,
             )
-        } returns Result.success(DataProvider.availability())
+        } returns
+            Result.success(
+                DataProvider.availability(personalTrainerId = personalTrainerId, month = month)
+            )
+
+        val viewModel =
+            AvailabilityViewModel(
+                availabilityRepository = availabilityRepository,
+                personalTrainerId = personalTrainerId,
+                clock = clock,
+            )
 
         viewModel.fetchAvailability()
 
         // Act
         viewModel.availabilityUiState.test {
-            // Assert
             assertEquals(AvailabilityUiState.Idle, awaitItem())
             assertEquals(AvailabilityUiState.Loading, awaitItem())
+            // Assert transitions
             val successState = awaitItem() as AvailabilityUiState.AvailabilitySuccess
             assertEquals(true, successState.isPersonalTrainerAvailable)
             cancelAndIgnoreRemainingEvents()
@@ -84,26 +83,35 @@ class AvailabilityViewModelTests {
         // Arrange
         val personalTrainerId = "trainer123"
         val currentDateTime = Instant.parse("2023-01-01T00:00:00Z").toLocalDateTime(TimeZone.UTC)
-        every { savedStateHandle.get<String>("personalTrainerId") } returns personalTrainerId
-        coEvery { clock.now() } returns Instant.parse("2023-01-01T00:00:00Z")
+        val month = currentDateTime.calendarMonth()
+
+        every { clock.now() } returns Instant.parse("2023-01-01T00:00:00Z")
+
         coEvery {
             availabilityRepository.checkAvailability(
-                personalTrainerId,
-                currentDateTime.calendarMonth(),
+                personalTrainerId = personalTrainerId,
+                month = month,
             )
         } returns Result.failure(Exception("Check failed"))
+
         coEvery {
             availabilityRepository.getAvailability(
-                personalTrainerId,
-                currentDateTime.calendarMonth(),
+                personalTrainerId = personalTrainerId,
+                month = month,
             )
         } returns Result.failure(Exception("Fetch failed"))
+
+        val viewModel =
+            AvailabilityViewModel(
+                availabilityRepository = availabilityRepository,
+                personalTrainerId = personalTrainerId,
+                clock = clock,
+            )
 
         viewModel.fetchAvailability()
 
         // Act
         viewModel.availabilityUiState.test {
-            // Assert
             assertEquals(AvailabilityUiState.Idle, awaitItem())
             assertEquals(AvailabilityUiState.Loading, awaitItem())
             assertEquals(AvailabilityUiState.Failed, awaitItem())

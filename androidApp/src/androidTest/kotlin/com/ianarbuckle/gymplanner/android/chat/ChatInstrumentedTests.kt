@@ -7,6 +7,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ianarbuckle.gymplanner.android.MainActivity
+import com.ianarbuckle.gymplanner.android.chat.fakes.FakeChatRepository
+import com.ianarbuckle.gymplanner.android.chat.fakes.FakeMessagesRepository
 import com.ianarbuckle.gymplanner.android.chat.verifier.ChatVerifier
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
@@ -20,12 +22,14 @@ import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
 import com.ianarbuckle.gymplanner.chat.ChatRepository
+import com.ianarbuckle.gymplanner.chat.MessagesRepository
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
+import javax.inject.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.first
@@ -62,7 +66,15 @@ class ChatInstrumentedTests {
 
     @BindValue @JvmField val profileViewModel = mockk<ProfileViewModel>(relaxed = true)
 
-    @BindValue @JvmField val chatRepository = mockk<ChatRepository>(relaxed = true)
+    @Inject lateinit var chatRepository: ChatRepository
+
+    private val fakeChatRepository: FakeChatRepository
+        get() = chatRepository as FakeChatRepository
+
+    @Inject lateinit var messagesRepository: MessagesRepository
+
+    private val fakeMessagesRepository: FakeMessagesRepository
+        get() = messagesRepository as FakeMessagesRepository
 
     private val loginRobot = LoginRobot(composeTestRule)
 
@@ -72,8 +84,8 @@ class ChatInstrumentedTests {
 
     @Before
     fun setup() {
-        IdlingRegistry.getInstance().register(composeIdlingResource)
         hiltTestRule.inject()
+        IdlingRegistry.getInstance().register(composeIdlingResource)
     }
 
     @After

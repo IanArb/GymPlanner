@@ -5,9 +5,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ianarbuckle.gymplanner.android.booking.BookingUiState
 import com.ianarbuckle.gymplanner.android.booking.BookingViewModel
 import com.ianarbuckle.gymplanner.android.utils.displayTime
@@ -21,10 +22,10 @@ fun BookingDetailsScreen(
     modifier: Modifier = Modifier,
     bookingViewModel: BookingViewModel = hiltViewModel(),
 ) {
-    val uiState = bookingViewModel.bookingUiState.collectAsState()
+    val uiState by bookingViewModel.bookingUiState.collectAsStateWithLifecycle()
 
     Column(modifier = modifier.padding(contentPadding)) {
-        when (uiState.value) {
+        when (uiState) {
             is BookingUiState.Idle -> {
                 BookingDetailsContent(
                     selectedDate = bookingDetailsData.selectedDate,

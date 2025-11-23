@@ -20,23 +20,27 @@ class GymLocationsViewModelTests {
 
     private val gymLocationsRepository = mockk<GymLocationsRepository>()
 
-    private val viewModel: GymLocationsViewModel =
-        GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
-
     @Test
     fun `fetchGymLocations should update uiState to Success when API call succeeds`() = runTest {
         // Arrange
         val gymLocations = persistentListOf(mockk<GymLocations>())
         coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.success(gymLocations)
 
+        val viewModel = GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
+
         // Act
         viewModel.fetchGymLocations()
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(GymLocationsUiState.Loading, awaitItem())
-            val successState = awaitItem() as GymLocationsUiState.Success
-            assertEquals(gymLocations, successState.gymLocations)
+            val item = awaitItem()
+            if (item is GymLocationsUiState.Loading) {
+                val successState = awaitItem() as GymLocationsUiState.Success
+                assertEquals(gymLocations, successState.gymLocations)
+            } else {
+                val successState = item as GymLocationsUiState.Success
+                assertEquals(gymLocations, successState.gymLocations)
+            }
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -47,13 +51,19 @@ class GymLocationsViewModelTests {
         coEvery { gymLocationsRepository.fetchGymLocations() } returns
             Result.failure(Exception("Fetch failed"))
 
+        val viewModel = GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
+
         // Act
         viewModel.fetchGymLocations()
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(GymLocationsUiState.Loading, awaitItem())
-            assertEquals(GymLocationsUiState.Failure, awaitItem())
+            val item = awaitItem()
+            if (item is GymLocationsUiState.Loading) {
+                assertEquals(GymLocationsUiState.Failure, awaitItem())
+            } else {
+                assertEquals(GymLocationsUiState.Failure, item)
+            }
             cancelAndIgnoreRemainingEvents()
         }
     }
