@@ -91,8 +91,169 @@ ngrok http 8000
     }
     ```
 
+## Screenshots
+
+### Dashboard
+The main dashboard displays gym classes carousel and quick access to book personal trainers.
+
+<table>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.dashboard.screenshots.DashboardContentScreenshotTests/verify_gym_carousel_is_displayed_correctly_in_dark_mode.png" width="300" alt="Dashboard Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.dashboard.screenshots.DashboardContentScreenshotTests/verify_book_trainers_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Dashboard Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Dashboard - Dark Mode</td>
+    <td align="center">Dashboard - Light Mode</td>
+  </tr>
+</table>
+
+### Gym Locations
+Browse and select from available gym locations.
+
+<table>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.gymlocations.screenshots.GymLocationsScreenshotTests/verify_gym_location_card_is_displayed_correctly_in_dark_mode.png" width="300" alt="Gym Locations Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.gymlocations.screenshots.GymLocationsScreenshotTests/verify_gym_location_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Gym Locations Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Gym Locations - Dark Mode</td>
+    <td align="center">Gym Locations - Light Mode</td>
+  </tr>
+</table>
+
+### Personal Trainers
+View available personal trainers and their profiles.
+
+<table>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.personaltrainers.screenshots.PersonalTrainersScreenshotTests/verify_personal_trainers_card_is_displayed_correctly_in_night_mode.png" width="300" alt="Personal Trainers Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.personaltrainers.screenshots.PersonalTrainersScreenshotTests/verify_personal_trainers_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Personal Trainers Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Personal Trainers - Dark Mode</td>
+    <td align="center">Personal Trainers - Light Mode</td>
+  </tr>
+</table>
+
+### Booking & Availability
+Check trainer availability and book time slots through an interactive calendar interface.
+
+<table>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_header_is_displayed_correctly_in_dark_mode.png" width="300" alt="Booking Calendar Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_header_is_displayed_correctly_in_light_mode.png" width="300" alt="Booking Calendar Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Booking Calendar - Dark Mode</td>
+    <td align="center">Booking Calendar - Light Mode</td>
+  </tr>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_time_slots_is_displayed_correctly_in_dark_mode.png" width="300" alt="Time Slots Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_time_slots_is_displayed_correctly_in_light_mode.png" width="300" alt="Time Slots Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Time Slots - Dark Mode</td>
+    <td align="center">Time Slots - Light Mode</td>
+  </tr>
+</table>
+
+### Chat
+Real-time chat interface for communicating with gym staff.
+
+<table>
+  <tr>
+    <td><img src="androidApp/screenshots/gymplanner.chat.screenshots.ChatScreenContentScreenshotTests/verify_composer_in_dark_mode.png" width="300" alt="Chat Dark Mode"/></td>
+    <td><img src="androidApp/screenshots/gymplanner.chat.screenshots.ChatScreenContentScreenshotTests/verify_composer_in_light_mode.png" width="300" alt="Chat Light Mode"/></td>
+  </tr>
+  <tr>
+    <td align="center">Chat Interface - Dark Mode</td>
+    <td align="center">Chat Interface - Light Mode</td>
+  </tr>
+</table>
+
+---
+
+## iOS Framework Distribution
+
+This project supports distributing the shared Kotlin code as an XCFramework for iOS via Swift Package Manager.
+
+### For iOS Developers
+
+To integrate the shared module into your iOS project, see the [Swift Package documentation](shared/SWIFT_PACKAGE.md).
+
+**Quick start:**
+
+```swift
+// Add to your Package.swift
+dependencies: [
+    .package(url: "https://github.com/IanArb/GymPlanner", from: "1.0.0")
+]
+```
+
+### Automated Versioning & Releases
+
+This project uses [semantic-release](https://semantic-release.gitbook.io/) for automated version management and releases.
+
+**How it works:**
+- Commits following [Conventional Commits](https://www.conventionalcommits.org/) format automatically trigger releases
+- Version numbers are determined by commit types (`feat`, `fix`, `BREAKING CHANGE`)
+- CHANGELOG.md is automatically generated
+- XCFramework is built and published to GitHub Releases
+- Swift Package Manager manifest is updated with checksums
+
+**Commit message format:**
+```bash
+feat(scope): add new feature       # Minor release (0.1.0)
+fix(scope): fix bug                # Patch release (0.0.1)
+feat!: breaking change             # Major release (1.0.0)
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed commit message guidelines.
+
+### Building the XCFramework
+
+The XCFramework is automatically built and published when commits are pushed to `main`:
+
+```bash
+# Make changes following conventional commits
+git commit -m "feat(ios): add new authentication method"
+git push origin main
+```
+
+The GitHub Actions workflow will:
+- Analyze commits and determine next version
+- Generate CHANGELOG.md
+- Build the XCFramework for all iOS targets (device + simulator)
+- Create a GitHub release with artifacts
+- Update version files
+
+To build locally:
+
+```bash
+./build-xcframework.sh 1.0.0
+```
+
+The XCFramework will be available at: `shared/build/XCFrameworks/release/SharedGymPlanner.xcframework`
+
+---
+
 ## Contributing
-We welcome contributions to improve the app! Feel free to fork the repository and submit pull requests.
+
+We welcome contributions to improve the app! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Commit message guidelines (Conventional Commits)
+- Development workflow
+- Release process
+- Code style guidelines
+
+### Quick Contribution Guide
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/my-feature`
+3. Make changes and commit using conventional format: `git commit -m "feat: add amazing feature"`
+4. Push to your fork: `git push origin feat/my-feature`
+5. Create a Pull Request
+
+---
 
 ## License
 This project is licensed under the MIT License.
