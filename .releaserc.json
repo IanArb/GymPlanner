@@ -1,0 +1,96 @@
+{
+  "branches": [
+    "main",
+    {
+      "name": "develop",
+      "prerelease": "beta"
+    }
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          {
+            "type": "docs",
+            "scope": "README",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "style",
+            "release": "patch"
+          },
+          {
+            "scope": "no-release",
+            "release": false
+          }
+        ],
+        "parserOpts": {
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES"
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "angular",
+        "writerOpts": {
+          "commitsSort": [
+            "subject",
+            "scope"
+          ]
+        }
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "./scripts/update-version.sh ${nextRelease.version}",
+        "publishCmd": "./build-xcframework.sh ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "shared/build/XCFrameworks/release/SharedGymPlanner.xcframework.zip",
+            "label": "SharedGymPlanner XCFramework (${nextRelease.gitTag})"
+          },
+          {
+            "path": "shared/build/XCFrameworks/release/Package.swift",
+            "label": "Swift Package Manifest"
+          }
+        ],
+        "successComment": "🎉 This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:\n\nThe release is available on [GitHub release](<github_release_url>)\n\n### Installation\n\nFor iOS developers, update your Package.swift:\n\n```swift\ndependencies: [\n    .package(url: \"https://github.com/${process.env.GITHUB_REPOSITORY}\", from: \"${nextRelease.version}\")\n]\n```"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md",
+          "shared/build.gradle.kts",
+          "androidApp/build.gradle.kts",
+          "version.properties"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  ]
+}
+

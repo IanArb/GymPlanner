@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -12,9 +14,14 @@ kotlin {
     jvmToolchain(17)
     androidTarget()
 
+    val xcframeworkName = "SharedGymPlanner"
+    val xcf = XCFramework(xcframeworkName)
+
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "SharedGymPlanner"
+            binaryOption("bundleId", "com.ianarbuckle.${xcframeworkName}")
+            xcf.add(this)
             isStatic = true
         }
     }
@@ -22,7 +29,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Ktor
-
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
@@ -92,8 +98,13 @@ spotless {
 
 detekt {
     toolVersion = "1.23.7"
-    config = files("$rootDir/config/detekt.yml")
+    config.setFrom(files("$rootDir/config/detekt.yml"))
     buildUponDefaultConfig = true
     allRules = false
     autoCorrect = true
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
 }

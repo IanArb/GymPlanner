@@ -34,14 +34,6 @@ data class BookingResponseDto(
             BookingStatusDto.COMPLETED -> BookingStatus.COMPLETED
             else -> BookingStatus.UNKNOWN
         }
-
-    private fun PersonalTrainerDto.toPersonalTrainer(): PersonalTrainer =
-        PersonalTrainer(
-            id = this.id,
-            name = this.name,
-            imageUrl = this.imageUrl,
-            gymLocation = this.gymLocation,
-        )
 }
 
 @Serializable

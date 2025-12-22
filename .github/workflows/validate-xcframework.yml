@@ -1,0 +1,105 @@
+name: Validate XCFramework Build
+
+on:
+  pull_request:
+    paths:
+      - 'shared/**'
+      - '.github/workflows/build-xcframework.yml'
+      - 'build-xcframework.sh'
+  workflow_dispatch:
+
+jobs:
+  validate-build:
+    name: Validate XCFramework can be built
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Disable configuration cache
+        run: |
+          echo "org.gradle.configuration-cache=false" >> gradle.properties
+
+      - name: Build iOS frameworks (Device)
+        run: |
+          ./gradlew :shared:linkReleaseFrameworkIosArm64 --no-configuration-cache
+
+      - name: Build iOS frameworks (Simulator)
+        run: |
+          ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64 --no-configuration-cache
+
+      - name: Verify frameworks were created
+        run: |
+          echo "Checking for device framework..."
+          if [ -d "shared/build/bin/iosArm64/releaseFramework/SharedGymPlanner.framework" ]; then
+            echo "✅ Device framework found"
+            ls -la shared/build/bin/iosArm64/releaseFramework/
+          else
+            echo "❌ Device framework not found"
+            exit 1
+          fi
+          
+          echo "Checking for simulator framework..."
+          if [ -d "shared/build/bin/iosSimulatorArm64/releaseFramework/SharedGymPlanner.framework" ]; then
+            echo "✅ Simulator framework found"
+            ls -la shared/build/bin/iosSimulatorArm64/releaseFramework/
+          else
+            echo "❌ Simulator framework not found"
+            exit 1
+          fi
+
+      - name: Assemble XCFramework
+        run: |
+          ./gradlew :shared:assembleSharedGymPlannerXCFramework --no-configuration-cache
+
+      - name: Verify XCFramework structure
+        run: |
+          if [ -d "shared/build/XCFrameworks/release/SharedGymPlanner.xcframework" ]; then
+            echo "✅ XCFramework created successfully"
+            echo ""
+            echo "📂 XCFramework structure:"
+            find shared/build/XCFrameworks/release/SharedGymPlanner.xcframework -type f | head -20
+            echo ""
+            echo "📦 XCFramework contents:"
+            ls -la shared/build/XCFrameworks/release/SharedGymPlanner.xcframework/
+          else
+            echo "❌ XCFramework not found"
+            exit 1
+          fi
+
+      - name: Test building with build script
+        run: |
+          ./build-xcframework.sh "test-1.0.0"
+
+      - name: Verify Package.swift was generated
+        run: |
+          if [ -f "shared/build/XCFrameworks/release/Package.swift" ]; then
+            echo "✅ Package.swift generated"
+            echo ""
+            cat shared/build/XCFrameworks/release/Package.swift
+          else
+            echo "❌ Package.swift not found"
+            exit 1
+          fi
+
+      - name: Upload validation artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-artifacts
+          path: |
+            shared/build/bin/**/releaseFramework/**
+            shared/build/XCFrameworks/release/**
+          retention-days: 7
+

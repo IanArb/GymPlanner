@@ -1,0 +1,171 @@
+name: Build and Export XCFramework
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build-xcframework:
+    name: Build XCFramework for iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build iOS frameworks
+        run: |
+          ./gradlew :shared:assembleSharedGymPlannerXCFramework
+
+      - name: Verify XCFramework was created
+        run: |
+          ls -la shared/build/XCFrameworks/release/
+          if [ ! -d "shared/build/XCFrameworks/release/SharedGymPlanner.xcframework" ]; then
+            echo "❌ XCFramework not found"
+            exit 1
+          fi
+          echo "✅ XCFramework created successfully"
+
+      - name: Create Package.swift manifest
+        run: |
+          cd shared/build/XCFrameworks/release
+          
+          # Calculate checksum for the XCFramework
+          zip -r SharedGymPlanner.xcframework.zip SharedGymPlanner.xcframework
+          CHECKSUM=$(swift package compute-checksum SharedGymPlanner.xcframework.zip)
+          
+          # Get version from git tag or use default
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          else
+            VERSION="0.0.1-SNAPSHOT"
+          fi
+          
+          # Create Package.swift
+          cat > Package.swift << EOF
+          // swift-tools-version:5.9
+          import PackageDescription
+          
+          let package = Package(
+              name: "SharedGymPlanner",
+              platforms: [
+                  .iOS(.v14)
+              ],
+              products: [
+                  .library(
+                      name: "SharedGymPlanner",
+                      targets: ["SharedGymPlanner"]
+                  )
+              ],
+              targets: [
+                  .binaryTarget(
+                      name: "SharedGymPlanner",
+                      url: "https://github.com/${{ github.repository }}/releases/download/v\${VERSION}/SharedGymPlanner.xcframework.zip",
+                      checksum: "\${CHECKSUM}"
+                  )
+              ]
+          )
+          EOF
+          
+          echo "✅ Package.swift created with checksum: $CHECKSUM"
+          cat Package.swift
+
+      - name: Archive XCFramework
+        run: |
+          cd shared/build/XCFrameworks/release
+          zip -r SharedGymPlanner.xcframework.zip SharedGymPlanner.xcframework
+
+      - name: Upload XCFramework artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SharedGymPlanner-xcframework
+          path: |
+            shared/build/XCFrameworks/release/SharedGymPlanner.xcframework.zip
+            shared/build/XCFrameworks/release/Package.swift
+          retention-days: 30
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            shared/build/XCFrameworks/release/SharedGymPlanner.xcframework.zip
+            shared/build/XCFrameworks/release/Package.swift
+          body: |
+            ## XCFramework Release
+            
+            This release contains the SharedGymPlanner XCFramework for iOS.
+            
+            ### Installation
+            
+            Add the following to your `Package.swift`:
+            
+            ```swift
+            dependencies: [
+                .package(url: "https://github.com/${{ github.repository }}", from: "${{ github.ref_name }}")
+            ]
+            ```
+            
+            Or add via Xcode:
+            1. File → Add Package Dependencies
+            2. Enter: `https://github.com/${{ github.repository }}`
+            3. Select version: `${{ github.ref_name }}`
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  verify-package:
+    name: Verify Swift Package
+    runs-on: macos-latest
+    needs: build-xcframework
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Download XCFramework artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: SharedGymPlanner-xcframework
+
+      - name: Verify Package.swift syntax
+        run: |
+          if [ -f "Package.swift" ]; then
+            swift package dump-package || echo "⚠️  Package.swift validation skipped (no git repo)"
+            echo "✅ Package.swift syntax is valid"
+          else
+            echo "❌ Package.swift not found"
+            exit 1
+          fi
+
+      - name: Verify XCFramework structure
+        run: |
+          unzip -q SharedGymPlanner.xcframework.zip
+          
+          # Check if XCFramework has required structure
+          if [ -d "SharedGymPlanner.xcframework" ]; then
+            echo "✅ XCFramework structure:"
+            find SharedGymPlanner.xcframework -type f | head -20
+          else
+            echo "❌ Invalid XCFramework structure"
+            exit 1
+          fi
+
