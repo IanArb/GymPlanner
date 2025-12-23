@@ -1,16 +1,26 @@
 package com.ianarbuckle.gymplanner.di
 
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRemoteDataSource
+import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRemoteDataSource
 import com.ianarbuckle.gymplanner.availability.AvailabilityRemoteDataSource
+import com.ianarbuckle.gymplanner.availability.DefaultAvailabilityRemoteDataSource
 import com.ianarbuckle.gymplanner.booking.BookingRemoteDataSource
+import com.ianarbuckle.gymplanner.booking.DefaultBookingRemoteDataSource
 import com.ianarbuckle.gymplanner.chat.ChatSocketService
 import com.ianarbuckle.gymplanner.chat.ChatSocketServiceImpl
+import com.ianarbuckle.gymplanner.chat.DefaultMessagesRemoteDataSource
 import com.ianarbuckle.gymplanner.chat.MessagesRemoteDataSource
+import com.ianarbuckle.gymplanner.faultreporting.DefaultFaultReportingRemoteDataSource
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRemoteDataSource
+import com.ianarbuckle.gymplanner.fcm.DefaultFcmTokenRemoteDataSource
 import com.ianarbuckle.gymplanner.fcm.FcmTokenRemoteDataSource
+import com.ianarbuckle.gymplanner.fitnessclass.DefaultFitnessClassRemoteDataSource
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRemoteDataSource
+import com.ianarbuckle.gymplanner.gymlocations.DefaultGymLocationsRemoteDataSource
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRemoteDataSource
+import com.ianarbuckle.gymplanner.personaltrainers.DefaultPersonalTrainersRemoteDataSource
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
+import com.ianarbuckle.gymplanner.profile.DefaultProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
@@ -82,8 +92,8 @@ fun createHttpClient(json: Json, enableNetworkLogs: Boolean, baseUrl: String) =
     }
 
 fun fitnessClassModule(baseUrl: String) = module {
-    single {
-        FitnessClassRemoteDataSource(
+    single<FitnessClassRemoteDataSource> {
+        DefaultFitnessClassRemoteDataSource(
             httpClient = get(),
             baseurl = baseUrl,
             dataStoreRepository = get(),
@@ -92,8 +102,8 @@ fun fitnessClassModule(baseUrl: String) = module {
 }
 
 fun faultReportingModule(baseUrl: String) = module {
-    single {
-        FaultReportingRemoteDataSource(
+    single<FaultReportingRemoteDataSource> {
+        DefaultFaultReportingRemoteDataSource(
             httpClient = get(),
             baseurl = baseUrl,
             dataStoreRepository = get(),
@@ -102,8 +112,8 @@ fun faultReportingModule(baseUrl: String) = module {
 }
 
 fun personalTrainersModule(baseUrl: String) = module {
-    single {
-        PersonalTrainersRemoteDataSource(
+    single<PersonalTrainersRemoteDataSource> {
+        DefaultPersonalTrainersRemoteDataSource(
             baseUrl = baseUrl,
             httpClient = get(),
             dataStoreRepository = get(),
@@ -112,8 +122,8 @@ fun personalTrainersModule(baseUrl: String) = module {
 }
 
 fun gymLocationsModule(baseUrl: String) = module {
-    single {
-        GymLocationsRemoteDataSource(
+    single<GymLocationsRemoteDataSource> {
+        DefaultGymLocationsRemoteDataSource(
             baseUrl = baseUrl,
             httpClient = get(),
             dataStoreRepository = get(),
@@ -122,26 +132,26 @@ fun gymLocationsModule(baseUrl: String) = module {
 }
 
 fun profileModule(baseUrl: String) = module {
-    single {
-        ProfileRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+    single<ProfileRemoteDataSource> {
+        DefaultProfileRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
     }
 }
 
 fun authenticationModule(baseUrl: String) = module {
-    single { AuthenticationRemoteDataSource(baseurl = baseUrl, httpClient = get()) }
+    single<AuthenticationRemoteDataSource> { DefaultAuthenticationRemoteDataSource(baseurl = baseUrl, httpClient = get()) }
 }
 
 fun bookingModule(baseUrl: String) = module {
-    single {
-        BookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
+    single<BookingRemoteDataSource> {
+        DefaultBookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
     }
 }
 
 fun dataStoreModule() = module { single<DataStoreRepository> { DefaultDataStoreRepository() } }
 
 fun availabilityModule(baseUrl: String) = module {
-    single {
-        AvailabilityRemoteDataSource(
+    single<AvailabilityRemoteDataSource> {
+        DefaultAvailabilityRemoteDataSource(
             baseUrl = baseUrl,
             httpClient = get(),
             dataStoreRepository = get(),
@@ -153,13 +163,13 @@ fun chatModule(baseUrl: String, websocketBaseUrl: String) = module {
     single<ChatSocketService> {
         ChatSocketServiceImpl(httpClient = get(), baseUrl = websocketBaseUrl)
     }
-    single {
-        MessagesRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+    single<MessagesRemoteDataSource> {
+        DefaultMessagesRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
     }
 }
 
 fun fcmModule(baseUrl: String) = module {
-    single {
-        FcmTokenRemoteDataSource(baseurl = baseUrl, httpClient = get(), dataStoreRepository = get())
+    single<FcmTokenRemoteDataSource> {
+        DefaultFcmTokenRemoteDataSource(baseurl = baseUrl, httpClient = get(), dataStoreRepository = get())
     }
 }

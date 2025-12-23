@@ -10,13 +10,17 @@ import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
-class GymLocationsRemoteDataSource(
+interface GymLocationsRemoteDataSource {
+    suspend fun gymLocations(): List<GymLocationsDto>
+}
+
+class DefaultGymLocationsRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-) {
+): GymLocationsRemoteDataSource {
 
-    suspend fun gymLocations(): List<GymLocationsDto> {
+    override suspend fun gymLocations(): List<GymLocationsDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseUrl) {
@@ -30,7 +34,7 @@ class GymLocationsRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/gym_locations"
     }
 }

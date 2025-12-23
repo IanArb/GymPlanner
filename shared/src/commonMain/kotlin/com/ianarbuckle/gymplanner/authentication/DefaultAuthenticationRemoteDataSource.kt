@@ -11,12 +11,17 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class AuthenticationRemoteDataSource(
+interface AuthenticationRemoteDataSource {
+    suspend fun login(login: Login): LoginResponseDto
+    suspend fun register(register: Register): RegisterResponseDto
+}
+
+class DefaultAuthenticationRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
-) {
+) : AuthenticationRemoteDataSource {
 
-    suspend fun login(login: Login): LoginResponseDto {
+    override suspend fun login(login: Login): LoginResponseDto {
         val response =
             httpClient.post(baseurl.plus(LOGIN_ENDPOINT)) {
                 contentType(ContentType.Application.Json)
@@ -26,7 +31,7 @@ class AuthenticationRemoteDataSource(
         return response.body()
     }
 
-    suspend fun register(register: Register): RegisterResponseDto {
+    override suspend fun register(register: Register): RegisterResponseDto {
         val response =
             httpClient.post(baseurl.plus(REGISTER_ENDPOINT)) {
                 contentType(ContentType.Application.Json)
@@ -36,7 +41,7 @@ class AuthenticationRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/auth"
         private const val LOGIN_ENDPOINT = "$ENDPOINT/login"
         private const val REGISTER_ENDPOINT = "$ENDPOINT/register"

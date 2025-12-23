@@ -62,6 +62,7 @@ kotlin {
                 implementation(libs.kotlin.test)
                 implementation(libs.junit)
                 implementation(libs.kotest.assertions.core)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 

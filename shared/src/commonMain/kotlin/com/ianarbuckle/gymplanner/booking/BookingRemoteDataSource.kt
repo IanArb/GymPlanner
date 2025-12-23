@@ -13,13 +13,18 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class BookingRemoteDataSource(
+interface BookingRemoteDataSource {
+    suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto
+    suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto>
+}
+
+class DefaultBookingRemoteDataSource(
     private val baseUrl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : BookingRemoteDataSource {
 
-    suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
+    override suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val response =
             httpClient.post(baseUrl.plus(BOOKING_ENDPOINT)) {
@@ -31,7 +36,7 @@ class BookingRemoteDataSource(
         return response.body()
     }
 
-    suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto> {
+    override suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(BOOKING_ENDPOINT).plus("/$userId")
         val response = httpClient.get(url) { headers { append("Authorization", "Bearer $token") } }
@@ -39,7 +44,7 @@ class BookingRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         const val BOOKING_ENDPOINT = "/api/v1/booking"
     }
 }
