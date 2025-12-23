@@ -8,8 +8,8 @@ import com.ianarbuckle.gymplanner.authentication.dto.LoginResponseDto
 import com.ianarbuckle.gymplanner.authentication.dto.RegisterResponseDto
 
 /**
- * Fake implementation for testing AuthenticationRepository
- * Implements the AuthenticationRemoteDataSource interface
+ * Fake implementation for testing AuthenticationRepository Implements the
+ * AuthenticationRemoteDataSource interface
  */
 class FakeAuthenticationRemoteDataSource : AuthenticationRemoteDataSource {
 
@@ -60,5 +60,3 @@ class FakeAuthenticationRemoteDataSource : AuthenticationRemoteDataSource {
         registerResponse = RegisterResponses.default
     }
 }
-
-

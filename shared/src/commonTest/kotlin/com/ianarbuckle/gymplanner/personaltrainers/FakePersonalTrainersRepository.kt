@@ -3,9 +3,7 @@ package com.ianarbuckle.gymplanner.personaltrainers
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 
-/**
- * Fake implementation of PersonalTrainersRepository for testing
- */
+/** Fake implementation of PersonalTrainersRepository for testing */
 class FakePersonalTrainersRepository(
     private val remoteDataSource: PersonalTrainersRemoteDataSource
 ) {
@@ -29,4 +27,3 @@ class FakePersonalTrainersRepository(
         }
     }
 }
-

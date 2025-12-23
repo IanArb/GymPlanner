@@ -5,13 +5,13 @@ import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.FaultReportDtos
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.FaultReports
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.ReportLists
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class FaultReportingRepositoryTest {
 
@@ -213,7 +213,10 @@ class FaultReportingRepositoryTest {
         assertEquals(1, fakeRemoteDataSource.saveReportCalls.size)
         val savedReport = fakeRemoteDataSource.saveReportCalls[0]
         assertEquals(FaultReports.treadmillFault, savedReport)
-        assertEquals("Treadmill belt is slipping and making grinding noise", savedReport.description)
+        assertEquals(
+            "Treadmill belt is slipping and making grinding noise",
+            savedReport.description,
+        )
         assertEquals(101, savedReport.machineNumber)
     }
 
@@ -473,4 +476,3 @@ class FaultReportingRepositoryTest {
         assertEquals(202, fakeRemoteDataSource.saveReportCalls[1].machineNumber)
     }
 }
-

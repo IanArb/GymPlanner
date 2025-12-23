@@ -3,12 +3,8 @@ package com.ianarbuckle.gymplanner.chat
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Fake implementation of ChatRepository for testing
- */
-class FakeChatRepository(
-    private val chatSocketService: ChatSocketService
-) : ChatRepository {
+/** Fake implementation of ChatRepository for testing */
+class FakeChatRepository(private val chatSocketService: ChatSocketService) : ChatRepository {
 
     override suspend fun initSession(username: String, userId: String): Result<Unit> {
         return try {
@@ -34,4 +30,3 @@ class FakeChatRepository(
         chatSocketService.closeSession()
     }
 }
-

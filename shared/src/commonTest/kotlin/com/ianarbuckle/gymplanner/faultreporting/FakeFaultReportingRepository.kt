@@ -2,12 +2,9 @@ package com.ianarbuckle.gymplanner.faultreporting
 
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
-/**
- * Fake implementation of FaultReportingRepository for testing
- */
-class FakeFaultReportingRepository(
-    private val remoteDataSource: FaultReportingRemoteDataSource
-) : FaultReportingRepository {
+/** Fake implementation of FaultReportingRepository for testing */
+class FakeFaultReportingRepository(private val remoteDataSource: FaultReportingRemoteDataSource) :
+    FaultReportingRepository {
 
     override suspend fun fetchFaultReports(): Result<List<FaultReport>> {
         return try {
@@ -28,4 +25,3 @@ class FakeFaultReportingRepository(
         }
     }
 }
-

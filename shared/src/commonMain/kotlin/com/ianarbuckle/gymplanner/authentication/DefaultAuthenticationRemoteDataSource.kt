@@ -13,6 +13,7 @@ import io.ktor.http.contentType
 
 interface AuthenticationRemoteDataSource {
     suspend fun login(login: Login): LoginResponseDto
+
     suspend fun register(register: Register): RegisterResponseDto
 }
 

@@ -5,9 +5,8 @@ import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.Register
 import com.ianarbuckle.gymplanner.authentication.domain.RegisterResponse
 
-class FakeAuthenticationRepository(
-    private val remoteDataSource: AuthenticationRemoteDataSource
-) : AuthenticationRepository {
+class FakeAuthenticationRepository(private val remoteDataSource: AuthenticationRemoteDataSource) :
+    AuthenticationRepository {
 
     override suspend fun login(login: Login): Result<LoginResponse> {
         return try {

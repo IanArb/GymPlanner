@@ -3,12 +3,8 @@ package com.ianarbuckle.gymplanner.chat
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOf
 
-/**
- * Fake implementation for testing ChatRepository
- * Implements the ChatSocketService interface
- */
+/** Fake implementation for testing ChatRepository Implements the ChatSocketService interface */
 class FakeChatSocketService : ChatSocketService {
 
     // Control flags for test scenarios
@@ -77,4 +73,3 @@ class FakeChatSocketService : ChatSocketService {
         observeMessagesFlow = emptyFlow()
     }
 }
-

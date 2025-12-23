@@ -20,7 +20,7 @@ class DefaultFcmTokenRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-): FcmTokenRemoteDataSource {
+) : FcmTokenRemoteDataSource {
 
     override suspend fun registerToken(fcmTokenRequest: FcmTokenRequest): FcmTokenResponseDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""

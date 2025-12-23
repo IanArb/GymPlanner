@@ -18,7 +18,7 @@ class DefaultGymLocationsRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-): GymLocationsRemoteDataSource {
+) : GymLocationsRemoteDataSource {
 
     override suspend fun gymLocations(): List<GymLocationsDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""

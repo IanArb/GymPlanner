@@ -3,9 +3,7 @@ package com.ianarbuckle.gymplanner.faultreporting
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import com.ianarbuckle.gymplanner.faultreporting.dto.FaultReportDto
 
-/**
- * Provides test data for FaultReportingRepository tests
- */
+/** Provides test data for FaultReportingRepository tests */
 object FaultReportingTestDataProvider {
 
     // ========== Machine Numbers ==========
@@ -46,113 +44,127 @@ object FaultReportingTestDataProvider {
         const val rowerDisplay = "Rower display screen is flickering and showing errors"
         const val ellipticalPedal = "Elliptical left pedal is loose and wobbling"
         const val emptyDescription = ""
-        const val longDescription = "This is a very long and detailed description of a fault that includes multiple issues with the machine including mechanical problems, electrical issues, and safety concerns that need immediate attention from the maintenance team."
+        const val longDescription =
+            "This is a very long and detailed description of a fault that includes multiple issues with the machine including mechanical problems, electrical issues, and safety concerns that need immediate attention from the maintenance team."
     }
 
     // ========== Fault Report DTOs ==========
 
     object FaultReportDtos {
-        val treadmillFault = FaultReportDto(
-            id = "fault-001",
-            machineNumber = MachineNumbers.treadmill1,
-            description = Descriptions.treadmillBelt,
-            photoUri = PhotoUris.photo1,
-            date = Dates.today
-        )
+        val treadmillFault =
+            FaultReportDto(
+                id = "fault-001",
+                machineNumber = MachineNumbers.treadmill1,
+                description = Descriptions.treadmillBelt,
+                photoUri = PhotoUris.photo1,
+                date = Dates.today,
+            )
 
-        val bikeFault = FaultReportDto(
-            id = "fault-002",
-            machineNumber = MachineNumbers.bike2,
-            description = Descriptions.bikeResistance,
-            photoUri = PhotoUris.photo2,
-            date = Dates.yesterday
-        )
+        val bikeFault =
+            FaultReportDto(
+                id = "fault-002",
+                machineNumber = MachineNumbers.bike2,
+                description = Descriptions.bikeResistance,
+                photoUri = PhotoUris.photo2,
+                date = Dates.yesterday,
+            )
 
-        val rowerFault = FaultReportDto(
-            id = "fault-003",
-            machineNumber = MachineNumbers.rower3,
-            description = Descriptions.rowerDisplay,
-            photoUri = PhotoUris.photo3,
-            date = Dates.lastWeek
-        )
+        val rowerFault =
+            FaultReportDto(
+                id = "fault-003",
+                machineNumber = MachineNumbers.rower3,
+                description = Descriptions.rowerDisplay,
+                photoUri = PhotoUris.photo3,
+                date = Dates.lastWeek,
+            )
 
-        val savedReport = FaultReportDto(
-            id = "fault-004",
-            machineNumber = MachineNumbers.elliptical4,
-            description = Descriptions.ellipticalPedal,
-            photoUri = PhotoUris.photo1,
-            date = Dates.today
-        )
+        val savedReport =
+            FaultReportDto(
+                id = "fault-004",
+                machineNumber = MachineNumbers.elliptical4,
+                description = Descriptions.ellipticalPedal,
+                photoUri = PhotoUris.photo1,
+                date = Dates.today,
+            )
     }
 
     // ========== Fault Reports (Domain) ==========
 
     object FaultReports {
-        val treadmillFault = FaultReport(
-            description = Descriptions.treadmillBelt,
-            photoUri = PhotoUris.photo1,
-            machineNumber = MachineNumbers.treadmill1,
-            date = Dates.today
-        )
+        val treadmillFault =
+            FaultReport(
+                description = Descriptions.treadmillBelt,
+                photoUri = PhotoUris.photo1,
+                machineNumber = MachineNumbers.treadmill1,
+                date = Dates.today,
+            )
 
-        val bikeFault = FaultReport(
-            description = Descriptions.bikeResistance,
-            photoUri = PhotoUris.photo2,
-            machineNumber = MachineNumbers.bike2,
-            date = Dates.yesterday
-        )
+        val bikeFault =
+            FaultReport(
+                description = Descriptions.bikeResistance,
+                photoUri = PhotoUris.photo2,
+                machineNumber = MachineNumbers.bike2,
+                date = Dates.yesterday,
+            )
 
-        val rowerFault = FaultReport(
-            description = Descriptions.rowerDisplay,
-            photoUri = PhotoUris.photo3,
-            machineNumber = MachineNumbers.rower3,
-            date = Dates.lastWeek
-        )
+        val rowerFault =
+            FaultReport(
+                description = Descriptions.rowerDisplay,
+                photoUri = PhotoUris.photo3,
+                machineNumber = MachineNumbers.rower3,
+                date = Dates.lastWeek,
+            )
 
-        val ellipticalFault = FaultReport(
-            description = Descriptions.ellipticalPedal,
-            photoUri = PhotoUris.photo1,
-            machineNumber = MachineNumbers.elliptical4,
-            date = Dates.today
-        )
+        val ellipticalFault =
+            FaultReport(
+                description = Descriptions.ellipticalPedal,
+                photoUri = PhotoUris.photo1,
+                machineNumber = MachineNumbers.elliptical4,
+                date = Dates.today,
+            )
 
-        val newReport = FaultReport(
-            description = "New machine fault to be saved",
-            photoUri = PhotoUris.photo2,
-            machineNumber = 505,
-            date = Dates.today
-        )
+        val newReport =
+            FaultReport(
+                description = "New machine fault to be saved",
+                photoUri = PhotoUris.photo2,
+                machineNumber = 505,
+                date = Dates.today,
+            )
 
-        val emptyDescriptionReport = FaultReport(
-            description = Descriptions.emptyDescription,
-            photoUri = PhotoUris.photo1,
-            machineNumber = MachineNumbers.treadmill1,
-            date = Dates.today
-        )
+        val emptyDescriptionReport =
+            FaultReport(
+                description = Descriptions.emptyDescription,
+                photoUri = PhotoUris.photo1,
+                machineNumber = MachineNumbers.treadmill1,
+                date = Dates.today,
+            )
 
-        val longDescriptionReport = FaultReport(
-            description = Descriptions.longDescription,
-            photoUri = PhotoUris.photo1,
-            machineNumber = MachineNumbers.bike2,
-            date = Dates.today
-        )
+        val longDescriptionReport =
+            FaultReport(
+                description = Descriptions.longDescription,
+                photoUri = PhotoUris.photo1,
+                machineNumber = MachineNumbers.bike2,
+                date = Dates.today,
+            )
 
-        val invalidMachineReport = FaultReport(
-            description = Descriptions.treadmillBelt,
-            photoUri = PhotoUris.photo1,
-            machineNumber = MachineNumbers.invalidMachine,
-            date = Dates.today
-        )
+        val invalidMachineReport =
+            FaultReport(
+                description = Descriptions.treadmillBelt,
+                photoUri = PhotoUris.photo1,
+                machineNumber = MachineNumbers.invalidMachine,
+                date = Dates.today,
+            )
     }
 
     // ========== Report Lists ==========
 
     object ReportLists {
-        val multipleReports = listOf(
-            FaultReportDtos.treadmillFault,
-            FaultReportDtos.bikeFault,
-            FaultReportDtos.rowerFault
-        )
+        val multipleReports =
+            listOf(
+                FaultReportDtos.treadmillFault,
+                FaultReportDtos.bikeFault,
+                FaultReportDtos.rowerFault,
+            )
 
         val singleReport = listOf(FaultReportDtos.treadmillFault)
 
@@ -160,11 +172,8 @@ object FaultReportingTestDataProvider {
     }
 
     object DomainReportLists {
-        val multipleReports = listOf(
-            FaultReports.treadmillFault,
-            FaultReports.bikeFault,
-            FaultReports.rowerFault
-        )
+        val multipleReports =
+            listOf(FaultReports.treadmillFault, FaultReports.bikeFault, FaultReports.rowerFault)
 
         val singleReport = listOf(FaultReports.treadmillFault)
 
@@ -183,4 +192,3 @@ object FaultReportingTestDataProvider {
         val saveFailed = RuntimeException("Failed to save fault report")
     }
 }
-

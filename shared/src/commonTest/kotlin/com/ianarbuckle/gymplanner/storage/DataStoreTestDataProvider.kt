@@ -3,9 +3,7 @@ package com.ianarbuckle.gymplanner.storage
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
-/**
- * Provides test data for DataStoreRepository tests
- */
+/** Provides test data for DataStoreRepository tests */
 object DataStoreTestDataProvider {
 
     // ========== String Keys ==========
@@ -57,4 +55,3 @@ object DataStoreTestDataProvider {
         val ioError = RuntimeException("IO error while accessing data store")
     }
 }
-

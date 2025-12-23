@@ -6,13 +6,13 @@ import com.ianarbuckle.gymplanner.fcm.FcmTokenTestDataProvider.FcmTokenResponseD
 import com.ianarbuckle.gymplanner.fcm.FcmTokenTestDataProvider.FcmTokenResponses
 import com.ianarbuckle.gymplanner.fcm.FcmTokenTestDataProvider.FcmTokens
 import com.ianarbuckle.gymplanner.fcm.FcmTokenTestDataProvider.UserIds
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class FcmTokenRepositoryTest {
 
@@ -383,4 +383,3 @@ class FcmTokenRepositoryTest {
         assertEquals(2, fakeRemoteDataSource.registerTokenCalls.size)
     }
 }
-

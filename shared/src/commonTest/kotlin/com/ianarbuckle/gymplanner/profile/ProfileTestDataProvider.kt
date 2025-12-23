@@ -3,9 +3,7 @@ package com.ianarbuckle.gymplanner.profile
 import com.ianarbuckle.gymplanner.profile.domain.Profile
 import com.ianarbuckle.gymplanner.profile.dto.ProfileDto
 
-/**
- * Provides test data for ProfileRepository tests
- */
+/** Provides test data for ProfileRepository tests */
 object ProfileTestDataProvider {
 
     // ========== User IDs ==========
@@ -43,89 +41,99 @@ object ProfileTestDataProvider {
     // ========== Profile DTOs ==========
 
     object ProfileDtos {
-        val john = ProfileDto(
-            userId = UserIds.user1,
-            username = Usernames.johnDoe,
-            firstName = "John",
-            surname = "Doe",
-            email = Emails.john
-        )
+        val john =
+            ProfileDto(
+                userId = UserIds.user1,
+                username = Usernames.johnDoe,
+                firstName = "John",
+                surname = "Doe",
+                email = Emails.john,
+            )
 
-        val jane = ProfileDto(
-            userId = UserIds.user2,
-            username = Usernames.janeSmith,
-            firstName = "Jane",
-            surname = "Smith",
-            email = Emails.jane
-        )
+        val jane =
+            ProfileDto(
+                userId = UserIds.user2,
+                username = Usernames.janeSmith,
+                firstName = "Jane",
+                surname = "Smith",
+                email = Emails.jane,
+            )
 
-        val mike = ProfileDto(
-            userId = UserIds.user3,
-            username = Usernames.mikeBrown,
-            firstName = "Mike",
-            surname = "Brown",
-            email = Emails.mike
-        )
+        val mike =
+            ProfileDto(
+                userId = UserIds.user3,
+                username = Usernames.mikeBrown,
+                firstName = "Mike",
+                surname = "Brown",
+                email = Emails.mike,
+            )
 
-        val sarah = ProfileDto(
-            userId = UserIds.user4,
-            username = Usernames.sarahWilson,
-            firstName = "Sarah",
-            surname = "Wilson",
-            email = Emails.sarah
-        )
+        val sarah =
+            ProfileDto(
+                userId = UserIds.user4,
+                username = Usernames.sarahWilson,
+                firstName = "Sarah",
+                surname = "Wilson",
+                email = Emails.sarah,
+            )
 
-        val admin = ProfileDto(
-            userId = UserIds.admin,
-            username = Usernames.adminUser,
-            firstName = "Admin",
-            surname = "User",
-            email = Emails.admin
-        )
+        val admin =
+            ProfileDto(
+                userId = UserIds.admin,
+                username = Usernames.adminUser,
+                firstName = "Admin",
+                surname = "User",
+                email = Emails.admin,
+            )
     }
 
     // ========== Profiles (Domain) ==========
 
     object Profiles {
-        val john = Profile(
-            userId = UserIds.user1,
-            username = Usernames.johnDoe,
-            firstName = "John",
-            surname = "Doe",
-            email = Emails.john
-        )
+        val john =
+            Profile(
+                userId = UserIds.user1,
+                username = Usernames.johnDoe,
+                firstName = "John",
+                surname = "Doe",
+                email = Emails.john,
+            )
 
-        val jane = Profile(
-            userId = UserIds.user2,
-            username = Usernames.janeSmith,
-            firstName = "Jane",
-            surname = "Smith",
-            email = Emails.jane
-        )
+        val jane =
+            Profile(
+                userId = UserIds.user2,
+                username = Usernames.janeSmith,
+                firstName = "Jane",
+                surname = "Smith",
+                email = Emails.jane,
+            )
 
-        val mike = Profile(
-            userId = UserIds.user3,
-            username = Usernames.mikeBrown,
-            firstName = "Mike",
-            surname = "Brown",
-            email = Emails.mike
-        )
+        val mike =
+            Profile(
+                userId = UserIds.user3,
+                username = Usernames.mikeBrown,
+                firstName = "Mike",
+                surname = "Brown",
+                email = Emails.mike,
+            )
 
-        val sarah = Profile(
-            userId = UserIds.user4,
-            username = Usernames.sarahWilson,
-            firstName = "Sarah",
-            surname = "Wilson",
-            email = Emails.sarah
-        )
+        val sarah =
+            Profile(
+                userId = UserIds.user4,
+                username = Usernames.sarahWilson,
+                firstName = "Sarah",
+                surname = "Wilson",
+                email = Emails.sarah,
+            )
 
-        val admin = Profile(
-            userId = UserIds.admin,
-            username = Usernames.adminUser,
-            firstName = "Admin",
-            surname = "User",
-            email = Emails.admin
-        )
+        val admin =
+            Profile(
+                userId = UserIds.admin,
+                username = Usernames.adminUser,
+                firstName = "Admin",
+                surname = "User",
+                email = Emails.admin,
+            )
     }
 
     // ========== Exceptions ==========
@@ -139,4 +147,3 @@ object ProfileTestDataProvider {
         val invalidUserId = IllegalArgumentException("Invalid user ID format")
     }
 }
-

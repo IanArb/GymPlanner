@@ -5,13 +5,13 @@ import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.Exce
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationDtos
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationLists
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationsDomain
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class GymLocationsRepositoryTest {
 
@@ -328,11 +328,12 @@ class GymLocationsRepositoryTest {
     @Test
     fun `getGymLocations with different location types is handled`() = runTest {
         // Given - Mix of coastal, city, and suburban locations
-        fakeRemoteDataSource.gymLocationsResponse = listOf(
-            GymLocationDtos.clontarf,      // Coastal
-            GymLocationDtos.astonQuay,     // City Centre
-            GymLocationDtos.westmanstown   // Suburban
-        )
+        fakeRemoteDataSource.gymLocationsResponse =
+            listOf(
+                GymLocationDtos.clontarf, // Coastal
+                GymLocationDtos.astonQuay, // City Centre
+                GymLocationDtos.westmanstown, // Suburban
+            )
 
         // When
         val result = repository.getGymLocations()
@@ -364,11 +365,12 @@ class GymLocationsRepositoryTest {
     @Test
     fun `getGymLocations with seaside locations is handled`() = runTest {
         // Given - Locations near water
-        fakeRemoteDataSource.gymLocationsResponse = listOf(
-            GymLocationDtos.clontarf,
-            GymLocationDtos.sandymount,
-            GymLocationDtos.dunLaoghaire
-        )
+        fakeRemoteDataSource.gymLocationsResponse =
+            listOf(
+                GymLocationDtos.clontarf,
+                GymLocationDtos.sandymount,
+                GymLocationDtos.dunLaoghaire,
+            )
 
         // When
         val result = repository.getGymLocations()
@@ -379,7 +381,10 @@ class GymLocationsRepositoryTest {
         assertEquals(3, locations.size)
         // All these locations have water-related descriptions
         val descriptions = locations.map { it.description.lowercase() }
-        assertTrue(descriptions.any { it.contains("seafront") || it.contains("strand") || it.contains("harbor") })
+        assertTrue(
+            descriptions.any {
+                it.contains("seafront") || it.contains("strand") || it.contains("harbor")
+            }
+        )
     }
 }
-

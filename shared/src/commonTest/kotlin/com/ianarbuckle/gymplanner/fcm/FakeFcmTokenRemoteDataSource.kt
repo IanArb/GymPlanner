@@ -4,8 +4,8 @@ import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
 import com.ianarbuckle.gymplanner.fcm.dto.FcmTokenResponseDto
 
 /**
- * Fake implementation for testing FcmTokenRepository
- * Implements the FcmTokenRemoteDataSource interface
+ * Fake implementation for testing FcmTokenRepository Implements the FcmTokenRemoteDataSource
+ * interface
  */
 class FakeFcmTokenRemoteDataSource : FcmTokenRemoteDataSource {
 
@@ -17,7 +17,8 @@ class FakeFcmTokenRemoteDataSource : FcmTokenRemoteDataSource {
     val registerTokenCalls = mutableListOf<FcmTokenRequest>()
 
     // Configurable responses
-    var registerTokenResponse: FcmTokenResponseDto = FcmTokenTestDataProvider.FcmTokenResponseDtos.successResponse
+    var registerTokenResponse: FcmTokenResponseDto =
+        FcmTokenTestDataProvider.FcmTokenResponseDtos.successResponse
 
     override suspend fun registerToken(fcmTokenRequest: FcmTokenRequest): FcmTokenResponseDto {
         registerTokenCalls.add(fcmTokenRequest)
@@ -37,4 +38,3 @@ class FakeFcmTokenRemoteDataSource : FcmTokenRemoteDataSource {
         registerTokenResponse = FcmTokenTestDataProvider.FcmTokenResponseDtos.successResponse
     }
 }
-

@@ -3,8 +3,8 @@ package com.ianarbuckle.gymplanner.chat
 import com.ianarbuckle.gymplanner.chat.dto.MessageDto
 
 /**
- * Fake implementation for testing MessagesRepository
- * Implements the MessagesRemoteDataSource interface
+ * Fake implementation for testing MessagesRepository Implements the MessagesRemoteDataSource
+ * interface
  */
 class FakeMessagesRemoteDataSource : MessagesRemoteDataSource {
 
@@ -52,4 +52,3 @@ class FakeMessagesRemoteDataSource : MessagesRemoteDataSource {
         getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
     }
 }
-

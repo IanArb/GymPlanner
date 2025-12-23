@@ -4,8 +4,8 @@ import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import com.ianarbuckle.gymplanner.faultreporting.dto.FaultReportDto
 
 /**
- * Fake implementation for testing FaultReportingRepository
- * Implements the FaultReportingRemoteDataSource interface
+ * Fake implementation for testing FaultReportingRepository Implements the
+ * FaultReportingRemoteDataSource interface
  */
 class FakeFaultReportingRemoteDataSource : FaultReportingRemoteDataSource {
 
@@ -20,8 +20,10 @@ class FakeFaultReportingRemoteDataSource : FaultReportingRemoteDataSource {
     val saveReportCalls = mutableListOf<FaultReport>()
 
     // Configurable responses
-    var reportsResponse: List<FaultReportDto> = FaultReportingTestDataProvider.ReportLists.multipleReports
-    var saveReportResponse: FaultReportDto = FaultReportingTestDataProvider.FaultReportDtos.savedReport
+    var reportsResponse: List<FaultReportDto> =
+        FaultReportingTestDataProvider.ReportLists.multipleReports
+    var saveReportResponse: FaultReportDto =
+        FaultReportingTestDataProvider.FaultReportDtos.savedReport
 
     override suspend fun reports(): List<FaultReportDto> {
         reportsCalls.add(Unit)
@@ -55,4 +57,3 @@ class FakeFaultReportingRemoteDataSource : FaultReportingRemoteDataSource {
         saveReportResponse = FaultReportingTestDataProvider.FaultReportDtos.savedReport
     }
 }
-

@@ -3,8 +3,7 @@ package com.ianarbuckle.gymplanner.storage
 import androidx.datastore.preferences.core.Preferences
 
 /**
- * Fake implementation for testing DataStoreRepository
- * Implements the DataStoreRepository interface
+ * Fake implementation for testing DataStoreRepository Implements the DataStoreRepository interface
  */
 class FakeDataStoreRepository : DataStoreRepository {
 
@@ -85,4 +84,3 @@ class FakeDataStoreRepository : DataStoreRepository {
         getBooleanCalls.clear()
     }
 }
-

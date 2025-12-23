@@ -5,13 +5,13 @@ import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.Doma
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.FitnessClassLists
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.FitnessClasses
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class FitnessClassRepositoryTest {
 
@@ -303,12 +303,13 @@ class FitnessClassRepositoryTest {
     @Test
     fun `getFitnessClasses with different durations is handled`() = runTest {
         // Given - Classes with 30, 45, 60, 90 minute durations
-        fakeRemoteDataSource.fitnessClassesResponse = listOf(
-            FitnessClassTestDataProvider.FitnessClassDtos.hiit,      // 30 min
-            FitnessClassTestDataProvider.FitnessClassDtos.spinning,  // 45 min
-            FitnessClassTestDataProvider.FitnessClassDtos.yoga,      // 60 min
-            FitnessClassTestDataProvider.FitnessClassDtos.bootcamp   // 90 min
-        )
+        fakeRemoteDataSource.fitnessClassesResponse =
+            listOf(
+                FitnessClassTestDataProvider.FitnessClassDtos.hiit, // 30 min
+                FitnessClassTestDataProvider.FitnessClassDtos.spinning, // 45 min
+                FitnessClassTestDataProvider.FitnessClassDtos.yoga, // 60 min
+                FitnessClassTestDataProvider.FitnessClassDtos.bootcamp, // 90 min
+            )
 
         // When
         val result = repository.getFitnessClasses(DaysOfWeek.monday)
@@ -372,10 +373,11 @@ class FitnessClassRepositoryTest {
     @Test
     fun `getFitnessClasses with morning classes is handled`() = runTest {
         // Given - Classes before noon
-        fakeRemoteDataSource.fitnessClassesResponse = listOf(
-            FitnessClassTestDataProvider.FitnessClassDtos.yoga,
-            FitnessClassTestDataProvider.FitnessClassDtos.bootcamp
-        )
+        fakeRemoteDataSource.fitnessClassesResponse =
+            listOf(
+                FitnessClassTestDataProvider.FitnessClassDtos.yoga,
+                FitnessClassTestDataProvider.FitnessClassDtos.bootcamp,
+            )
 
         // When
         val result = repository.getFitnessClasses(DaysOfWeek.monday)
@@ -390,10 +392,11 @@ class FitnessClassRepositoryTest {
     @Test
     fun `getFitnessClasses with evening classes is handled`() = runTest {
         // Given - Classes after 5 PM
-        fakeRemoteDataSource.fitnessClassesResponse = listOf(
-            FitnessClassTestDataProvider.FitnessClassDtos.spinning,
-            FitnessClassTestDataProvider.FitnessClassDtos.hiit
-        )
+        fakeRemoteDataSource.fitnessClassesResponse =
+            listOf(
+                FitnessClassTestDataProvider.FitnessClassDtos.spinning,
+                FitnessClassTestDataProvider.FitnessClassDtos.hiit,
+            )
 
         // When
         val result = repository.getFitnessClasses(DaysOfWeek.monday)
@@ -405,4 +408,3 @@ class FitnessClassRepositoryTest {
         assertTrue(classes[1].startTime >= "17:00")
     }
 }
-

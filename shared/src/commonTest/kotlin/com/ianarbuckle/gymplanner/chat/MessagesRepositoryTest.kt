@@ -1,12 +1,12 @@
 package com.ianarbuckle.gymplanner.chat
 
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class MessagesRepositoryTest {
 
@@ -177,8 +177,10 @@ class MessagesRepositoryTest {
         // Then
         val messages = result.getOrNull()
         assertNotNull(messages)
-        assertTrue(messages::class.simpleName?.contains("Immutable") == true
-            || messages::class.simpleName?.contains("Persistent") == true)
+        assertTrue(
+            messages::class.simpleName?.contains("Immutable") == true ||
+                messages::class.simpleName?.contains("Persistent") == true
+        )
     }
 
     @Test
@@ -234,7 +236,10 @@ class MessagesRepositoryTest {
         assertEquals(ChatTestDataProvider.Messages.messageToSend.text, sentMessage.content)
         assertEquals(ChatTestDataProvider.Messages.messageToSend.username, sentMessage.username)
         assertEquals(ChatTestDataProvider.Messages.messageToSend.userId, sentMessage.userId)
-        assertEquals(ChatTestDataProvider.Messages.messageToSend.formattedTime, sentMessage.timestamp)
+        assertEquals(
+            ChatTestDataProvider.Messages.messageToSend.formattedTime,
+            sentMessage.timestamp,
+        )
     }
 
     @Test
@@ -248,7 +253,10 @@ class MessagesRepositoryTest {
 
         // Then
         assertTrue(result.isFailure, "Result should be failure")
-        assertEquals(expected = ChatTestDataProvider.Exceptions.networkError, actual = result.exceptionOrNull())
+        assertEquals(
+            expected = ChatTestDataProvider.Exceptions.networkError,
+            actual = result.exceptionOrNull(),
+        )
     }
 
     @Test
@@ -467,4 +475,3 @@ class MessagesRepositoryTest {
         assertEquals("I want to build muscle and increase strength", messages[2].text)
     }
 }
-

@@ -4,8 +4,8 @@ import com.ianarbuckle.gymplanner.clients.dto.PersonalTrainerDto
 import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 
 /**
- * Fake implementation for testing PersonalTrainersRepository
- * Implements the PersonalTrainersRemoteDataSource interface
+ * Fake implementation for testing PersonalTrainersRepository Implements the
+ * PersonalTrainersRemoteDataSource interface
  */
 class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
 
@@ -20,14 +20,17 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
     val findPersonalTrainerByIdCalls = mutableListOf<String>()
 
     // Configurable responses
-    var fetchPersonalTrainersResponse: List<PersonalTrainerDto> = PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
-    var findPersonalTrainerByIdResponse: PersonalTrainerDto = PersonalTrainersTestDataProvider.PersonalTrainerDtos.sarah
+    var fetchPersonalTrainersResponse: List<PersonalTrainerDto> =
+        PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
+    var findPersonalTrainerByIdResponse: PersonalTrainerDto =
+        PersonalTrainersTestDataProvider.PersonalTrainerDtos.sarah
 
     override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
         fetchPersonalTrainersCalls.add(gymLocation)
 
         if (shouldThrowExceptionOnFetchPersonalTrainers) {
-            throw fetchPersonalTrainersException ?: RuntimeException("Fetch personal trainers failed")
+            throw fetchPersonalTrainersException
+                ?: RuntimeException("Fetch personal trainers failed")
         }
 
         return fetchPersonalTrainersResponse
@@ -37,7 +40,8 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         findPersonalTrainerByIdCalls.add(id)
 
         if (shouldThrowExceptionOnFindPersonalTrainerById) {
-            throw findPersonalTrainerByIdException ?: RuntimeException("Find personal trainer failed")
+            throw findPersonalTrainerByIdException
+                ?: RuntimeException("Find personal trainer failed")
         }
 
         return findPersonalTrainerByIdResponse
@@ -51,8 +55,8 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         fetchPersonalTrainersCalls.clear()
         findPersonalTrainerByIdCalls.clear()
 
-        fetchPersonalTrainersResponse = PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
+        fetchPersonalTrainersResponse =
+            PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
         findPersonalTrainerByIdResponse = PersonalTrainersTestDataProvider.PersonalTrainerDtos.sarah
     }
 }
-

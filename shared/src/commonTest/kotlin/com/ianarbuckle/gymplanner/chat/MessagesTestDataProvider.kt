@@ -4,9 +4,7 @@ import com.ianarbuckle.gymplanner.chat.domain.Message
 import com.ianarbuckle.gymplanner.chat.dto.MessageDto
 import kotlinx.collections.immutable.persistentListOf
 
-/**
- * Provides test data for Chat/Messages Repository tests
- */
+/** Provides test data for Chat/Messages Repository tests */
 object ChatTestDataProvider {
 
     // ========== Session Data ==========
@@ -52,136 +50,135 @@ object ChatTestDataProvider {
     // ========== Message DTOs ==========
 
     object MessageDtos {
-        val message1 = MessageDto(
-            id = "msg-001",
-            timestamp = Timestamps.morning,
-            username = Usernames.john,
-            userId = UserIds.user1,
-            content = "Hello, I need help with my workout plan"
-        )
+        val message1 =
+            MessageDto(
+                id = "msg-001",
+                timestamp = Timestamps.morning,
+                username = Usernames.john,
+                userId = UserIds.user1,
+                content = "Hello, I need help with my workout plan",
+            )
 
-        val message2 = MessageDto(
-            id = "msg-002",
-            timestamp = Timestamps.afternoon,
-            username = Usernames.trainerSarah,
-            userId = UserIds.trainer1,
-            content = "Hi! I'd be happy to help. What are your goals?"
-        )
+        val message2 =
+            MessageDto(
+                id = "msg-002",
+                timestamp = Timestamps.afternoon,
+                username = Usernames.trainerSarah,
+                userId = UserIds.trainer1,
+                content = "Hi! I'd be happy to help. What are your goals?",
+            )
 
-        val message3 = MessageDto(
-            id = "msg-003",
-            timestamp = Timestamps.evening,
-            username = Usernames.john,
-            userId = UserIds.user1,
-            content = "I want to build muscle and increase strength"
-        )
+        val message3 =
+            MessageDto(
+                id = "msg-003",
+                timestamp = Timestamps.evening,
+                username = Usernames.john,
+                userId = UserIds.user1,
+                content = "I want to build muscle and increase strength",
+            )
 
-        val messageFromJane = MessageDto(
-            id = "msg-004",
-            timestamp = Timestamps.morning,
-            username = Usernames.jane,
-            userId = UserIds.user2,
-            content = "Can you recommend a good diet plan?"
-        )
+        val messageFromJane =
+            MessageDto(
+                id = "msg-004",
+                timestamp = Timestamps.morning,
+                username = Usernames.jane,
+                userId = UserIds.user2,
+                content = "Can you recommend a good diet plan?",
+            )
 
-        val messageWithoutId = MessageDto(
-            id = null,
-            timestamp = Timestamps.afternoon,
-            username = Usernames.mike,
-            userId = UserIds.user3,
-            content = "New message without ID"
-        )
+        val messageWithoutId =
+            MessageDto(
+                id = null,
+                timestamp = Timestamps.afternoon,
+                username = Usernames.mike,
+                userId = UserIds.user3,
+                content = "New message without ID",
+            )
     }
 
     // ========== Messages (Domain) ==========
 
     object Messages {
-        val message1 = Message(
-            text = "Hello, I need help with my workout plan",
-            username = Usernames.john,
-            formattedTime = Timestamps.morning,
-            userId = UserIds.user1
-        )
+        val message1 =
+            Message(
+                text = "Hello, I need help with my workout plan",
+                username = Usernames.john,
+                formattedTime = Timestamps.morning,
+                userId = UserIds.user1,
+            )
 
-        val message2 = Message(
-            text = "Hi! I'd be happy to help. What are your goals?",
-            username = Usernames.trainerSarah,
-            formattedTime = Timestamps.afternoon,
-            userId = UserIds.trainer1
-        )
+        val message2 =
+            Message(
+                text = "Hi! I'd be happy to help. What are your goals?",
+                username = Usernames.trainerSarah,
+                formattedTime = Timestamps.afternoon,
+                userId = UserIds.trainer1,
+            )
 
-        val message3 = Message(
-            text = "I want to build muscle and increase strength",
-            username = Usernames.john,
-            formattedTime = Timestamps.evening,
-            userId = UserIds.user1
-        )
+        val message3 =
+            Message(
+                text = "I want to build muscle and increase strength",
+                username = Usernames.john,
+                formattedTime = Timestamps.evening,
+                userId = UserIds.user1,
+            )
 
-        val messageFromJane = Message(
-            text = "Can you recommend a good diet plan?",
-            username = Usernames.jane,
-            formattedTime = Timestamps.morning,
-            userId = UserIds.user2
-        )
+        val messageFromJane =
+            Message(
+                text = "Can you recommend a good diet plan?",
+                username = Usernames.jane,
+                formattedTime = Timestamps.morning,
+                userId = UserIds.user2,
+            )
 
-        val messageToSend = Message(
-            text = "Thank you for the advice!",
-            username = Usernames.john,
-            formattedTime = Timestamps.afternoon,
-            userId = UserIds.user1
-        )
+        val messageToSend =
+            Message(
+                text = "Thank you for the advice!",
+                username = Usernames.john,
+                formattedTime = Timestamps.afternoon,
+                userId = UserIds.user1,
+            )
 
-        val emptyTextMessage = Message(
-            text = "",
-            username = Usernames.john,
-            formattedTime = Timestamps.morning,
-            userId = UserIds.user1
-        )
+        val emptyTextMessage =
+            Message(
+                text = "",
+                username = Usernames.john,
+                formattedTime = Timestamps.morning,
+                userId = UserIds.user1,
+            )
 
-        val longMessage = Message(
-            text = "This is a very long message that contains a lot of text to test how the system handles longer messages with multiple sentences and detailed information about workout routines and fitness goals.",
-            username = Usernames.mike,
-            formattedTime = Timestamps.evening,
-            userId = UserIds.user3
-        )
+        val longMessage =
+            Message(
+                text =
+                    "This is a very long message that contains a lot of text to test how the system handles longer messages with multiple sentences and detailed information about workout routines and fitness goals.",
+                username = Usernames.mike,
+                formattedTime = Timestamps.evening,
+                userId = UserIds.user3,
+            )
     }
 
     // ========== Message Lists ==========
 
     object MessageLists {
-        val conversation = listOf(
-            MessageDtos.message1,
-            MessageDtos.message2,
-            MessageDtos.message3
-        )
+        val conversation = listOf(MessageDtos.message1, MessageDtos.message2, MessageDtos.message3)
 
         val singleMessage = listOf(MessageDtos.message1)
 
         val emptyList = emptyList<MessageDto>()
 
-        val multipleUsers = listOf(
-            MessageDtos.message1,
-            MessageDtos.messageFromJane,
-            MessageDtos.message2
-        )
+        val multipleUsers =
+            listOf(MessageDtos.message1, MessageDtos.messageFromJane, MessageDtos.message2)
     }
 
     object DomainMessageLists {
-        val conversation = persistentListOf(
-            Messages.message1,
-            Messages.message2,
-            Messages.message3
-        )
+        val conversation = persistentListOf(Messages.message1, Messages.message2, Messages.message3)
 
         val singleMessage = persistentListOf(Messages.message1)
 
         val emptyList = persistentListOf<Message>()
 
-        val multipleUsers = persistentListOf(
-            Messages.message1,
-            Messages.messageFromJane,
-            Messages.message2
-        )
+        val multipleUsers =
+            persistentListOf(Messages.message1, Messages.messageFromJane, Messages.message2)
     }
 
     // ========== Exceptions ==========
@@ -195,4 +192,3 @@ object ChatTestDataProvider {
         val timeout = Exception("Request timeout")
     }
 }
-

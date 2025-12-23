@@ -3,8 +3,8 @@ package com.ianarbuckle.gymplanner.gymlocations
 import com.ianarbuckle.gymplanner.gymlocations.dto.GymLocationsDto
 
 /**
- * Fake implementation for testing GymLocationsRepository
- * Implements the GymLocationsRemoteDataSource interface
+ * Fake implementation for testing GymLocationsRepository Implements the
+ * GymLocationsRemoteDataSource interface
  */
 class FakeGymLocationsRemoteDataSource : GymLocationsRemoteDataSource {
 
@@ -16,7 +16,8 @@ class FakeGymLocationsRemoteDataSource : GymLocationsRemoteDataSource {
     val gymLocationsCalls = mutableListOf<Unit>()
 
     // Configurable responses
-    var gymLocationsResponse: List<GymLocationsDto> = GymLocationsTestDataProvider.GymLocationLists.allLocations
+    var gymLocationsResponse: List<GymLocationsDto> =
+        GymLocationsTestDataProvider.GymLocationLists.allLocations
 
     override suspend fun gymLocations(): List<GymLocationsDto> {
         gymLocationsCalls.add(Unit)
@@ -36,4 +37,3 @@ class FakeGymLocationsRemoteDataSource : GymLocationsRemoteDataSource {
         gymLocationsResponse = GymLocationsTestDataProvider.GymLocationLists.allLocations
     }
 }
-

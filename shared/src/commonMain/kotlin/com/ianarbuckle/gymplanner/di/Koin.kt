@@ -133,17 +133,27 @@ fun gymLocationsModule(baseUrl: String) = module {
 
 fun profileModule(baseUrl: String) = module {
     single<ProfileRemoteDataSource> {
-        DefaultProfileRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+        DefaultProfileRemoteDataSource(
+            httpClient = get(),
+            baseUrl = baseUrl,
+            dataStoreRepository = get(),
+        )
     }
 }
 
 fun authenticationModule(baseUrl: String) = module {
-    single<AuthenticationRemoteDataSource> { DefaultAuthenticationRemoteDataSource(baseurl = baseUrl, httpClient = get()) }
+    single<AuthenticationRemoteDataSource> {
+        DefaultAuthenticationRemoteDataSource(baseurl = baseUrl, httpClient = get())
+    }
 }
 
 fun bookingModule(baseUrl: String) = module {
     single<BookingRemoteDataSource> {
-        DefaultBookingRemoteDataSource(baseUrl = baseUrl, httpClient = get(), dataStoreRepository = get())
+        DefaultBookingRemoteDataSource(
+            baseUrl = baseUrl,
+            httpClient = get(),
+            dataStoreRepository = get(),
+        )
     }
 }
 
@@ -164,12 +174,20 @@ fun chatModule(baseUrl: String, websocketBaseUrl: String) = module {
         ChatSocketServiceImpl(httpClient = get(), baseUrl = websocketBaseUrl)
     }
     single<MessagesRemoteDataSource> {
-        DefaultMessagesRemoteDataSource(httpClient = get(), baseUrl = baseUrl, dataStoreRepository = get())
+        DefaultMessagesRemoteDataSource(
+            httpClient = get(),
+            baseUrl = baseUrl,
+            dataStoreRepository = get(),
+        )
     }
 }
 
 fun fcmModule(baseUrl: String) = module {
     single<FcmTokenRemoteDataSource> {
-        DefaultFcmTokenRemoteDataSource(baseurl = baseUrl, httpClient = get(), dataStoreRepository = get())
+        DefaultFcmTokenRemoteDataSource(
+            baseurl = baseUrl,
+            httpClient = get(),
+            dataStoreRepository = get(),
+        )
     }
 }

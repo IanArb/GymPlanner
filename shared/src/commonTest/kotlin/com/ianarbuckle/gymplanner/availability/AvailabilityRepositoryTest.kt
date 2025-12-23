@@ -7,13 +7,13 @@ import com.ianarbuckle.gymplanner.availability.AvailabilityTestDataProvider.Chec
 import com.ianarbuckle.gymplanner.availability.AvailabilityTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.availability.AvailabilityTestDataProvider.Months
 import com.ianarbuckle.gymplanner.availability.AvailabilityTestDataProvider.PersonalTrainerIds
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class AvailabilityRepositoryTest {
 
@@ -34,20 +34,24 @@ class AvailabilityRepositoryTest {
     // ========== Fetch Availability Tests ==========
 
     @Test
-    fun `fetchAvailability with valid trainer and month returns success with availability`() = runTest {
-        // Given
-        fakeRemoteDataSource.fetchAvailabilityResponse = AvailabilityDtos.januaryWithSlots
+    fun `fetchAvailability with valid trainer and month returns success with availability`() =
+        runTest {
+            // Given
+            fakeRemoteDataSource.fetchAvailabilityResponse = AvailabilityDtos.januaryWithSlots
 
-        // When
-        val result = repository.getAvailability(PersonalTrainerIds.trainer1, Months.january)
+            // When
+            val result = repository.getAvailability(PersonalTrainerIds.trainer1, Months.january)
 
-        // Then
-        assertTrue(result.isSuccess, "Result should be successful")
-        assertEquals(Availabilities.januaryWithSlots, result.getOrNull())
-        assertEquals(1, fakeRemoteDataSource.fetchAvailabilityCalls.size)
-        assertEquals(PersonalTrainerIds.trainer1, fakeRemoteDataSource.fetchAvailabilityCalls[0].first)
-        assertEquals(Months.january, fakeRemoteDataSource.fetchAvailabilityCalls[0].second)
-    }
+            // Then
+            assertTrue(result.isSuccess, "Result should be successful")
+            assertEquals(Availabilities.januaryWithSlots, result.getOrNull())
+            assertEquals(1, fakeRemoteDataSource.fetchAvailabilityCalls.size)
+            assertEquals(
+                PersonalTrainerIds.trainer1,
+                fakeRemoteDataSource.fetchAvailabilityCalls[0].first,
+            )
+            assertEquals(Months.january, fakeRemoteDataSource.fetchAvailabilityCalls[0].second)
+        }
 
     @Test
     fun `fetchAvailability calls remote data source with correct parameters`() = runTest {
@@ -142,7 +146,8 @@ class AvailabilityRepositoryTest {
         fakeRemoteDataSource.fetchAvailabilityException = Exceptions.notFound
 
         // When
-        val result = repository.getAvailability(PersonalTrainerIds.nonExistentTrainer, Months.january)
+        val result =
+            repository.getAvailability(PersonalTrainerIds.nonExistentTrainer, Months.january)
 
         // Then
         assertTrue(result.isFailure)
@@ -222,8 +227,10 @@ class AvailabilityRepositoryTest {
         // Then
         val availability = result.getOrNull()
         assertNotNull(availability)
-        assertTrue(availability.slots::class.simpleName?.contains("Immutable") == true
-            || availability.slots::class.simpleName?.contains("Persistent") == true)
+        assertTrue(
+            availability.slots::class.simpleName?.contains("Immutable") == true ||
+                availability.slots::class.simpleName?.contains("Persistent") == true
+        )
     }
 
     @Test
@@ -238,8 +245,10 @@ class AvailabilityRepositoryTest {
         val availability = result.getOrNull()
         assertNotNull(availability)
         availability.slots.forEach { slot ->
-            assertTrue(slot.times::class.simpleName?.contains("Immutable") == true
-                || slot.times::class.simpleName?.contains("Persistent") == true)
+            assertTrue(
+                slot.times::class.simpleName?.contains("Immutable") == true ||
+                    slot.times::class.simpleName?.contains("Persistent") == true
+            )
         }
     }
 
@@ -320,7 +329,8 @@ class AvailabilityRepositoryTest {
         fakeRemoteDataSource.checkAvailabilityException = Exceptions.notFound
 
         // When
-        val result = repository.checkAvailability(PersonalTrainerIds.nonExistentTrainer, Months.january)
+        val result =
+            repository.checkAvailability(PersonalTrainerIds.nonExistentTrainer, Months.january)
 
         // Then
         assertTrue(result.isFailure)
@@ -505,4 +515,3 @@ class AvailabilityRepositoryTest {
         }
     }
 }
-

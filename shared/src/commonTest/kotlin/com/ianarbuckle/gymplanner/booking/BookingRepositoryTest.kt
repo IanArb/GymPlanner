@@ -7,13 +7,13 @@ import com.ianarbuckle.gymplanner.booking.BookingTestDataProvider.BookingRespons
 import com.ianarbuckle.gymplanner.booking.BookingTestDataProvider.Bookings
 import com.ianarbuckle.gymplanner.booking.BookingTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.booking.BookingTestDataProvider.UserIds
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class BookingRepositoryTest {
 
@@ -275,8 +275,10 @@ class BookingRepositoryTest {
         val bookings = result.getOrNull()
         assertNotNull(bookings)
         // Verify it's an ImmutableList by checking the type
-        assertTrue(bookings::class.simpleName?.contains("Immutable") == true
-            || bookings::class.simpleName?.contains("Persistent") == true)
+        assertTrue(
+            bookings::class.simpleName?.contains("Immutable") == true ||
+                bookings::class.simpleName?.contains("Persistent") == true
+        )
     }
 
     // ========== Exception Handling Tests ==========
@@ -400,4 +402,3 @@ class BookingRepositoryTest {
         assertEquals(BookingResponses.completed.status, bookings[0].status)
     }
 }
-

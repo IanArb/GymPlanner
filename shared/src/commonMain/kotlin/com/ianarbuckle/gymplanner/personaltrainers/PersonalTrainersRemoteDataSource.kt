@@ -13,6 +13,7 @@ import io.ktor.http.path
 
 interface PersonalTrainersRemoteDataSource {
     suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto>
+
     suspend fun findPersonalTrainerById(id: String): PersonalTrainerDto
 }
 
@@ -20,7 +21,7 @@ class DefaultPersonalTrainersRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-): PersonalTrainersRemoteDataSource {
+) : PersonalTrainersRemoteDataSource {
 
     override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""

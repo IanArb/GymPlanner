@@ -12,6 +12,7 @@ import io.ktor.client.request.parameter
 
 interface AvailabilityRemoteDataSource {
     suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto
+
     suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto
 }
 
@@ -21,7 +22,10 @@ class DefaultAvailabilityRemoteDataSource(
     private val dataStoreRepository: DataStoreRepository,
 ) : AvailabilityRemoteDataSource {
 
-    override suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto {
+    override suspend fun fetchAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): AvailabilityDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(AVAILABILITY_ENDPOINT).plus("/$personalTrainerId/$month")
         val response = httpClient.get(url) { headers { append("Authorization", "Bearer $token") } }
@@ -29,7 +33,10 @@ class DefaultAvailabilityRemoteDataSource(
         return response.body()
     }
 
-    override suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto {
+    override suspend fun checkAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): CheckAvailabilityDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(AVAILABILITY_ENDPOINT).plus("/check_availability")
         val response =

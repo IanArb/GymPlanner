@@ -3,8 +3,8 @@ package com.ianarbuckle.gymplanner.profile
 import com.ianarbuckle.gymplanner.profile.dto.ProfileDto
 
 /**
- * Fake implementation for testing ProfileRepository
- * Implements the ProfileRemoteDataSource interface
+ * Fake implementation for testing ProfileRepository Implements the ProfileRemoteDataSource
+ * interface
  */
 class FakeProfileRemoteDataSource : ProfileRemoteDataSource {
 
@@ -36,4 +36,3 @@ class FakeProfileRemoteDataSource : ProfileRemoteDataSource {
         fetchProfileResponse = ProfileTestDataProvider.ProfileDtos.john
     }
 }
-

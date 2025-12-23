@@ -3,8 +3,8 @@ package com.ianarbuckle.gymplanner.fitnessclass
 import com.ianarbuckle.gymplanner.fitnessclass.dto.FitnessClassDto
 
 /**
- * Fake implementation for testing FitnessClassRepository
- * Implements the FitnessClassRemoteDataSource interface
+ * Fake implementation for testing FitnessClassRepository Implements the
+ * FitnessClassRemoteDataSource interface
  */
 class FakeFitnessClassRemoteDataSource : FitnessClassRemoteDataSource {
 
@@ -16,7 +16,8 @@ class FakeFitnessClassRemoteDataSource : FitnessClassRemoteDataSource {
     val fitnessClassesCalls = mutableListOf<String>()
 
     // Configurable responses
-    var fitnessClassesResponse: List<FitnessClassDto> = FitnessClassTestDataProvider.FitnessClassLists.mondayClasses
+    var fitnessClassesResponse: List<FitnessClassDto> =
+        FitnessClassTestDataProvider.FitnessClassLists.mondayClasses
 
     override suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
         fitnessClassesCalls.add(dayOfWeek)
@@ -36,4 +37,3 @@ class FakeFitnessClassRemoteDataSource : FitnessClassRemoteDataSource {
         fitnessClassesResponse = FitnessClassTestDataProvider.FitnessClassLists.mondayClasses
     }
 }
-

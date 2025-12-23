@@ -4,9 +4,7 @@ import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
 import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenResponse
 import com.ianarbuckle.gymplanner.fcm.dto.FcmTokenResponseDto
 
-/**
- * Provides test data for FcmTokenRepository tests
- */
+/** Provides test data for FcmTokenRepository tests */
 object FcmTokenTestDataProvider {
 
     // ========== User IDs ==========
@@ -32,80 +30,46 @@ object FcmTokenTestDataProvider {
     // ========== FCM Token Requests ==========
 
     object FcmTokenRequests {
-        val user1Request = FcmTokenRequest(
-            userId = UserIds.user1,
-            token = FcmTokens.validToken1
-        )
+        val user1Request = FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.validToken1)
 
-        val user2Request = FcmTokenRequest(
-            userId = UserIds.user2,
-            token = FcmTokens.validToken2
-        )
+        val user2Request = FcmTokenRequest(userId = UserIds.user2, token = FcmTokens.validToken2)
 
-        val user3Request = FcmTokenRequest(
-            userId = UserIds.user3,
-            token = FcmTokens.validToken3
-        )
+        val user3Request = FcmTokenRequest(userId = UserIds.user3, token = FcmTokens.validToken3)
 
-        val emptyUserIdRequest = FcmTokenRequest(
-            userId = UserIds.emptyUserId,
-            token = FcmTokens.validToken1
-        )
+        val emptyUserIdRequest =
+            FcmTokenRequest(userId = UserIds.emptyUserId, token = FcmTokens.validToken1)
 
-        val emptyTokenRequest = FcmTokenRequest(
-            userId = UserIds.user1,
-            token = FcmTokens.emptyToken
-        )
+        val emptyTokenRequest =
+            FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.emptyToken)
 
-        val expiredTokenRequest = FcmTokenRequest(
-            userId = UserIds.user1,
-            token = FcmTokens.expiredToken
-        )
+        val expiredTokenRequest =
+            FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.expiredToken)
 
-        val longTokenRequest = FcmTokenRequest(
-            userId = UserIds.user1,
-            token = FcmTokens.longToken
-        )
+        val longTokenRequest = FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.longToken)
     }
 
     // ========== FCM Token Response DTOs ==========
 
     object FcmTokenResponseDtos {
-        val successResponse = FcmTokenResponseDto(
-            token = FcmTokens.validToken1
-        )
+        val successResponse = FcmTokenResponseDto(token = FcmTokens.validToken1)
 
-        val user2Response = FcmTokenResponseDto(
-            token = FcmTokens.validToken2
-        )
+        val user2Response = FcmTokenResponseDto(token = FcmTokens.validToken2)
 
-        val nullTokenResponse = FcmTokenResponseDto(
-            token = null
-        )
+        val nullTokenResponse = FcmTokenResponseDto(token = null)
 
-        val emptyTokenResponse = FcmTokenResponseDto(
-            token = ""
-        )
+        val emptyTokenResponse = FcmTokenResponseDto(token = "")
     }
 
     // ========== FCM Token Responses (Domain) ==========
 
     object FcmTokenResponses {
-        val successResponse = FcmTokenResponse(
-            token = FcmTokens.validToken1
-        )
+        val successResponse = FcmTokenResponse(token = FcmTokens.validToken1)
 
-        val user2Response = FcmTokenResponse(
-            token = FcmTokens.validToken2
-        )
+        val user2Response = FcmTokenResponse(token = FcmTokens.validToken2)
 
-        val nullTokenResponse = FcmTokenResponse(
-            token = null
-        )
+        val nullTokenResponse = FcmTokenResponse(token = null)
 
-        val emptyTokenResponse = FcmTokenResponse(
-            token = ""
-        )
+        val emptyTokenResponse = FcmTokenResponse(token = "")
     }
 
     // ========== Exceptions ==========
@@ -120,4 +84,3 @@ object FcmTokenTestDataProvider {
         val tokenExpired = RuntimeException("FCM token has expired")
     }
 }
-

@@ -5,13 +5,12 @@ import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.BooleanValue
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.StringKeys
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.StringValues
-import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlinx.coroutines.test.runTest
 
 class DataStoreRepositoryTest {
 
@@ -185,7 +184,10 @@ class DataStoreRepositoryTest {
         repository.saveData(BooleanKeys.notificationsEnabled, BooleanValues.falseValue)
 
         // Then
-        assertEquals(BooleanValues.falseValue, repository.getBooleanData(BooleanKeys.notificationsEnabled))
+        assertEquals(
+            BooleanValues.falseValue,
+            repository.getBooleanData(BooleanKeys.notificationsEnabled),
+        )
     }
 
     @Test
@@ -370,7 +372,10 @@ class DataStoreRepositoryTest {
     fun `different keys with same value type are independent`() = runTest {
         // When - Save different keys with same values
         repository.saveData(StringKeys.authToken, StringValues.authTokenValue)
-        repository.saveData(StringKeys.refreshToken, StringValues.authTokenValue) // Same value, different key
+        repository.saveData(
+            StringKeys.refreshToken,
+            StringValues.authTokenValue,
+        ) // Same value, different key
 
         // Then - Each key maintains its own value
         assertEquals(StringValues.authTokenValue, repository.getStringData(StringKeys.authToken))
@@ -445,7 +450,10 @@ class DataStoreRepositoryTest {
         assertEquals(StringValues.userIdValue, repository.getStringData(StringKeys.userId))
         assertEquals(StringValues.usernameValue, repository.getStringData(StringKeys.username))
         assertEquals(StringValues.emailValue, repository.getStringData(StringKeys.email))
-        assertEquals(StringValues.refreshTokenValue, repository.getStringData(StringKeys.refreshToken))
+        assertEquals(
+            StringValues.refreshTokenValue,
+            repository.getStringData(StringKeys.refreshToken),
+        )
         assertEquals(StringValues.deviceIdValue, repository.getStringData(StringKeys.deviceId))
     }
 
@@ -462,9 +470,11 @@ class DataStoreRepositoryTest {
         assertEquals(5, repository.saveBooleanCalls.size)
         assertEquals(BooleanValues.trueValue, repository.getBooleanData(BooleanKeys.rememberMe))
         assertEquals(BooleanValues.trueValue, repository.getBooleanData(BooleanKeys.isLoggedIn))
-        assertEquals(BooleanValues.falseValue, repository.getBooleanData(BooleanKeys.notificationsEnabled))
+        assertEquals(
+            BooleanValues.falseValue,
+            repository.getBooleanData(BooleanKeys.notificationsEnabled),
+        )
         assertEquals(BooleanValues.trueValue, repository.getBooleanData(BooleanKeys.darkMode))
         assertEquals(BooleanValues.falseValue, repository.getBooleanData(BooleanKeys.firstLaunch))
     }
 }
-

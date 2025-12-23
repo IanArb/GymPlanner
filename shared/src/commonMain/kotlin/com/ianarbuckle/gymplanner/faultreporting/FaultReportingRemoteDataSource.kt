@@ -17,6 +17,7 @@ import io.ktor.http.path
 
 interface FaultReportingRemoteDataSource {
     suspend fun reports(): List<FaultReportDto>
+
     suspend fun saveReport(report: FaultReport): FaultReportDto
 }
 
@@ -24,7 +25,7 @@ class DefaultFaultReportingRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-): FaultReportingRemoteDataSource {
+) : FaultReportingRemoteDataSource {
 
     override suspend fun reports(): List<FaultReportDto> {
         val token = authorisationToken()

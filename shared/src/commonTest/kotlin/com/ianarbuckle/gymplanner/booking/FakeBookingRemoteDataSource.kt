@@ -4,8 +4,8 @@ import com.ianarbuckle.gymplanner.booking.dto.BookingDto
 import com.ianarbuckle.gymplanner.booking.dto.BookingResponseDto
 
 /**
- * Fake implementation for testing BookingRepository
- * Implements the BookingRemoteDataSource interface
+ * Fake implementation for testing BookingRepository Implements the BookingRemoteDataSource
+ * interface
  */
 class FakeBookingRemoteDataSource : BookingRemoteDataSource {
 
@@ -20,9 +20,11 @@ class FakeBookingRemoteDataSource : BookingRemoteDataSource {
     val findBookingsCalls = mutableListOf<String>()
 
     // Configurable responses
-    var saveBookingResponse: BookingResponseDto = BookingTestDataProvider.BookingResponseDtos.confirmed
+    var saveBookingResponse: BookingResponseDto =
+        BookingTestDataProvider.BookingResponseDtos.confirmed
 
-    var findBookingsResponse: List<BookingResponseDto> = BookingTestDataProvider.BookingLists.multipleBookings
+    var findBookingsResponse: List<BookingResponseDto> =
+        BookingTestDataProvider.BookingLists.multipleBookings
 
     override suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
         saveBookingCalls.add(bookingDto)
@@ -56,4 +58,3 @@ class FakeBookingRemoteDataSource : BookingRemoteDataSource {
         findBookingsResponse = BookingTestDataProvider.BookingLists.multipleBookings
     }
 }
-

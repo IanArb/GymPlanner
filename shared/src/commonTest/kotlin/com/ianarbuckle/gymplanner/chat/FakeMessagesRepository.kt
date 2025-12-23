@@ -4,18 +4,13 @@ import com.ianarbuckle.gymplanner.chat.domain.Message
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
-/**
- * Fake implementation of MessagesRepository for testing
- */
-class FakeMessagesRepository(
-    private val remoteDataSource: MessagesRemoteDataSource
-) : MessagesRepository {
+/** Fake implementation of MessagesRepository for testing */
+class FakeMessagesRepository(private val remoteDataSource: MessagesRemoteDataSource) :
+    MessagesRepository {
 
     override suspend fun getMessages(): Result<ImmutableList<Message>> {
         return try {
-            val messages = remoteDataSource.getMessages()
-                .map { it.toMessage() }
-                .toImmutableList()
+            val messages = remoteDataSource.getMessages().map { it.toMessage() }.toImmutableList()
             Result.success(messages)
         } catch (ex: Exception) {
             Result.failure(ex)
@@ -31,4 +26,3 @@ class FakeMessagesRepository(
         }
     }
 }
-

@@ -4,8 +4,8 @@ import com.ianarbuckle.gymplanner.availability.dto.AvailabilityDto
 import com.ianarbuckle.gymplanner.availability.dto.CheckAvailabilityDto
 
 /**
- * Fake implementation for testing AvailabilityRepository
- * Implements the AvailabilityRemoteDataSource interface
+ * Fake implementation for testing AvailabilityRepository Implements the
+ * AvailabilityRemoteDataSource interface
  */
 class FakeAvailabilityRemoteDataSource : AvailabilityRemoteDataSource {
 
@@ -20,11 +20,16 @@ class FakeAvailabilityRemoteDataSource : AvailabilityRemoteDataSource {
     val checkAvailabilityCalls = mutableListOf<Pair<String, String>>()
 
     // Configurable responses
-    var fetchAvailabilityResponse: AvailabilityDto = AvailabilityTestDataProvider.AvailabilityDtos.januaryWithSlots
+    var fetchAvailabilityResponse: AvailabilityDto =
+        AvailabilityTestDataProvider.AvailabilityDtos.januaryWithSlots
 
-    var checkAvailabilityResponse: CheckAvailabilityDto = AvailabilityTestDataProvider.CheckAvailabilityDtos.available
+    var checkAvailabilityResponse: CheckAvailabilityDto =
+        AvailabilityTestDataProvider.CheckAvailabilityDtos.available
 
-    override suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto {
+    override suspend fun fetchAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): AvailabilityDto {
         fetchAvailabilityCalls.add(Pair(personalTrainerId, month))
 
         if (shouldThrowExceptionOnFetchAvailability) {
@@ -34,7 +39,10 @@ class FakeAvailabilityRemoteDataSource : AvailabilityRemoteDataSource {
         return fetchAvailabilityResponse
     }
 
-    override suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto {
+    override suspend fun checkAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): CheckAvailabilityDto {
         checkAvailabilityCalls.add(Pair(personalTrainerId, month))
 
         if (shouldThrowExceptionOnCheckAvailability) {
@@ -56,4 +64,3 @@ class FakeAvailabilityRemoteDataSource : AvailabilityRemoteDataSource {
         checkAvailabilityResponse = AvailabilityTestDataProvider.CheckAvailabilityDtos.available
     }
 }
-

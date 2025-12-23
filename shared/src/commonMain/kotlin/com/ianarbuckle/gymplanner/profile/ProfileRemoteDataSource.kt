@@ -18,7 +18,7 @@ class DefaultProfileRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-): ProfileRemoteDataSource {
+) : ProfileRemoteDataSource {
 
     override suspend fun fetchProfile(userId: String): ProfileDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""

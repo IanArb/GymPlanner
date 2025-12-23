@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 
 interface MessagesRemoteDataSource {
     suspend fun getMessages(): List<MessageDto>
+
     suspend fun sendMessage(message: MessageDto)
 }
 
@@ -25,7 +26,7 @@ class DefaultMessagesRemoteDataSource(
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
     private val json: Json = Json { prettyPrint = true },
-): MessagesRemoteDataSource {
+) : MessagesRemoteDataSource {
 
     override suspend fun getMessages(): List<MessageDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)

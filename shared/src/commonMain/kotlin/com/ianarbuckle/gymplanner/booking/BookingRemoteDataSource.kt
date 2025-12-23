@@ -15,6 +15,7 @@ import io.ktor.http.contentType
 
 interface BookingRemoteDataSource {
     suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto
+
     suspend fun findBookingsByUserId(userId: String): List<BookingResponseDto>
 }
 
