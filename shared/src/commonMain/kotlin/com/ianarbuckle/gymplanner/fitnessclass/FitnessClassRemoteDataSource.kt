@@ -10,13 +10,17 @@ import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
-class FitnessClassRemoteDataSource(
+interface FitnessClassRemoteDataSource {
+    suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto>
+}
+
+class DefaultFitnessClassRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : FitnessClassRemoteDataSource {
 
-    suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
+    override suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseurl) {
@@ -31,7 +35,7 @@ class FitnessClassRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/fitness_class"
     }
 }

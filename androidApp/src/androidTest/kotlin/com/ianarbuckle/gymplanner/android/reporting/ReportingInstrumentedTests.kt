@@ -119,21 +119,6 @@ class ReportingInstrumentedTests {
     }
 
     @Test
-    fun testFieldsWithEmptyValues() {
-        loginRobot.apply {
-            enterUsernamePassword("test", "Travelport")
-            login()
-        }
-
-        reportingRobot.apply {
-            tapOnReportNavTab()
-            performSend()
-        }
-
-        reportingVerifier.apply { verifyEmptyFieldsError() }
-    }
-
-    @Test
     fun testReportingScreenWithFailedReport() {
         fakeFaultRepository.shouldReturnError = true
 

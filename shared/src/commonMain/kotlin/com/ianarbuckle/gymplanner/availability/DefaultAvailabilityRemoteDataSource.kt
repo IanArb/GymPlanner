@@ -10,13 +10,22 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 
-class AvailabilityRemoteDataSource(
+interface AvailabilityRemoteDataSource {
+    suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto
+
+    suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto
+}
+
+class DefaultAvailabilityRemoteDataSource(
     private val baseUrl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : AvailabilityRemoteDataSource {
 
-    suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto {
+    override suspend fun fetchAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): AvailabilityDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(AVAILABILITY_ENDPOINT).plus("/$personalTrainerId/$month")
         val response = httpClient.get(url) { headers { append("Authorization", "Bearer $token") } }
@@ -24,7 +33,10 @@ class AvailabilityRemoteDataSource(
         return response.body()
     }
 
-    suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto {
+    override suspend fun checkAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): CheckAvailabilityDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(AVAILABILITY_ENDPOINT).plus("/check_availability")
         val response =
@@ -37,7 +49,7 @@ class AvailabilityRemoteDataSource(
         return response.body()
     }
 
-    private companion object {
+    private companion object Companion {
         const val AVAILABILITY_ENDPOINT = "/api/v1/availability"
     }
 }

@@ -10,13 +10,17 @@ import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
-class ProfileRemoteDataSource(
+interface ProfileRemoteDataSource {
+    suspend fun fetchProfile(userId: String): ProfileDto
+}
+
+class DefaultProfileRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : ProfileRemoteDataSource {
 
-    suspend fun fetchProfile(userId: String): ProfileDto {
+    override suspend fun fetchProfile(userId: String): ProfileDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseUrl) {
@@ -30,7 +34,7 @@ class ProfileRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/user_profile"
     }
 }

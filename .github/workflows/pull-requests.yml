@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,8 +36,37 @@ jobs:
       - name: Run detekt check
         run : ./gradlew detekt
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Run Android unit tests
+        run: ./gradlew androidApp:testDebugUnitTest
+
+      - name: Run shared module unit tests
+        run: ./gradlew shared:test
+
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: |
+            androidApp/build/test-results/
+            shared/build/test-results/
+
+      - name: Upload unit test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: |
+            androidApp/build/reports/tests/
+            shared/build/reports/tests/
+
+      - name: Publish test summary
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: |
+            androidApp/build/test-results/**/*.xml
+            shared/build/test-results/**/*.xml
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace

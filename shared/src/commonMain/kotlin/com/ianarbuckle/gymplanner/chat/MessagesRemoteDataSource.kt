@@ -15,14 +15,20 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 
-class MessagesRemoteDataSource(
+interface MessagesRemoteDataSource {
+    suspend fun getMessages(): List<MessageDto>
+
+    suspend fun sendMessage(message: MessageDto)
+}
+
+class DefaultMessagesRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
     private val json: Json = Json { prettyPrint = true },
-) {
+) : MessagesRemoteDataSource {
 
-    suspend fun getMessages(): List<MessageDto> {
+    override suspend fun getMessages(): List<MessageDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(MESSAGES_ENDPOINT)
         val response = httpClient.get(url) { headers { append("Authorization", "Bearer $token") } }
@@ -41,7 +47,7 @@ class MessagesRemoteDataSource(
         }
     }
 
-    suspend fun sendMessage(message: MessageDto) {
+    override suspend fun sendMessage(message: MessageDto) {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(MESSAGES_ENDPOINT)
         try {
@@ -63,7 +69,7 @@ class MessagesRemoteDataSource(
         }
     }
 
-    companion object {
+    companion object Companion {
         const val MESSAGES_ENDPOINT = "/api/v1/messages"
     }
 }

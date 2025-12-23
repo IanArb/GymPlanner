@@ -12,13 +12,17 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class FcmTokenRemoteDataSource(
+interface FcmTokenRemoteDataSource {
+    suspend fun registerToken(fcmTokenRequest: FcmTokenRequest): FcmTokenResponseDto
+}
+
+class DefaultFcmTokenRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : FcmTokenRemoteDataSource {
 
-    suspend fun registerToken(fcmTokenRequest: FcmTokenRequest): FcmTokenResponseDto {
+    override suspend fun registerToken(fcmTokenRequest: FcmTokenRequest): FcmTokenResponseDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.post(baseurl.plus(ENDPOINT.plus("/register"))) {
@@ -29,7 +33,7 @@ class FcmTokenRemoteDataSource(
         return response.body()
     }
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/fcm"
     }
 }

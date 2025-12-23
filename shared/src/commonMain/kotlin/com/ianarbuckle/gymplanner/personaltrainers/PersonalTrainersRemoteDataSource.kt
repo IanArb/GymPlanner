@@ -11,13 +11,19 @@ import io.ktor.client.request.headers
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
-class PersonalTrainersRemoteDataSource(
+interface PersonalTrainersRemoteDataSource {
+    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto>
+
+    suspend fun findPersonalTrainerById(id: String): PersonalTrainerDto
+}
+
+class DefaultPersonalTrainersRemoteDataSource(
     private val httpClient: HttpClient,
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : PersonalTrainersRemoteDataSource {
 
-    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseUrl) {
@@ -32,7 +38,7 @@ class PersonalTrainersRemoteDataSource(
         return response.body()
     }
 
-    suspend fun findPersonalTrainerById(id: String): PersonalTrainerDto {
+    override suspend fun findPersonalTrainerById(id: String): PersonalTrainerDto {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseUrl) {
@@ -47,7 +53,7 @@ class PersonalTrainersRemoteDataSource(
         return response.body()
     }
 
-    private companion object {
+    private companion object Companion {
         private const val ENDPOINT = "/api/v1/personal_trainers"
     }
 }

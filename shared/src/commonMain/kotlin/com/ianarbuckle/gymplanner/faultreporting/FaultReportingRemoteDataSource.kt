@@ -15,13 +15,19 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.path
 
-class FaultReportingRemoteDataSource(
+interface FaultReportingRemoteDataSource {
+    suspend fun reports(): List<FaultReportDto>
+
+    suspend fun saveReport(report: FaultReport): FaultReportDto
+}
+
+class DefaultFaultReportingRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
-) {
+) : FaultReportingRemoteDataSource {
 
-    suspend fun reports(): List<FaultReportDto> {
+    override suspend fun reports(): List<FaultReportDto> {
         val token = authorisationToken()
         val response =
             httpClient.get(baseurl) {
@@ -35,7 +41,7 @@ class FaultReportingRemoteDataSource(
         return response.body()
     }
 
-    suspend fun saveReport(report: FaultReport): FaultReportDto {
+    override suspend fun saveReport(report: FaultReport): FaultReportDto {
         val token = authorisationToken()
         val response =
             httpClient.post(baseurl.plus(ENDPOINT)) {
@@ -50,7 +56,7 @@ class FaultReportingRemoteDataSource(
     private suspend fun authorisationToken(): String =
         dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
 
-    companion object {
+    companion object Companion {
         private const val ENDPOINT = "/api/v1/fault"
     }
 }
