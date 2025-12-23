@@ -40,5 +40,7 @@ class ReportingRobot(private val composeTestRule: ComposeTestRule) {
 
     fun performSend() {
         composeTestRule.onNodeWithText("Send").performClick()
+        // Wait for UI to recompose and show validation errors
+        composeTestRule.waitForIdle()
     }
 }
