@@ -25,9 +25,9 @@ import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.json.json
@@ -71,7 +71,17 @@ fun initKoinIOS(baseUrl: String, websocketBaseUrl: String) {
 fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     singleOf(::createJson)
     single {
-        createHttpClient(json = get(), enableNetworkLogs = enableNetworkLogs, baseUrl = baseUrl)
+        HttpClient(get()) {
+            install(ContentNegotiation) { json(get()) }
+
+            install(WebSockets)
+
+            if (enableNetworkLogs) {
+                install(Logging) { level = LogLevel.ALL }
+            }
+
+            defaultRequest { url(baseUrl) }
+        }
     }
 }
 
@@ -79,17 +89,6 @@ fun createJson() = Json {
     ignoreUnknownKeys = true
     isLenient = true
 }
-
-fun createHttpClient(json: Json, enableNetworkLogs: Boolean, baseUrl: String) =
-    HttpClient(CIO) {
-        install(ContentNegotiation) { json(json) }
-        install(WebSockets)
-        if (enableNetworkLogs) {
-            install(Logging) {}
-        }
-
-        defaultRequest { url(baseUrl) }
-    }
 
 fun fitnessClassModule(baseUrl: String) = module {
     single<FitnessClassRemoteDataSource> {

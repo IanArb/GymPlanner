@@ -3,6 +3,8 @@ package com.ianarbuckle.gymplanner.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.darwin.Darwin
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
 import org.koin.core.module.Module
@@ -28,5 +30,9 @@ actual val platformModule: Module = module {
                     .toPath()
             }
         )
+    }
+
+    single<HttpClientEngine> {
+        Darwin.create { configureRequest { setAllowsCellularAccess(true) } }
     }
 }
