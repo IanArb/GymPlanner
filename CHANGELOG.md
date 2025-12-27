@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/IanArb/GymPlanner/compare/v1.0.0...v1.1.0) (2025-12-27)
+
+
+### Features
+
+* **shared:** Add Darwin Http Engine for iOS http client ([#22](https://github.com/IanArb/GymPlanner/issues/22)) ([a66bbe3](https://github.com/IanArb/GymPlanner/commit/a66bbe343d64cab659511b54a85fe8e483acfa71))
+
 # 1.0.0 (2025-12-22)
 
 
