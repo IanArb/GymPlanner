@@ -33,10 +33,6 @@ actual val platformModule: Module = module {
     }
 
     single<HttpClientEngine> {
-        Darwin.create {
-            configureRequest {
-                setAllowsCellularAccess(true)
-            }
-        }
+        Darwin.create { configureRequest { setAllowsCellularAccess(true) } }
     }
 }

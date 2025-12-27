@@ -17,7 +17,5 @@ actual val platformModule: Module = module {
         }
     }
 
-    single<HttpClientEngine> {
-        OkHttp.create()
-    }
+    single<HttpClientEngine> { OkHttp.create() }
 }

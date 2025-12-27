@@ -25,7 +25,6 @@ import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -73,21 +72,15 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     singleOf(::createJson)
     single {
         HttpClient(get()) {
-            install(ContentNegotiation) {
-                json(get())
-            }
+            install(ContentNegotiation) { json(get()) }
 
             install(WebSockets)
 
             if (enableNetworkLogs) {
-                install(Logging) {
-                    level = LogLevel.ALL
-                }
+                install(Logging) { level = LogLevel.ALL }
             }
 
-            defaultRequest {
-                url(baseUrl)
-            }
+            defaultRequest { url(baseUrl) }
         }
     }
 }
@@ -96,7 +89,6 @@ fun createJson() = Json {
     ignoreUnknownKeys = true
     isLenient = true
 }
-
 
 fun fitnessClassModule(baseUrl: String) = module {
     single<FitnessClassRemoteDataSource> {
