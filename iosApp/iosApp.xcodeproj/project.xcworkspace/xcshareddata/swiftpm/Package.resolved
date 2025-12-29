@@ -1,0 +1,24 @@
+{
+  "originHash" : "46eb42d8a7c3f61246864e397bd25f87930e47aca74972cb7e8b0ac969c43c00",
+  "pins" : [
+    {
+      "identity" : "gymplanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/IanArb/GymPlanner/",
+      "state" : {
+        "revision" : "86e3168f288168b2195b61a2748e0c9cefaec0c1",
+        "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject",
+      "state" : {
+        "revision" : "b685b549fe4d8ae265fc7a2f27d0789720425d69",
+        "version" : "2.10.0"
+      }
+    }
+  ],
+  "version" : 3
+}
