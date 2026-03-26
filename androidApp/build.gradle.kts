@@ -12,7 +12,12 @@ plugins {
     alias(libs.plugins.stability.analyzer)
 }
 
-kotlin { jvmToolchain(17) }
+kotlin {
+    jvmToolchain(17)
+    compilerOptions {
+        freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+    }
+}
 
 android {
     namespace = "com.ianarbuckle.gymplanner.android"
@@ -54,10 +59,6 @@ android {
             isMinifyEnabled = false
             resValue("string", "clear_text_config", "true")
         }
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
 
     testOptions {
@@ -155,7 +156,7 @@ spotless {
 
 detekt {
     toolVersion = "1.23.7"
-    config = files("$rootDir/config/detekt.yml")
+    config.setFrom(files("$rootDir/config/detekt.yml"))
     buildUponDefaultConfig = true
     allRules = false
     autoCorrect = true

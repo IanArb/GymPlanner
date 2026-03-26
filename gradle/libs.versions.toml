@@ -1,35 +1,34 @@
 [versions]
-agp = "8.13.2"
-androidx-activityCompose = "1.11.0"
-androidx-navigation3 = "1.0.0"
+agp = "9.0.1"
+androidx-activityCompose = "1.13.0"
+androidx-navigation3 = "1.0.1"
 androix-navigation3-lifecycle = "2.10.0"
 androidx-test-uiautomator = "2.3.0"
 compose-material3 = "1.4.0"
-compose-bom = "2025.11.00"
+compose-bom = "2026.03.01"
 coroutines = "1.10.2"
 coil = "2.7.0"
-datastore = "1.1.7"
-espressoIntents = "3.7.0"
-firebase-bom = "34.6.0"
-hilt = "2.57.2"
+datastore = "1.2.1"
+espressoIntents = "3.6.0"
+firebase-bom = "34.11.0"
+hilt = "2.59.2"
 hilt-navigation = "1.3.0"
-kermit = "2.0.8"
-koinTest = "4.1.1"
-kotest = "6.0.4"
-kotlin = "2.2.21"
+kermit = "2.1.0"
+koinTest = "4.2.0"
+kotest = "6.1.9"
+kotlin = "2.3.10"
 kotlin-datetime = "0.7.1"
 kotlinx-immutable-collections = "0.4.0"
-ktor = "3.3.2"
-koin = "4.1.1"
-mockwebserver = "5.3.0"
-roborazzi = "1.51.0"
+ktor = "3.4.1"
+koin = "4.2.0"
+mockwebserver = "5.3.2"
+roborazzi = "1.59.0"
 junit = "4.13.2"
-mockk = "1.14.6"
+mockk = "1.14.9"
 runner = "1.7.0"
-serialization = "1.9.0"
+serialization = "1.10.0"
 espressoIdlingResource = "3.7.0"
 tracing = "1.3.0"
-
 [libraries]
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
 androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoIntents" }
@@ -106,7 +105,6 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.2" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.4" }
-skie = { id = "co.touchlab.skie", version = "0.10.8" }
-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.6.5" }
-multiplatformSwiftPackage = { id = "io.github.luca992.multiplatform-swiftpackage", version = "2.3.0" }
+skie = { id = "co.touchlab.skie", version = "0.10.10" }
+stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.7.1" }
 
