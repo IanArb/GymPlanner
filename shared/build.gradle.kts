@@ -16,13 +16,7 @@ plugins {
 kotlin {
     jvmToolchain(17)
     androidTarget()
-    wasmJs {
-        browser {
-            commonWebpackConfig {
-                outputFileName = "gymplanner.js"
-            }
-        }
-    }
+    wasmJs { browser { commonWebpackConfig { outputFileName = "gymplanner.js" } } }
 
     val xcframeworkName = "SharedGymPlanner"
     val xcf = XCFramework(xcframeworkName)
