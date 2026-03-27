@@ -26,10 +26,10 @@ kotlin {
             dependencies {
                 implementation(projects.shared)
 
-                implementation("org.jetbrains.compose.runtime:runtime:1.10.3")
-                implementation("org.jetbrains.compose.foundation:foundation:1.10.3")
-                implementation("org.jetbrains.compose.material3:material3:1.9.0")
-                implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material3.jetbrains)
+                implementation(libs.compose.components)
             }
         }
     }
