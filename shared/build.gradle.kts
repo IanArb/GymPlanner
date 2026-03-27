@@ -1,3 +1,6 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -13,6 +16,13 @@ plugins {
 kotlin {
     jvmToolchain(17)
     androidTarget()
+    wasmJs {
+        browser {
+            commonWebpackConfig {
+                outputFileName = "gymplanner.js"
+            }
+        }
+    }
 
     val xcframeworkName = "SharedGymPlanner"
     val xcf = XCFramework(xcframeworkName)
@@ -32,10 +42,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.client.json)
-            implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.serialization.kotlinx.json)
-            implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.websockets)
 
             // Kotlinx
@@ -49,7 +56,6 @@ kotlin {
             api(libs.koin.core)
 
             // Datastore
-            api(libs.androidx.datastore.preferences)
             api(libs.androidx.datastore.preferences.core)
 
             implementation(libs.kotlinx.immutable.collections)
@@ -70,11 +76,14 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)
+            implementation(libs.androidx.datastore.preferences)
         }
 
         iosMain.dependencies { implementation(libs.ktor.client.darwin) }
 
-        commonTest.dependencies { implementation(libs.kotlin.test) }
+        wasmJsMain.dependencies {
+            implementation(devNpm("copy-webpack-plugin", libs.versions.webPackPlugin.get()))
+        }
     }
 }
 

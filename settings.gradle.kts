@@ -4,6 +4,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
 }
 
@@ -17,3 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "Gym_Planner"
 include(":androidApp")
 include(":shared")
+include(":webApp")
