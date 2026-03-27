@@ -101,7 +101,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 junit-android-ext = { module = "androidx.test.ext:junit", version = "junit"}
 androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoIdlingResource" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
-androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "core" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
