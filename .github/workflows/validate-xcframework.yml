@@ -27,10 +27,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Disable configuration cache
-        run: |
-          echo "org.gradle.configuration-cache=false" >> gradle.properties
-
       - name: Build iOS frameworks (Device)
         run: |
           ./gradlew :shared:linkReleaseFrameworkIosArm64 --no-configuration-cache
