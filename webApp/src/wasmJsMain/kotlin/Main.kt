@@ -55,9 +55,7 @@ fun main() {
                     selectedDestination = selectedDestination,
                     onDestinationSelected = { selectedDestination = it },
                     onSettingsClick = {},
-                    onLogoutClick = {
-                        isLoggedIn = false
-                    },
+                    onLogoutClick = { isLoggedIn = false },
                 )
 
                 Column(

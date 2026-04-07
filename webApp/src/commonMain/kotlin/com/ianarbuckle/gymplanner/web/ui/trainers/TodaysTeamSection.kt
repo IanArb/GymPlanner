@@ -36,10 +36,7 @@ enum class TrainerAvailability {
     IN_SESSION,
 }
 
-data class TrainerItem(
-    val name: String,
-    val availability: TrainerAvailability,
-)
+data class TrainerItem(val name: String, val availability: TrainerAvailability)
 
 @Composable
 fun TodaysTeamSection(
