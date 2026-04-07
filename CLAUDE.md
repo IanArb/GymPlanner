@@ -97,14 +97,15 @@ The shared module is distributed to iOS as an XCFramework (`SharedGymPlanner.xcf
 
 ## Key Technology Versions
 
-Managed via `gradle/libs.versions.toml`:
-- Kotlin: 2.3.10
-- Compose Multiplatform: 1.10.3
-- Ktor: 3.4.1
-- Koin: 4.2.0
-- Hilt: 2.59.2
-- Detekt: 1.23.7
+Technology versions are managed via `gradle/libs.versions.toml`, which is the source of truth for dependency and plugin versions used by this repository.
 
+Refer to `gradle/libs.versions.toml` for the current versions of:
+- Kotlin
+- Compose Multiplatform
+- Ktor
+- Koin
+- Hilt
+- Detekt
 ## Commit Conventions
 
 This repo uses **Conventional Commits** for automated semantic versioning:

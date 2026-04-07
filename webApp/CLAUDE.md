@@ -36,7 +36,7 @@ There are currently no tests in this module.
 | Source set | Path | Purpose |
 |---|---|---|
 | `wasmJsMain` | `src/wasmJsMain/kotlin/` | Application code |
-| `commonMain` | `src/commonMain/kotlin/` | Shared Compose UI (currently unused) |
+| `commonMain` | `src/commonMain/kotlin/` | Shared Compose UI used by the web app |
 | `webMain/resources` | `src/webMain/resources/` | Static web assets |
 | `webpack.config.d/` | `src/webpack.config.d/config.js` | Webpack customization |
 
