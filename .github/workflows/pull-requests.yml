@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew androidApp:testDebugUnitTest
 
       - name: Run shared module unit tests
-        run: ./gradlew shared:test
+        run: ./gradlew shared:allTests
 
       - name: Upload unit test results
         if: always()
