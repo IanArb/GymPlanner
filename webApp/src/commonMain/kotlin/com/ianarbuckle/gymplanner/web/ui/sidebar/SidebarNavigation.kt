@@ -3,7 +3,6 @@ package com.ianarbuckle.gymplanner.web.ui.sidebar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_bar_chart
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_build
-import com.ianarbuckle.gymplanner.web.generated.resources.ic_calendar
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_dashboard
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_group
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_logout
@@ -46,11 +44,7 @@ enum class NavDestination {
     REPORTS,
 }
 
-data class NavItem(
-    val label: String,
-    val destination: NavDestination,
-    val icon: DrawableResource,
-)
+data class NavItem(val label: String, val destination: NavDestination, val icon: DrawableResource)
 
 @Composable
 fun SidebarNavigation(
@@ -60,19 +54,21 @@ fun SidebarNavigation(
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val navItems = listOf(
-        NavItem("DASHBOARD", NavDestination.DASHBOARD, Res.drawable.ic_dashboard),
-        NavItem("EQUIPMENT", NavDestination.EQUIPMENT, Res.drawable.ic_build),
-        NavItem("TRAINERS", NavDestination.TRAINERS, Res.drawable.ic_group),
-        NavItem("REPORTS", NavDestination.REPORTS, Res.drawable.ic_bar_chart),
-    )
+    val navItems =
+        listOf(
+            NavItem("DASHBOARD", NavDestination.DASHBOARD, Res.drawable.ic_dashboard),
+            NavItem("EQUIPMENT", NavDestination.EQUIPMENT, Res.drawable.ic_build),
+            NavItem("TRAINERS", NavDestination.TRAINERS, Res.drawable.ic_group),
+            NavItem("REPORTS", NavDestination.REPORTS, Res.drawable.ic_bar_chart),
+        )
 
     Column(
-        modifier = modifier
-            .width(180.dp)
-            .fillMaxHeight()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(vertical = 24.dp, horizontal = 12.dp),
+        modifier =
+            modifier
+                .width(180.dp)
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(vertical = 24.dp, horizontal = 12.dp)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -98,30 +94,22 @@ fun SidebarNavigation(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        BottomNavItem(
-            label = "LOGOUT",
-            icon = Res.drawable.ic_logout,
-            onClick = onLogoutClick,
-        )
+        BottomNavItem(label = "LOGOUT", icon = Res.drawable.ic_logout, onClick = onLogoutClick)
     }
 }
 
 @Composable
-private fun NavItemRow(
-    item: NavItem,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
+private fun NavItemRow(item: NavItem, isSelected: Boolean, onClick: () -> Unit) {
     val backgroundColor = if (isSelected) BrandBlack else Color.Transparent
     val contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(backgroundColor)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+        modifier =
+            Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(backgroundColor)
+                .clickable(onClick = onClick)
+                .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -142,17 +130,13 @@ private fun NavItemRow(
 }
 
 @Composable
-private fun BottomNavItem(
-    label: String,
-    icon: DrawableResource,
-    onClick: () -> Unit,
-) {
+private fun BottomNavItem(label: String, icon: DrawableResource, onClick: () -> Unit) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+        modifier =
+            Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(onClick = onClick)
+                .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

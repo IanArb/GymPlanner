@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,8 +43,7 @@ enum class ClassCategory {
 }
 
 enum class ClassFilter {
-    ALL,
-    TODAY,
+    ALL
 }
 
 data class FitnessClassItem(
@@ -55,10 +54,7 @@ data class FitnessClassItem(
 )
 
 @Composable
-fun UpcomingClassesSection(
-    classes: List<FitnessClassItem>,
-    modifier: Modifier = Modifier,
-) {
+fun UpcomingClassesSection(classes: List<FitnessClassItem>, modifier: Modifier = Modifier) {
     var selectedFilter by remember { mutableStateOf(ClassFilter.ALL) }
 
     Column(modifier = modifier) {
@@ -74,10 +70,7 @@ fun UpcomingClassesSection(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             classes.forEach { fitnessClass ->
-                ClassCard(
-                    item = fitnessClass,
-                    modifier = Modifier.weight(1f),
-                )
+                ClassCard(item = fitnessClass, modifier = Modifier.weight(1f))
             }
         }
     }
@@ -105,41 +98,33 @@ private fun UpcomingClassesHeader(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterButton(
                 label = "VIEW ALL",
-                isSelected = selectedFilter == ClassFilter.TODAY,
-                onClick = { onFilterSelected(ClassFilter.TODAY) },
+                isSelected = selectedFilter == ClassFilter.ALL,
+                onClick = { onFilterSelected(ClassFilter.ALL) },
             )
         }
     }
 }
 
 @Composable
-private fun FilterButton(
-    label: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
+private fun FilterButton(label: String, isSelected: Boolean, onClick: () -> Unit) {
     OutlinedButton(
         onClick = onClick,
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
-            contentColor = if (isSelected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface,
-        ),
+        colors =
+            ButtonDefaults.outlinedButtonColors(
+                containerColor =
+                    if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+                contentColor =
+                    if (isSelected) MaterialTheme.colorScheme.surface
+                    else MaterialTheme.colorScheme.onSurface,
+            ),
     ) {
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.5.sp,
-        )
+        Text(text = label, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
     }
 }
 
 @Composable
-private fun ClassCard(
-    item: FitnessClassItem,
-    modifier: Modifier = Modifier,
-) {
+private fun ClassCard(item: FitnessClassItem, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
@@ -162,28 +147,24 @@ private fun ClassCard(
 @Composable
 private fun ClassImageCard(item: FitnessClassItem) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .background(classCardGradient(item.category)),
+        modifier =
+            Modifier.fillMaxWidth().height(180.dp).background(classCardGradient(item.category))
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .align(Alignment.BottomCenter)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
+            modifier =
+                Modifier.fillMaxWidth()
+                    .height(80.dp)
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
+                        )
                     )
-                ),
         )
 
         CategoryBadge(
             category = item.category,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 12.dp, bottom = 36.dp),
+            modifier = Modifier.align(Alignment.BottomStart).padding(start = 12.dp, bottom = 36.dp),
         )
 
         Text(
@@ -191,29 +172,26 @@ private fun ClassImageCard(item: FitnessClassItem) {
             fontWeight = FontWeight.ExtraBold,
             fontSize = 20.sp,
             color = Color.White,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 12.dp, bottom = 12.dp),
+            modifier = Modifier.align(Alignment.BottomStart).padding(start = 12.dp, bottom = 12.dp),
         )
     }
 }
 
 @Composable
-private fun CategoryBadge(
-    category: ClassCategory,
-    modifier: Modifier = Modifier,
-) {
-    val (label, color) = when (category) {
-        ClassCategory.PEAK_HOUR -> "PEAK HOUR" to Color(0xFF0D0D0D)
-        ClassCategory.RECOVERY -> "RECOVERY" to Color(0xFF424242)
-        ClassCategory.STRENGTH -> "STRENGTH" to Color(0xFF9E9E9E)
-    }
+private fun CategoryBadge(category: ClassCategory, modifier: Modifier = Modifier) {
+    val (label, color) =
+        when (category) {
+            ClassCategory.PEAK_HOUR -> "PEAK HOUR" to Color(0xFF0D0D0D)
+            ClassCategory.RECOVERY -> "RECOVERY" to Color(0xFF424242)
+            ClassCategory.STRENGTH -> "STRENGTH" to Color(0xFF9E9E9E)
+        }
 
     Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
-            .background(color)
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier =
+            modifier
+                .clip(RoundedCornerShape(4.dp))
+                .background(color)
+                .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(
             text = label,
@@ -267,13 +245,10 @@ private fun ClassDetails(item: FitnessClassItem, modifier: Modifier = Modifier) 
 
 private fun classCardGradient(category: ClassCategory): Brush =
     when (category) {
-        ClassCategory.PEAK_HOUR -> Brush.linearGradient(
-            colors = listOf(Color(0xFF1A237E), Color(0xFF0D47A1)),
-        )
-        ClassCategory.RECOVERY -> Brush.linearGradient(
-            colors = listOf(Color(0xFF1B5E20), Color(0xFF2E7D32)),
-        )
-        ClassCategory.STRENGTH -> Brush.linearGradient(
-            colors = listOf(Color(0xFF4A148C), Color(0xFF6A1B9A)),
-        )
+        ClassCategory.PEAK_HOUR ->
+            Brush.linearGradient(colors = listOf(Color(0xFF1A237E), Color(0xFF0D47A1)))
+        ClassCategory.RECOVERY ->
+            Brush.linearGradient(colors = listOf(Color(0xFF1B5E20), Color(0xFF2E7D32)))
+        ClassCategory.STRENGTH ->
+            Brush.linearGradient(colors = listOf(Color(0xFF4A148C), Color(0xFF6A1B9A)))
     }

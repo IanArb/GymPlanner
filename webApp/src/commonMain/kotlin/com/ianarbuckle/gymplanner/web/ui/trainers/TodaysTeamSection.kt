@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
-import com.ianarbuckle.gymplanner.web.generated.resources.ic_chat
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
-import com.ianarbuckle.gymplanner.web.generated.resources.ic_schedule
 import org.jetbrains.compose.resources.painterResource
 
 enum class TrainerAvailability {
@@ -42,7 +39,6 @@ enum class TrainerAvailability {
 data class TrainerItem(
     val name: String,
     val availability: TrainerAvailability,
-    val sessionTimeLeft: String? = null,
 )
 
 @Composable
@@ -90,9 +86,7 @@ private fun TrainerCard(trainer: TrainerItem, onClick: () -> Unit) {
         onClick = onClick,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TrainerAvatar(availability = trainer.availability)
@@ -125,17 +119,18 @@ private fun TrainerCard(trainer: TrainerItem, onClick: () -> Unit) {
 
 @Composable
 private fun TrainerAvatar(availability: TrainerAvailability) {
-    val statusColor = when (availability) {
-        TrainerAvailability.AVAILABLE -> Color.Green
-        TrainerAvailability.IN_SESSION -> Color.Red
-    }
+    val statusColor =
+        when (availability) {
+            TrainerAvailability.AVAILABLE -> Color.Green
+            TrainerAvailability.IN_SESSION -> Color.Red
+        }
 
     Box {
         Box(
-            modifier = Modifier
-                .size(52.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+            modifier =
+                Modifier.size(52.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
             Text(
@@ -146,19 +141,19 @@ private fun TrainerAvatar(availability: TrainerAvailability) {
             )
         }
         Box(
-            modifier = Modifier
-                .size(12.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .align(Alignment.BottomEnd)
-                .offset(x = 2.dp, y = 2.dp),
+            modifier =
+                Modifier.size(12.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .align(Alignment.BottomEnd)
+                    .offset(x = 2.dp, y = 2.dp)
         ) {
             Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .clip(CircleShape)
-                    .background(statusColor)
-                    .align(Alignment.Center),
+                modifier =
+                    Modifier.size(8.dp)
+                        .clip(CircleShape)
+                        .background(statusColor)
+                        .align(Alignment.Center)
             )
         }
     }

@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,7 +32,6 @@ import com.ianarbuckle.gymplanner.web.generated.resources.ic_build
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_check_circle
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 enum class EquipmentStatus {
@@ -79,10 +78,7 @@ fun FacilityStatusSection(
 @Composable
 private fun FacilityStatusHeader(onViewAllClick: () -> Unit) {
     Row(
-        modifier = Modifier
-            .widthIn(max = 520.dp)
-            .fillMaxWidth()
-            .padding(bottom = 12.dp),
+        modifier = Modifier.widthIn(max = 520.dp).fillMaxWidth().padding(bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -107,9 +103,7 @@ private fun FacilityStatusHeader(onViewAllClick: () -> Unit) {
 @Composable
 private fun EquipmentRow(item: EquipmentItem) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         EquipmentIcon(status = item.status)
@@ -147,29 +141,18 @@ private fun EquipmentRow(item: EquipmentItem) {
 
 @Composable
 private fun EquipmentIcon(status: EquipmentStatus) {
-    val (backgroundColor, iconTint, icon) = when (status) {
-        EquipmentStatus.OUT_OF_ORDER -> Triple(
-            Color(0xFFFFE5E5),
-            Color(0xFFE53935),
-            Res.drawable.ic_warning,
-        )
-        EquipmentStatus.MAINTENANCE -> Triple(
-            Color(0xFFFFF3E0),
-            Color(0xFFE8500A),
-            Res.drawable.ic_build,
-        )
-        EquipmentStatus.OPERATIONAL -> Triple(
-            Color(0xFFF0F0F0),
-            Color(0xFF757575),
-            Res.drawable.ic_check_circle,
-        )
-    }
+    val (backgroundColor, iconTint, icon) =
+        when (status) {
+            EquipmentStatus.OUT_OF_ORDER ->
+                Triple(Color(0xFFFFE5E5), Color(0xFFE53935), Res.drawable.ic_warning)
+            EquipmentStatus.MAINTENANCE ->
+                Triple(Color(0xFFFFF3E0), Color(0xFFE8500A), Res.drawable.ic_build)
+            EquipmentStatus.OPERATIONAL ->
+                Triple(Color(0xFFF0F0F0), Color(0xFF757575), Res.drawable.ic_check_circle)
+        }
 
     Box(
-        modifier = Modifier
-            .size(44.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(backgroundColor),
+        modifier = Modifier.size(44.dp).clip(RoundedCornerShape(12.dp)).background(backgroundColor),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -183,17 +166,18 @@ private fun EquipmentIcon(status: EquipmentStatus) {
 
 @Composable
 private fun StatusBadge(status: EquipmentStatus) {
-    val (label, backgroundColor, textColor) = when (status) {
-        EquipmentStatus.OUT_OF_ORDER -> Triple("OUT OF ORDER", Color(0xFFE53935), Color.White)
-        EquipmentStatus.MAINTENANCE -> Triple("MAINTENANCE", Color(0xFFE8500A), Color.White)
-        EquipmentStatus.OPERATIONAL -> Triple("OPERATIONAL", Color(0xFF43A047), Color.White)
-    }
+    val (label, backgroundColor, textColor) =
+        when (status) {
+            EquipmentStatus.OUT_OF_ORDER -> Triple("OUT OF ORDER", Color(0xFFE53935), Color.White)
+            EquipmentStatus.MAINTENANCE -> Triple("MAINTENANCE", Color(0xFFE8500A), Color.White)
+            EquipmentStatus.OPERATIONAL -> Triple("OPERATIONAL", Color(0xFF43A047), Color.White)
+        }
 
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(4.dp))
-            .background(backgroundColor)
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier =
+            Modifier.clip(RoundedCornerShape(4.dp))
+                .background(backgroundColor)
+                .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(
             text = label,

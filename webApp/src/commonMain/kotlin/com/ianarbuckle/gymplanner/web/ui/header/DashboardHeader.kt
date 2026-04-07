@@ -11,15 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.ianarbuckle.gymplanner.web.generated.resources.Res
-import com.ianarbuckle.gymplanner.web.generated.resources.ic_notifications
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-private val BrandBlack = Color(0xFF0D0D0D)
 
 @Composable
 fun DashboardHeader(
@@ -43,24 +37,16 @@ fun DashboardHeader(
         shadowElevation = 2.dp,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             BrandLogo()
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Spacer(modifier = Modifier.width(16.dp))
 
-                UserInfo(
-                    userName = userName,
-                    userRole = userRole,
-                )
+                UserInfo(userName = userName, userRole = userRole)
 
                 Spacer(modifier = Modifier.width(12.dp))
 
@@ -83,10 +69,7 @@ private fun BrandLogo() {
 }
 
 @Composable
-private fun UserInfo(
-    userName: String,
-    userRole: String,
-) {
+private fun UserInfo(userName: String, userRole: String) {
     Column(horizontalAlignment = Alignment.End) {
         Text(
             text = userName,
@@ -107,10 +90,10 @@ private fun UserInfo(
 private fun UserAvatar(onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+            modifier =
+                Modifier.size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
             Text(

@@ -10,18 +10,19 @@ val LightGrey = Color(0xFFE8E8E8)
 val MediumGrey = Color(0xFF9E9E9E)
 val DarkGrey = Color(0xFF424242)
 
-val GymPlannerColorScheme = lightColorScheme(
-    primary = Black,
-    onPrimary = White,
-    primaryContainer = Black,
-    onPrimaryContainer = White,
-    secondary = DarkGrey,
-    onSecondary = White,
-    background = OffWhite,
-    onBackground = Black,
-    surface = White,
-    onSurface = Black,
-    onSurfaceVariant = MediumGrey,
-    outline = LightGrey,
-    outlineVariant = LightGrey,
-)
+val GymPlannerColorScheme =
+    lightColorScheme(
+        primary = Black,
+        onPrimary = White,
+        primaryContainer = Black,
+        onPrimaryContainer = White,
+        secondary = DarkGrey,
+        onSecondary = White,
+        background = OffWhite,
+        onBackground = Black,
+        surface = White,
+        onSurface = Black,
+        onSurfaceVariant = MediumGrey,
+        outline = LightGrey,
+        outlineVariant = LightGrey,
+    )
