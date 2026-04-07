@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/IanArb/GymPlanner/compare/v1.1.0...v1.2.0) (2026-04-07)
+
+
+### Features
+
+* **web:** Adding web UI for admin page ([#27](https://github.com/IanArb/GymPlanner/issues/27)) ([5d0a16b](https://github.com/IanArb/GymPlanner/commit/5d0a16b4c8880a97faf2845a3b66d4d5afe86534))
+
 # [1.1.0](https://github.com/IanArb/GymPlanner/compare/v1.0.0...v1.1.0) (2025-12-27)
 
 
