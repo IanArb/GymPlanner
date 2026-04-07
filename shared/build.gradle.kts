@@ -15,7 +15,11 @@ plugins {
 
 kotlin {
     jvmToolchain(17)
-    androidTarget()
+    androidLibrary {
+        namespace = "com.ianarbuckle.gymplanner"
+        compileSdk = 36
+        minSdk = 24
+    }
     wasmJs { browser { commonWebpackConfig { outputFileName = "gymplanner.js" } } }
 
     val xcframeworkName = "SharedGymPlanner"
@@ -77,14 +81,9 @@ kotlin {
 
         wasmJsMain.dependencies {
             implementation(devNpm("copy-webpack-plugin", libs.versions.webPackPlugin.get()))
+            implementation(libs.ktor.client.js)
         }
     }
-}
-
-android {
-    namespace = "com.ianarbuckle.gymplanner"
-    compileSdk = 36
-    defaultConfig { minSdk = 24 }
 }
 
 kotlin.sourceSets.all { languageSettings.optIn("kotlin.experimental.ExperimentalObjCName") }

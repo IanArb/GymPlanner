@@ -10,6 +10,10 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
+compose.resources {
+    packageOfResClass = "com.ianarbuckle.gymplanner.web.generated.resources"
+}
+
 kotlin {
 
     wasmJs {
@@ -29,7 +33,7 @@ kotlin {
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3.jetbrains)
-                implementation(libs.compose.components)
+                implementation(libs.compose.components.resources)
             }
         }
     }

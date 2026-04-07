@@ -1,0 +1,50 @@
+{
+  "name": "gym-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gym Planner Mobile App - Kotlin Multiplatform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IanArb/GymPlanner.git"
+  },
+  "keywords": [
+    "kotlin",
+    "multiplatform",
+    "ios",
+    "android",
+    "xcframework",
+    "swift-package-manager"
+  ],
+  "author": "Ian Arbuckle",
+  "license": "MIT",
+  "scripts": {
+    "release": "semantic-release",
+    "release:dry": "semantic-release --dry-run",
+    "commit": "git-cz",
+    "commitlint": "commitlint --from=HEAD~1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@playwright/test": "^1.59.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^12.0.0",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.0",
+    "@semantic-release/release-notes-generator": "^13.0.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "semantic-release": "^23.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
