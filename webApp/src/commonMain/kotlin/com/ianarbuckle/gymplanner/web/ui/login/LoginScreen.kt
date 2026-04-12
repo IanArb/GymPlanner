@@ -60,14 +60,19 @@ enum class GymLocation(val displayName: String) {
 
 @Composable
 fun LoginScreen(
-    onSignInClick: (email: String, password: String, location: GymLocation) -> Unit,
+    onSignInClick: (username: String, password: String) -> Unit,
     onForgotPasswordClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    authError: String? = null,
 ) {
-    var email by remember { mutableStateOf("") }
+    val validator = remember { FieldValidator() }
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var rememberWorkstation by remember { mutableStateOf(false) }
     var selectedLocation by remember { mutableStateOf(GymLocation.CLONTARF) }
+    var usernameError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
 
     Box(modifier = modifier.fillMaxSize().background(OffWhite)) {
         Text(
@@ -80,15 +85,33 @@ fun LoginScreen(
         )
 
         LoginCard(
-            email = email,
+            username = username,
             password = password,
             rememberWorkstation = rememberWorkstation,
             selectedLocation = selectedLocation,
-            onEmailChange = { email = it },
-            onPasswordChange = { password = it },
+            usernameError = usernameError,
+            passwordError = passwordError,
+            authError = authError,
+            isLoading = isLoading,
+            onUsernameChange = {
+                username = it
+                usernameError = null
+            },
+            onPasswordChange = {
+                password = it
+                passwordError = null
+            },
             onRememberChange = { rememberWorkstation = it },
             onLocationSelected = { selectedLocation = it },
-            onSignInClick = { onSignInClick(email, password, selectedLocation) },
+            onSignInClick = {
+                val isUsernameValid = validator.validateUsername(username)
+                val isPasswordValid = validator.validatePassword(password)
+                usernameError = if (!isUsernameValid) "Please enter a valid username" else null
+                passwordError = if (!isPasswordValid) "Password must be at least 6 characters" else null
+                if (isUsernameValid && isPasswordValid) {
+                    onSignInClick(username, password)
+                }
+            },
             onForgotPasswordClick = onForgotPasswordClick,
             modifier = Modifier.align(Alignment.Center),
         )
@@ -97,11 +120,15 @@ fun LoginScreen(
 
 @Composable
 private fun LoginCard(
-    email: String,
+    username: String,
     password: String,
     rememberWorkstation: Boolean,
     selectedLocation: GymLocation,
-    onEmailChange: (String) -> Unit,
+    usernameError: String?,
+    passwordError: String?,
+    authError: String?,
+    isLoading: Boolean,
+    onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onRememberChange: (Boolean) -> Unit,
     onLocationSelected: (GymLocation) -> Unit,
@@ -139,11 +166,12 @@ private fun LoginCard(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            FieldLabel(text = "FACILITY EMAIL")
+            FieldLabel(text = "USERNAME")
             UnderlineTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                placeholder = "manager@facility-id.kp",
+                value = username,
+                onValueChange = onUsernameChange,
+                placeholder = "manager_username",
+                errorMessage = usernameError,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -169,6 +197,7 @@ private fun LoginCard(
                 onValueChange = onPasswordChange,
                 placeholder = "",
                 isPassword = true,
+                errorMessage = passwordError,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -192,7 +221,16 @@ private fun LoginCard(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            SignInButton(onClick = onSignInClick)
+            if (authError != null) {
+                Text(
+                    text = authError,
+                    color = Color(0xFFB00020),
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(bottom = 12.dp),
+                )
+            }
+
+            SignInButton(onClick = onSignInClick, isLoading = isLoading)
         }
     }
 }
@@ -289,49 +327,72 @@ private fun UnderlineTextField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     isPassword: Boolean = false,
+    errorMessage: String? = null,
 ) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color(0xFFBDBDBD)) },
-        visualTransformation =
-            if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        singleLine = true,
-        colors =
-            TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedIndicatorColor = Black,
-                unfocusedIndicatorColor = Color(0xFFE0E0E0),
-                cursorColor = Black,
-                focusedTextColor = Color(0xFF0D0D0D),
-                unfocusedTextColor = Color(0xFF0D0D0D),
-            ),
-    )
+    Column {
+        TextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color(0xFFBDBDBD)) },
+            visualTransformation =
+                if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            singleLine = true,
+            isError = errorMessage != null,
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Black,
+                    unfocusedIndicatorColor = Color(0xFFE0E0E0),
+                    cursorColor = Black,
+                    focusedTextColor = Color(0xFF0D0D0D),
+                    unfocusedTextColor = Color(0xFF0D0D0D),
+                ),
+        )
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage,
+                color = Color(0xFFB00020),
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 16.dp, top = 4.dp),
+            )
+        }
+    }
 }
 
 @Composable
-private fun SignInButton(onClick: () -> Unit) {
+private fun SignInButton(onClick: () -> Unit, isLoading: Boolean = false) {
     Box(
         modifier =
             Modifier.fillMaxWidth()
                 .height(54.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(Black)
-                .clickable(onClick = onClick),
+                .background(if (isLoading) Color(0xFF616161) else Black)
+                .clickable(enabled = !isLoading, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        if (isLoading) {
             Text(
-                text = "SIGN IN",
+                text = "SIGNING IN…",
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 15.sp,
                 letterSpacing = 1.sp,
             )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(text = "→", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        } else {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "SIGN IN",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    letterSpacing = 1.sp,
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(text = "→", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -73,6 +74,10 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     single {
         HttpClient(get()) {
             install(ContentNegotiation) { json(get()) }
+
+            install(HttpTimeout) {
+                requestTimeoutMillis = 10_000
+            }
 
             install(WebSockets)
 
