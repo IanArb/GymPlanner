@@ -75,9 +75,7 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
         HttpClient(get()) {
             install(ContentNegotiation) { json(get()) }
 
-            install(HttpTimeout) {
-                requestTimeoutMillis = 10_000
-            }
+            install(HttpTimeout) { requestTimeoutMillis = 10_000 }
 
             install(WebSockets)
 
