@@ -10,8 +10,11 @@ import kotlinx.coroutines.launch
 
 sealed class LoginUiState {
     data object Idle : LoginUiState()
+
     data object Loading : LoginUiState()
+
     data class Success(val token: String) : LoginUiState()
+
     data class Error(val message: String) : LoginUiState()
 }
 
@@ -27,8 +30,13 @@ class LoginViewModel(
             _uiState.value = LoginUiState.Loading
             val result = repository.login(Login(username = username, password = password))
             result.fold(
-                onSuccess = { response -> _uiState.value = LoginUiState.Success(token = response.token) },
-                onFailure = { error -> _uiState.value = LoginUiState.Error(message = error.message ?: "Authentication failed") },
+                onSuccess = { response ->
+                    _uiState.value = LoginUiState.Success(token = response.token)
+                },
+                onFailure = { error ->
+                    _uiState.value =
+                        LoginUiState.Error(message = error.message ?: "Authentication failed")
+                },
             )
         }
     }

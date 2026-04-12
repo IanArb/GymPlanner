@@ -107,7 +107,8 @@ fun LoginScreen(
                 val isUsernameValid = validator.validateUsername(username)
                 val isPasswordValid = validator.validatePassword(password)
                 usernameError = if (!isUsernameValid) "Please enter a valid username" else null
-                passwordError = if (!isPasswordValid) "Password must be at least 6 characters" else null
+                passwordError =
+                    if (!isPasswordValid) "Password must be at least 6 characters" else null
                 if (isUsernameValid && isPasswordValid) {
                     onSignInClick(username, password)
                 }
@@ -391,7 +392,12 @@ private fun SignInButton(onClick: () -> Unit, isLoading: Boolean = false) {
                     letterSpacing = 1.sp,
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "→", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "→",
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                )
             }
         }
     }

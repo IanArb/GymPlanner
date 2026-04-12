@@ -29,11 +29,7 @@ kotlin {
                 implementation(libs.compose.components.resources)
             }
         }
-        commonTest {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
+        commonTest { dependencies { implementation(libs.kotlin.test) } }
     }
 }
 
