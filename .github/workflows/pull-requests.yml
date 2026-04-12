@@ -42,6 +42,9 @@ jobs:
       - name: Run shared module unit tests
         run: ./gradlew shared:allTests
 
+      - name: Run web app unit tests
+        run: ./gradlew :webApp:wasmJsBrowserTest
+
       - name: Upload unit test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -50,6 +53,7 @@ jobs:
           path: |
             androidApp/build/test-results/
             shared/build/test-results/
+            webApp/build/test-results/
 
       - name: Upload unit test reports
         if: always()
@@ -59,6 +63,7 @@ jobs:
           path: |
             androidApp/build/reports/tests/
             shared/build/reports/tests/
+            webApp/build/reports/tests/
 
       - name: Publish test summary
         if: always()
@@ -67,6 +72,7 @@ jobs:
           files: |
             androidApp/build/test-results/**/*.xml
             shared/build/test-results/**/*.xml
+            webApp/build/test-results/**/*.xml
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace

@@ -10,14 +10,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
+import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
@@ -26,6 +29,8 @@ import com.ianarbuckle.gymplanner.web.ui.facilitystatus.EquipmentStatus
 import com.ianarbuckle.gymplanner.web.ui.facilitystatus.FacilityStatusSection
 import com.ianarbuckle.gymplanner.web.ui.header.DashboardHeader
 import com.ianarbuckle.gymplanner.web.ui.login.LoginScreen
+import com.ianarbuckle.gymplanner.web.ui.login.LoginUiState
+import com.ianarbuckle.gymplanner.web.ui.login.LoginViewModel
 import com.ianarbuckle.gymplanner.web.ui.sidebar.NavDestination
 import com.ianarbuckle.gymplanner.web.ui.sidebar.SidebarNavigation
 import com.ianarbuckle.gymplanner.web.ui.theme.GymPlannerColorScheme
@@ -37,15 +42,26 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    initKoin(
+        enableNetworkLogs = true,
+        baseUrl = "https://gymplanner-api-production.up.railway.app",
+        websocketBaseUrl = "ws://gymplanner-api-production.up.railway.app",
+    )
     ComposeViewport(document.body!!) {
         MaterialTheme(colorScheme = GymPlannerColorScheme) {
             var isLoggedIn by remember { mutableStateOf(false) }
             var selectedDestination by remember { mutableStateOf(NavDestination.DASHBOARD) }
 
+            val scope = rememberCoroutineScope()
+            val loginViewModel = remember { LoginViewModel(scope) }
+            val loginUiState by loginViewModel.uiState.collectAsState()
+
             if (!isLoggedIn) {
                 LoginScreen(
-                    onSignInClick = { _, _, _ -> isLoggedIn = true },
+                    onSignInClick = { username, password -> isLoggedIn = true },
                     onForgotPasswordClick = {},
+                    isLoading = loginUiState is LoginUiState.Loading,
+                    authError = (loginUiState as? LoginUiState.Error)?.message,
                 )
                 return@MaterialTheme
             }
