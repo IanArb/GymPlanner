@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/IanArb/GymPlanner/compare/v1.2.0...v1.3.0) (2026-04-12)
+
+
+### Features
+
+* Add field validation for login form ([#28](https://github.com/IanArb/GymPlanner/issues/28)) ([280d7ef](https://github.com/IanArb/GymPlanner/commit/280d7ef141de515afb26a05dda24b2c668c4a57a))
+
 # [1.2.0](https://github.com/IanArb/GymPlanner/compare/v1.1.0...v1.2.0) (2026-04-07)
 
 
