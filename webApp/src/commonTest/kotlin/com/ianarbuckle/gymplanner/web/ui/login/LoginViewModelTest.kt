@@ -312,7 +312,7 @@ class LoginViewModelTest : KoinTest {
         }
 
     @Test
-    fun `logout resets uiState to Idle even when clearAllData throws`() =
+    fun `logout sets uiState to Error when clearAllData throws`() =
         testScope.runTest {
             fakeDataStoreRepository.storedToken = "existing-token"
             fakeDataStoreRepository.shouldThrowOnClearAllData = true
@@ -323,7 +323,7 @@ class LoginViewModelTest : KoinTest {
             viewModel.dispatchAction(LoginAction.Logout)
             testDispatcher.scheduler.advanceUntilIdle()
 
-            assertIs<LoginUiState.Idle>(viewModel.uiState.value)
+            assertIs<LoginUiState.Error>(viewModel.uiState.value)
         }
 }
 
