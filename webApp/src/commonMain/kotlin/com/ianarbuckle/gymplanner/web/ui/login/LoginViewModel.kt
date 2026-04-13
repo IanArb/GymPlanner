@@ -5,6 +5,7 @@ import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,6 +42,8 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
             try {
                 val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
                 _isAuthenticated.value = !token.isNullOrBlank()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _isAuthenticated.value = false
             } finally {
@@ -67,6 +70,8 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
                         dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
                         _uiState.value = LoginUiState.Success(token = response.token)
                         _isAuthenticated.value = true
+                    } catch (e: CancellationException) {
+                        throw e
                     } catch (e: Exception) {
                         try {
                             dataStoreRepository.clearAllData()
@@ -91,6 +96,8 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         scope.launch {
             try {
                 dataStoreRepository.clearAllData()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _uiState.value = LoginUiState.Error(message = "Failed to clear authentication data")
             } finally {
