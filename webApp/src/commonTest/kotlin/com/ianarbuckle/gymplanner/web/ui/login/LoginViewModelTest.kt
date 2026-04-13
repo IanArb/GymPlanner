@@ -325,7 +325,6 @@ class LoginViewModelTest : KoinTest {
 
             assertIs<LoginUiState.Idle>(viewModel.uiState.value)
         }
-
 }
 
 // ========== Fakes ==========
