@@ -457,6 +457,76 @@ class DataStoreRepositoryTest {
         assertEquals(StringValues.deviceIdValue, repository.getStringData(StringKeys.deviceId))
     }
 
+    // ========== Clear All Data Tests ==========
+
+    @Test
+    fun `clearAllData removes all string values`() = runTest {
+        // Given
+        repository.saveData(StringKeys.authToken, StringValues.authTokenValue)
+        repository.saveData(StringKeys.userId, StringValues.userIdValue)
+
+        // When
+        repository.clearAllData()
+
+        // Then
+        assertNull(repository.getStringData(StringKeys.authToken))
+        assertNull(repository.getStringData(StringKeys.userId))
+    }
+
+    @Test
+    fun `clearAllData removes all boolean values`() = runTest {
+        // Given
+        repository.saveData(BooleanKeys.rememberMe, BooleanValues.trueValue)
+        repository.saveData(BooleanKeys.isLoggedIn, BooleanValues.trueValue)
+
+        // When
+        repository.clearAllData()
+
+        // Then
+        assertNull(repository.getBooleanData(BooleanKeys.rememberMe))
+        assertNull(repository.getBooleanData(BooleanKeys.isLoggedIn))
+    }
+
+    @Test
+    fun `clearAllData is tracked via call count`() = runTest {
+        // When
+        repository.clearAllData()
+        repository.clearAllData()
+
+        // Then
+        assertEquals(2, repository.clearAllDataCalls)
+    }
+
+    @Test
+    fun `data can be saved again after clearAllData`() = runTest {
+        // Given
+        repository.saveData(StringKeys.authToken, StringValues.authTokenValue)
+        repository.clearAllData()
+
+        // When
+        repository.saveData(StringKeys.authToken, StringValues.updatedTokenValue)
+
+        // Then
+        assertEquals(StringValues.updatedTokenValue, repository.getStringData(StringKeys.authToken))
+    }
+
+    @Test
+    fun `clearAllData with exception throws error`() = runTest {
+        // Given
+        repository.shouldThrowExceptionOnClearAllData = true
+        repository.clearAllDataException = Exceptions.ioError
+
+        // When & Then
+        var exception: Exception? = null
+        try {
+            repository.clearAllData()
+        } catch (e: Exception) {
+            exception = e
+        }
+
+        assertEquals(Exceptions.ioError, exception)
+    }
+
     @Test
     fun `all boolean keys are independent`() = runTest {
         // When - Save to all boolean keys

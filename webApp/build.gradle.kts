@@ -29,7 +29,13 @@ kotlin {
                 implementation(libs.compose.components.resources)
             }
         }
-        commonTest { dependencies { implementation(libs.kotlin.test) } }
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.koin.test)
+            }
+        }
     }
 }
 

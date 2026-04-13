@@ -20,6 +20,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
+import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
+import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
 import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
@@ -39,6 +41,7 @@ import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerAvailability
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
 import kotlinx.browser.document
+import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
@@ -46,19 +49,29 @@ fun main() {
         enableNetworkLogs = true,
         baseUrl = "https://gymplanner-api-production.up.railway.app",
         websocketBaseUrl = "ws://gymplanner-api-production.up.railway.app",
+        appDeclaration = {
+            modules(
+                module { single<AuthenticationRepository> { DefaultAuthenticationRepository() } }
+            )
+        },
     )
     ComposeViewport(document.body!!) {
         MaterialTheme(colorScheme = GymPlannerColorScheme) {
-            var isLoggedIn by remember { mutableStateOf(false) }
             var selectedDestination by remember { mutableStateOf(NavDestination.DASHBOARD) }
 
             val scope = rememberCoroutineScope()
             val loginViewModel = remember { LoginViewModel(scope) }
             val loginUiState by loginViewModel.uiState.collectAsState()
+            val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
+            val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
 
-            if (!isLoggedIn) {
+            if (isCheckingAuth) return@MaterialTheme
+
+            if (!isAuthenticated) {
                 LoginScreen(
-                    onSignInClick = { username, password -> isLoggedIn = true },
+                    onSignInClick = { username, password ->
+                        loginViewModel.login(username = username, password = password)
+                    },
                     onForgotPasswordClick = {},
                     isLoading = loginUiState is LoginUiState.Loading,
                     authError = (loginUiState as? LoginUiState.Error)?.message,
@@ -71,7 +84,7 @@ fun main() {
                     selectedDestination = selectedDestination,
                     onDestinationSelected = { selectedDestination = it },
                     onSettingsClick = {},
-                    onLogoutClick = { isLoggedIn = false },
+                    onLogoutClick = { loginViewModel.logout() },
                 )
 
                 Column(

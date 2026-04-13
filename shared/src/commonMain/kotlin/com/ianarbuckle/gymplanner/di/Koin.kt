@@ -22,8 +22,6 @@ import com.ianarbuckle.gymplanner.personaltrainers.DefaultPersonalTrainersRemote
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRemoteDataSource
 import com.ianarbuckle.gymplanner.profile.DefaultProfileRemoteDataSource
 import com.ianarbuckle.gymplanner.profile.ProfileRemoteDataSource
-import com.ianarbuckle.gymplanner.storage.DataStoreRepository
-import com.ianarbuckle.gymplanner.storage.DefaultDataStoreRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -158,8 +156,6 @@ fun bookingModule(baseUrl: String) = module {
         )
     }
 }
-
-fun dataStoreModule() = module { single<DataStoreRepository> { DefaultDataStoreRepository() } }
 
 fun availabilityModule(baseUrl: String) = module {
     single<AvailabilityRemoteDataSource> {

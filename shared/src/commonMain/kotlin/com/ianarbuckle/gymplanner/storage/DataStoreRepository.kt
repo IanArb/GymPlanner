@@ -21,6 +21,8 @@ interface DataStoreRepository {
     suspend fun getStringData(key: Preferences.Key<String>): String?
 
     suspend fun getBooleanData(key: Preferences.Key<Boolean>): Boolean?
+
+    suspend fun clearAllData()
 }
 
 class DefaultDataStoreRepository : DataStoreRepository, KoinComponent {
@@ -43,5 +45,9 @@ class DefaultDataStoreRepository : DataStoreRepository, KoinComponent {
     override suspend fun getBooleanData(key: Preferences.Key<Boolean>): Boolean? {
         val preferences = dataStore.data.first()
         return preferences[key]
+    }
+
+    override suspend fun clearAllData() {
+        dataStore.edit { it.clear() }
     }
 }
