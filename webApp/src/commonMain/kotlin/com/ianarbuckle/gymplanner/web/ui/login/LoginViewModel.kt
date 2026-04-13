@@ -68,8 +68,15 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
                         _uiState.value = LoginUiState.Success(token = response.token)
                         _isAuthenticated.value = true
                     } catch (e: Exception) {
-                        _uiState.value =
-                            LoginUiState.Error(message = "Failed to save authentication data")
+                        try {
+                            dataStoreRepository.clearAllData()
+                        } catch (e: Exception) {
+                            //noop
+                        } finally {
+                            _isAuthenticated.value = false
+                            _uiState.value =
+                                LoginUiState.Error(message = "Failed to save authentication data")
+                        }
                     }
                 },
                 onFailure = { error ->
@@ -84,6 +91,8 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         scope.launch {
             try {
                 dataStoreRepository.clearAllData()
+            } catch(e: Exception) {
+                _uiState.value = LoginUiState.Error(message = "Failed to clear authentication data")
             } finally {
                 _isAuthenticated.value = false
                 _uiState.value = LoginUiState.Idle

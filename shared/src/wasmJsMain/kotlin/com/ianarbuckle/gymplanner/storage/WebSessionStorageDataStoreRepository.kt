@@ -12,7 +12,7 @@ private external interface JsSessionStorage {
     fun clear()
 }
 
-class WebLocalStorageDataStoreRepository : DataStoreRepository {
+class WebSessionStorageDataStoreRepository : DataStoreRepository {
 
     override suspend fun saveData(key: Preferences.Key<String>, value: String) {
         sessionStorage.setItem(key.name, value)
