@@ -95,7 +95,9 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
                 _uiState.value = LoginUiState.Error(message = "Failed to clear authentication data")
             } finally {
                 _isAuthenticated.value = false
-                _uiState.value = LoginUiState.Idle
+                if (_uiState.value !is LoginUiState.Error) {
+                    _uiState.value = LoginUiState.Idle
+                }
             }
         }
     }

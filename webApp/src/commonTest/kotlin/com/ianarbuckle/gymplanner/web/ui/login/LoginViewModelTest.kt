@@ -233,6 +233,99 @@ class LoginViewModelTest : KoinTest {
 
             assertEquals(1, fakeDataStoreRepository.clearAllDataCalls)
         }
+
+    // ========== Login Storage Error ==========
+
+    @Test
+    fun `login sets uiState to Error when saving token fails`() =
+        testScope.runTest {
+            fakeAuthRepository.loginResult =
+                Result.success(
+                    LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L)
+                )
+            fakeDataStoreRepository.shouldThrowOnSaveString = true
+
+            val viewModel = LoginViewModel(testScope)
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            assertIs<LoginUiState.Error>(viewModel.uiState.value)
+            assertEquals(
+                "Failed to save authentication data",
+                (viewModel.uiState.value as LoginUiState.Error).message,
+            )
+        }
+
+    @Test
+    fun `login does not set isAuthenticated to true when saving token fails`() =
+        testScope.runTest {
+            fakeAuthRepository.loginResult =
+                Result.success(
+                    LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L)
+                )
+            fakeDataStoreRepository.shouldThrowOnSaveString = true
+
+            val viewModel = LoginViewModel(testScope)
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            assertFalse(viewModel.isAuthenticated.value)
+        }
+
+    @Test
+    fun `login attempts clearAllData when saving token fails`() =
+        testScope.runTest {
+            fakeAuthRepository.loginResult =
+                Result.success(
+                    LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L)
+                )
+            fakeDataStoreRepository.shouldThrowOnSaveString = true
+
+            val viewModel = LoginViewModel(testScope)
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(1, fakeDataStoreRepository.clearAllDataCalls)
+        }
+
+    // ========== Logout Storage Error ==========
+
+    @Test
+    fun `logout sets isAuthenticated to false even when clearAllData throws`() =
+        testScope.runTest {
+            fakeDataStoreRepository.storedToken = "existing-token"
+            fakeDataStoreRepository.shouldThrowOnClearAllData = true
+
+            val viewModel = LoginViewModel(testScope)
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.dispatchAction(LoginAction.Logout)
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            assertFalse(viewModel.isAuthenticated.value)
+        }
+
+    @Test
+    fun `logout resets uiState to Idle even when clearAllData throws`() =
+        testScope.runTest {
+            fakeDataStoreRepository.storedToken = "existing-token"
+            fakeDataStoreRepository.shouldThrowOnClearAllData = true
+
+            val viewModel = LoginViewModel(testScope)
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.dispatchAction(LoginAction.Logout)
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            assertIs<LoginUiState.Idle>(viewModel.uiState.value)
+        }
+
 }
 
 // ========== Fakes ==========
@@ -248,6 +341,8 @@ private class FakeAuthenticationRepository : AuthenticationRepository {
 
 private class FakeWebDataStoreRepository : DataStoreRepository {
     var storedToken: String? = null
+    var shouldThrowOnSaveString = false
+    var shouldThrowOnClearAllData = false
     private val stringStorage = mutableMapOf<Preferences.Key<String>, String>()
     private val booleanStorage = mutableMapOf<Preferences.Key<Boolean>, Boolean>()
     var clearAllDataCalls = 0
@@ -257,6 +352,7 @@ private class FakeWebDataStoreRepository : DataStoreRepository {
     }
 
     override suspend fun saveData(key: Preferences.Key<String>, value: String) {
+        if (shouldThrowOnSaveString) throw RuntimeException("Storage write failed")
         stringStorage[key] = value
     }
 
@@ -274,6 +370,7 @@ private class FakeWebDataStoreRepository : DataStoreRepository {
 
     override suspend fun clearAllData() {
         clearAllDataCalls++
+        if (shouldThrowOnClearAllData) throw RuntimeException("Storage clear failed")
         stringStorage.clear()
         booleanStorage.clear()
         storedToken = null
