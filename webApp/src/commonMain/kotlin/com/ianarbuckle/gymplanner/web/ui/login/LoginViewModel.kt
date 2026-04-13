@@ -44,7 +44,14 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         }
     }
 
-    fun login(username: String, password: String) {
+    fun dispatchAction(action: LoginAction) {
+        when (action) {
+            is LoginAction.Login -> login(username = action.username, password = action.password)
+            is LoginAction.Logout -> logout()
+        }
+    }
+
+    private fun login(username: String, password: String) {
         scope.launch {
             _uiState.value = LoginUiState.Loading
             val result = repository.login(Login(username = username, password = password))
@@ -63,7 +70,7 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         }
     }
 
-    fun logout() {
+    private fun logout() {
         scope.launch {
             dataStoreRepository.clearAllData()
             _isAuthenticated.value = false

@@ -30,6 +30,7 @@ import com.ianarbuckle.gymplanner.web.ui.facilitystatus.EquipmentItem
 import com.ianarbuckle.gymplanner.web.ui.facilitystatus.EquipmentStatus
 import com.ianarbuckle.gymplanner.web.ui.facilitystatus.FacilityStatusSection
 import com.ianarbuckle.gymplanner.web.ui.header.DashboardHeader
+import com.ianarbuckle.gymplanner.web.ui.login.LoginAction
 import com.ianarbuckle.gymplanner.web.ui.login.LoginScreen
 import com.ianarbuckle.gymplanner.web.ui.login.LoginUiState
 import com.ianarbuckle.gymplanner.web.ui.login.LoginViewModel
@@ -70,7 +71,9 @@ fun main() {
             if (!isAuthenticated) {
                 LoginScreen(
                     onSignInClick = { username, password ->
-                        loginViewModel.login(username = username, password = password)
+                        loginViewModel.dispatchAction(
+                            LoginAction.Login(username = username, password = password)
+                        )
                     },
                     onForgotPasswordClick = {},
                     isLoading = loginUiState is LoginUiState.Loading,
@@ -84,7 +87,7 @@ fun main() {
                     selectedDestination = selectedDestination,
                     onDestinationSelected = { selectedDestination = it },
                     onSettingsClick = {},
-                    onLogoutClick = { loginViewModel.logout() },
+                    onLogoutClick = { loginViewModel.dispatchAction(LoginAction.Logout) },
                 )
 
                 Column(

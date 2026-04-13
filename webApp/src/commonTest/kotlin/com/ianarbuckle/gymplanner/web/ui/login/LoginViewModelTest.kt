@@ -124,7 +124,9 @@ class LoginViewModelTest : KoinTest {
                 )
 
             val viewModel = LoginViewModel(testScope)
-            viewModel.login(username = "testuser", password = "password123")
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertIs<LoginUiState.Success>(viewModel.uiState.value)
@@ -141,7 +143,9 @@ class LoginViewModelTest : KoinTest {
                 )
 
             val viewModel = LoginViewModel(testScope)
-            viewModel.login(username = "testuser", password = "password123")
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertEquals("jwt-token", fakeDataStoreRepository.getStringData(AUTH_TOKEN_KEY))
@@ -154,7 +158,9 @@ class LoginViewModelTest : KoinTest {
             fakeAuthRepository.loginResult = Result.failure(RuntimeException("Invalid credentials"))
 
             val viewModel = LoginViewModel(testScope)
-            viewModel.login(username = "testuser", password = "wrongpassword")
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "wrongpassword")
+            )
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertIs<LoginUiState.Error>(viewModel.uiState.value)
@@ -170,7 +176,9 @@ class LoginViewModelTest : KoinTest {
             fakeAuthRepository.loginResult = Result.failure(RuntimeException("Invalid credentials"))
 
             val viewModel = LoginViewModel(testScope)
-            viewModel.login(username = "testuser", password = "wrongpassword")
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "wrongpassword")
+            )
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertFalse(viewModel.isAuthenticated.value)
@@ -186,7 +194,7 @@ class LoginViewModelTest : KoinTest {
             val viewModel = LoginViewModel(testScope)
             testDispatcher.scheduler.advanceUntilIdle()
 
-            viewModel.logout()
+            viewModel.dispatchAction(LoginAction.Logout)
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertFalse(viewModel.isAuthenticated.value)
@@ -201,10 +209,12 @@ class LoginViewModelTest : KoinTest {
                 )
 
             val viewModel = LoginViewModel(testScope)
-            viewModel.login(username = "testuser", password = "password123")
+            viewModel.dispatchAction(
+                LoginAction.Login(username = "testuser", password = "password123")
+            )
             testDispatcher.scheduler.advanceUntilIdle()
 
-            viewModel.logout()
+            viewModel.dispatchAction(LoginAction.Logout)
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertIs<LoginUiState.Idle>(viewModel.uiState.value)
@@ -218,7 +228,7 @@ class LoginViewModelTest : KoinTest {
             val viewModel = LoginViewModel(testScope)
             testDispatcher.scheduler.advanceUntilIdle()
 
-            viewModel.logout()
+            viewModel.dispatchAction(LoginAction.Logout)
             testDispatcher.scheduler.advanceUntilIdle()
 
             assertEquals(1, fakeDataStoreRepository.clearAllDataCalls)
