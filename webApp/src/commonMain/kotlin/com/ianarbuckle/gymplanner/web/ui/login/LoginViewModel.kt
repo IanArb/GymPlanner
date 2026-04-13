@@ -71,7 +71,7 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
                         try {
                             dataStoreRepository.clearAllData()
                         } catch (e: Exception) {
-                            //noop
+                            // noop
                         } finally {
                             _isAuthenticated.value = false
                             _uiState.value =
@@ -91,7 +91,7 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         scope.launch {
             try {
                 dataStoreRepository.clearAllData()
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _uiState.value = LoginUiState.Error(message = "Failed to clear authentication data")
             } finally {
                 _isAuthenticated.value = false
