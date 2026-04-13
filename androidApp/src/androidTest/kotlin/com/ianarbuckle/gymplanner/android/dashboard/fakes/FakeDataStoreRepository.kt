@@ -28,4 +28,8 @@ class FakeDataStoreRepository : DataStoreRepository {
             else -> null
         }
     }
+
+    override suspend fun clearAllData() {
+        // noop
+    }
 }

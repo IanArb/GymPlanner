@@ -38,9 +38,14 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
 
     init {
         scope.launch {
-            val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
-            _isAuthenticated.value = !token.isNullOrBlank()
-            _isCheckingAuth.value = false
+            try {
+                val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
+                _isAuthenticated.value = !token.isNullOrBlank()
+            } catch (e: Exception) {
+                _isAuthenticated.value = false
+            } finally {
+                _isCheckingAuth.value = false
+            }
         }
     }
 
@@ -57,10 +62,15 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
             val result = repository.login(Login(username = username, password = password))
             result.fold(
                 onSuccess = { response ->
-                    _uiState.value = LoginUiState.Success(token = response.token)
-                    dataStoreRepository.saveData(key = USER_ID, value = response.userId)
-                    dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
-                    _isAuthenticated.value = true
+                    try {
+                        dataStoreRepository.saveData(key = USER_ID, value = response.userId)
+                        dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = response.token)
+                        _uiState.value = LoginUiState.Success(token = response.token)
+                        _isAuthenticated.value = true
+                    } catch (e: Exception) {
+                        _uiState.value =
+                            LoginUiState.Error(message = "Failed to save authentication data")
+                    }
                 },
                 onFailure = { error ->
                     _uiState.value =
@@ -72,9 +82,12 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
 
     private fun logout() {
         scope.launch {
-            dataStoreRepository.clearAllData()
-            _isAuthenticated.value = false
-            _uiState.value = LoginUiState.Idle
+            try {
+                dataStoreRepository.clearAllData()
+            } finally {
+                _isAuthenticated.value = false
+                _uiState.value = LoginUiState.Idle
+            }
         }
     }
 }

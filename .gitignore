@@ -21,6 +21,9 @@ androidApp/google-services.json
 shared/build/XCFrameworks/
 shared/swiftpackage/
 
+### Gradle Daemon JVM ###
+gradle/gradle-daemon-jvm.properties
+
 ### Semantic Release ###
 node_modules/
 package-lock.json
