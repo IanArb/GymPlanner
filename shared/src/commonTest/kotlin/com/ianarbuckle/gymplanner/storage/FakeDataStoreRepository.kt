@@ -16,16 +16,19 @@ class FakeDataStoreRepository : DataStoreRepository {
     var shouldThrowExceptionOnSaveBoolean = false
     var shouldThrowExceptionOnGetString = false
     var shouldThrowExceptionOnGetBoolean = false
+    var shouldThrowExceptionOnClearAllData = false
     var saveStringException: Exception? = null
     var saveBooleanException: Exception? = null
     var getStringException: Exception? = null
     var getBooleanException: Exception? = null
+    var clearAllDataException: Exception? = null
 
     // Captured calls for verification
     val saveStringCalls = mutableListOf<Pair<Preferences.Key<String>, String>>()
     val saveBooleanCalls = mutableListOf<Pair<Preferences.Key<Boolean>, Boolean>>()
     val getStringCalls = mutableListOf<Preferences.Key<String>>()
     val getBooleanCalls = mutableListOf<Preferences.Key<Boolean>>()
+    var clearAllDataCalls = 0
 
     override suspend fun saveData(key: Preferences.Key<String>, value: String) {
         saveStringCalls.add(Pair(key, value))
@@ -67,6 +70,17 @@ class FakeDataStoreRepository : DataStoreRepository {
         return booleanStorage[key]
     }
 
+    override suspend fun clearAllData() {
+        clearAllDataCalls++
+
+        if (shouldThrowExceptionOnClearAllData) {
+            throw clearAllDataException ?: RuntimeException("Clear all data failed")
+        }
+
+        stringStorage.clear()
+        booleanStorage.clear()
+    }
+
     fun reset() {
         stringStorage.clear()
         booleanStorage.clear()
@@ -74,13 +88,16 @@ class FakeDataStoreRepository : DataStoreRepository {
         shouldThrowExceptionOnSaveBoolean = false
         shouldThrowExceptionOnGetString = false
         shouldThrowExceptionOnGetBoolean = false
+        shouldThrowExceptionOnClearAllData = false
         saveStringException = null
         saveBooleanException = null
         getStringException = null
         getBooleanException = null
+        clearAllDataException = null
         saveStringCalls.clear()
         saveBooleanCalls.clear()
         getStringCalls.clear()
         getBooleanCalls.clear()
+        clearAllDataCalls = 0
     }
 }
