@@ -13,7 +13,6 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.test.runTest
@@ -34,8 +33,10 @@ class FacilitiesRepositoryTest {
         fakeRemoteDataSource.reset()
     }
 
+    // ========== Fetch Facilities Status Tests ==========
+
     @Test
-    fun `getFacilitiesStatus with multiple facilities returns list`() = runTest {
+    fun `getFacilitiesStatus with multiple facilities returns success with list`() = runTest {
         // Given
         fakeRemoteDataSource.facilitiesResponse = FacilityLists.multipleStatuses
 
@@ -43,7 +44,8 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(DomainFacilityLists.multipleStatuses, result)
+        assertTrue(result.isSuccess, "Result should be successful")
+        assertEquals(DomainFacilityLists.multipleStatuses, result.getOrNull())
         assertEquals(1, fakeRemoteDataSource.findByLocationCalls.size)
     }
 
@@ -66,7 +68,9 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(3, result.size)
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals(3, facilities.size)
     }
 
     @Test
@@ -78,8 +82,9 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(DomainFacilityLists.singleStatus, result)
-        assertEquals(1, result.size)
+        assertTrue(result.isSuccess)
+        assertEquals(DomainFacilityLists.singleStatus, result.getOrNull())
+        assertEquals(1, result.getOrNull()?.size)
     }
 
     @Test
@@ -91,38 +96,51 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(DomainFacilityLists.emptyList, result)
-        assertTrue(result.isEmpty())
+        assertTrue(result.isSuccess)
+        assertEquals(DomainFacilityLists.emptyList, result.getOrNull())
+        assertTrue(result.getOrNull()?.isEmpty() == true)
     }
 
     @Test
-    fun `getFacilitiesStatus with network error throws exception`() = runTest {
+    fun `getFacilitiesStatus with network error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowException = true
         fakeRemoteDataSource.exception = Exceptions.networkError
 
+        // When
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+
         // Then
-        assertFailsWith<Exception> { repository.getFacilitiesStatus(GymLocations.clontarf) }
+        assertTrue(result.isFailure, "Result should be failure")
+        assertEquals(Exceptions.networkError, result.exceptionOrNull())
     }
 
     @Test
-    fun `getFacilitiesStatus with server error throws exception`() = runTest {
+    fun `getFacilitiesStatus with server error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowException = true
         fakeRemoteDataSource.exception = Exceptions.serverError
 
+        // When
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+
         // Then
-        assertFailsWith<RuntimeException> { repository.getFacilitiesStatus(GymLocations.clontarf) }
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.serverError, result.exceptionOrNull())
     }
 
     @Test
-    fun `getFacilitiesStatus with unauthorized error throws exception`() = runTest {
+    fun `getFacilitiesStatus with unauthorized error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowException = true
         fakeRemoteDataSource.exception = Exceptions.unauthorized
 
+        // When
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+
         // Then
-        assertFailsWith<RuntimeException> { repository.getFacilitiesStatus(GymLocations.clontarf) }
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.unauthorized, result.exceptionOrNull())
     }
 
     // ========== Mapping Tests ==========
@@ -136,14 +154,15 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertNotNull(result)
-        assertEquals("facility-001", result[0].id)
-        assertEquals("Treadmill", result[0].machineName)
-        assertEquals(1, result[0].machineNumber)
-        assertEquals(GymLocation.CLONTARF, result[0].gymLocation)
-        assertEquals(Location.MAIN_GYM_FLOOR, result[0].location)
-        assertEquals(FaultType.OTHER, result[0].faultType)
-        assertEquals(MachineStatus.OPERATIONAL, result[0].status)
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals("facility-001", facilities[0].id)
+        assertEquals("Treadmill", facilities[0].machineName)
+        assertEquals(1, facilities[0].machineNumber)
+        assertEquals(GymLocation.CLONTARF, facilities[0].gymLocation)
+        assertEquals(Location.MAIN_GYM_FLOOR, facilities[0].location)
+        assertEquals(FaultType.OTHER, facilities[0].faultType)
+        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
     }
 
     @Test
@@ -155,9 +174,11 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(MachineStatus.OPERATIONAL, result[0].status)
-        assertEquals(MachineStatus.OUT_OF_ORDER, result[1].status)
-        assertEquals(MachineStatus.UNDER_MAINTENANCE, result[2].status)
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[1].status)
+        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[2].status)
     }
 
     @Test
@@ -169,9 +190,11 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(FaultType.OTHER, result[0].faultType)
-        assertEquals(FaultType.MECHANICAL, result[1].faultType)
-        assertEquals(FaultType.ELECTRICAL, result[2].faultType)
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals(FaultType.OTHER, facilities[0].faultType)
+        assertEquals(FaultType.MECHANICAL, facilities[1].faultType)
+        assertEquals(FaultType.ELECTRICAL, facilities[2].faultType)
     }
 
     @Test
@@ -183,9 +206,11 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(FacilityStatuses.treadmillOperational, result[0])
-        assertEquals(FacilityStatuses.rowerOutOfOrder, result[1])
-        assertEquals(FacilityStatuses.ellipticalUnderMaintenance, result[2])
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals(FacilityStatuses.treadmillOperational, facilities[0])
+        assertEquals(FacilityStatuses.rowerOutOfOrder, facilities[1])
+        assertEquals(FacilityStatuses.ellipticalUnderMaintenance, facilities[2])
     }
 
     // ========== Gym Location Forwarding Tests ==========
@@ -214,8 +239,10 @@ class FacilitiesRepositoryTest {
         val result2 = repository.getFacilitiesStatus(GymLocations.astonQuay)
 
         // Then
-        assertEquals(3, result1.size)
-        assertEquals(1, result2.size)
+        assertTrue(result1.isSuccess)
+        assertTrue(result2.isSuccess)
+        assertEquals(3, result1.getOrNull()?.size)
+        assertEquals(1, result2.getOrNull()?.size)
         assertEquals(2, fakeRemoteDataSource.findByLocationCalls.size)
     }
 
@@ -230,7 +257,9 @@ class FacilitiesRepositoryTest {
         val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        result.forEach { facility ->
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        facilities.forEach { facility ->
             assertNotNull(facility.id)
             assertNotNull(facility.machineName)
             assertNotNull(facility.machineNumber)
@@ -242,26 +271,25 @@ class FacilitiesRepositoryTest {
     }
 
     @Test
-    fun `getFacilitiesStatus with timeout error throws exception`() = runTest {
+    fun `getFacilitiesStatus with timeout error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowException = true
         fakeRemoteDataSource.exception = Exceptions.timeout
 
+        // When
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+
         // Then
-        assertFailsWith<Exception> { repository.getFacilitiesStatus(GymLocations.clontarf) }
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.timeout, result.exceptionOrNull())
     }
 
     @Test
-    fun `successful getFacilitiesStatus does not throw exception`() = runTest {
+    fun `successful getFacilitiesStatus does not return failure`() = runTest {
         // When
-        var exception: Exception? = null
-        try {
-            repository.getFacilitiesStatus(GymLocations.clontarf)
-        } catch (e: Exception) {
-            exception = e
-        }
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
         // Then
-        assertEquals(null, exception, "Should not throw exception")
+        assertTrue(result.isSuccess, "Should not return failure")
     }
 }
