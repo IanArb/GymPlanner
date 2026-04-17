@@ -10,9 +10,9 @@ import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 object FacilitiesTestDataProvider {
 
     object GymLocations {
-        const val clontarf = "CLONTARF"
-        const val astonQuay = "ASTONQUAY"
-        const val leopardstown = "LEOPARDSTOWN"
+        val clontarf = GymLocation.CLONTARF
+        val astonQuay = GymLocation.ASTONQUAY
+        val leopardstown = GymLocation.LEOPARDSTOWN
     }
 
     object MachineNames {

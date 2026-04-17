@@ -56,7 +56,7 @@ class FacilitiesRepositoryTest {
 
         // Then
         assertEquals(1, fakeRemoteDataSource.findByLocationCalls.size)
-        assertEquals(GymLocations.clontarf, fakeRemoteDataSource.findByLocationCalls[0])
+        assertEquals(GymLocations.clontarf.name, fakeRemoteDataSource.findByLocationCalls[0])
     }
 
     @Test
@@ -224,9 +224,9 @@ class FacilitiesRepositoryTest {
 
         // Then
         assertEquals(3, fakeRemoteDataSource.findByLocationCalls.size)
-        assertEquals(GymLocations.clontarf, fakeRemoteDataSource.findByLocationCalls[0])
-        assertEquals(GymLocations.astonQuay, fakeRemoteDataSource.findByLocationCalls[1])
-        assertEquals(GymLocations.leopardstown, fakeRemoteDataSource.findByLocationCalls[2])
+        assertEquals(GymLocations.clontarf.name, fakeRemoteDataSource.findByLocationCalls[0])
+        assertEquals(GymLocations.astonQuay.name, fakeRemoteDataSource.findByLocationCalls[1])
+        assertEquals(GymLocations.leopardstown.name, fakeRemoteDataSource.findByLocationCalls[2])
     }
 
     @Test
