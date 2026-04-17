@@ -19,7 +19,7 @@ class DefaultFacilitiesRepository : FacilitiesRepository, KoinComponent {
         gymLocation: GymLocation
     ): Result<List<FacilityStatus>> {
         return runCatching {
-                remoteDataSource.findMachinesByGymLocation(gymLocation.toString()).map {
+                remoteDataSource.findMachinesByGymLocation(gymLocation.name).map {
                     facilityStatus ->
                     facilityStatus.toFacilityStatus()
                 }
