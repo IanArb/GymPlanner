@@ -23,6 +23,8 @@ import androidx.compose.ui.window.ComposeViewport
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
 import com.ianarbuckle.gymplanner.di.initKoin
+import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRepository
+import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
@@ -52,7 +54,8 @@ fun main() {
         websocketBaseUrl = "ws://gymplanner-api-production.up.railway.app",
         appDeclaration = {
             modules(
-                module { single<AuthenticationRepository> { DefaultAuthenticationRepository() } }
+                module { single<AuthenticationRepository> { DefaultAuthenticationRepository() } },
+                module { single<FacilitiesRepository> { DefaultFacilitiesRepository() } },
             )
         },
     )
