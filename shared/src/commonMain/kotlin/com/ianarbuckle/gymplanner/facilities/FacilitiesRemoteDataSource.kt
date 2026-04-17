@@ -36,6 +36,6 @@ class DefaultFacilitiesRemoteDataSource(
     }
 
     companion object Companion {
-        const val FACILITY_STATUS_ENDPOINT = "/api/v1/facilities"
+        private const val FACILITY_STATUS_ENDPOINT = "/api/v1/facilities"
     }
 }
