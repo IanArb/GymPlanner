@@ -6,9 +6,13 @@ import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 class FakeFacilitiesRepository(private val remoteDataSource: FacilitiesRemoteDataSource) :
     FacilitiesRepository {
 
-    override suspend fun getFacilitiesStatus(gymLocation: GymLocation): Result<List<FacilityStatus>> {
+    override suspend fun getFacilitiesStatus(
+        gymLocation: GymLocation
+    ): Result<List<FacilityStatus>> {
         return runCatching {
-            remoteDataSource.findMachinesByGymLocation(gymLocation.toString()).map { it.toFacilityStatus() }
+            remoteDataSource.findMachinesByGymLocation(gymLocation.toString()).map {
+                it.toFacilityStatus()
+            }
         }
     }
 }

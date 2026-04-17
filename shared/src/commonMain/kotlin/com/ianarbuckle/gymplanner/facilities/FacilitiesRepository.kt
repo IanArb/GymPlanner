@@ -14,9 +14,12 @@ class DefaultFacilitiesRepository : FacilitiesRepository, KoinComponent {
 
     private val remoteDataSource: FacilitiesRemoteDataSource by inject()
 
-    override suspend fun getFacilitiesStatus(gymLocation: GymLocation): Result<List<FacilityStatus>> {
+    override suspend fun getFacilitiesStatus(
+        gymLocation: GymLocation
+    ): Result<List<FacilityStatus>> {
         return runCatching {
-                remoteDataSource.findMachinesByGymLocation(gymLocation.toString()).map { facilityStatus ->
+                remoteDataSource.findMachinesByGymLocation(gymLocation.toString()).map {
+                    facilityStatus ->
                     facilityStatus.toFacilityStatus()
                 }
             }
