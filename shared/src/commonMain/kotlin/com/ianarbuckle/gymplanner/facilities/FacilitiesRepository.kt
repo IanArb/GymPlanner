@@ -3,6 +3,7 @@ package com.ianarbuckle.gymplanner.facilities
 import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.coroutines.cancellation.CancellationException
 
 interface FacilitiesRepository {
     suspend fun getFacilitiesStatus(gymLocation: String): Result<List<FacilityStatus>>
@@ -16,6 +17,10 @@ class DefaultFacilitiesRepository : FacilitiesRepository, KoinComponent {
         return runCatching {
             remoteDataSource.findMachinesByGymLocation(gymLocation).map { facilityStatus ->
                 facilityStatus.toFacilityStatus()
+            }
+        }.onFailure {
+            if (it is CancellationException) {
+                throw it
             }
         }
     }
