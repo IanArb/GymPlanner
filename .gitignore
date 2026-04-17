@@ -1,3 +1,6 @@
+# Claude Code — ignore personal settings, commit shared skills
+.claude/settings.local.json
+
 *.iml
 .gradle
 .idea
