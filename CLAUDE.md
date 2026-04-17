@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> For a concise agent-focused quick reference, see [AGENTS.md](./AGENTS.md).
+
 ## Project Overview
 
 GymPlanner is a **Kotlin Multiplatform (KMP)** project targeting Android, iOS, and Web (Wasm). The shared module contains all business logic; platforms provide their own UI layers.
