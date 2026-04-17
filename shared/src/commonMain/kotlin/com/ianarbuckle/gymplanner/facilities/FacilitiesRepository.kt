@@ -24,11 +24,11 @@ class DefaultFacilitiesRepository : FacilitiesRepository, KoinComponent {
                 }
             }
             .onFailure {
-                Logger.withTag(TAG).e("Error fetching facilities status: $it")
                 if (it is CancellationException) {
                     Logger.withTag(TAG).e("Operation cancelled: $it")
                     throw it
                 }
+                Logger.withTag(TAG).e("Error fetching facilities status: $it")
             }
     }
 
