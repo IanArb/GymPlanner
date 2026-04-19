@@ -144,9 +144,9 @@ object FacilitiesTestDataProvider {
     object DomainFacilityLists {
         val multipleStatuses =
             listOf(
-                FacilityStatuses.treadmillOperational,
                 FacilityStatuses.rowerOutOfOrder,
                 FacilityStatuses.ellipticalUnderMaintenance,
+                FacilityStatuses.treadmillOperational,
             )
 
         val singleStatus = listOf(FacilityStatuses.treadmillOperational)

@@ -156,13 +156,13 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals("facility-001", facilities[0].id)
-        assertEquals("Treadmill", facilities[0].machineName)
-        assertEquals(1, facilities[0].machineNumber)
+        assertEquals("facility-002", facilities[0].id)
+        assertEquals("Rowing Machine", facilities[0].machineName)
+        assertEquals(2, facilities[0].machineNumber)
         assertEquals(GymLocation.CLONTARF, facilities[0].gymLocation)
-        assertEquals(Location.MAIN_GYM_FLOOR, facilities[0].location)
-        assertEquals(FaultType.OTHER, facilities[0].faultType)
-        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
+        assertEquals(Location.BLUE_GYM_FLOOR, facilities[0].location)
+        assertEquals(FaultType.MECHANICAL, facilities[0].faultType)
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[0].status)
     }
 
     @Test
@@ -176,9 +176,9 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
-        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[1].status)
-        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[2].status)
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[0].status)
+        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[1].status)
+        assertEquals(MachineStatus.OPERATIONAL, facilities[2].status)
     }
 
     @Test
@@ -192,9 +192,9 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals(FaultType.OTHER, facilities[0].faultType)
-        assertEquals(FaultType.MECHANICAL, facilities[1].faultType)
-        assertEquals(FaultType.ELECTRICAL, facilities[2].faultType)
+        assertEquals(FaultType.MECHANICAL, facilities[0].faultType)
+        assertEquals(FaultType.ELECTRICAL, facilities[1].faultType)
+        assertEquals(FaultType.OTHER, facilities[2].faultType)
     }
 
     @Test
