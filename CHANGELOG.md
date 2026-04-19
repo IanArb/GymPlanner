@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/IanArb/GymPlanner/compare/v1.3.0...v1.4.0) (2026-04-19)
+
+
+### Features
+
+* Add request for facilities status ([#31](https://github.com/IanArb/GymPlanner/issues/31)) ([81deb1f](https://github.com/IanArb/GymPlanner/commit/81deb1f86db40c4450aff013ead7ee27d590d7b3))
+
 # [1.3.0](https://github.com/IanArb/GymPlanner/compare/v1.2.0...v1.3.0) (2026-04-12)
 
 
