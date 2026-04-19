@@ -46,6 +46,7 @@ import com.ianarbuckle.gymplanner.web.ui.theme.OffWhite
 import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerAvailability
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
+import com.ianarbuckle.gymplanner.web.BuildConfig
 import kotlinx.browser.document
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.dsl.module
@@ -56,7 +57,7 @@ fun main() {
 
     initKoin(
         enableNetworkLogs = true,
-        baseUrl = "https://4dbc-2001-bb6-70d9-f658-ac77-e264-2d64-76b5.ngrok-free.app",
+        baseUrl = BuildConfig.BASE_URL,
         websocketBaseUrl = "ws://gymplanner-api-production.up.railway.app",
         appDeclaration = {
             modules(
