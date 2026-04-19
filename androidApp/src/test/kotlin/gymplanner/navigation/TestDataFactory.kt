@@ -6,7 +6,7 @@ import com.ianarbuckle.gymplanner.android.navigation.ConversationScreen
 import com.ianarbuckle.gymplanner.android.navigation.NavigationEvent
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersDetailScreen
 import com.ianarbuckle.gymplanner.android.navigation.PersonalTrainersScreen
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 object TestDataFactory {
 

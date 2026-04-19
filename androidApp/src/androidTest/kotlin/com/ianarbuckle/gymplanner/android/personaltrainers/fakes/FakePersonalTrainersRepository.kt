@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.android.personaltrainers.fakes
 
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.ImmutableList
 
 class FakePersonalTrainersRepository : PersonalTrainersRepository {

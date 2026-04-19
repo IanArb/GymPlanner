@@ -13,6 +13,8 @@ plugins {
 compose.resources { packageOfResClass = "com.ianarbuckle.gymplanner.web.generated.resources" }
 
 kotlin {
+    compilerOptions { freeCompilerArgs.add("-Xexplicit-backing-fields") }
+
     wasmJs {
         browser { commonWebpackConfig { outputFileName = "gymplanner.js" } }
         binaries.executable()
@@ -27,6 +29,8 @@ kotlin {
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3.jetbrains)
                 implementation(libs.compose.components.resources)
+                implementation(libs.kotlinx.immutable.collections)
+                implementation(libs.kermit)
             }
         }
         commonTest {

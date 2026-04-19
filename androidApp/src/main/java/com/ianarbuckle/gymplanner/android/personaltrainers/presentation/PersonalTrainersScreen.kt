@@ -10,7 +10,7 @@ import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainers
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable

@@ -2,7 +2,7 @@ package com.ianarbuckle.gymplanner.booking.domain
 
 import com.ianarbuckle.gymplanner.booking.dto.BookingDto
 import com.ianarbuckle.gymplanner.booking.dto.PersonalTrainerDto
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.Serializable
 

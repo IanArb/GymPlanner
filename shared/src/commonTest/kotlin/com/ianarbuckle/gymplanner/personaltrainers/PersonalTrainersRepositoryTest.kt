@@ -1,12 +1,12 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.DomainPersonalTrainerLists
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainerDtos
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainerLists
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainers
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.TrainerIds
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test

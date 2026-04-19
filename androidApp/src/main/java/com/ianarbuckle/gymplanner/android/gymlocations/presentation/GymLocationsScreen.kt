@@ -9,7 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
 import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable

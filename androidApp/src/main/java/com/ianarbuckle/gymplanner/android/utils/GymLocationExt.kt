@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner.android.utils
 
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 fun GymLocation.toLocalisedString(): String {
     return when (this) {

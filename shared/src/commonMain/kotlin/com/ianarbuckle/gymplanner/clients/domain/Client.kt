@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner.clients.domain
 
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.serialization.Serializable
 
 data class Client(

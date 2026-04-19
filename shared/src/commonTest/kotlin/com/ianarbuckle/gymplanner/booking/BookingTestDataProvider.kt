@@ -7,7 +7,7 @@ import com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.booking.dto.BookingResponseDto
 import com.ianarbuckle.gymplanner.booking.dto.BookingStatusDto
 import com.ianarbuckle.gymplanner.booking.dto.PersonalTrainerDto
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.LocalTime
 

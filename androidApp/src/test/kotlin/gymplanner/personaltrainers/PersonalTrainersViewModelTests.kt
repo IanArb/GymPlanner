@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
 import io.mockk.mockk

@@ -3,7 +3,7 @@ package com.ianarbuckle.gymplanner.personaltrainers
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.clients.dto.GymLocationDto
 import com.ianarbuckle.gymplanner.clients.dto.PersonalTrainerDto
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 /** Provides test data for PersonalTrainersRepository tests */
 object PersonalTrainersTestDataProvider {

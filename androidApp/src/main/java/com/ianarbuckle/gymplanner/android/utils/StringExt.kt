@@ -1,6 +1,6 @@
 package com.ianarbuckle.gymplanner.android.utils
 
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.time.Clock

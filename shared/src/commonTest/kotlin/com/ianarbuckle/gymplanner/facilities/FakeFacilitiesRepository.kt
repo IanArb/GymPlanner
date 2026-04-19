@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.facilities
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 
 class FakeFacilitiesRepository(private val remoteDataSource: FacilitiesRemoteDataSource) :
     FacilitiesRepository {

@@ -24,7 +24,7 @@ import com.ianarbuckle.gymplanner.android.ui.common.Avatar
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 @Composable
 fun PersonalTrainerItem(

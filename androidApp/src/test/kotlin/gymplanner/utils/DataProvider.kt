@@ -1,9 +1,9 @@
 package gymplanner.utils
 
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.fitnessclass.domain.Duration
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

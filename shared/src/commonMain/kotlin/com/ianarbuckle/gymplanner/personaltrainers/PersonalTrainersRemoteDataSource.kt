@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
 import com.ianarbuckle.gymplanner.clients.dto.PersonalTrainerDto
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import io.ktor.client.HttpClient
