@@ -121,7 +121,7 @@ fun main() {
                             is DashboardUiState.Success -> {
                                 FacilityStatusSection(
                                     modifier = Modifier.weight(0.6f),
-                                    items = uiState.facilities.toImmutableList(),
+                                    items = uiState.facilities,
                                     onViewAllClick = {},
                                 )
                             }

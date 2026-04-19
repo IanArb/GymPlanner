@@ -37,19 +37,6 @@ import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
 
-enum class EquipmentStatus {
-    OUT_OF_ORDER,
-    MAINTENANCE,
-    OPERATIONAL,
-}
-
-data class EquipmentItem(
-    val name: String,
-    val detail: String,
-    val location: String,
-    val status: EquipmentStatus,
-)
-
 @Composable
 fun FacilityStatusSection(
     items: ImmutableList<FacilityStatus>,
