@@ -48,6 +48,7 @@ import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerAvailability
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
 import kotlinx.browser.document
+import kotlinx.collections.immutable.toImmutableList
 import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class)
