@@ -32,13 +32,7 @@ class DashboardViewModelTest : KoinTest {
     fun setup() {
         fakeFacilitiesRepository = FakeDashboardFacilitiesRepository()
 
-        startKoin {
-            modules(
-                module {
-                    single<FacilitiesRepository> { fakeFacilitiesRepository }
-                }
-            )
-        }
+        startKoin { modules(module { single<FacilitiesRepository> { fakeFacilitiesRepository } }) }
     }
 
     @AfterTest
@@ -153,7 +147,8 @@ class DashboardViewModelTest : KoinTest {
     @Test
     fun `fetchFacilities with server error sets uiState to Error`() =
         testScope.runTest {
-            fakeFacilitiesRepository.result = Result.failure(RuntimeException("Internal server error"))
+            fakeFacilitiesRepository.result =
+                Result.failure(RuntimeException("Internal server error"))
 
             val viewModel = DashboardViewModel(testScope)
             viewModel.fetchFacilities(GymLocation.CLONTARF)
@@ -165,7 +160,8 @@ class DashboardViewModelTest : KoinTest {
     @Test
     fun `fetchFacilities with server error sets correct error message`() =
         testScope.runTest {
-            fakeFacilitiesRepository.result = Result.failure(RuntimeException("Internal server error"))
+            fakeFacilitiesRepository.result =
+                Result.failure(RuntimeException("Internal server error"))
 
             val viewModel = DashboardViewModel(testScope)
             viewModel.fetchFacilities(GymLocation.CLONTARF)
@@ -243,7 +239,9 @@ private class FakeDashboardFacilitiesRepository : FacilitiesRepository {
     var shouldThrowException = false
     var capturedGymLocation: GymLocation? = null
 
-    override suspend fun getFacilitiesStatus(gymLocation: GymLocation): Result<List<FacilityStatus>> {
+    override suspend fun getFacilitiesStatus(
+        gymLocation: GymLocation
+    ): Result<List<FacilityStatus>> {
         capturedGymLocation = gymLocation
         if (shouldThrowException) throw RuntimeException("Unexpected exception")
         return result
@@ -259,35 +257,39 @@ private class FakeDashboardFacilitiesRepository : FacilitiesRepository {
 // ========== Test Data ==========
 
 private object TestData {
-    val treadmillOperational = FacilityStatus(
-        id = "facility-001",
-        machineName = "Treadmill",
-        machineNumber = 1,
-        gymLocation = GymLocation.CLONTARF,
-        location = Location.MAIN_GYM_FLOOR,
-        faultType = FaultType.OTHER,
-        status = MachineStatus.OPERATIONAL,
-    )
+    val treadmillOperational =
+        FacilityStatus(
+            id = "facility-001",
+            machineName = "Treadmill",
+            machineNumber = 1,
+            gymLocation = GymLocation.CLONTARF,
+            location = Location.MAIN_GYM_FLOOR,
+            faultType = FaultType.OTHER,
+            status = MachineStatus.OPERATIONAL,
+        )
 
-    val rowerOutOfOrder = FacilityStatus(
-        id = "facility-002",
-        machineName = "Rowing Machine",
-        machineNumber = 2,
-        gymLocation = GymLocation.CLONTARF,
-        location = Location.BLUE_GYM_FLOOR,
-        faultType = FaultType.MECHANICAL,
-        status = MachineStatus.OUT_OF_ORDER,
-    )
+    val rowerOutOfOrder =
+        FacilityStatus(
+            id = "facility-002",
+            machineName = "Rowing Machine",
+            machineNumber = 2,
+            gymLocation = GymLocation.CLONTARF,
+            location = Location.BLUE_GYM_FLOOR,
+            faultType = FaultType.MECHANICAL,
+            status = MachineStatus.OUT_OF_ORDER,
+        )
 
-    val ellipticalUnderMaintenance = FacilityStatus(
-        id = "facility-003",
-        machineName = "Elliptical",
-        machineNumber = 3,
-        gymLocation = GymLocation.ASTONQUAY,
-        location = Location.FREE_WEIGHTS_AREA,
-        faultType = FaultType.ELECTRICAL,
-        status = MachineStatus.UNDER_MAINTENANCE,
-    )
+    val ellipticalUnderMaintenance =
+        FacilityStatus(
+            id = "facility-003",
+            machineName = "Elliptical",
+            machineNumber = 3,
+            gymLocation = GymLocation.ASTONQUAY,
+            location = Location.FREE_WEIGHTS_AREA,
+            faultType = FaultType.ELECTRICAL,
+            status = MachineStatus.UNDER_MAINTENANCE,
+        )
 
-    val multipleFacilities = listOf(rowerOutOfOrder, ellipticalUnderMaintenance, treadmillOperational)
+    val multipleFacilities =
+        listOf(rowerOutOfOrder, ellipticalUnderMaintenance, treadmillOperational)
 }

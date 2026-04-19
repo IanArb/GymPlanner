@@ -15,24 +15,27 @@ compose.resources { packageOfResClass = "com.ianarbuckle.gymplanner.web.generate
 val webBaseUrl: String =
     project.findProperty("gymplanner.web.baseUrl")?.toString() ?: "http://localhost:8080"
 
-val generateWebBuildConfig by tasks.registering {
-    val outputDir = layout.buildDirectory.dir("generated/buildConfig/wasmJsMain/kotlin")
-    inputs.property("baseUrl", webBaseUrl)
-    outputs.dir(outputDir)
-    doLast {
-        val dir = outputDir.get().asFile
-        dir.mkdirs()
-        dir.resolve("BuildConfig.kt").writeText(
-            """
+val generateWebBuildConfig by
+    tasks.registering {
+        val outputDir = layout.buildDirectory.dir("generated/buildConfig/wasmJsMain/kotlin")
+        inputs.property("baseUrl", webBaseUrl)
+        outputs.dir(outputDir)
+        doLast {
+            val dir = outputDir.get().asFile
+            dir.mkdirs()
+            dir.resolve("BuildConfig.kt")
+                .writeText(
+                    """
             package com.ianarbuckle.gymplanner.web
 
             internal object BuildConfig {
                 const val BASE_URL = "$webBaseUrl"
             }
-            """.trimIndent()
-        )
+            """
+                        .trimIndent()
+                )
+        }
     }
-}
 
 kotlin {
     compilerOptions { freeCompilerArgs.add("-Xexplicit-backing-fields") }
@@ -43,9 +46,7 @@ kotlin {
     }
 
     sourceSets {
-        val wasmJsMain by getting {
-            kotlin.srcDir(generateWebBuildConfig)
-        }
+        val wasmJsMain by getting { kotlin.srcDir(generateWebBuildConfig) }
         commonMain {
             dependencies {
                 implementation(projects.shared)

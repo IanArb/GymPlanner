@@ -28,6 +28,7 @@ import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRepository
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
+import com.ianarbuckle.gymplanner.web.BuildConfig
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
@@ -46,9 +47,7 @@ import com.ianarbuckle.gymplanner.web.ui.theme.OffWhite
 import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerAvailability
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
-import com.ianarbuckle.gymplanner.web.BuildConfig
 import kotlinx.browser.document
-import kotlinx.collections.immutable.toImmutableList
 import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class)

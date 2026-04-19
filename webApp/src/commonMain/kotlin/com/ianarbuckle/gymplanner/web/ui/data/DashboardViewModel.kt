@@ -15,7 +15,8 @@ import org.koin.core.component.inject
 class DashboardViewModel(private val scope: CoroutineScope) : KoinComponent {
 
     private val facilitiesRepository by inject<FacilitiesRepository>()
-    private val _uiState: MutableStateFlow<DashboardUiState> = MutableStateFlow(DashboardUiState.Idle)
+    private val _uiState: MutableStateFlow<DashboardUiState> =
+        MutableStateFlow(DashboardUiState.Idle)
     val uiState: StateFlow<DashboardUiState> = _uiState
 
     fun fetchFacilities(gymLocation: GymLocation) {
@@ -25,7 +26,9 @@ class DashboardViewModel(private val scope: CoroutineScope) : KoinComponent {
                 val result = facilitiesRepository.getFacilitiesStatus(gymLocation)
                 _uiState.update {
                     if (result.isSuccess) {
-                        DashboardUiState.Success(result.getOrNull()?.toImmutableList() ?: persistentListOf())
+                        DashboardUiState.Success(
+                            result.getOrNull()?.toImmutableList() ?: persistentListOf()
+                        )
                     } else {
                         DashboardUiState.Error(
                             result.exceptionOrNull()?.message ?: "Failed to load facilities"
