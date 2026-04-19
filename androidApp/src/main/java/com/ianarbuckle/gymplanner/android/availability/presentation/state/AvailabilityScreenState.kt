@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.android.availability.presentation.state
 
 import androidx.compose.runtime.Stable
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 @Stable data class AvailabilityScreenState(val personalTrainer: PersonalTrainer)
 

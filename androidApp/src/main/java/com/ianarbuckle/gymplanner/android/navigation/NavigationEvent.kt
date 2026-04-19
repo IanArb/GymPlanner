@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.android.navigation
 
 import androidx.navigation3.runtime.NavKey
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 
 sealed interface NavigationEvent {
     object NavigateToDashboard : NavigationEvent

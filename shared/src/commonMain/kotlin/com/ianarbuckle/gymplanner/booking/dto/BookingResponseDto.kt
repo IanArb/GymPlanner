@@ -3,7 +3,7 @@ package com.ianarbuckle.gymplanner.booking.dto
 import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingStatus
 import com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.serialization.Serializable
 
 @Serializable

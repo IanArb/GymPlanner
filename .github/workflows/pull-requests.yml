@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew shared:allTests
 
       - name: Run web app unit tests
-        run: ./gradlew :webApp:wasmJsBrowserTest
+        run: ./gradlew :webApp:wasmJsTest
 
       - name: Upload unit test results
         if: always()

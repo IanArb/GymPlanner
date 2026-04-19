@@ -27,29 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
+import com.ianarbuckle.gymplanner.facilities.dto.MachineStatus
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_build
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_check_circle
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
+import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
-
-enum class EquipmentStatus {
-    OUT_OF_ORDER,
-    MAINTENANCE,
-    OPERATIONAL,
-}
-
-data class EquipmentItem(
-    val name: String,
-    val detail: String,
-    val location: String,
-    val status: EquipmentStatus,
-)
 
 @Composable
 fun FacilityStatusSection(
-    items: List<EquipmentItem>,
+    items: ImmutableList<FacilityStatus>,
     onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -101,7 +91,7 @@ private fun FacilityStatusHeader(onViewAllClick: () -> Unit) {
 }
 
 @Composable
-private fun EquipmentRow(item: EquipmentItem) {
+private fun EquipmentRow(item: FacilityStatus) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -112,13 +102,13 @@ private fun EquipmentRow(item: EquipmentItem) {
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = item.name,
+                text = item.machineName,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 15.sp,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = "${item.detail} • ${item.location}",
+                text = "${item.faultType.displayName} • ${item.location.displayName}",
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -140,14 +130,14 @@ private fun EquipmentRow(item: EquipmentItem) {
 }
 
 @Composable
-private fun EquipmentIcon(status: EquipmentStatus) {
+private fun EquipmentIcon(status: MachineStatus) {
     val (backgroundColor, iconTint, icon) =
         when (status) {
-            EquipmentStatus.OUT_OF_ORDER ->
+            MachineStatus.OUT_OF_ORDER ->
                 Triple(Color(0xFFFFE5E5), Color(0xFFE53935), Res.drawable.ic_warning)
-            EquipmentStatus.MAINTENANCE ->
+            MachineStatus.UNDER_MAINTENANCE ->
                 Triple(Color(0xFFFFF3E0), Color(0xFFE8500A), Res.drawable.ic_build)
-            EquipmentStatus.OPERATIONAL ->
+            MachineStatus.OPERATIONAL ->
                 Triple(Color(0xFFF0F0F0), Color(0xFF757575), Res.drawable.ic_check_circle)
         }
 
@@ -165,12 +155,12 @@ private fun EquipmentIcon(status: EquipmentStatus) {
 }
 
 @Composable
-private fun StatusBadge(status: EquipmentStatus) {
+private fun StatusBadge(status: MachineStatus) {
     val (label, backgroundColor, textColor) =
         when (status) {
-            EquipmentStatus.OUT_OF_ORDER -> Triple("OUT OF ORDER", Color(0xFFE53935), Color.White)
-            EquipmentStatus.MAINTENANCE -> Triple("MAINTENANCE", Color(0xFFE8500A), Color.White)
-            EquipmentStatus.OPERATIONAL -> Triple("OPERATIONAL", Color(0xFF43A047), Color.White)
+            MachineStatus.OUT_OF_ORDER -> Triple("OUT OF ORDER", Color(0xFFE53935), Color.White)
+            MachineStatus.UNDER_MAINTENANCE -> Triple("MAINTENANCE", Color(0xFFE8500A), Color.White)
+            MachineStatus.OPERATIONAL -> Triple("OPERATIONAL", Color(0xFF43A047), Color.White)
         }
 
     Box(

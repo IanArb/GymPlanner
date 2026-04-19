@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.facilities.dto
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -32,16 +32,16 @@ enum class MachineStatus {
     UNDER_MAINTENANCE,
 }
 
-enum class Location {
-    MAIN_GYM_FLOOR,
-    BLUE_GYM_FLOOR,
-    FREE_WEIGHTS_AREA,
-    BOX_GYM_FLOOR,
+enum class Location(val displayName: String) {
+    MAIN_GYM_FLOOR("Main Gym Floor"),
+    BLUE_GYM_FLOOR("Blue Gym Floor"),
+    FREE_WEIGHTS_AREA("Free Weights Area"),
+    BOX_GYM_FLOOR("Box Gym Floor"),
 }
 
-enum class FaultType {
-    MECHANICAL,
-    ELECTRICAL,
-    SOFTWARE,
-    OTHER,
+enum class FaultType(val displayName: String) {
+    MECHANICAL("Mechanical"),
+    ELECTRICAL("Electrical"),
+    SOFTWARE("Software"),
+    OTHER("Other"),
 }

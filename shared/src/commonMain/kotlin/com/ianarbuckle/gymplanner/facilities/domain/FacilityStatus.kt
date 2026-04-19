@@ -1,9 +1,9 @@
 package com.ianarbuckle.gymplanner.facilities.domain
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.facilities.dto.FaultType
 import com.ianarbuckle.gymplanner.facilities.dto.Location
 import com.ianarbuckle.gymplanner.facilities.dto.MachineStatus
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 
 data class FacilityStatus(
     val id: String,

@@ -13,10 +13,10 @@ import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.clients.domain.Session
 import com.ianarbuckle.gymplanner.clients.domain.Weight
 import com.ianarbuckle.gymplanner.clients.domain.Workout
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.fitnessclass.domain.Duration
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList

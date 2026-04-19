@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,16 +21,19 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
+import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRepository
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
+import com.ianarbuckle.gymplanner.web.BuildConfig
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
-import com.ianarbuckle.gymplanner.web.ui.facilitystatus.EquipmentItem
-import com.ianarbuckle.gymplanner.web.ui.facilitystatus.EquipmentStatus
+import com.ianarbuckle.gymplanner.web.ui.data.DashboardUiState
+import com.ianarbuckle.gymplanner.web.ui.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.web.ui.facilitystatus.FacilityStatusSection
 import com.ianarbuckle.gymplanner.web.ui.header.DashboardHeader
 import com.ianarbuckle.gymplanner.web.ui.login.LoginAction
@@ -48,9 +52,11 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    Logger.setLogWriters(BrowserLogWriter())
+
     initKoin(
         enableNetworkLogs = true,
-        baseUrl = "https://gymplanner-api-production.up.railway.app",
+        baseUrl = BuildConfig.BASE_URL,
         websocketBaseUrl = "ws://gymplanner-api-production.up.railway.app",
         appDeclaration = {
             modules(
@@ -68,6 +74,8 @@ fun main() {
             val loginUiState by loginViewModel.uiState.collectAsState()
             val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
             val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
+
+            val dashboardViewModel = remember { DashboardViewModel(scope) }
 
             if (isCheckingAuth) return@MaterialTheme
 
@@ -99,32 +107,25 @@ fun main() {
                 ) {
                     DashboardHeader(userName = "Ben", userRole = "Gym Manager", onProfileClick = {})
 
+                    LaunchedEffect(Unit) {
+                        dashboardViewModel.fetchFacilities(gymLocation = GymLocation.CLONTARF)
+                    }
+
                     Row(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
-                        FacilityStatusSection(
-                            modifier = Modifier.weight(0.6f),
-                            items =
-                                listOf(
-                                    EquipmentItem(
-                                        name = "Treadmill 04",
-                                        detail = "Sensor Fault",
-                                        location = "Main Cardio Floor",
-                                        status = EquipmentStatus.OUT_OF_ORDER,
-                                    ),
-                                    EquipmentItem(
-                                        name = "Bench 02",
-                                        detail = "Leather Tear",
-                                        location = "Free Weights Area",
-                                        status = EquipmentStatus.MAINTENANCE,
-                                    ),
-                                    EquipmentItem(
-                                        name = "Cable Crossover 01",
-                                        detail = "Lubrication Done",
-                                        location = "Strength Zone",
-                                        status = EquipmentStatus.OPERATIONAL,
-                                    ),
-                                ),
-                            onViewAllClick = {},
-                        )
+                        when (val uiState = dashboardViewModel.uiState.collectAsState().value) {
+                            is DashboardUiState.Idle -> {}
+                            is DashboardUiState.Loading -> {
+                                // Show loading state (e.g., a progress indicator)
+                            }
+                            is DashboardUiState.Error -> {}
+                            is DashboardUiState.Success -> {
+                                FacilityStatusSection(
+                                    modifier = Modifier.weight(0.6f),
+                                    items = uiState.facilities,
+                                    onViewAllClick = {},
+                                )
+                            }
+                        }
 
                         Spacer(modifier = Modifier.width(24.dp))
 

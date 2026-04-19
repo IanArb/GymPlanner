@@ -1,11 +1,11 @@
 package com.ianarbuckle.gymplanner.facilities
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
 import com.ianarbuckle.gymplanner.facilities.dto.FacilityStatusDto
 import com.ianarbuckle.gymplanner.facilities.dto.FaultType
 import com.ianarbuckle.gymplanner.facilities.dto.Location
 import com.ianarbuckle.gymplanner.facilities.dto.MachineStatus
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 
 object FacilitiesTestDataProvider {
 
@@ -144,9 +144,9 @@ object FacilitiesTestDataProvider {
     object DomainFacilityLists {
         val multipleStatuses =
             listOf(
-                FacilityStatuses.treadmillOperational,
                 FacilityStatuses.rowerOutOfOrder,
                 FacilityStatuses.ellipticalUnderMaintenance,
+                FacilityStatuses.treadmillOperational,
             )
 
         val singleStatus = listOf(FacilityStatuses.treadmillOperational)

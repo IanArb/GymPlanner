@@ -2,8 +2,8 @@ package com.ianarbuckle.gymplanner.android.personaltrainers.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

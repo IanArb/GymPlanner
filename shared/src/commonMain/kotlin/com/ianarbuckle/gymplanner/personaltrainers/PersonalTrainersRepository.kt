@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
 import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
+import com.ianarbuckle.gymplanner.common.GymLocation
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CancellationException

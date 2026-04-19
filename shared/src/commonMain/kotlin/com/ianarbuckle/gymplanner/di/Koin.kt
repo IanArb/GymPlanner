@@ -31,6 +31,7 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
@@ -84,7 +85,11 @@ fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
                 install(Logging) { level = LogLevel.ALL }
             }
 
-            defaultRequest { url(baseUrl) }
+            defaultRequest {
+                header("ngrok-skip-browser-warning", "true")
+
+                url(baseUrl)
+            }
         }
     }
 }

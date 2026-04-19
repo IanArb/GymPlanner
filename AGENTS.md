@@ -17,8 +17,14 @@ Quick reference for AI agents working in this repo. Prefer reading code over re-
 ./gradlew :shared:test                   # shared tests
 ./gradlew :androidApp:testDebugUnitTest  # Android unit + screenshot tests
 ./gradlew spotlessApply                  # format (run before committing)
+./gradlew spotlessCheck                  # verify formatting without applying
 ./gradlew detekt                         # static analysis
 ```
+
+**After every code change**, run in order:
+1. `./gradlew spotlessApply` — fix formatting
+2. `./gradlew detekt` — fix any static analysis violations
+3. `./gradlew spotlessCheck` — confirm formatting is clean before committing
 
 ## DI — Two Frameworks, One App
 

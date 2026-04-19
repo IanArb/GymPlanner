@@ -1,4 +1,4 @@
-package com.ianarbuckle.gymplanner.personaltrainers.domain
+package com.ianarbuckle.gymplanner.common
 
 enum class GymLocation {
     CLONTARF,

@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.facilities
 
+import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.facilities.FacilitiesTestDataProvider.DomainFacilityLists
 import com.ianarbuckle.gymplanner.facilities.FacilitiesTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.facilities.FacilitiesTestDataProvider.FacilityLists
@@ -8,7 +9,6 @@ import com.ianarbuckle.gymplanner.facilities.FacilitiesTestDataProvider.GymLocat
 import com.ianarbuckle.gymplanner.facilities.dto.FaultType
 import com.ianarbuckle.gymplanner.facilities.dto.Location
 import com.ianarbuckle.gymplanner.facilities.dto.MachineStatus
-import com.ianarbuckle.gymplanner.personaltrainers.domain.GymLocation
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -156,13 +156,13 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals("facility-001", facilities[0].id)
-        assertEquals("Treadmill", facilities[0].machineName)
-        assertEquals(1, facilities[0].machineNumber)
+        assertEquals("facility-002", facilities[0].id)
+        assertEquals("Rowing Machine", facilities[0].machineName)
+        assertEquals(2, facilities[0].machineNumber)
         assertEquals(GymLocation.CLONTARF, facilities[0].gymLocation)
-        assertEquals(Location.MAIN_GYM_FLOOR, facilities[0].location)
-        assertEquals(FaultType.OTHER, facilities[0].faultType)
-        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
+        assertEquals(Location.BLUE_GYM_FLOOR, facilities[0].location)
+        assertEquals(FaultType.MECHANICAL, facilities[0].faultType)
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[0].status)
     }
 
     @Test
@@ -176,9 +176,9 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals(MachineStatus.OPERATIONAL, facilities[0].status)
-        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[1].status)
-        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[2].status)
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[0].status)
+        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[1].status)
+        assertEquals(MachineStatus.OPERATIONAL, facilities[2].status)
     }
 
     @Test
@@ -192,13 +192,13 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals(FaultType.OTHER, facilities[0].faultType)
-        assertEquals(FaultType.MECHANICAL, facilities[1].faultType)
-        assertEquals(FaultType.ELECTRICAL, facilities[2].faultType)
+        assertEquals(FaultType.MECHANICAL, facilities[0].faultType)
+        assertEquals(FaultType.ELECTRICAL, facilities[1].faultType)
+        assertEquals(FaultType.OTHER, facilities[2].faultType)
     }
 
     @Test
-    fun `getFacilitiesStatus preserves facility order`() = runTest {
+    fun `getFacilitiesStatus sorts by status priority out of order first`() = runTest {
         // Given
         fakeRemoteDataSource.facilitiesResponse = FacilityLists.multipleStatuses
 
@@ -208,10 +208,27 @@ class FacilitiesRepositoryTest {
         // Then
         val facilities = result.getOrNull()
         assertNotNull(facilities)
-        assertEquals(FacilityStatuses.treadmillOperational, facilities[0])
-        assertEquals(FacilityStatuses.rowerOutOfOrder, facilities[1])
-        assertEquals(FacilityStatuses.ellipticalUnderMaintenance, facilities[2])
+        assertEquals(MachineStatus.OUT_OF_ORDER, facilities[0].status)
+        assertEquals(MachineStatus.UNDER_MAINTENANCE, facilities[1].status)
+        assertEquals(MachineStatus.OPERATIONAL, facilities[2].status)
     }
+
+    @Test
+    fun `getFacilitiesStatus sort order is out of order then under maintenance then operational`() =
+        runTest {
+            // Given
+            fakeRemoteDataSource.facilitiesResponse = FacilityLists.multipleStatuses
+
+            // When
+            val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+
+            // Then
+            val facilities = result.getOrNull()
+            assertNotNull(facilities)
+            assertEquals(FacilityStatuses.rowerOutOfOrder, facilities[0])
+            assertEquals(FacilityStatuses.ellipticalUnderMaintenance, facilities[1])
+            assertEquals(FacilityStatuses.treadmillOperational, facilities[2])
+        }
 
     // ========== Gym Location Forwarding Tests ==========
 
