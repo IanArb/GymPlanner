@@ -1,11 +1,18 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
+import com.ianarbuckle.gymplanner.common.AvailabilityStatus
+import com.ianarbuckle.gymplanner.common.DayOfWeek
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.Dates
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.DomainPersonalTrainerLists
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainerDtos
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainerLists
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.PersonalTrainers
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledDomainTrainerLists
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledTrainerDtos
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledTrainerLists
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledTrainers
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.TrainerIds
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -500,5 +507,228 @@ class PersonalTrainersRepositoryTest {
         assertTrue(trainer.bio.contains("Yoga instructor"))
         assertEquals(3, trainer.qualifications.size)
         assertEquals(2, trainer.socials.size)
+    }
+
+    // ========== Get Trainer Schedules Tests ==========
+
+    @Test
+    fun `getTrainerSchedules with valid date returns success with trainer list`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isSuccess)
+        assertEquals(ScheduledDomainTrainerLists.multipleTrainers, result.getOrNull())
+        assertEquals(1, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
+        assertEquals(Dates.date1, fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
+    }
+
+    @Test
+    fun `getTrainerSchedules with single trainer returns list with one item`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.singleTrainer
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isSuccess)
+        assertEquals(ScheduledDomainTrainerLists.singleTrainer, result.getOrNull())
+        assertEquals(1, result.getOrNull()?.size)
+    }
+
+    @Test
+    fun `getTrainerSchedules with no trainers returns empty list`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.emptyList
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isSuccess)
+        assertTrue(result.getOrNull()?.isEmpty() == true)
+    }
+
+    @Test
+    fun `getTrainerSchedules maps DTOs to domain models correctly`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        val trainers = result.getOrNull()
+        assertNotNull(trainers)
+        assertEquals(2, trainers.size)
+        assertEquals(ScheduledTrainers.johnAvailable, trainers[0])
+        assertEquals(ScheduledTrainers.janeUnavailable, trainers[1])
+    }
+
+    @Test
+    fun `getTrainerSchedules maps schedule slots correctly`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.johnAvailable)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        val trainer = result.getOrNull()?.first()
+        assertNotNull(trainer)
+        assertNotNull(trainer.schedule)
+        assertEquals(2, trainer.schedule?.size)
+        assertEquals(DayOfWeek.MONDAY, trainer.schedule?.get(0)?.dayOfWeek)
+        assertEquals(DayOfWeek.WEDNESDAY, trainer.schedule?.get(1)?.dayOfWeek)
+    }
+
+    @Test
+    fun `getTrainerSchedules maps AVAILABLE status correctly`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.johnAvailable)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertEquals(AvailabilityStatus.AVAILABLE, result.getOrNull()?.first()?.availabilityStatus)
+    }
+
+    @Test
+    fun `getTrainerSchedules maps UNAVAILABLE status correctly`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.janeUnavailable)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertEquals(
+            AvailabilityStatus.UNAVAILABLE,
+            result.getOrNull()?.first()?.availabilityStatus,
+        )
+    }
+
+    @Test
+    fun `getTrainerSchedules maps UNKNOWN status correctly`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.unknownStatus)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertEquals(AvailabilityStatus.UNKNOWN, result.getOrNull()?.first()?.availabilityStatus)
+    }
+
+    @Test
+    fun `getTrainerSchedules maps null socials to empty map`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.janeUnavailable)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        val trainer = result.getOrNull()?.first()
+        assertNotNull(trainer)
+        assertTrue(trainer.socials.isEmpty())
+    }
+
+    @Test
+    fun `getTrainerSchedules with network error returns failure`() = runTest {
+        // Given
+        fakeRemoteDataSource.shouldThrowExceptionOnFetchTrainerSchedules = true
+        fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.networkError
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.networkError, result.exceptionOrNull())
+    }
+
+    @Test
+    fun `getTrainerSchedules with server error returns failure`() = runTest {
+        // Given
+        fakeRemoteDataSource.shouldThrowExceptionOnFetchTrainerSchedules = true
+        fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.serverError
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.serverError, result.exceptionOrNull())
+    }
+
+    @Test
+    fun `getTrainerSchedules with unauthorized error returns failure`() = runTest {
+        // Given
+        fakeRemoteDataSource.shouldThrowExceptionOnFetchTrainerSchedules = true
+        fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.unauthorized
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        assertTrue(result.isFailure)
+        assertEquals(Exceptions.unauthorized, result.exceptionOrNull())
+    }
+
+    @Test
+    fun `multiple getTrainerSchedules calls work independently`() = runTest {
+        // When
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
+        val result1 = repository.getTrainerSchedules(Dates.date1)
+
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.singleTrainer
+        val result2 = repository.getTrainerSchedules(Dates.date2)
+
+        // Then
+        assertTrue(result1.isSuccess)
+        assertTrue(result2.isSuccess)
+        assertEquals(2, result1.getOrNull()?.size)
+        assertEquals(1, result2.getOrNull()?.size)
+        assertEquals(2, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
+        assertEquals(Dates.date1, fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
+        assertEquals(Dates.date2, fakeRemoteDataSource.fetchTrainerSchedulesCalls[1])
+    }
+
+    @Test
+    fun `getTrainerSchedules preserves order of trainers from data source`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
+            listOf(ScheduledTrainerDtos.janeUnavailable, ScheduledTrainerDtos.johnAvailable)
+
+        // When
+        val result = repository.getTrainerSchedules(Dates.date1)
+
+        // Then
+        val trainers = result.getOrNull()
+        assertNotNull(trainers)
+        assertEquals(ScheduledTrainers.janeUnavailable, trainers[0])
+        assertEquals(ScheduledTrainers.johnAvailable, trainers[1])
+    }
+
+    @Test
+    fun `getTrainerSchedules with empty date string still calls remote data source`() = runTest {
+        // When
+        val result = repository.getTrainerSchedules("")
+
+        // Then
+        assertTrue(result.isSuccess)
+        assertEquals(1, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
+        assertEquals("", fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
     }
 }
