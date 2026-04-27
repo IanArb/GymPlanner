@@ -31,4 +31,12 @@ class FakePersonalTrainersRepository : PersonalTrainersRepository {
             Result.success(DataProvider.personalTrainers().first())
         }
     }
+
+    override suspend fun fetchTrainerSchedules(date: String): Result<ImmutableList<PersonalTrainer>> {
+        return if (shouldReturnError) {
+            Result.failure(Exception("Error"))
+        } else {
+            mockPersonalTrainers()
+        }
+    }
 }
