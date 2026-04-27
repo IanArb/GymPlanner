@@ -32,7 +32,9 @@ class FakePersonalTrainersRepository : PersonalTrainersRepository {
         }
     }
 
-    override suspend fun fetchTrainerSchedules(date: String): Result<ImmutableList<PersonalTrainer>> {
+    override suspend fun fetchTrainerSchedules(
+        date: String
+    ): Result<ImmutableList<PersonalTrainer>> {
         return if (shouldReturnError) {
             Result.failure(Exception("Error"))
         } else {
