@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/IanArb/GymPlanner/compare/v1.6.0...v1.7.0) (2026-04-27)
+
+
+### Features
+
+* Add schedule endpoint ([#33](https://github.com/IanArb/GymPlanner/issues/33)) ([0838f94](https://github.com/IanArb/GymPlanner/commit/0838f944e51d43f6fe8e19805b12cee7c5c60fcd))
+
 # [1.6.0](https://github.com/IanArb/GymPlanner/compare/v1.5.0...v1.6.0) (2026-04-27)
 
 
