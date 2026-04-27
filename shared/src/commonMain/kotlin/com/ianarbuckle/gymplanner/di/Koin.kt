@@ -10,6 +10,10 @@ import com.ianarbuckle.gymplanner.chat.ChatSocketService
 import com.ianarbuckle.gymplanner.chat.ChatSocketServiceImpl
 import com.ianarbuckle.gymplanner.chat.DefaultMessagesRemoteDataSource
 import com.ianarbuckle.gymplanner.chat.MessagesRemoteDataSource
+import com.ianarbuckle.gymplanner.checkin.CheckInRemoteDataSource
+import com.ianarbuckle.gymplanner.checkin.CheckInRepository
+import com.ianarbuckle.gymplanner.checkin.DefaultCheckInRemoteDataSource
+import com.ianarbuckle.gymplanner.checkin.DefaultCheckInRepository
 import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRemoteDataSource
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRemoteDataSource
 import com.ianarbuckle.gymplanner.faultreporting.DefaultFaultReportingRemoteDataSource
@@ -62,6 +66,7 @@ fun initKoin(
             chatModule(baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl),
             fcmModule(baseUrl),
             facilityStatusModule(baseUrl),
+            checkInModule(baseUrl),
         )
     }
 }
@@ -163,6 +168,17 @@ fun bookingModule(baseUrl: String) = module {
             dataStoreRepository = get(),
         )
     }
+}
+
+fun checkInModule(baseUrl: String) = module {
+    single<CheckInRemoteDataSource> {
+        DefaultCheckInRemoteDataSource(
+            baseUrl = baseUrl,
+            httpClient = get(),
+            dataStoreRepository = get(),
+        )
+    }
+    single<CheckInRepository> { DefaultCheckInRepository() }
 }
 
 fun availabilityModule(baseUrl: String) = module {
