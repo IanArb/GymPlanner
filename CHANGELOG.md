@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/IanArb/GymPlanner/compare/v1.5.0...v1.6.0) (2026-04-27)
+
+
+### Features
+
+* Add check-in endpoint ([#32](https://github.com/IanArb/GymPlanner/issues/32)) ([40796a2](https://github.com/IanArb/GymPlanner/commit/40796a2bfd3b966fcfac14315d8dd4ed1dd549af))
+
 # [1.5.0](https://github.com/IanArb/GymPlanner/compare/v1.4.0...v1.5.0) (2026-04-20)
 
 
