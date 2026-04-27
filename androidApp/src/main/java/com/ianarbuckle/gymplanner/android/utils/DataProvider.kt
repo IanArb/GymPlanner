@@ -9,11 +9,11 @@ import com.ianarbuckle.gymplanner.booking.domain.BookingResponse
 import com.ianarbuckle.gymplanner.booking.domain.BookingStatus
 import com.ianarbuckle.gymplanner.clients.domain.Client
 import com.ianarbuckle.gymplanner.clients.domain.GymPlan
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.clients.domain.Session
 import com.ianarbuckle.gymplanner.clients.domain.Weight
 import com.ianarbuckle.gymplanner.clients.domain.Workout
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
 import com.ianarbuckle.gymplanner.fitnessclass.domain.Duration
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations

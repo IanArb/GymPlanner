@@ -1,7 +1,7 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
 
 /** Fake implementation of PersonalTrainersRepository for testing */
 class FakePersonalTrainersRepository(
@@ -22,6 +22,15 @@ class FakePersonalTrainersRepository(
         return try {
             val trainer = remoteDataSource.findPersonalTrainerById(id)
             Result.success(trainer.toPersonalTrainer())
+        } catch (ex: Exception) {
+            Result.failure(ex)
+        }
+    }
+
+    suspend fun getTrainerSchedules(date: String): Result<List<PersonalTrainer>> {
+        return try {
+            val trainers = remoteDataSource.fetchTrainerSchedules(date)
+            Result.success(trainers.map { it.toPersonalTrainer() })
         } catch (ex: Exception) {
             Result.failure(ex)
         }

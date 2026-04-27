@@ -1,7 +1,11 @@
 package com.ianarbuckle.gymplanner.clients.dto
 
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.AvailabilityStatus
+import com.ianarbuckle.gymplanner.common.DayOfWeek
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.ScheduleSlot
+import kotlinx.datetime.LocalTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -32,6 +36,8 @@ data class PersonalTrainerDto(
     val socials: Map<String, String>? = null,
     val qualifications: List<String>,
     val gymLocation: GymLocationDto,
+    val schedule: List<ScheduleSlotDto>? = null,
+    val availabilityStatus: AvailabilityStatusDto? = null,
 ) {
 
     fun toPersonalTrainer(): PersonalTrainer =
@@ -44,6 +50,8 @@ data class PersonalTrainerDto(
             socials = socials ?: emptyMap(),
             qualifications = qualifications,
             gymLocation = gymLocation.toGymLocation(),
+            schedule = schedule?.map { it.toScheduleSlot() },
+            availabilityStatus = availabilityStatus?.toAvailabilityStatus(),
         )
 
     private fun GymLocationDto.toGymLocation(): GymLocation =
@@ -58,6 +66,54 @@ data class PersonalTrainerDto(
                 GymLocationDto.UNKNOWN -> GymLocation.UNKNOWN
             }
         }
+
+    private fun ScheduleSlotDto.toScheduleSlot(): ScheduleSlot =
+        ScheduleSlot(
+            dayOfWeek = this.dayOfWeek.toDayOfWeek(),
+            startTime = this.startTime,
+            endTime = this.endTime,
+        )
+
+    private fun DayOfWeekDto.toDayOfWeek(): DayOfWeek =
+        when (this) {
+            DayOfWeekDto.MONDAY -> DayOfWeek.MONDAY
+            DayOfWeekDto.TUESDAY -> DayOfWeek.TUESDAY
+            DayOfWeekDto.WEDNESDAY -> DayOfWeek.WEDNESDAY
+            DayOfWeekDto.THURSDAY -> DayOfWeek.THURSDAY
+            DayOfWeekDto.FRIDAY -> DayOfWeek.FRIDAY
+            DayOfWeekDto.SATURDAY -> DayOfWeek.SATURDAY
+            DayOfWeekDto.SUNDAY -> DayOfWeek.SUNDAY
+        }
+
+    private fun AvailabilityStatusDto.toAvailabilityStatus(): AvailabilityStatus =
+        when (this) {
+            AvailabilityStatusDto.AVAILABLE -> AvailabilityStatus.AVAILABLE
+            AvailabilityStatusDto.UNAVAILABLE -> AvailabilityStatus.UNAVAILABLE
+            else -> AvailabilityStatus.UNKNOWN
+        }
+}
+
+@Serializable
+data class ScheduleSlotDto(
+    val dayOfWeek: DayOfWeekDto,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
+)
+
+enum class DayOfWeekDto {
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY,
+}
+
+enum class AvailabilityStatusDto {
+    AVAILABLE,
+    UNAVAILABLE,
+    UNKNOWN,
 }
 
 enum class GymLocationDto {

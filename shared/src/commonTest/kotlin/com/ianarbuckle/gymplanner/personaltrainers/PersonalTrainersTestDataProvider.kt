@@ -1,9 +1,16 @@
 package com.ianarbuckle.gymplanner.personaltrainers
 
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
+import com.ianarbuckle.gymplanner.clients.dto.AvailabilityStatusDto
+import com.ianarbuckle.gymplanner.clients.dto.DayOfWeekDto
 import com.ianarbuckle.gymplanner.clients.dto.GymLocationDto
 import com.ianarbuckle.gymplanner.clients.dto.PersonalTrainerDto
+import com.ianarbuckle.gymplanner.clients.dto.ScheduleSlotDto
+import com.ianarbuckle.gymplanner.common.AvailabilityStatus
+import com.ianarbuckle.gymplanner.common.DayOfWeek
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.ScheduleSlot
+import kotlinx.datetime.LocalTime
 
 /** Provides test data for PersonalTrainersRepository tests */
 object PersonalTrainersTestDataProvider {
@@ -237,6 +244,196 @@ object PersonalTrainersTestDataProvider {
                 PersonalTrainers.lisa,
                 PersonalTrainers.david,
             )
+
+        val emptyList = emptyList<PersonalTrainer>()
+    }
+
+    // ========== Schedule Dates ==========
+
+    object Dates {
+        const val date1 = "2026-04-29"
+        const val date2 = "2026-04-30"
+    }
+
+    // ========== Schedule Slot DTOs ==========
+
+    object ScheduleSlotDtos {
+        val mondayMorning =
+            ScheduleSlotDto(
+                dayOfWeek = DayOfWeekDto.MONDAY,
+                startTime = LocalTime(9, 0, 0),
+                endTime = LocalTime(17, 0, 0),
+            )
+
+        val wednesdayAfternoon =
+            ScheduleSlotDto(
+                dayOfWeek = DayOfWeekDto.WEDNESDAY,
+                startTime = LocalTime(12, 0, 0),
+                endTime = LocalTime(20, 0, 0),
+            )
+
+        val mondayEarly =
+            ScheduleSlotDto(
+                dayOfWeek = DayOfWeekDto.MONDAY,
+                startTime = LocalTime(7, 0, 0),
+                endTime = LocalTime(15, 0, 0),
+            )
+    }
+
+    // ========== Schedule Slots (domain) ==========
+
+    object ScheduleSlots {
+        val mondayMorning =
+            ScheduleSlot(
+                dayOfWeek = DayOfWeek.MONDAY,
+                startTime = LocalTime(9, 0, 0),
+                endTime = LocalTime(17, 0, 0),
+            )
+
+        val wednesdayAfternoon =
+            ScheduleSlot(
+                dayOfWeek = DayOfWeek.WEDNESDAY,
+                startTime = LocalTime(12, 0, 0),
+                endTime = LocalTime(20, 0, 0),
+            )
+
+        val mondayEarly =
+            ScheduleSlot(
+                dayOfWeek = DayOfWeek.MONDAY,
+                startTime = LocalTime(7, 0, 0),
+                endTime = LocalTime(15, 0, 0),
+            )
+    }
+
+    // ========== Trainer DTOs with schedule and availability ==========
+
+    object ScheduledTrainerDtos {
+        val johnAvailable =
+            PersonalTrainerDto(
+                id = "6627a8f1c2e4a312bc9d1234",
+                firstName = "John",
+                lastName = "Doe",
+                imageUrl = "https://cdn.gymplanner.com/trainers/john-doe.jpg",
+                bio = "Strength and conditioning coach with 10+ years of experience.",
+                socials =
+                    mapOf(
+                        "instagram" to "https://instagram.com/john.doe.pt",
+                        "linkedin" to "https://linkedin.com/in/johndoept",
+                    ),
+                qualifications =
+                    listOf(
+                        "NSCA Certified Strength and Conditioning Specialist",
+                        "Precision Nutrition Level 1",
+                        "BSc Sports Science",
+                    ),
+                gymLocation = GymLocationDto.CLONTARF,
+                schedule =
+                    listOf(ScheduleSlotDtos.mondayMorning, ScheduleSlotDtos.wednesdayAfternoon),
+                availabilityStatus = AvailabilityStatusDto.AVAILABLE,
+            )
+
+        val janeUnavailable =
+            PersonalTrainerDto(
+                id = "6627a8f1c2e4a312bc9d5678",
+                firstName = "Jane",
+                lastName = "Murphy",
+                imageUrl = "https://cdn.gymplanner.com/trainers/jane-murphy.jpg",
+                bio = "Mobility and rehabilitation specialist.",
+                socials = null,
+                qualifications =
+                    listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
+                gymLocation = GymLocationDto.CLONTARF,
+                schedule = listOf(ScheduleSlotDtos.mondayEarly),
+                availabilityStatus = AvailabilityStatusDto.UNAVAILABLE,
+            )
+
+        val unknownStatus =
+            PersonalTrainerDto(
+                id = "6627a8f1c2e4a312bc9d9999",
+                firstName = "Sam",
+                lastName = "Unknown",
+                imageUrl = "https://cdn.gymplanner.com/trainers/sam.jpg",
+                bio = "Coach.",
+                socials = null,
+                qualifications = emptyList(),
+                gymLocation = GymLocationDto.ASTONQUAY,
+                schedule = emptyList(),
+                availabilityStatus = AvailabilityStatusDto.UNKNOWN,
+            )
+    }
+
+    // ========== Trainer domain models with schedule ==========
+
+    object ScheduledTrainers {
+        val johnAvailable =
+            PersonalTrainer(
+                id = "6627a8f1c2e4a312bc9d1234",
+                firstName = "John",
+                lastName = "Doe",
+                imageUrl = "https://cdn.gymplanner.com/trainers/john-doe.jpg",
+                bio = "Strength and conditioning coach with 10+ years of experience.",
+                socials =
+                    mapOf(
+                        "instagram" to "https://instagram.com/john.doe.pt",
+                        "linkedin" to "https://linkedin.com/in/johndoept",
+                    ),
+                qualifications =
+                    listOf(
+                        "NSCA Certified Strength and Conditioning Specialist",
+                        "Precision Nutrition Level 1",
+                        "BSc Sports Science",
+                    ),
+                gymLocation = GymLocation.CLONTARF,
+                schedule = listOf(ScheduleSlots.mondayMorning, ScheduleSlots.wednesdayAfternoon),
+                availabilityStatus = AvailabilityStatus.AVAILABLE,
+            )
+
+        val janeUnavailable =
+            PersonalTrainer(
+                id = "6627a8f1c2e4a312bc9d5678",
+                firstName = "Jane",
+                lastName = "Murphy",
+                imageUrl = "https://cdn.gymplanner.com/trainers/jane-murphy.jpg",
+                bio = "Mobility and rehabilitation specialist.",
+                socials = emptyMap(),
+                qualifications =
+                    listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
+                gymLocation = GymLocation.CLONTARF,
+                schedule = listOf(ScheduleSlots.mondayEarly),
+                availabilityStatus = AvailabilityStatus.UNAVAILABLE,
+            )
+
+        val unknownStatus =
+            PersonalTrainer(
+                id = "6627a8f1c2e4a312bc9d9999",
+                firstName = "Sam",
+                lastName = "Unknown",
+                imageUrl = "https://cdn.gymplanner.com/trainers/sam.jpg",
+                bio = "Coach.",
+                socials = emptyMap(),
+                qualifications = emptyList(),
+                gymLocation = GymLocation.ASTONQUAY,
+                schedule = emptyList(),
+                availabilityStatus = AvailabilityStatus.UNKNOWN,
+            )
+    }
+
+    // ========== Scheduled Trainer Lists ==========
+
+    object ScheduledTrainerLists {
+        val multipleTrainers =
+            listOf(ScheduledTrainerDtos.johnAvailable, ScheduledTrainerDtos.janeUnavailable)
+
+        val singleTrainer = listOf(ScheduledTrainerDtos.johnAvailable)
+
+        val emptyList = emptyList<PersonalTrainerDto>()
+    }
+
+    object ScheduledDomainTrainerLists {
+        val multipleTrainers =
+            listOf(ScheduledTrainers.johnAvailable, ScheduledTrainers.janeUnavailable)
+
+        val singleTrainer = listOf(ScheduledTrainers.johnAvailable)
 
         val emptyList = emptyList<PersonalTrainer>()
     }

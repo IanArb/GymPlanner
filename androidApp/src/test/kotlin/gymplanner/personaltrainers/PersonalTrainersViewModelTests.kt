@@ -3,8 +3,8 @@ package gymplanner.personaltrainers
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
-import com.ianarbuckle.gymplanner.clients.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery

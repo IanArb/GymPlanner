@@ -12,18 +12,23 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
     // Control flags for test scenarios
     var shouldThrowExceptionOnFetchPersonalTrainers = false
     var shouldThrowExceptionOnFindPersonalTrainerById = false
+    var shouldThrowExceptionOnFetchTrainerSchedules = false
     var fetchPersonalTrainersException: Exception? = null
     var findPersonalTrainerByIdException: Exception? = null
+    var fetchTrainerSchedulesException: Exception? = null
 
     // Captured calls for verification
     val fetchPersonalTrainersCalls = mutableListOf<GymLocation>()
     val findPersonalTrainerByIdCalls = mutableListOf<String>()
+    val fetchTrainerSchedulesCalls = mutableListOf<String>()
 
     // Configurable responses
     var fetchPersonalTrainersResponse: List<PersonalTrainerDto> =
         PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
     var findPersonalTrainerByIdResponse: PersonalTrainerDto =
         PersonalTrainersTestDataProvider.PersonalTrainerDtos.sarah
+    var fetchTrainerSchedulesResponse: List<PersonalTrainerDto> =
+        PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
 
     override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
         fetchPersonalTrainersCalls.add(gymLocation)
@@ -47,16 +52,32 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         return findPersonalTrainerByIdResponse
     }
 
+    override suspend fun fetchTrainerSchedules(date: String): List<PersonalTrainerDto> {
+        fetchTrainerSchedulesCalls.add(date)
+
+        if (shouldThrowExceptionOnFetchTrainerSchedules) {
+            throw fetchTrainerSchedulesException
+                ?: RuntimeException("Fetch trainer schedules failed")
+        }
+
+        return fetchTrainerSchedulesResponse
+    }
+
     fun reset() {
         shouldThrowExceptionOnFetchPersonalTrainers = false
         shouldThrowExceptionOnFindPersonalTrainerById = false
+        shouldThrowExceptionOnFetchTrainerSchedules = false
         fetchPersonalTrainersException = null
         findPersonalTrainerByIdException = null
+        fetchTrainerSchedulesException = null
         fetchPersonalTrainersCalls.clear()
         findPersonalTrainerByIdCalls.clear()
+        fetchTrainerSchedulesCalls.clear()
 
         fetchPersonalTrainersResponse =
             PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
         findPersonalTrainerByIdResponse = PersonalTrainersTestDataProvider.PersonalTrainerDtos.sarah
+        fetchTrainerSchedulesResponse =
+            PersonalTrainersTestDataProvider.PersonalTrainerLists.allTrainers
     }
 }

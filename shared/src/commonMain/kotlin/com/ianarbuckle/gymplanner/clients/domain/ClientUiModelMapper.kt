@@ -8,6 +8,7 @@ import com.ianarbuckle.gymplanner.clients.dto.SessionDto
 import com.ianarbuckle.gymplanner.clients.dto.WeightDto
 import com.ianarbuckle.gymplanner.clients.dto.WorkoutDto
 import com.ianarbuckle.gymplanner.common.GymLocation
+import com.ianarbuckle.gymplanner.common.PersonalTrainer
 
 object ClientUiModelMapper {
 
