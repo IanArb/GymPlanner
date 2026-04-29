@@ -1,6 +1,5 @@
 package com.ianarbuckle.gymplanner.web.ui.data
 
-import co.touchlab.kermit.Logger
 import com.ianarbuckle.gymplanner.common.AvailabilityStatus
 import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.common.PersonalTrainer
@@ -20,7 +19,7 @@ import org.koin.core.component.inject
 
 class DashboardViewModel(
     private val scope: CoroutineScope,
-    private val imageProxyOrigin: String = "",
+    private val imageProxyBase: String = "",
 ) : KoinComponent {
 
     private val facilitiesRepository by inject<FacilitiesRepository>()
@@ -66,7 +65,7 @@ class DashboardViewModel(
                         TrainersUiState.Success(
                             result
                                 .getOrNull()
-                                ?.map { it.toTrainerItem(imageProxyOrigin) }
+                                ?.map { it.toTrainerItem(imageProxyBase) }
                                 ?.sortedByDescending {
                                     it.availability == TrainerAvailability.AVAILABLE
                                 }
@@ -88,7 +87,7 @@ class DashboardViewModel(
     }
 }
 
-private fun PersonalTrainer.toTrainerItem(imageProxyOrigin: String): TrainerItem =
+private fun PersonalTrainer.toTrainerItem(imageProxyBase: String): TrainerItem =
     TrainerItem(
         name = "$firstName $lastName",
         availability =
@@ -99,6 +98,11 @@ private fun PersonalTrainer.toTrainerItem(imageProxyOrigin: String): TrainerItem
         imageUrl =
             imageUrl
                 .takeIf { it.isNotBlank() }
-                ?.replace("https://westwood.ie", "$imageProxyOrigin/img-proxy")
-                ?.also { Logger.d("TrainerImage") { "raw='$imageUrl' final='$it'" } },
+                ?.let { url ->
+                    if (imageProxyBase.isNotEmpty()) {
+                        url.replace("https://westwood.ie", imageProxyBase)
+                    } else {
+                        url
+                    }
+                },
     )

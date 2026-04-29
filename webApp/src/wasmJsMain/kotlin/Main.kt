@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
 import co.touchlab.kermit.Logger
 import coil3.ImageLoader
-import coil3.compose.setSingletonImageLoaderFactory
+import coil3.SingletonImageLoader
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.crossfade
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
@@ -79,13 +79,14 @@ fun main() {
             )
         },
     )
+    SingletonImageLoader.setSafe { context ->
+        ImageLoader.Builder(context)
+            .components { add(KtorNetworkFetcherFactory()) }
+            .crossfade(true)
+            .build()
+    }
+
     ComposeViewport(document.body!!) {
-        setSingletonImageLoaderFactory { context ->
-            ImageLoader.Builder(context)
-                .components { add(KtorNetworkFetcherFactory()) }
-                .crossfade(true)
-                .build()
-        }
         MaterialTheme(colorScheme = GymPlannerColorScheme) {
             var selectedDestination by remember { mutableStateOf(NavDestination.DASHBOARD) }
 
@@ -96,7 +97,13 @@ fun main() {
             val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
 
             val dashboardViewModel = remember {
-                DashboardViewModel(scope, imageProxyOrigin = window.location.origin)
+                val imageProxyBase =
+                    if (BuildConfig.IMAGE_PROXY_PATH.isNotEmpty()) {
+                        "${window.location.origin}${BuildConfig.IMAGE_PROXY_PATH}"
+                    } else {
+                        ""
+                    }
+                DashboardViewModel(scope, imageProxyBase = imageProxyBase)
             }
 
             if (isCheckingAuth) return@MaterialTheme
