@@ -19,14 +19,17 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import org.jetbrains.compose.resources.painterResource
@@ -36,16 +39,21 @@ enum class TrainerAvailability {
     IN_SESSION,
 }
 
-data class TrainerItem(val name: String, val availability: TrainerAvailability)
+data class TrainerItem(
+    val name: String,
+    val availability: TrainerAvailability,
+    val imageUrl: String? = null,
+)
 
 @Composable
 fun TodaysTeamSection(
     trainers: List<TrainerItem>,
     onTrainerClick: (TrainerItem) -> Unit = {},
+    onViewAllClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        TodaysTeamHeader()
+        TodaysTeamHeader(onViewAllClick = onViewAllClick)
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -58,7 +66,7 @@ fun TodaysTeamSection(
 }
 
 @Composable
-private fun TodaysTeamHeader() {
+private fun TodaysTeamHeader(onViewAllClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -70,6 +78,15 @@ private fun TodaysTeamHeader() {
             fontSize = 20.sp,
             color = MaterialTheme.colorScheme.onBackground,
         )
+        TextButton(onClick = onViewAllClick) {
+            Text(
+                text = "VIEW ALL",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF0D0D0D),
+                letterSpacing = 0.5.sp,
+            )
+        }
     }
 }
 
@@ -86,7 +103,7 @@ private fun TrainerCard(trainer: TrainerItem, onClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TrainerAvatar(availability = trainer.availability)
+            TrainerAvatar(availability = trainer.availability, imageUrl = trainer.imageUrl)
 
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -115,7 +132,7 @@ private fun TrainerCard(trainer: TrainerItem, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TrainerAvatar(availability: TrainerAvailability) {
+private fun TrainerAvatar(availability: TrainerAvailability, imageUrl: String?) {
     val statusColor =
         when (availability) {
             TrainerAvailability.AVAILABLE -> Color.Green
@@ -130,12 +147,21 @@ private fun TrainerAvatar(availability: TrainerAvailability) {
                     .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = "PT",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            if (!imageUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(52.dp).clip(RoundedCornerShape(8.dp)),
+                )
+            } else {
+                Text(
+                    text = "PT",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
         Box(
             modifier =

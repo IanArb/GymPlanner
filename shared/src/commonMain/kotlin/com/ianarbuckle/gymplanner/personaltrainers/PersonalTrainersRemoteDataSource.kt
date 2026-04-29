@@ -16,7 +16,10 @@ interface PersonalTrainersRemoteDataSource {
 
     suspend fun findPersonalTrainerById(id: String): PersonalTrainerDto
 
-    suspend fun fetchTrainerSchedules(date: String): List<PersonalTrainerDto>
+    suspend fun fetchTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ): List<PersonalTrainerDto>
 }
 
 class DefaultPersonalTrainersRemoteDataSource(
@@ -55,7 +58,10 @@ class DefaultPersonalTrainersRemoteDataSource(
         return response.body()
     }
 
-    override suspend fun fetchTrainerSchedules(date: String): List<PersonalTrainerDto> {
+    override suspend fun fetchTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ): List<PersonalTrainerDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =
             httpClient.get(baseUrl) {
@@ -63,6 +69,7 @@ class DefaultPersonalTrainersRemoteDataSource(
                     protocol = URLProtocol.HTTPS
                     path(SCHEDULE_ENDPOINT)
                     parameters.append("date", date)
+                    parameters.append("gymLocation", gymLocation.name)
                 }
                 headers { append("Authorization", "Bearer $authorisationToken") }
             }

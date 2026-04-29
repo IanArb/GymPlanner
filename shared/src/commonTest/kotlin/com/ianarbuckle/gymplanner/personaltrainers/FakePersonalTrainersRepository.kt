@@ -27,9 +27,12 @@ class FakePersonalTrainersRepository(
         }
     }
 
-    suspend fun getTrainerSchedules(date: String): Result<List<PersonalTrainer>> {
+    suspend fun getTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ): Result<List<PersonalTrainer>> {
         return try {
-            val trainers = remoteDataSource.fetchTrainerSchedules(date)
+            val trainers = remoteDataSource.fetchTrainerSchedules(date, gymLocation)
             Result.success(trainers.map { it.toPersonalTrainer() })
         } catch (ex: Exception) {
             Result.failure(ex)

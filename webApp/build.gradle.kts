@@ -15,10 +15,20 @@ compose.resources { packageOfResClass = "com.ianarbuckle.gymplanner.web.generate
 val webBaseUrl: String =
     project.findProperty("gymplanner.web.baseUrl")?.toString() ?: "http://localhost:8080"
 
+// Auto-enable the dev-server image proxy only when running a development task.
+// Production builds emit an empty path so the rewrite is a no-op and original
+// image URLs are used (a real backend proxy is required for prod).
+val isDevBuild: Boolean =
+    gradle.startParameter.taskNames.any { it.contains("Development", ignoreCase = true) }
+val imageProxyPath: String =
+    project.findProperty("gymplanner.web.imageProxyPath")?.toString()
+        ?: if (isDevBuild) "/img-proxy" else ""
+
 val generateWebBuildConfig by
     tasks.registering {
         val outputDir = layout.buildDirectory.dir("generated/buildConfig/wasmJsMain/kotlin")
         inputs.property("baseUrl", webBaseUrl)
+        inputs.property("imageProxyPath", imageProxyPath)
         outputs.dir(outputDir)
         doLast {
             val dir = outputDir.get().asFile
@@ -30,6 +40,7 @@ val generateWebBuildConfig by
 
             internal object BuildConfig {
                 const val BASE_URL = "$webBaseUrl"
+                const val IMAGE_PROXY_PATH = "$imageProxyPath"
             }
             """
                         .trimIndent()
@@ -56,7 +67,11 @@ kotlin {
                 implementation(libs.compose.material3.jetbrains)
                 implementation(libs.compose.components.resources)
                 implementation(libs.kotlinx.immutable.collections)
+                implementation(libs.kotlinx.datetime)
                 implementation(libs.kermit)
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor3)
+                implementation(libs.ktor.client.core)
             }
         }
         commonTest {

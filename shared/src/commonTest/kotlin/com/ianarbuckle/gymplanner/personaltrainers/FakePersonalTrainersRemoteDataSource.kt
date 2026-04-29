@@ -20,7 +20,7 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
     // Captured calls for verification
     val fetchPersonalTrainersCalls = mutableListOf<GymLocation>()
     val findPersonalTrainerByIdCalls = mutableListOf<String>()
-    val fetchTrainerSchedulesCalls = mutableListOf<String>()
+    val fetchTrainerSchedulesCalls = mutableListOf<Pair<String, GymLocation>>()
 
     // Configurable responses
     var fetchPersonalTrainersResponse: List<PersonalTrainerDto> =
@@ -52,8 +52,11 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         return findPersonalTrainerByIdResponse
     }
 
-    override suspend fun fetchTrainerSchedules(date: String): List<PersonalTrainerDto> {
-        fetchTrainerSchedulesCalls.add(date)
+    override suspend fun fetchTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ): List<PersonalTrainerDto> {
+        fetchTrainerSchedulesCalls.add(date to gymLocation)
 
         if (shouldThrowExceptionOnFetchTrainerSchedules) {
             throw fetchTrainerSchedulesException
