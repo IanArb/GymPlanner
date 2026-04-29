@@ -15,7 +15,10 @@ interface PersonalTrainersRepository {
 
     suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer>
 
-    suspend fun fetchTrainerSchedules(date: String): Result<ImmutableList<PersonalTrainer>>
+    suspend fun fetchTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ): Result<ImmutableList<PersonalTrainer>>
 }
 
 class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinComponent {
@@ -50,10 +53,11 @@ class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinCompon
     }
 
     override suspend fun fetchTrainerSchedules(
-        date: String
+        date: String,
+        gymLocation: GymLocation,
     ): Result<ImmutableList<PersonalTrainer>> {
         try {
-            val response = remoteDataSource.fetchTrainerSchedules(date)
+            val response = remoteDataSource.fetchTrainerSchedules(date, gymLocation)
             val trainers = response.map { it.toPersonalTrainer() }.toImmutableList()
             return Result.success(trainers)
         } catch (ex: Exception) {

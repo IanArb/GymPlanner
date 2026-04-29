@@ -517,13 +517,16 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isSuccess)
         assertEquals(ScheduledDomainTrainerLists.multipleTrainers, result.getOrNull())
         assertEquals(1, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
-        assertEquals(Dates.date1, fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
+        assertEquals(
+            Dates.date1 to GymLocation.CLONTARF,
+            fakeRemoteDataSource.fetchTrainerSchedulesCalls[0],
+        )
     }
 
     @Test
@@ -532,7 +535,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.singleTrainer
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isSuccess)
@@ -546,7 +549,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.emptyList
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isSuccess)
@@ -559,7 +562,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         val trainers = result.getOrNull()
@@ -576,7 +579,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.johnAvailable)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         val trainer = result.getOrNull()?.first()
@@ -594,7 +597,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.johnAvailable)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertEquals(AvailabilityStatus.AVAILABLE, result.getOrNull()?.first()?.availabilityStatus)
@@ -607,7 +610,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.janeUnavailable)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertEquals(
@@ -623,7 +626,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.unknownStatus)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertEquals(AvailabilityStatus.UNKNOWN, result.getOrNull()?.first()?.availabilityStatus)
@@ -636,7 +639,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.janeUnavailable)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         val trainer = result.getOrNull()?.first()
@@ -651,7 +654,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.networkError
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isFailure)
@@ -665,7 +668,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.serverError
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isFailure)
@@ -679,7 +682,7 @@ class PersonalTrainersRepositoryTest {
         fakeRemoteDataSource.fetchTrainerSchedulesException = Exceptions.unauthorized
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isFailure)
@@ -690,10 +693,10 @@ class PersonalTrainersRepositoryTest {
     fun `multiple getTrainerSchedules calls work independently`() = runTest {
         // When
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.multipleTrainers
-        val result1 = repository.getTrainerSchedules(Dates.date1)
+        val result1 = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         fakeRemoteDataSource.fetchTrainerSchedulesResponse = ScheduledTrainerLists.singleTrainer
-        val result2 = repository.getTrainerSchedules(Dates.date2)
+        val result2 = repository.getTrainerSchedules(Dates.date2, GymLocation.CLONTARF)
 
         // Then
         assertTrue(result1.isSuccess)
@@ -701,8 +704,14 @@ class PersonalTrainersRepositoryTest {
         assertEquals(2, result1.getOrNull()?.size)
         assertEquals(1, result2.getOrNull()?.size)
         assertEquals(2, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
-        assertEquals(Dates.date1, fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
-        assertEquals(Dates.date2, fakeRemoteDataSource.fetchTrainerSchedulesCalls[1])
+        assertEquals(
+            Dates.date1 to GymLocation.CLONTARF,
+            fakeRemoteDataSource.fetchTrainerSchedulesCalls[0],
+        )
+        assertEquals(
+            Dates.date2 to GymLocation.CLONTARF,
+            fakeRemoteDataSource.fetchTrainerSchedulesCalls[1],
+        )
     }
 
     @Test
@@ -712,7 +721,7 @@ class PersonalTrainersRepositoryTest {
             listOf(ScheduledTrainerDtos.janeUnavailable, ScheduledTrainerDtos.johnAvailable)
 
         // When
-        val result = repository.getTrainerSchedules(Dates.date1)
+        val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
 
         // Then
         val trainers = result.getOrNull()
@@ -724,11 +733,11 @@ class PersonalTrainersRepositoryTest {
     @Test
     fun `getTrainerSchedules with empty date string still calls remote data source`() = runTest {
         // When
-        val result = repository.getTrainerSchedules("")
+        val result = repository.getTrainerSchedules("", GymLocation.CLONTARF)
 
         // Then
         assertTrue(result.isSuccess)
         assertEquals(1, fakeRemoteDataSource.fetchTrainerSchedulesCalls.size)
-        assertEquals("", fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
+        assertEquals("" to GymLocation.CLONTARF, fakeRemoteDataSource.fetchTrainerSchedulesCalls[0])
     }
 }

@@ -22,18 +22,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
 import co.touchlab.kermit.Logger
+import coil3.ImageLoader
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.crossfade
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.DefaultAuthenticationRepository
 import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRepository
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
+import com.ianarbuckle.gymplanner.personaltrainers.DefaultPersonalTrainersRepository
+import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.web.BuildConfig
 import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
 import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardUiState
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardViewModel
+import com.ianarbuckle.gymplanner.web.ui.data.TrainersUiState
 import com.ianarbuckle.gymplanner.web.ui.facilitystatus.FacilityStatusSection
 import com.ianarbuckle.gymplanner.web.ui.header.DashboardHeader
 import com.ianarbuckle.gymplanner.web.ui.login.LoginAction
@@ -45,9 +52,13 @@ import com.ianarbuckle.gymplanner.web.ui.sidebar.SidebarNavigation
 import com.ianarbuckle.gymplanner.web.ui.theme.GymPlannerColorScheme
 import com.ianarbuckle.gymplanner.web.ui.theme.OffWhite
 import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
-import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerAvailability
-import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
+import kotlin.time.Clock
 import kotlinx.browser.document
+import kotlinx.browser.window
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 import org.koin.dsl.module
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -62,10 +73,19 @@ fun main() {
             modules(
                 module { single<AuthenticationRepository> { DefaultAuthenticationRepository() } },
                 module { single<FacilitiesRepository> { DefaultFacilitiesRepository() } },
+                module {
+                    single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() }
+                },
             )
         },
     )
     ComposeViewport(document.body!!) {
+        setSingletonImageLoaderFactory { context ->
+            ImageLoader.Builder(context)
+                .components { add(KtorNetworkFetcherFactory()) }
+                .crossfade(true)
+                .build()
+        }
         MaterialTheme(colorScheme = GymPlannerColorScheme) {
             var selectedDestination by remember { mutableStateOf(NavDestination.DASHBOARD) }
 
@@ -75,7 +95,9 @@ fun main() {
             val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
             val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
 
-            val dashboardViewModel = remember { DashboardViewModel(scope) }
+            val dashboardViewModel = remember {
+                DashboardViewModel(scope, imageProxyOrigin = window.location.origin)
+            }
 
             if (isCheckingAuth) return@MaterialTheme
 
@@ -109,6 +131,10 @@ fun main() {
 
                     LaunchedEffect(Unit) {
                         dashboardViewModel.fetchFacilities(gymLocation = GymLocation.CLONTARF)
+                        dashboardViewModel.fetchTrainerSchedules(
+                            date = Clock.System.todayIn(TimeZone.currentSystemDefault()).toString(),
+                            gymLocation = GymLocation.CLONTARF,
+                        )
                     }
 
                     Row(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
@@ -121,7 +147,7 @@ fun main() {
                             is DashboardUiState.Success -> {
                                 FacilityStatusSection(
                                     modifier = Modifier.weight(0.6f),
-                                    items = uiState.facilities,
+                                    items = uiState.facilities.take(5).toImmutableList(),
                                     onViewAllClick = {},
                                 )
                             }
@@ -129,27 +155,15 @@ fun main() {
 
                         Spacer(modifier = Modifier.width(24.dp))
 
+                        val trainersState =
+                            dashboardViewModel.trainersUiState.collectAsState().value
                         TodaysTeamSection(
                             modifier = Modifier.weight(0.4f),
                             trainers =
-                                listOf(
-                                    TrainerItem(
-                                        name = "Sarah Jenkins",
-                                        availability = TrainerAvailability.AVAILABLE,
-                                    ),
-                                    TrainerItem(
-                                        name = "David Chen",
-                                        availability = TrainerAvailability.IN_SESSION,
-                                    ),
-                                    TrainerItem(
-                                        name = "Elena Rodriguez",
-                                        availability = TrainerAvailability.AVAILABLE,
-                                    ),
-                                    TrainerItem(
-                                        name = "Rosa Rodriguez",
-                                        availability = TrainerAvailability.AVAILABLE,
-                                    ),
-                                ),
+                                when (trainersState) {
+                                    is TrainersUiState.Success -> trainersState.trainers
+                                    else -> persistentListOf()
+                                },
                         )
                     }
 

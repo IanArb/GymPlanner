@@ -56,7 +56,11 @@ kotlin {
                 implementation(libs.compose.material3.jetbrains)
                 implementation(libs.compose.components.resources)
                 implementation(libs.kotlinx.immutable.collections)
+                implementation(libs.kotlinx.datetime)
                 implementation(libs.kermit)
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor3)
+                implementation(libs.ktor.client.core)
             }
         }
         commonTest {
