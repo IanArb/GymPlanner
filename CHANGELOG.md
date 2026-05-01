@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/IanArb/GymPlanner/compare/v1.7.0...v1.8.0) (2026-05-01)
+
+
+### Features
+
+* Add upcoming classes UI for web ([fcdc33c](https://github.com/IanArb/GymPlanner/commit/fcdc33c41f5408eb5747c2f2231f480a28aa9826))
+
 # [1.7.0](https://github.com/IanArb/GymPlanner/compare/v1.6.0...v1.7.0) (2026-04-27)
 
 
