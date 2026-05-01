@@ -32,12 +32,13 @@ import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.di.initKoin
 import com.ianarbuckle.gymplanner.facilities.DefaultFacilitiesRepository
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
+import com.ianarbuckle.gymplanner.fitnessclass.DefaultFitnessClassRepository
+import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.personaltrainers.DefaultPersonalTrainersRepository
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.web.BuildConfig
-import com.ianarbuckle.gymplanner.web.ui.classes.ClassCategory
-import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
+import com.ianarbuckle.gymplanner.web.ui.data.ClassesUiState
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardUiState
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.web.ui.data.TrainersUiState
@@ -76,6 +77,7 @@ fun main() {
                 module {
                     single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() }
                 },
+                module { single<FitnessClassRepository> { DefaultFitnessClassRepository() } },
             )
         },
     )
@@ -97,13 +99,13 @@ fun main() {
             val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
 
             val dashboardViewModel = remember {
-                val imageProxyBase =
-                    if (BuildConfig.IMAGE_PROXY_PATH.isNotEmpty()) {
-                        "${window.location.origin}${BuildConfig.IMAGE_PROXY_PATH}"
-                    } else {
-                        ""
-                    }
-                DashboardViewModel(scope, imageProxyBase = imageProxyBase)
+                fun proxyBase(path: String): String =
+                    if (path.isNotEmpty()) "${window.location.origin}$path" else ""
+                DashboardViewModel(
+                    scope = scope,
+                    imageProxyBase = proxyBase(BuildConfig.IMAGE_PROXY_PATH),
+                    ddgImageProxyBase = proxyBase(BuildConfig.DDG_PROXY_PATH),
+                )
             }
 
             if (isCheckingAuth) return@MaterialTheme
@@ -137,11 +139,13 @@ fun main() {
                     DashboardHeader(userName = "Ben", userRole = "Gym Manager", onProfileClick = {})
 
                     LaunchedEffect(Unit) {
+                        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
                         dashboardViewModel.fetchFacilities(gymLocation = GymLocation.CLONTARF)
                         dashboardViewModel.fetchTrainerSchedules(
-                            date = Clock.System.todayIn(TimeZone.currentSystemDefault()).toString(),
+                            date = today.toString(),
                             gymLocation = GymLocation.CLONTARF,
                         )
+                        dashboardViewModel.fetchUpcomingClasses(dayOfWeek = today.dayOfWeek.name)
                     }
 
                     Row(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
@@ -174,32 +178,19 @@ fun main() {
                         )
                     }
 
+                    val classesState = dashboardViewModel.classesUiState.collectAsState().value
                     UpcomingClassesSection(
                         modifier =
                             Modifier.fillMaxWidth()
                                 .padding(horizontal = 24.dp, vertical = 8.dp)
                                 .padding(bottom = 24.dp),
                         classes =
-                            listOf(
-                                FitnessClassItem(
-                                    name = "HIIT Performance",
-                                    category = ClassCategory.PEAK_HOUR,
-                                    timeSlot = "10:30 AM - 11:30 AM",
-                                    coachName = "Sarah Jenkins",
-                                ),
-                                FitnessClassItem(
-                                    name = "Vinyasa Flow",
-                                    category = ClassCategory.RECOVERY,
-                                    timeSlot = "12:00 PM - 01:00 PM",
-                                    coachName = "Elena Rodriguez",
-                                ),
-                                FitnessClassItem(
-                                    name = "Power Lifting",
-                                    category = ClassCategory.STRENGTH,
-                                    timeSlot = "04:30 PM - 06:00 PM",
-                                    coachName = "Marcus Thorne",
-                                ),
-                            ),
+                            when (classesState) {
+                                is ClassesUiState.Success -> classesState.classes
+                                else -> persistentListOf()
+                            },
+                        isLoading = classesState is ClassesUiState.Loading,
+                        errorMessage = (classesState as? ClassesUiState.Error)?.message,
                     )
                 }
             }

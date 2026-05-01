@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.web.ui.data
 
 import com.ianarbuckle.gymplanner.facilities.domain.FacilityStatus
+import com.ianarbuckle.gymplanner.web.ui.classes.FitnessClassItem
 import com.ianarbuckle.gymplanner.web.ui.trainers.TrainerItem
 import kotlinx.collections.immutable.ImmutableList
 
@@ -22,4 +23,14 @@ sealed class TrainersUiState {
     data class Success(val trainers: ImmutableList<TrainerItem>) : TrainersUiState()
 
     data class Error(val message: String) : TrainersUiState()
+}
+
+sealed class ClassesUiState {
+    object Idle : ClassesUiState()
+
+    object Loading : ClassesUiState()
+
+    data class Success(val classes: ImmutableList<FitnessClassItem>) : ClassesUiState()
+
+    data class Error(val message: String) : ClassesUiState()
 }

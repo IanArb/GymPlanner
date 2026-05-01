@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -26,21 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_schedule
 import org.jetbrains.compose.resources.painterResource
-
-enum class ClassCategory {
-    PEAK_HOUR,
-    RECOVERY,
-    STRENGTH,
-}
 
 enum class ClassFilter {
     ALL
@@ -48,13 +45,18 @@ enum class ClassFilter {
 
 data class FitnessClassItem(
     val name: String,
-    val category: ClassCategory,
+    val description: String,
     val timeSlot: String,
-    val coachName: String,
+    val imageUrl: String,
 )
 
 @Composable
-fun UpcomingClassesSection(classes: List<FitnessClassItem>, modifier: Modifier = Modifier) {
+fun UpcomingClassesSection(
+    classes: List<FitnessClassItem>,
+    isLoading: Boolean,
+    errorMessage: String?,
+    modifier: Modifier = Modifier,
+) {
     var selectedFilter by remember { mutableStateOf(ClassFilter.ALL) }
 
     Column(modifier = modifier) {
@@ -65,13 +67,45 @@ fun UpcomingClassesSection(classes: List<FitnessClassItem>, modifier: Modifier =
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            classes.forEach { fitnessClass ->
-                ClassCard(item = fitnessClass, modifier = Modifier.weight(1f))
-            }
+        when {
+            isLoading ->
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(180.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            errorMessage != null ->
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(120.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = errorMessage,
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 13.sp,
+                    )
+                }
+            classes.isEmpty() ->
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(120.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "No classes scheduled today",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp,
+                    )
+                }
+            else ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    classes.forEach { fitnessClass ->
+                        ClassCard(item = fitnessClass, modifier = Modifier.weight(1f))
+                    }
+                }
         }
     }
 }
@@ -148,8 +182,19 @@ private fun ClassCard(item: FitnessClassItem, modifier: Modifier = Modifier) {
 private fun ClassImageCard(item: FitnessClassItem) {
     Box(
         modifier =
-            Modifier.fillMaxWidth().height(180.dp).background(classCardGradient(item.category))
+            Modifier.fillMaxWidth()
+                .height(180.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
+        if (item.imageUrl.isNotBlank()) {
+            AsyncImage(
+                model = item.imageUrl,
+                contentDescription = item.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
+
         Box(
             modifier =
                 Modifier.fillMaxWidth()
@@ -160,11 +205,6 @@ private fun ClassImageCard(item: FitnessClassItem) {
                             colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
                         )
                     )
-        )
-
-        CategoryBadge(
-            category = item.category,
-            modifier = Modifier.align(Alignment.BottomStart).padding(start = 12.dp, bottom = 36.dp),
         )
 
         Text(
@@ -178,38 +218,8 @@ private fun ClassImageCard(item: FitnessClassItem) {
 }
 
 @Composable
-private fun CategoryBadge(category: ClassCategory, modifier: Modifier = Modifier) {
-    val (label, color) =
-        when (category) {
-            ClassCategory.PEAK_HOUR -> "PEAK HOUR" to Color(0xFF0D0D0D)
-            ClassCategory.RECOVERY -> "RECOVERY" to Color(0xFF424242)
-            ClassCategory.STRENGTH -> "STRENGTH" to Color(0xFF9E9E9E)
-        }
-
-    Box(
-        modifier =
-            modifier
-                .clip(RoundedCornerShape(4.dp))
-                .background(color)
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = label,
-            color = Color.White,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.5.sp,
-        )
-    }
-}
-
-@Composable
 private fun ClassDetails(item: FitnessClassItem, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
+    Column(modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(Res.drawable.ic_schedule),
@@ -226,29 +236,15 @@ private fun ClassDetails(item: FitnessClassItem, modifier: Modifier = Modifier) 
             )
         }
 
-        Column(horizontalAlignment = Alignment.End) {
+        if (item.description.isNotBlank()) {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "COACH",
-                fontSize = 10.sp,
+                text = item.description,
+                fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                letterSpacing = 0.5.sp,
-            )
-            Text(
-                text = item.coachName,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Normal,
+                maxLines = 3,
             )
         }
     }
 }
-
-private fun classCardGradient(category: ClassCategory): Brush =
-    when (category) {
-        ClassCategory.PEAK_HOUR ->
-            Brush.linearGradient(colors = listOf(Color(0xFF1A237E), Color(0xFF0D47A1)))
-        ClassCategory.RECOVERY ->
-            Brush.linearGradient(colors = listOf(Color(0xFF1B5E20), Color(0xFF2E7D32)))
-        ClassCategory.STRENGTH ->
-            Brush.linearGradient(colors = listOf(Color(0xFF4A148C), Color(0xFF6A1B9A)))
-    }

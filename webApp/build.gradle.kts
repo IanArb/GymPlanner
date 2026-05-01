@@ -23,12 +23,16 @@ val isDevBuild: Boolean =
 val imageProxyPath: String =
     project.findProperty("gymplanner.web.imageProxyPath")?.toString()
         ?: if (isDevBuild) "/img-proxy" else ""
+val ddgProxyPath: String =
+    project.findProperty("gymplanner.web.ddgProxyPath")?.toString()
+        ?: if (isDevBuild) "/ddg-proxy" else ""
 
 val generateWebBuildConfig by
     tasks.registering {
         val outputDir = layout.buildDirectory.dir("generated/buildConfig/wasmJsMain/kotlin")
         inputs.property("baseUrl", webBaseUrl)
         inputs.property("imageProxyPath", imageProxyPath)
+        inputs.property("ddgProxyPath", ddgProxyPath)
         outputs.dir(outputDir)
         doLast {
             val dir = outputDir.get().asFile
@@ -41,6 +45,7 @@ val generateWebBuildConfig by
             internal object BuildConfig {
                 const val BASE_URL = "$webBaseUrl"
                 const val IMAGE_PROXY_PATH = "$imageProxyPath"
+                const val DDG_PROXY_PATH = "$ddgProxyPath"
             }
             """
                         .trimIndent()
