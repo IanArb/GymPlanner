@@ -37,7 +37,6 @@ import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_schedule
 import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
-import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import org.jetbrains.compose.resources.painterResource
 
 enum class ClassFilter {
@@ -56,6 +55,7 @@ fun UpcomingClassesSection(
     classes: List<FitnessClassItem>,
     isLoading: Boolean,
     errorMessage: String?,
+    brush: Brush,
     modifier: Modifier = Modifier,
 ) {
     var selectedFilter by remember { mutableStateOf(ClassFilter.ALL) }
@@ -75,7 +75,7 @@ fun UpcomingClassesSection(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     repeat(PLACEHOLDER_CLASS_COUNT) {
-                        ClassCardShimmer(modifier = Modifier.weight(1f))
+                        ClassCardShimmer(modifier = Modifier.weight(1f), brush = brush)
                     }
                 }
             errorMessage != null ->
@@ -163,8 +163,7 @@ private fun FilterButton(label: String, isSelected: Boolean, onClick: () -> Unit
 private const val PLACEHOLDER_CLASS_COUNT = 3
 
 @Composable
-private fun ClassCardShimmer(modifier: Modifier = Modifier) {
-    val brush = rememberShimmerBrush()
+private fun ClassCardShimmer(brush: Brush, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),

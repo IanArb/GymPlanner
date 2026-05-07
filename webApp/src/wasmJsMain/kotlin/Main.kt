@@ -38,6 +38,7 @@ import com.ianarbuckle.gymplanner.personaltrainers.DefaultPersonalTrainersReposi
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import com.ianarbuckle.gymplanner.web.BuildConfig
 import com.ianarbuckle.gymplanner.web.ui.classes.UpcomingClassesSection
+import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import com.ianarbuckle.gymplanner.web.ui.data.ClassesUiState
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardUiState
 import com.ianarbuckle.gymplanner.web.ui.data.DashboardViewModel
@@ -124,6 +125,8 @@ fun main() {
                 return@MaterialTheme
             }
 
+            val shimmerBrush = rememberShimmerBrush()
+
             Row(modifier = Modifier.fillMaxSize().background(OffWhite)) {
                 SidebarNavigation(
                     selectedDestination = selectedDestination,
@@ -161,6 +164,7 @@ fun main() {
                                 facilitiesState is DashboardUiState.Idle ||
                                     facilitiesState is DashboardUiState.Loading,
                             onViewAllClick = {},
+                            brush = shimmerBrush,
                         )
 
                         Spacer(modifier = Modifier.width(24.dp))
@@ -177,6 +181,7 @@ fun main() {
                             isLoading =
                                 trainersState is TrainersUiState.Idle ||
                                     trainersState is TrainersUiState.Loading,
+                            brush = shimmerBrush,
                         )
                     }
 
@@ -195,6 +200,7 @@ fun main() {
                             classesState is ClassesUiState.Idle ||
                                 classesState is ClassesUiState.Loading,
                         errorMessage = (classesState as? ClassesUiState.Error)?.message,
+                        brush = shimmerBrush,
                     )
                 }
             }

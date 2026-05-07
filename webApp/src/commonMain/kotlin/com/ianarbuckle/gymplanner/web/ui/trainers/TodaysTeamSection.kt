@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +34,6 @@ import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
-import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import org.jetbrains.compose.resources.painterResource
 
 enum class TrainerAvailability {
@@ -50,6 +50,7 @@ data class TrainerItem(
 @Composable
 fun TodaysTeamSection(
     trainers: List<TrainerItem>,
+    brush: Brush,
     onTrainerClick: (TrainerItem) -> Unit = {},
     onViewAllClick: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -62,7 +63,7 @@ fun TodaysTeamSection(
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (isLoading) {
-                repeat(PLACEHOLDER_TRAINER_COUNT) { TrainerCardShimmer() }
+                repeat(PLACEHOLDER_TRAINER_COUNT) { TrainerCardShimmer(brush = brush) }
             } else {
                 trainers.forEach { trainer ->
                     TrainerCard(trainer = trainer, onClick = { onTrainerClick(trainer) })
@@ -75,8 +76,7 @@ fun TodaysTeamSection(
 private const val PLACEHOLDER_TRAINER_COUNT = 4
 
 @Composable
-private fun TrainerCardShimmer() {
-    val brush = rememberShimmerBrush()
+private fun TrainerCardShimmer(brush: Brush) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),

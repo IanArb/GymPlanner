@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,7 +37,6 @@ import com.ianarbuckle.gymplanner.web.generated.resources.ic_check_circle
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
 import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
-import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
 
@@ -44,6 +44,7 @@ import org.jetbrains.compose.resources.painterResource
 fun FacilityStatusSection(
     items: ImmutableList<FacilityStatus>,
     onViewAllClick: () -> Unit,
+    brush: Brush,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
 ) {
@@ -58,7 +59,7 @@ fun FacilityStatusSection(
         ) {
             if (isLoading) {
                 repeat(PLACEHOLDER_ROW_COUNT) { index ->
-                    EquipmentRowShimmer()
+                    EquipmentRowShimmer(brush = brush)
                     if (index < PLACEHOLDER_ROW_COUNT - 1) {
                         HorizontalDivider(
                             modifier = Modifier.padding(horizontal = 16.dp),
@@ -84,8 +85,7 @@ fun FacilityStatusSection(
 private const val PLACEHOLDER_ROW_COUNT = 5
 
 @Composable
-private fun EquipmentRowShimmer() {
-    val brush = rememberShimmerBrush()
+private fun EquipmentRowShimmer(brush: Brush) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
