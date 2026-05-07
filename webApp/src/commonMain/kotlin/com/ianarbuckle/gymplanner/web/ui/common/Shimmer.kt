@@ -41,6 +41,10 @@ fun rememberShimmerBrush(): Brush {
 }
 
 @Composable
-fun ShimmerBox(modifier: Modifier = Modifier, shape: Shape = RoundedCornerShape(8.dp)) {
-    Box(modifier = modifier.clip(shape).background(rememberShimmerBrush()))
+fun ShimmerBox(
+    modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(8.dp),
+    brush: Brush,
+) {
+    Box(modifier = modifier.clip(shape).background(brush))
 }

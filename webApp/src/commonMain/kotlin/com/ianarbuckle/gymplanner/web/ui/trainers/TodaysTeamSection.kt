@@ -33,6 +33,7 @@ import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
+import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import org.jetbrains.compose.resources.painterResource
 
 enum class TrainerAvailability {
@@ -75,6 +76,7 @@ private const val PLACEHOLDER_TRAINER_COUNT = 4
 
 @Composable
 private fun TrainerCardShimmer() {
+    val brush = rememberShimmerBrush()
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -85,14 +87,22 @@ private fun TrainerCardShimmer() {
             modifier = Modifier.fillMaxWidth().padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ShimmerBox(modifier = Modifier.size(52.dp), shape = RoundedCornerShape(8.dp))
+            ShimmerBox(
+                modifier = Modifier.size(52.dp),
+                shape = RoundedCornerShape(8.dp),
+                brush = brush,
+            )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                ShimmerBox(modifier = Modifier.fillMaxWidth(0.5f).height(14.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.5f).height(14.dp), brush = brush)
                 Spacer(modifier = Modifier.height(6.dp))
-                ShimmerBox(modifier = Modifier.fillMaxWidth(0.3f).height(10.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.3f).height(10.dp), brush = brush)
             }
-            ShimmerBox(modifier = Modifier.size(20.dp), shape = RoundedCornerShape(4.dp))
+            ShimmerBox(
+                modifier = Modifier.size(20.dp),
+                shape = RoundedCornerShape(4.dp),
+                brush = brush,
+            )
         }
     }
 }

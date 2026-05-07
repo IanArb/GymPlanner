@@ -36,6 +36,7 @@ import com.ianarbuckle.gymplanner.web.generated.resources.ic_check_circle
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
 import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
+import com.ianarbuckle.gymplanner.web.ui.common.rememberShimmerBrush
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
 
@@ -84,21 +85,30 @@ private const val PLACEHOLDER_ROW_COUNT = 5
 
 @Composable
 private fun EquipmentRowShimmer() {
+    val brush = rememberShimmerBrush()
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ShimmerBox(modifier = Modifier.size(44.dp), shape = RoundedCornerShape(12.dp))
+        ShimmerBox(
+            modifier = Modifier.size(44.dp),
+            shape = RoundedCornerShape(12.dp),
+            brush = brush,
+        )
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
-            ShimmerBox(modifier = Modifier.fillMaxWidth(0.6f).height(14.dp))
+            ShimmerBox(modifier = Modifier.fillMaxWidth(0.6f).height(14.dp), brush = brush)
             Spacer(modifier = Modifier.height(6.dp))
-            ShimmerBox(modifier = Modifier.fillMaxWidth(0.4f).height(10.dp))
+            ShimmerBox(modifier = Modifier.fillMaxWidth(0.4f).height(10.dp), brush = brush)
         }
         Spacer(modifier = Modifier.width(8.dp))
-        ShimmerBox(modifier = Modifier.width(96.dp).height(20.dp), shape = RoundedCornerShape(4.dp))
+        ShimmerBox(
+            modifier = Modifier.width(96.dp).height(20.dp),
+            shape = RoundedCornerShape(4.dp),
+            brush = brush,
+        )
         Spacer(modifier = Modifier.width(8.dp))
-        ShimmerBox(modifier = Modifier.size(20.dp), shape = RoundedCornerShape(4.dp))
+        ShimmerBox(modifier = Modifier.size(20.dp), shape = RoundedCornerShape(4.dp), brush = brush)
     }
 }
 
