@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/IanArb/GymPlanner/compare/v1.8.0...v1.9.0) (2026-05-07)
+
+
+### Features
+
+* Add loading shimmer for web ([#35](https://github.com/IanArb/GymPlanner/issues/35)) ([24492ac](https://github.com/IanArb/GymPlanner/commit/24492ac59c927386a3bf184935b6b15700274f2a))
+
 # [1.8.0](https://github.com/IanArb/GymPlanner/compare/v1.7.0...v1.8.0) (2026-05-01)
 
 
