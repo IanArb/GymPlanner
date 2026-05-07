@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -34,6 +35,7 @@ import com.ianarbuckle.gymplanner.web.generated.resources.ic_build
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_check_circle
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_warning
+import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.painterResource
 
@@ -42,6 +44,7 @@ fun FacilityStatusSection(
     items: ImmutableList<FacilityStatus>,
     onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     Column(modifier = modifier) {
         FacilityStatusHeader(onViewAllClick = onViewAllClick)
@@ -52,16 +55,50 @@ fun FacilityStatusSection(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         ) {
-            items.forEachIndexed { index, item ->
-                EquipmentRow(item = item)
-                if (index < items.lastIndex) {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                    )
+            if (isLoading) {
+                repeat(PLACEHOLDER_ROW_COUNT) { index ->
+                    EquipmentRowShimmer()
+                    if (index < PLACEHOLDER_ROW_COUNT - 1) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                        )
+                    }
+                }
+            } else {
+                items.forEachIndexed { index, item ->
+                    EquipmentRow(item = item)
+                    if (index < items.lastIndex) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                        )
+                    }
                 }
             }
         }
+    }
+}
+
+private const val PLACEHOLDER_ROW_COUNT = 5
+
+@Composable
+private fun EquipmentRowShimmer() {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ShimmerBox(modifier = Modifier.size(44.dp), shape = RoundedCornerShape(12.dp))
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            ShimmerBox(modifier = Modifier.fillMaxWidth(0.6f).height(14.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+            ShimmerBox(modifier = Modifier.fillMaxWidth(0.4f).height(10.dp))
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        ShimmerBox(modifier = Modifier.width(96.dp).height(20.dp), shape = RoundedCornerShape(4.dp))
+        Spacer(modifier = Modifier.width(8.dp))
+        ShimmerBox(modifier = Modifier.size(20.dp), shape = RoundedCornerShape(4.dp))
     }
 }
 

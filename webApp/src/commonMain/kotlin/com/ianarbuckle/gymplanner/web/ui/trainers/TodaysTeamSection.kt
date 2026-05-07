@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
+import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
 import org.jetbrains.compose.resources.painterResource
 
 enum class TrainerAvailability {
@@ -51,6 +52,7 @@ fun TodaysTeamSection(
     onTrainerClick: (TrainerItem) -> Unit = {},
     onViewAllClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     Column(modifier = modifier) {
         TodaysTeamHeader(onViewAllClick = onViewAllClick)
@@ -58,9 +60,39 @@ fun TodaysTeamSection(
         Spacer(modifier = Modifier.height(12.dp))
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            trainers.forEach { trainer ->
-                TrainerCard(trainer = trainer, onClick = { onTrainerClick(trainer) })
+            if (isLoading) {
+                repeat(PLACEHOLDER_TRAINER_COUNT) { TrainerCardShimmer() }
+            } else {
+                trainers.forEach { trainer ->
+                    TrainerCard(trainer = trainer, onClick = { onTrainerClick(trainer) })
+                }
             }
+        }
+    }
+}
+
+private const val PLACEHOLDER_TRAINER_COUNT = 4
+
+@Composable
+private fun TrainerCardShimmer() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ShimmerBox(modifier = Modifier.size(52.dp), shape = RoundedCornerShape(8.dp))
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.5f).height(14.dp))
+                Spacer(modifier = Modifier.height(6.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.3f).height(10.dp))
+            }
+            ShimmerBox(modifier = Modifier.size(20.dp), shape = RoundedCornerShape(4.dp))
         }
     }
 }

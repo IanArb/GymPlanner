@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -37,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_schedule
+import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
 import org.jetbrains.compose.resources.painterResource
 
 enum class ClassFilter {
@@ -69,11 +69,13 @@ fun UpcomingClassesSection(
 
         when {
             isLoading ->
-                Box(
-                    modifier = Modifier.fillMaxWidth().height(180.dp),
-                    contentAlignment = Alignment.Center,
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    CircularProgressIndicator()
+                    repeat(PLACEHOLDER_CLASS_COUNT) {
+                        ClassCardShimmer(modifier = Modifier.weight(1f))
+                    }
                 }
             errorMessage != null ->
                 Box(
@@ -154,6 +156,33 @@ private fun FilterButton(label: String, isSelected: Boolean, onClick: () -> Unit
             ),
     ) {
         Text(text = label, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
+    }
+}
+
+private const val PLACEHOLDER_CLASS_COUNT = 3
+
+@Composable
+private fun ClassCardShimmer(modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+    ) {
+        Column {
+            ShimmerBox(
+                modifier = Modifier.fillMaxWidth().height(180.dp),
+                shape = RoundedCornerShape(0.dp),
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Column(modifier = Modifier.padding(horizontal = 12.dp).padding(bottom = 12.dp)) {
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.4f).height(14.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.85f).height(10.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.65f).height(10.dp))
+            }
+        }
     }
 }
 

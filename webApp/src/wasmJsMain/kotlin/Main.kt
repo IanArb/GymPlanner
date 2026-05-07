@@ -149,20 +149,19 @@ fun main() {
                     }
 
                     Row(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
-                        when (val uiState = dashboardViewModel.uiState.collectAsState().value) {
-                            is DashboardUiState.Idle -> {}
-                            is DashboardUiState.Loading -> {
-                                // Show loading state (e.g., a progress indicator)
-                            }
-                            is DashboardUiState.Error -> {}
-                            is DashboardUiState.Success -> {
-                                FacilityStatusSection(
-                                    modifier = Modifier.weight(0.6f),
-                                    items = uiState.facilities.take(5).toImmutableList(),
-                                    onViewAllClick = {},
-                                )
-                            }
-                        }
+                        val facilitiesState = dashboardViewModel.uiState.collectAsState().value
+                        FacilityStatusSection(
+                            modifier = Modifier.weight(0.6f),
+                            items =
+                                (facilitiesState as? DashboardUiState.Success)
+                                    ?.facilities
+                                    ?.take(5)
+                                    ?.toImmutableList() ?: persistentListOf(),
+                            isLoading =
+                                facilitiesState is DashboardUiState.Idle ||
+                                    facilitiesState is DashboardUiState.Loading,
+                            onViewAllClick = {},
+                        )
 
                         Spacer(modifier = Modifier.width(24.dp))
 
@@ -175,6 +174,9 @@ fun main() {
                                     is TrainersUiState.Success -> trainersState.trainers
                                     else -> persistentListOf()
                                 },
+                            isLoading =
+                                trainersState is TrainersUiState.Idle ||
+                                    trainersState is TrainersUiState.Loading,
                         )
                     }
 
@@ -189,7 +191,9 @@ fun main() {
                                 is ClassesUiState.Success -> classesState.classes
                                 else -> persistentListOf()
                             },
-                        isLoading = classesState is ClassesUiState.Loading,
+                        isLoading =
+                            classesState is ClassesUiState.Idle ||
+                                classesState is ClassesUiState.Loading,
                         errorMessage = (classesState as? ClassesUiState.Error)?.message,
                     )
                 }
