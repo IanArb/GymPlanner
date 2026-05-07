@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ianarbuckle.gymplanner.web.generated.resources.Res
 import com.ianarbuckle.gymplanner.web.generated.resources.ic_chevron_right
+import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
 import org.jetbrains.compose.resources.painterResource
 
 enum class TrainerAvailability {
@@ -48,9 +50,11 @@ data class TrainerItem(
 @Composable
 fun TodaysTeamSection(
     trainers: List<TrainerItem>,
+    brush: Brush,
     onTrainerClick: (TrainerItem) -> Unit = {},
     onViewAllClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     Column(modifier = modifier) {
         TodaysTeamHeader(onViewAllClick = onViewAllClick)
@@ -58,9 +62,47 @@ fun TodaysTeamSection(
         Spacer(modifier = Modifier.height(12.dp))
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            trainers.forEach { trainer ->
-                TrainerCard(trainer = trainer, onClick = { onTrainerClick(trainer) })
+            if (isLoading) {
+                repeat(PLACEHOLDER_TRAINER_COUNT) { TrainerCardShimmer(brush = brush) }
+            } else {
+                trainers.forEach { trainer ->
+                    TrainerCard(trainer = trainer, onClick = { onTrainerClick(trainer) })
+                }
             }
+        }
+    }
+}
+
+private const val PLACEHOLDER_TRAINER_COUNT = 4
+
+@Composable
+private fun TrainerCardShimmer(brush: Brush) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ShimmerBox(
+                modifier = Modifier.size(52.dp),
+                shape = RoundedCornerShape(8.dp),
+                brush = brush,
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.5f).height(14.dp), brush = brush)
+                Spacer(modifier = Modifier.height(6.dp))
+                ShimmerBox(modifier = Modifier.fillMaxWidth(0.3f).height(10.dp), brush = brush)
+            }
+            ShimmerBox(
+                modifier = Modifier.size(20.dp),
+                shape = RoundedCornerShape(4.dp),
+                brush = brush,
+            )
         }
     }
 }
