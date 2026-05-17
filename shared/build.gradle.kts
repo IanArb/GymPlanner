@@ -4,22 +4,16 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    id("gymplanner.android.kmp.library")
+    id("gymplanner.spotless")
+    id("gymplanner.detekt")
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.spotless)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.skie)
 }
 
 kotlin {
-    jvmToolchain(17)
-    androidLibrary {
-        namespace = "com.ianarbuckle.gymplanner"
-        compileSdk = 36
-        minSdk = 24
-    }
+    androidLibrary { namespace = "com.ianarbuckle.gymplanner" }
     wasmJs { browser { commonWebpackConfig { outputFileName = "gymplanner.js" } } }
 
     val xcframeworkName = "SharedGymPlanner"
@@ -84,27 +78,6 @@ kotlin {
             implementation(libs.ktor.client.js)
         }
     }
-}
-
-kotlin.sourceSets.all { languageSettings.optIn("kotlin.experimental.ExperimentalObjCName") }
-
-spotless {
-    kotlin {
-        target("**/*.kt")
-        ktfmt().kotlinlangStyle()
-    }
-    kotlinGradle {
-        target("**/*.gradle.kts")
-        ktfmt().kotlinlangStyle()
-    }
-}
-
-detekt {
-    toolVersion = "1.23.7"
-    config.setFrom(files("$rootDir/config/detekt.yml"))
-    buildUponDefaultConfig = true
-    allRules = false
-    autoCorrect = true
 }
 
 kotlin.sourceSets.all {

@@ -3,11 +3,11 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    id("gymplanner.kotlin.multiplatform")
+    id("gymplanner.spotless")
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.spotless)
 }
 
 compose.resources { packageOfResClass = "com.ianarbuckle.gymplanner.web.generated.resources" }
@@ -86,16 +86,5 @@ kotlin {
                 implementation(libs.koin.test)
             }
         }
-    }
-}
-
-spotless {
-    kotlin {
-        target("**/*.kt")
-        ktfmt().kotlinlangStyle()
-    }
-    kotlinGradle {
-        target("**/*.gradle.kts")
-        ktfmt().kotlinlangStyle()
     }
 }

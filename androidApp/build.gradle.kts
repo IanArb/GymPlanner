@@ -1,19 +1,18 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    id("gymplanner.android.application")
+    id("gymplanner.spotless")
+    id("gymplanner.detekt")
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.roborazzi)
-    alias(libs.plugins.spotless)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.google.services.gms)
     alias(libs.plugins.stability.analyzer)
 }
 
 kotlin {
-    jvmToolchain(17)
     compilerOptions {
         freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
@@ -21,11 +20,8 @@ kotlin {
 
 android {
     namespace = "com.ianarbuckle.gymplanner.android"
-    compileSdk = 36
     defaultConfig {
         applicationId = "com.ianarbuckle.gymplanner.android"
-        minSdk = 26
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
@@ -37,33 +33,9 @@ android {
         compose = true
         buildConfig = true
     }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "META-INF/LICENSE.md"
-            excludes +=
-                "META-INF/LICENSE-notice.md" // Add this line to exclude the conflicting file
-        }
-    }
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-            resValue("string", "clear_text_config", "false")
-        }
-        getByName("debug") {
-            isMinifyEnabled = false
-            resValue("string", "clear_text_config", "true")
-        }
-    }
-
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
-        unitTests.isReturnDefaultValues = true
+        getByName("release") { resValue("string", "clear_text_config", "false") }
+        getByName("debug") { resValue("string", "clear_text_config", "true") }
     }
 }
 
@@ -141,25 +113,6 @@ composeCompiler {
 roborazzi {
     // Directory for reference images
     outputDir.set(file("src/screenshots"))
-}
-
-spotless {
-    kotlin {
-        target("**/*.kt")
-        ktfmt().kotlinlangStyle()
-    }
-    kotlinGradle {
-        target("**/*.gradle.kts")
-        ktfmt().kotlinlangStyle()
-    }
-}
-
-detekt {
-    toolVersion = "1.23.7"
-    config.setFrom(files("$rootDir/config/detekt.yml"))
-    buildUponDefaultConfig = true
-    allRules = false
-    autoCorrect = true
 }
 
 tasks.withType<Test> {
