@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner.android.dashboard.data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.booking.BookingRepository
+import com.ianarbuckle.gymplanner.common.ApiResult
+import com.ianarbuckle.gymplanner.common.getOrThrow
+import com.ianarbuckle.gymplanner.common.isFailure
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
@@ -89,7 +92,7 @@ constructor(
 
     @OptIn(ExperimentalTime::class)
     @Suppress("ReturnCount")
-    private suspend fun fetchTodaysFitnessClasses(): Result<ImmutableList<FitnessClass>> {
+    private suspend fun fetchTodaysFitnessClasses(): ApiResult<ImmutableList<FitnessClass>> {
         val datetimeInSystemZone: LocalDateTime =
             clock.now().toLocalDateTime(TimeZone.currentSystemDefault())
 

@@ -3,6 +3,9 @@ package com.ianarbuckle.gymplanner.web.ui.data
 import com.ianarbuckle.gymplanner.common.AvailabilityStatus
 import com.ianarbuckle.gymplanner.common.GymLocation
 import com.ianarbuckle.gymplanner.common.PersonalTrainer
+import com.ianarbuckle.gymplanner.common.exceptionOrNull
+import com.ianarbuckle.gymplanner.common.getOrNull
+import com.ianarbuckle.gymplanner.common.isSuccess
 import com.ianarbuckle.gymplanner.facilities.FacilitiesRepository
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass

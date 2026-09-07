@@ -1,6 +1,7 @@
 package com.ianarbuckle.gymplanner.android.dashboard.fakes
 
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
@@ -11,7 +12,7 @@ class FakeFitnessClassRepository : FitnessClassRepository {
 
     override suspend fun fetchFitnessClasses(
         dayOfWeek: String
-    ): Result<ImmutableList<FitnessClass>> {
+    ): ApiResult<ImmutableList<FitnessClass>> {
         return if (shouldReturnError) {
             mockFitnessClassFailure()
         } else {
@@ -19,11 +20,11 @@ class FakeFitnessClassRepository : FitnessClassRepository {
         }
     }
 
-    private fun mockFitnessClassSuccess(): Result<ImmutableList<FitnessClass>> {
-        return Result.success(DataProvider.fitnessClasses())
+    private fun mockFitnessClassSuccess(): ApiResult<ImmutableList<FitnessClass>> {
+        return ApiResult.Success(DataProvider.fitnessClasses())
     }
 
-    private fun mockFitnessClassFailure(): Result<ImmutableList<FitnessClass>> {
-        return Result.failure(Exception("Error"))
+    private fun mockFitnessClassFailure(): ApiResult<ImmutableList<FitnessClass>> {
+        return ApiResult.Failure(Exception("Error"))
     }
 }

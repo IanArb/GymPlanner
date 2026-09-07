@@ -1,5 +1,9 @@
 package com.ianarbuckle.gymplanner.fitnessclass
 
+import com.ianarbuckle.gymplanner.common.exceptionOrNull
+import com.ianarbuckle.gymplanner.common.getOrNull
+import com.ianarbuckle.gymplanner.common.isFailure
+import com.ianarbuckle.gymplanner.common.isSuccess
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.DaysOfWeek
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.DomainFitnessClassLists
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.Exceptions

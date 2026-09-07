@@ -40,6 +40,12 @@ android {
 }
 
 dependencies {
+    constraints {
+        implementation("androidx.concurrent:concurrent-futures:1.2.0") {
+            because("Hilt testing 2.60.1 requires it in the instrumented-test runtime")
+        }
+    }
+
     implementation(projects.shared)
 
     detektPlugins(libs.detekt.compose)

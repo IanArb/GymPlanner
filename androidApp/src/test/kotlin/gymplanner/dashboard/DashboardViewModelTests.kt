@@ -5,6 +5,7 @@ import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardUiState
 import com.ianarbuckle.gymplanner.android.dashboard.data.DashboardViewModel
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.booking.BookingRepository
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassRepository
 import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import com.ianarbuckle.gymplanner.profile.ProfileRepository
@@ -47,7 +48,7 @@ class DashboardViewModelTests {
         coEvery { dataStoreRepository.getStringData(USER_ID) } returns userId
         coEvery { profileRepository.fetchProfile(userId) } returns Result.success(profile)
         coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns
-            Result.success(classes)
+            ApiResult.Success(classes)
         coEvery { bookingRepository.findBookingsByUserId(any()) } returns Result.success(bookings)
 
         val viewModel =
@@ -82,7 +83,7 @@ class DashboardViewModelTests {
         coEvery { profileRepository.fetchProfile(userId) } returns
             Result.failure(Exception("Profile fetch failed"))
         coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns
-            Result.failure(Exception("Classes fetch failed"))
+            ApiResult.Failure(Exception("Classes fetch failed"))
         coEvery { bookingRepository.findBookingsByUserId(any()) } returns
             Result.failure(Exception("Bookings fetch failed"))
 
