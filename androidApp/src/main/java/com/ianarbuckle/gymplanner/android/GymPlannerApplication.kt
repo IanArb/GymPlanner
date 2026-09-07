@@ -1,14 +1,19 @@
 package com.ianarbuckle.gymplanner.android
 
-import android.app.Application
+import android.content.Context
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
 import com.ianarbuckle.gymplanner.android.BuildConfig.BASE_URL
 import com.ianarbuckle.gymplanner.android.BuildConfig.WEBSOCKET_URL
+import com.ianarbuckle.gymplanner.android.imageloading.GymPlannerImageLoaderFactory
 import com.ianarbuckle.gymplanner.di.initKoin
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 
 @HiltAndroidApp
-class GymPlannerApplication : Application() {
+class GymPlannerApplication : BaseApplication(), SingletonImageLoader.Factory {
+
+    private val imageLoaderFactory = GymPlannerImageLoaderFactory()
 
     override fun onCreate() {
         super.onCreate()
@@ -16,4 +21,7 @@ class GymPlannerApplication : Application() {
             androidContext(this@GymPlannerApplication)
         }
     }
+
+    override fun newImageLoader(context: Context): ImageLoader =
+        imageLoaderFactory.newImageLoader(context)
 }

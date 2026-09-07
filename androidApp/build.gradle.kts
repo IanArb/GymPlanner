@@ -60,7 +60,8 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.viewmodel)
 
-    implementation(libs.coil)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
 
     implementation(libs.kotlinx.datetime)
     debugImplementation(libs.compose.ui.tooling)
@@ -96,6 +97,7 @@ dependencies {
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.androidx.espresso.intents)
     androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.coil3.test)
 
     testImplementation(libs.compose.ui.test)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -108,6 +110,7 @@ dependencies {
     testImplementation(libs.roborazzi.junit.rule)
     testImplementation(libs.roboelectric)
     testImplementation(libs.koin.test)
+    testImplementation(libs.coil3.test)
     testImplementation(kotlin("test"))
 }
 

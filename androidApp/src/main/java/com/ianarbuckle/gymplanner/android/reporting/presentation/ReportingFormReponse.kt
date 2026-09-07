@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil3.compose.rememberAsyncImagePainter
 import com.ianarbuckle.gymplanner.android.R
 import com.ianarbuckle.gymplanner.android.navigation.BottomNavigationItem
 import com.ianarbuckle.gymplanner.android.navigation.IconSource

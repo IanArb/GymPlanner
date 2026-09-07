@@ -10,7 +10,6 @@ compose-material3 = "1.4.0"
 compose-bom = "2026.08.00"
 coroutines = "1.11.0"
 core = "1.7.0"
-coil = "2.7.0"
 coil3 = "3.6.2"
 datastore = "1.2.1"
 espressoIntents = "3.6.0"
@@ -63,9 +62,10 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform"}
 compose-components = { module = "org.jetbrains.compose.components:components", version.ref = "compose-multiplatform"}
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil3-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 coil3-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
+coil3-test = { module = "io.coil-kt.coil3:coil-test", version.ref = "coil3" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.22"}
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
