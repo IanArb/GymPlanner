@@ -72,7 +72,6 @@ jobs:
           files: |
             androidApp/build/test-results/**/*.xml
             shared/build/test-results/**/*.xml
-            webApp/build/test-results/**/*.xml
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace
