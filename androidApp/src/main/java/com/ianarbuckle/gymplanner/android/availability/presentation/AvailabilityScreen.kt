@@ -20,6 +20,7 @@ import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
+import com.ianarbuckle.gymplanner.availability.domain.Slot
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -70,10 +71,10 @@ fun AvailabilityScreen(
             val availabilitySlots = state.availability.slots
             val isAvailable = state.isPersonalTrainerAvailable
 
-            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> =
-                availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
-
-            availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
+            availableTimes.value = getAvailableTimesForSelectedDate(
+                selectedDate = selectedDate.value,
+                slots = availabilitySlots,
+            )
 
             val calendarPagerState = rememberPagerState {
                 (daysOfWeek.size + CalendarPagerSize) / PagerOffset
@@ -129,6 +130,9 @@ fun AvailabilityScreen(
         }
     }
 }
+
+@Suppress("MaxLineLength")
+private fun getAvailableTimesForSelectedDate(selectedDate: String, slots: ImmutableList<Slot>): List<Time> = slots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
 
 private const val CalendarPagerSize = 4
 private const val PagerOffset = 5
