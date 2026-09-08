@@ -70,7 +70,8 @@ fun AvailabilityScreen(
             val availabilitySlots = state.availability.slots
             val isAvailable = state.isPersonalTrainerAvailable
 
-            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> = availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
+            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> =
+                availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
 
             availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
 
