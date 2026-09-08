@@ -37,18 +37,18 @@ val generateWebBuildConfig by
         doLast {
             val dir = outputDir.get().asFile
             dir.mkdirs()
-            dir.resolve("BuildConfig.kt")
+            dir
+                .resolve("BuildConfig.kt")
                 .writeText(
                     """
-            package com.ianarbuckle.gymplanner.web
+                    package com.ianarbuckle.gymplanner.web
 
-            internal object BuildConfig {
-                const val BASE_URL = "$webBaseUrl"
-                const val IMAGE_PROXY_PATH = "$imageProxyPath"
-                const val DDG_PROXY_PATH = "$ddgProxyPath"
-            }
-            """
-                        .trimIndent()
+                    internal object BuildConfig {
+                        const val BASE_URL = "$webBaseUrl"
+                        const val IMAGE_PROXY_PATH = "$imageProxyPath"
+                        const val DDG_PROXY_PATH = "$ddgProxyPath"
+                    }
+                    """.trimIndent(),
                 )
         }
     }

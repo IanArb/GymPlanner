@@ -1,21 +1,20 @@
 package com.ianarbuckle.gymplanner.chat
 
-import com.ianarbuckle.gymplanner.chat.ChatTestDataProvider.Exceptions
-import com.ianarbuckle.gymplanner.chat.ChatTestDataProvider.Messages
-import com.ianarbuckle.gymplanner.chat.ChatTestDataProvider.SessionData
+import com.ianarbuckle.gymplanner.chat.MessagesTestDataProvider.Exceptions
+import com.ianarbuckle.gymplanner.chat.MessagesTestDataProvider.Messages
+import com.ianarbuckle.gymplanner.chat.MessagesTestDataProvider.SessionData
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 
 class ChatRepositoryTest {
-
     private lateinit var repository: ChatRepository
     private lateinit var fakeChatSocketService: FakeChatSocketService
 

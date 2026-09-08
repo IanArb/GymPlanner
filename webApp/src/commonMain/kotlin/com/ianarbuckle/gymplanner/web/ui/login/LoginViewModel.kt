@@ -18,13 +18,18 @@ sealed class LoginUiState {
 
     data object Loading : LoginUiState()
 
-    data class Success(val token: String) : LoginUiState()
+    data class Success(
+        val token: String,
+    ) : LoginUiState()
 
-    data class Error(val message: String) : LoginUiState()
+    data class Error(
+        val message: String,
+    ) : LoginUiState()
 }
 
-class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
-
+class LoginViewModel(
+    private val scope: CoroutineScope,
+) : KoinComponent {
     private val repository: AuthenticationRepository by inject()
     private val dataStoreRepository: DataStoreRepository by inject()
 
@@ -59,7 +64,10 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
         }
     }
 
-    private fun login(username: String, password: String) {
+    private fun login(
+        username: String,
+        password: String,
+    ) {
         scope.launch {
             _uiState.value = LoginUiState.Loading
             val result = repository.login(Login(username = username, password = password))
@@ -79,14 +87,12 @@ class LoginViewModel(private val scope: CoroutineScope) : KoinComponent {
                             // noop
                         } finally {
                             _isAuthenticated.value = false
-                            _uiState.value =
-                                LoginUiState.Error(message = "Failed to save authentication data")
+                            _uiState.value = LoginUiState.Error(message = "Failed to save authentication data")
                         }
                     }
                 },
                 onFailure = { error ->
-                    _uiState.value =
-                        LoginUiState.Error(message = error.message ?: "Authentication failed")
+                    _uiState.value = LoginUiState.Error(message = error.message ?: "Authentication failed")
                 },
             )
         }

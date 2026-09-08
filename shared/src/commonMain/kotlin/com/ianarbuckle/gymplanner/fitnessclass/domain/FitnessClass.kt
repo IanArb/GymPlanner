@@ -10,4 +10,7 @@ data class FitnessClass(
     val startTime: String,
 )
 
-data class Duration(val unit: String, val value: Int)
+data class Duration(
+    val unit: String,
+    val value: Int,
+)

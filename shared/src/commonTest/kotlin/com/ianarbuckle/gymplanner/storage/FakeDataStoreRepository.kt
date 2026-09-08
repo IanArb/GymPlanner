@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
  * Fake implementation for testing DataStoreRepository Implements the DataStoreRepository interface
  */
 class FakeDataStoreRepository : DataStoreRepository {
-
     // In-memory storage for testing
     private val stringStorage = mutableMapOf<Preferences.Key<String>, String>()
     private val booleanStorage = mutableMapOf<Preferences.Key<Boolean>, Boolean>()
@@ -30,7 +29,10 @@ class FakeDataStoreRepository : DataStoreRepository {
     val getBooleanCalls = mutableListOf<Preferences.Key<Boolean>>()
     var clearAllDataCalls = 0
 
-    override suspend fun saveData(key: Preferences.Key<String>, value: String) {
+    override suspend fun saveData(
+        key: Preferences.Key<String>,
+        value: String,
+    ) {
         saveStringCalls.add(Pair(key, value))
 
         if (shouldThrowExceptionOnSaveString) {
@@ -40,7 +42,10 @@ class FakeDataStoreRepository : DataStoreRepository {
         stringStorage[key] = value
     }
 
-    override suspend fun saveData(key: Preferences.Key<Boolean>, value: Boolean) {
+    override suspend fun saveData(
+        key: Preferences.Key<Boolean>,
+        value: Boolean,
+    ) {
         saveBooleanCalls.add(Pair(key, value))
 
         if (shouldThrowExceptionOnSaveBoolean) {

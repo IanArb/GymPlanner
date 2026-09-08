@@ -5,15 +5,14 @@ import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.BooleanValue
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.StringKeys
 import com.ianarbuckle.gymplanner.storage.DataStoreTestDataProvider.StringValues
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlinx.coroutines.test.runTest
 
 class DataStoreRepositoryTest {
-
     private lateinit var repository: FakeDataStoreRepository
 
     @BeforeTest

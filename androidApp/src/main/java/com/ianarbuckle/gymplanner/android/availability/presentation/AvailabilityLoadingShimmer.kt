@@ -52,51 +52,51 @@ fun PersonalTrainerCardShimmer(modifier: Modifier = Modifier) {
                 ) {
                     Box(
                         modifier =
-                            Modifier.size(100.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.size(100.dp)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
 
                     Box(
                         modifier =
-                            Modifier.height(20.dp)
-                                .fillMaxWidth(WidthSizeSmall)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(20.dp)
+                            .fillMaxWidth(WidthSizeSmall)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
 
                     Box(
                         modifier =
-                            Modifier.height(20.dp)
-                                .fillMaxWidth(WidthSizeSmall)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(20.dp)
+                            .fillMaxWidth(WidthSizeSmall)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
 
                     Spacer(modifier = Modifier.padding(2.dp))
 
                     Box(
                         modifier =
-                            Modifier.height(20.dp)
-                                .fillMaxWidth(WidthSizeSmall)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(20.dp)
+                            .fillMaxWidth(WidthSizeSmall)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
                 }
             }
@@ -116,14 +116,14 @@ fun CalendarPickerCardShimmer(modifier: Modifier = Modifier) {
         Column(modifier = Modifier.height(360.dp).fillMaxWidth().padding(16.dp)) {
             Box(
                 modifier =
-                    Modifier.fillMaxWidth(WidthSizeSmall)
-                        .height(24.dp)
-                        .padding(bottom = 8.dp)
-                        .background(
-                            MaterialTheme.colorScheme.surfaceVariant,
-                            RoundedCornerShape(4.dp),
-                        )
-                        .shimmerEffect()
+                Modifier.fillMaxWidth(WidthSizeSmall)
+                    .height(24.dp)
+                    .padding(bottom = 8.dp)
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        RoundedCornerShape(4.dp),
+                    )
+                    .shimmerEffect(),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -135,12 +135,12 @@ fun CalendarPickerCardShimmer(modifier: Modifier = Modifier) {
                 repeat(ItemsCount) {
                     Box(
                         modifier =
-                            Modifier.size(40.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.size(40.dp)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
                 }
             }
@@ -168,14 +168,14 @@ fun TimeSlotsBoxShimmer(rowsPerPage: Int, itemsPerPage: Int, modifier: Modifier 
             items(itemsPerPage) {
                 Box(
                     modifier =
-                        Modifier.height(40.dp)
-                            .fillMaxWidth(WidthSizeLarge)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(4.dp),
-                            )
-                            .padding(4.dp)
-                            .shimmerEffect()
+                    Modifier.height(40.dp)
+                        .fillMaxWidth(WidthSizeLarge)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+                        .padding(4.dp)
+                        .shimmerEffect(),
                 )
             }
         }

@@ -93,33 +93,31 @@ fun TextMessageBubble(
         )
         Column {
             val errorColor = MaterialTheme.colorScheme.error
-            val primaryColor =
-                if (isFailedMessage) errorColor else MaterialTheme.colorScheme.primary
-            val secondaryColor =
-                if (isFailedMessage) errorColor else MaterialTheme.colorScheme.secondary
+            val primaryColor = if (isFailedMessage) errorColor else MaterialTheme.colorScheme.primary
+            val secondaryColor = if (isFailedMessage) errorColor else MaterialTheme.colorScheme.secondary
             Text(
                 text = message,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier =
-                    Modifier.drawBehind {
-                            // Draw a background for the message bubble
-                            val color =
-                                if (isMyself) {
-                                    primaryColor
-                                } else {
-                                    secondaryColor
-                                }
-                            drawCustomBubble(
-                                color = color,
-                                size = size,
-                                topLeft = topLeft.toPx(), // squared
-                                topRight = topRight.toPx(),
-                                bottomRight = bottomRight.toPx(),
-                                bottomLeft = bottomLeft.toPx(),
-                            )
+                Modifier.drawBehind {
+                    // Draw a background for the message bubble
+                    val color =
+                        if (isMyself) {
+                            primaryColor
+                        } else {
+                            secondaryColor
                         }
-                        .padding(16.dp),
+                    drawCustomBubble(
+                        color = color,
+                        size = size,
+                        topLeft = topLeft.toPx(), // squared
+                        topRight = topRight.toPx(),
+                        bottomRight = bottomRight.toPx(),
+                        bottomLeft = bottomLeft.toPx(),
+                    )
+                }
+                    .padding(16.dp),
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
             MessageReceipt(
@@ -151,7 +149,7 @@ fun DrawScope.drawCustomBubble(
                     topRightCornerRadius = CornerRadius(topRight, topRight),
                     bottomRightCornerRadius = CornerRadius(bottomRight, bottomRight),
                     bottomLeftCornerRadius = CornerRadius(bottomLeft, bottomLeft),
-                )
+                ),
             )
         }
     drawPath(path, color)

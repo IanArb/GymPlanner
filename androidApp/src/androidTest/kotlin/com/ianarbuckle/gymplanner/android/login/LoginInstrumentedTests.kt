@@ -23,10 +23,11 @@ import org.koin.dsl.module
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class LoginInstrumentedTests {
+    @get:Rule(order = 1)
+    val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 2)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 

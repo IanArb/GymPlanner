@@ -6,8 +6,9 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 
-class ChatVerifier(private val composeTestRule: ComposeTestRule) {
-
+class ChatVerifier(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun verifyChatScreenIsDisplayed() {
         composeTestRule.onNodeWithTag("Chat").assertExists("Chat screen should be displayed")
     }

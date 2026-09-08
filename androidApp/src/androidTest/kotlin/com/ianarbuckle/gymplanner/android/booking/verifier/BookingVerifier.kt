@@ -4,8 +4,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 
-class BookingVerifier(private val composeTestRule: ComposeTestRule) {
-
+class BookingVerifier(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun verifyBookingIsSuccessful() {
         composeTestRule.onNodeWithText("Session Confirmed!").assertIsDisplayed()
         composeTestRule.onNodeWithText("Go to Home").assertIsDisplayed()
@@ -21,9 +22,8 @@ class BookingVerifier(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText("Booking Failed").assertIsDisplayed()
         composeTestRule
             .onNodeWithText(
-                "We couldn’t confirm your session. Please check your internet connection and try again."
-            )
-            .assertIsDisplayed()
+                "We couldn’t confirm your session. Please check your internet connection and try again.",
+            ).assertIsDisplayed()
         composeTestRule.onNodeWithText("Retry").assertIsDisplayed()
     }
 }

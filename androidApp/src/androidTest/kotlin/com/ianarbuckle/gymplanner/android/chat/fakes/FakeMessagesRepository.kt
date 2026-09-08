@@ -6,37 +6,32 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 class FakeMessagesRepository : MessagesRepository {
-
     var shouldReturnError = false
 
-    override suspend fun getMessages(): Result<ImmutableList<Message>> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            Result.success(
-                persistentListOf(
-                    Message(
-                        username = "First User",
-                        userId = "user-1",
-                        text = "Hello, this is a first test message!",
-                        formattedTime = "2025-09-12T20:08:55.806Z",
-                    ),
-                    Message(
-                        username = "Second User",
-                        userId = "user-2",
-                        text = "Hello, this is a second test message!",
-                        formattedTime = "2025-09-12T20:09:55.806Z",
-                    ),
-                )
-            )
-        }
+    override suspend fun getMessages(): Result<ImmutableList<Message>> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        Result.success(
+            persistentListOf(
+                Message(
+                    username = "First User",
+                    userId = "user-1",
+                    text = "Hello, this is a first test message!",
+                    formattedTime = "2025-09-12T20:08:55.806Z",
+                ),
+                Message(
+                    username = "Second User",
+                    userId = "user-2",
+                    text = "Hello, this is a second test message!",
+                    formattedTime = "2025-09-12T20:09:55.806Z",
+                ),
+            ),
+        )
     }
 
-    override suspend fun sendMessage(message: Message): Result<Unit> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            Result.success(Unit)
-        }
+    override suspend fun sendMessage(message: Message): Result<Unit> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        Result.success(Unit)
     }
 }

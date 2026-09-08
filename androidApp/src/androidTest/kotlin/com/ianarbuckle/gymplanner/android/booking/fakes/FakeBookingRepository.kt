@@ -10,43 +10,34 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 class FakeBookingRepository : BookingRepository {
-
     var shouldReturnError: Boolean = false
 
-    override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            mockSaveBookingSuccess()
-        }
+    override suspend fun saveBooking(booking: Booking): Result<BookingResponse> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        mockSaveBookingSuccess()
     }
 
-    override suspend fun findBookingsByUserId(
-        userId: String
-    ): Result<ImmutableList<BookingResponse>> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            mockSaveBookingSuccess().map { persistentListOf(it) }
-        }
+    override suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        mockSaveBookingSuccess().map { persistentListOf(it) }
     }
 
-    private fun mockSaveBookingSuccess(): Result<BookingResponse> {
-        return Result.success(
-            BookingResponse(
-                userId = "6730e1cb37f4352118e0c8e1",
-                bookingDate = "2022-01-01",
-                timeSlotId = "1",
-                startTime = "12:00",
-                personalTrainer =
-                    PersonalTrainer(
-                        id = "6730e1cb37f4352118e0c8e1",
-                        name = "John Doe",
-                        imageUrl = "https://example.com/image.jpg",
-                        gymLocation = GymLocation.CLONTARF,
-                    ),
-                status = BookingStatus.CONFIRMED,
-            )
-        )
-    }
+    private fun mockSaveBookingSuccess(): Result<BookingResponse> = Result.success(
+        BookingResponse(
+            userId = "6730e1cb37f4352118e0c8e1",
+            bookingDate = "2022-01-01",
+            timeSlotId = "1",
+            startTime = "12:00",
+            personalTrainer =
+            PersonalTrainer(
+                id = "6730e1cb37f4352118e0c8e1",
+                name = "John Doe",
+                imageUrl = "https://example.com/image.jpg",
+                gymLocation = GymLocation.CLONTARF,
+            ),
+            status = BookingStatus.CONFIRMED,
+        ),
+    )
 }

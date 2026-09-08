@@ -9,16 +9,15 @@ import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.Doma
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.FitnessClassLists
 import com.ianarbuckle.gymplanner.fitnessclass.FitnessClassTestDataProvider.FitnessClasses
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class FitnessClassRepositoryTest {
-
     private lateinit var repository: FakeFitnessClassRepository
     private lateinit var fakeRemoteDataSource: FakeFitnessClassRemoteDataSource
 

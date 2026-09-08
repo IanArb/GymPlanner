@@ -5,16 +5,15 @@ import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.FaultReportDtos
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.FaultReports
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingTestDataProvider.ReportLists
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class FaultReportingRepositoryTest {
-
     private lateinit var repository: FaultReportingRepository
     private lateinit var fakeRemoteDataSource: FakeFaultReportingRemoteDataSource
 

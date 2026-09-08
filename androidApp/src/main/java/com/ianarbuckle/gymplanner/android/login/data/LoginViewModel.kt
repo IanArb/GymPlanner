@@ -12,23 +12,20 @@ import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel
-@Inject
-constructor(
+class LoginViewModel @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val dataStoreRepository: DataStoreRepository,
     private val fcmTokenRepository: FcmTokenRepository,
     private val firebaseMessaging: FirebaseMessaging,
 ) : ViewModel() {
-
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState = _loginState.asStateFlow()
 
@@ -58,7 +55,7 @@ constructor(
     private suspend fun registerPushToken(userId: String) {
         val token = firebaseMessaging.token.await()
         fcmTokenRepository.registerToken(
-            fcmTokenRequest = FcmTokenRequest(userId = userId, token = token)
+            fcmTokenRequest = FcmTokenRequest(userId = userId, token = token),
         )
     }
 }

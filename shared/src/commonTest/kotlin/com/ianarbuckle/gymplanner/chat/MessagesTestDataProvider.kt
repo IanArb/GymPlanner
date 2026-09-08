@@ -5,7 +5,7 @@ import com.ianarbuckle.gymplanner.chat.dto.MessageDto
 import kotlinx.collections.immutable.persistentListOf
 
 /** Provides test data for Chat/Messages Repository tests */
-object ChatTestDataProvider {
+object MessagesTestDataProvider {
 
     // ========== Session Data ==========
 
@@ -150,7 +150,7 @@ object ChatTestDataProvider {
         val longMessage =
             Message(
                 text =
-                    "This is a very long message that contains a lot of text to test how the system handles longer messages with multiple sentences and detailed information about workout routines and fitness goals.",
+                "This is a very long message that contains a lot of text to test how the system handles longer messages with multiple sentences and detailed information about workout routines and fitness goals.",
                 username = Usernames.mike,
                 formattedTime = Timestamps.evening,
                 userId = UserIds.user3,

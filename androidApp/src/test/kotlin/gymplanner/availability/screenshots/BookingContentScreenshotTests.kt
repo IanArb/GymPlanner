@@ -155,9 +155,7 @@ class BookingContentScreenshotTests {
         composeTestRule.setContent {
             val pagerState = rememberPagerState { 7 }
             ScreenTestPreview(isDarkTheme = true) {
-                Column(
-                    Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)
-                ) {
+                Column(Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)) {
                     CalendarWeekDaysRow(
                         daysOfWeek = daysOfWeek,
                         pagerState = pagerState,
@@ -179,9 +177,7 @@ class BookingContentScreenshotTests {
             }
 
             ScreenTestPreview {
-                Column(
-                    Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)
-                ) {
+                Column(Modifier.background(MaterialTheme.colorScheme.surface).padding(bottom = 16.dp)) {
                     TimeSlotsBox(
                         availableTimes = timeSlots,
                         selectedTimeSlotId = "1",

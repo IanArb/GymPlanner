@@ -10,12 +10,13 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
-    single<DataStore<Preferences>> {
-        PreferenceDataStoreFactory.create {
-            androidContext().preferencesDataStoreFile("gym_planner_settings")
+actual val platformModule: Module =
+    module {
+        single<DataStore<Preferences>> {
+            PreferenceDataStoreFactory.create {
+                androidContext().preferencesDataStoreFile("gym_planner_settings")
+            }
         }
-    }
 
-    single<HttpClientEngine> { OkHttp.create() }
-}
+        single<HttpClientEngine> { OkHttp.create() }
+    }

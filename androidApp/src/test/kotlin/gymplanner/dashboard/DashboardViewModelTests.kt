@@ -16,18 +16,17 @@ import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 class DashboardViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val profileRepository = mockk<ProfileRepository>()
@@ -47,8 +46,7 @@ class DashboardViewModelTests {
 
         coEvery { dataStoreRepository.getStringData(USER_ID) } returns userId
         coEvery { profileRepository.fetchProfile(userId) } returns Result.success(profile)
-        coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns
-            ApiResult.Success(classes)
+        coEvery { fitnessClassRepository.fetchFitnessClasses(any()) } returns ApiResult.Success(classes)
         coEvery { bookingRepository.findBookingsByUserId(any()) } returns Result.success(bookings)
 
         val viewModel =

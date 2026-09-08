@@ -71,10 +71,10 @@ private fun TrainerCardShimmer(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth().padding(vertical = 10.dp)) {
         Box(
             modifier =
-                Modifier.height(24.dp)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-                    .shimmerEffect()
+            Modifier.height(24.dp)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                .shimmerEffect(),
         )
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -86,36 +86,36 @@ private fun TrainerCardShimmer(modifier: Modifier = Modifier) {
             Column {
                 Box(
                     modifier =
-                        Modifier.height(200.dp)
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .shimmerEffect()
+                    Modifier.height(200.dp)
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .shimmerEffect(),
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Box(
                     modifier =
-                        Modifier.height(16.dp)
-                            .fillMaxWidth(WidthSizeLarge)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(4.dp),
-                            )
-                            .shimmerEffect()
+                    Modifier.height(16.dp)
+                        .fillMaxWidth(WidthSizeLarge)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+                        .shimmerEffect(),
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Box(
                     modifier =
-                        Modifier.height(40.dp)
-                            .fillMaxWidth()
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(8.dp),
-                            )
-                            .shimmerEffect()
+                    Modifier.height(40.dp)
+                        .fillMaxWidth()
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(8.dp),
+                        )
+                        .shimmerEffect(),
                 )
             }
         }
@@ -128,51 +128,50 @@ private fun ClassesShimmer(modifier: Modifier = Modifier) {
         items(ItemsCount) {
             Card(
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                colors =
-                    CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 modifier = Modifier.width(320.dp).height(300.dp),
             ) {
                 Column {
                     Box(
                         modifier =
-                            Modifier.height(200.dp)
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .shimmerEffect()
+                        Modifier.height(200.dp)
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                            .shimmerEffect(),
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Column(modifier = Modifier.padding(16.dp)) {
                         Box(
                             modifier =
-                                Modifier.height(24.dp)
-                                    .fillMaxWidth(WidthSizeMedium)
-                                    .background(
-                                        MaterialTheme.colorScheme.surfaceVariant,
-                                        RoundedCornerShape(4.dp),
-                                    )
-                                    .shimmerEffect()
+                            Modifier.height(24.dp)
+                                .fillMaxWidth(WidthSizeMedium)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                                .shimmerEffect(),
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Box(
                             modifier =
-                                Modifier.height(16.dp)
-                                    .fillMaxWidth(WidthSizeLarge)
-                                    .background(
-                                        MaterialTheme.colorScheme.surfaceVariant,
-                                        RoundedCornerShape(4.dp),
-                                    )
-                                    .shimmerEffect()
+                            Modifier.height(16.dp)
+                                .fillMaxWidth(WidthSizeLarge)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                                .shimmerEffect(),
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Box(
                             modifier =
-                                Modifier.height(16.dp)
-                                    .fillMaxWidth(WidthSizeSmall)
-                                    .background(
-                                        MaterialTheme.colorScheme.surfaceVariant,
-                                        RoundedCornerShape(4.dp),
-                                    )
-                                    .shimmerEffect()
+                            Modifier.height(16.dp)
+                                .fillMaxWidth(WidthSizeSmall)
+                                .background(
+                                    MaterialTheme.colorScheme.surfaceVariant,
+                                    RoundedCornerShape(4.dp),
+                                )
+                                .shimmerEffect(),
                         )
                     }
                 }

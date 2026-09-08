@@ -6,7 +6,6 @@ import com.ianarbuckle.gymplanner.profile.domain.Profile
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface DashboardUiState {
-
     data class Success(
         val items: ImmutableList<FitnessClass>,
         val profile: Profile,

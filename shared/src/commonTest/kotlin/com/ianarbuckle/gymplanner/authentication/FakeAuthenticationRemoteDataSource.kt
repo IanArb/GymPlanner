@@ -12,7 +12,6 @@ import com.ianarbuckle.gymplanner.authentication.dto.RegisterResponseDto
  * AuthenticationRemoteDataSource interface
  */
 class FakeAuthenticationRemoteDataSource : AuthenticationRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnLogin = false
     var shouldThrowExceptionOnRegister = false

@@ -7,24 +7,15 @@ import com.ianarbuckle.gymplanner.fitnessclass.domain.FitnessClass
 import kotlinx.collections.immutable.ImmutableList
 
 class FakeFitnessClassRepository : FitnessClassRepository {
-
     var shouldReturnError = false
 
-    override suspend fun fetchFitnessClasses(
-        dayOfWeek: String
-    ): ApiResult<ImmutableList<FitnessClass>> {
-        return if (shouldReturnError) {
-            mockFitnessClassFailure()
-        } else {
-            mockFitnessClassSuccess()
-        }
+    override suspend fun fetchFitnessClasses(dayOfWeek: String): ApiResult<ImmutableList<FitnessClass>> = if (shouldReturnError) {
+        mockFitnessClassFailure()
+    } else {
+        mockFitnessClassSuccess()
     }
 
-    private fun mockFitnessClassSuccess(): ApiResult<ImmutableList<FitnessClass>> {
-        return ApiResult.Success(DataProvider.fitnessClasses())
-    }
+    private fun mockFitnessClassSuccess(): ApiResult<ImmutableList<FitnessClass>> = ApiResult.Success(DataProvider.fitnessClasses())
 
-    private fun mockFitnessClassFailure(): ApiResult<ImmutableList<FitnessClass>> {
-        return ApiResult.Failure(Exception("Error"))
-    }
+    private fun mockFitnessClassFailure(): ApiResult<ImmutableList<FitnessClass>> = ApiResult.Failure(Exception("Error"))
 }

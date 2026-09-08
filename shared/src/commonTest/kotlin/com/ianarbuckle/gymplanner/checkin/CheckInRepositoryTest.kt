@@ -6,6 +6,7 @@ import com.ianarbuckle.gymplanner.checkin.CheckInTestDataProvider.CheckIns
 import com.ianarbuckle.gymplanner.checkin.CheckInTestDataProvider.Exceptions
 import com.ianarbuckle.gymplanner.checkin.CheckInTestDataProvider.TrainerIds
 import com.ianarbuckle.gymplanner.checkin.domain.CheckInStatus
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -13,10 +14,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class CheckInRepositoryTest {
-
     private lateinit var repository: CheckInRepository
     private lateinit var fakeRemoteDataSource: FakeCheckInRemoteDataSource
 

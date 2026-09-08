@@ -14,14 +14,13 @@ data class Booking(
     val startTime: LocalTime,
     val personalTrainer: PersonalTrainer,
 ) {
-    fun toBookingDto(): BookingDto =
-        BookingDto(
-            timeSlotId = this.timeSlotId,
-            userId = this.userId,
-            bookingDate = this.bookingDate,
-            startTime = this.startTime,
-            personalTrainer = this.personalTrainer.toPersonalTrainerDto(),
-        )
+    fun toBookingDto(): BookingDto = BookingDto(
+        timeSlotId = this.timeSlotId,
+        userId = this.userId,
+        bookingDate = this.bookingDate,
+        startTime = this.startTime,
+        personalTrainer = this.personalTrainer.toPersonalTrainerDto(),
+    )
 }
 
 @Serializable
@@ -31,12 +30,10 @@ data class PersonalTrainer(
     val imageUrl: String,
     val gymLocation: GymLocation,
 ) {
-
-    fun toPersonalTrainerDto(): PersonalTrainerDto =
-        PersonalTrainerDto(
-            id = this.id,
-            name = this.name,
-            imageUrl = this.imageUrl,
-            gymLocation = this.gymLocation,
-        )
+    fun toPersonalTrainerDto(): PersonalTrainerDto = PersonalTrainerDto(
+        id = this.id,
+        name = this.name,
+        imageUrl = this.imageUrl,
+        gymLocation = this.gymLocation,
+    )
 }

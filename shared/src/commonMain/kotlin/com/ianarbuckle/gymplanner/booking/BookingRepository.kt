@@ -15,8 +15,9 @@ interface BookingRepository {
     suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>>
 }
 
-class DefaultBookingRepository : BookingRepository, KoinComponent {
-
+class DefaultBookingRepository :
+    BookingRepository,
+    KoinComponent {
     private val remoteDataSource: BookingRemoteDataSource by inject()
 
     override suspend fun saveBooking(booking: Booking): Result<BookingResponse> {
@@ -33,9 +34,7 @@ class DefaultBookingRepository : BookingRepository, KoinComponent {
         }
     }
 
-    override suspend fun findBookingsByUserId(
-        userId: String
-    ): Result<ImmutableList<BookingResponse>> {
+    override suspend fun findBookingsByUserId(userId: String): Result<ImmutableList<BookingResponse>> {
         try {
             val booking = remoteDataSource.findBookingsByUserId(userId)
             val bookingResponse = booking.map { it.toBookingResponse() }.toImmutableList()

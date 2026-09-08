@@ -41,16 +41,16 @@ fun BookingConfirmationContent(
 ) {
     Column(
         modifier =
-            modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
+        modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
         AnimatedIcon(
             state =
-                AnimatedIconState(
-                    vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline)
-                )
+            AnimatedIconState(
+                vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline),
+            ),
         )
 
         Text(

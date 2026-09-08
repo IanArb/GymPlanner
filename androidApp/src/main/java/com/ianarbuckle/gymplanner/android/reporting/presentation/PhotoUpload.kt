@@ -64,21 +64,21 @@ private fun ImageSelection(onPhotoClick: () -> Unit, modifier: Modifier = Modifi
 
         Column(
             modifier =
-                Modifier.fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.LightGray)
-                    .padding(16.dp)
-                    .testTag(ImageSelectionTestTag)
-                    .clickable { onPhotoClick() },
+            Modifier.fillMaxWidth()
+                .height(200.dp)
+                .background(Color.LightGray)
+                .padding(16.dp)
+                .testTag(ImageSelectionTestTag)
+                .clickable { onPhotoClick() },
             horizontalAlignment = CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
             Spacer(modifier = Modifier.padding(8.dp))
             Icon(
                 imageVector =
-                    ImageVector.vectorResource(
-                        com.ianarbuckle.gymplanner.android.R.drawable.ic_add_circle_filled
-                    ),
+                ImageVector.vectorResource(
+                    com.ianarbuckle.gymplanner.android.R.drawable.ic_add_circle_filled,
+                ),
                 contentDescription = "Add photo",
             )
         }

@@ -13,7 +13,8 @@ data class RegisterDto(
 )
 
 @Serializable
-data class RegisterResponseDto(val message: String) {
-
+data class RegisterResponseDto(
+    val message: String,
+) {
     fun toRegister(): RegisterResponse = RegisterResponse(message)
 }

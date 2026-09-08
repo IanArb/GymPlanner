@@ -13,16 +13,11 @@ import javax.inject.Singleton
 @TestInstallIn(components = [SingletonComponent::class], replaces = [ChatModule::class])
 @Module
 class FakeChatModule {
+    @Singleton
+    @Provides
+    fun providesChatRepository(): ChatRepository = FakeChatRepository()
 
     @Singleton
     @Provides
-    fun providesChatRepository(): ChatRepository {
-        return FakeChatRepository()
-    }
-
-    @Singleton
-    @Provides
-    fun providesMessageRepository(): MessagesRepository {
-        return FakeMessagesRepository()
-    }
+    fun providesMessageRepository(): MessagesRepository = FakeMessagesRepository()
 }

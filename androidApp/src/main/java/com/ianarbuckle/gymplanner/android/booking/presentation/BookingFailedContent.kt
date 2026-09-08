@@ -29,7 +29,7 @@ import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier =
-            modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
+        modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface).padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -49,7 +49,7 @@ fun BookingFailedContent(onRetry: () -> Unit, modifier: Modifier = Modifier) {
 
         Text(
             text =
-                "We couldn’t confirm your session. Please check your internet connection and try again.",
+            "We couldn’t confirm your session. Please check your internet connection and try again.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,

@@ -21,8 +21,10 @@ import kotlinx.coroutines.isActive
 import kotlinx.serialization.json.Json
 
 interface ChatSocketService {
-
-    suspend fun initSession(username: String, userId: String): Result<Unit>
+    suspend fun initSession(
+        username: String,
+        userId: String,
+    ): Result<Unit>
 
     suspend fun sendMessage(message: String): Result<Unit>
 
@@ -31,12 +33,16 @@ interface ChatSocketService {
     suspend fun closeSession()
 }
 
-class ChatSocketServiceImpl(private val httpClient: HttpClient, private val baseUrl: String) :
-    ChatSocketService {
-
+class ChatSocketServiceImpl(
+    private val httpClient: HttpClient,
+    private val baseUrl: String,
+) : ChatSocketService {
     private var socket: WebSocketSession? = null
 
-    override suspend fun initSession(username: String, userId: String): Result<Unit> {
+    override suspend fun initSession(
+        username: String,
+        userId: String,
+    ): Result<Unit> {
         return try {
             socket =
                 httpClient.webSocketSession {
@@ -74,24 +80,22 @@ class ChatSocketServiceImpl(private val httpClient: HttpClient, private val base
         }
     }
 
-    override fun observeMessages(): Flow<Message> {
-        return try {
-            socket
-                ?.incoming
-                ?.receiveAsFlow()
-                ?.filter { it is Frame.Text }
-                ?.map {
-                    val json = (it as? Frame.Text)?.readText() ?: ""
-                    val messageDto = Json.decodeFromString<MessageDto>(json)
-                    messageDto.toMessage()
-                } ?: emptyFlow()
-        } catch (ex: Exception) {
-            if (ex is CancellationException) {
-                throw ex
-            }
-            Logger.e("ChatSocketService", ex)
-            emptyFlow()
+    override fun observeMessages(): Flow<Message> = try {
+        socket
+            ?.incoming
+            ?.receiveAsFlow()
+            ?.filter { it is Frame.Text }
+            ?.map {
+                val json = (it as? Frame.Text)?.readText() ?: ""
+                val messageDto = Json.decodeFromString<MessageDto>(json)
+                messageDto.toMessage()
+            } ?: emptyFlow()
+    } catch (ex: Exception) {
+        if (ex is CancellationException) {
+            throw ex
         }
+        Logger.e("ChatSocketService", ex)
+        emptyFlow()
     }
 
     override suspend fun closeSession() {

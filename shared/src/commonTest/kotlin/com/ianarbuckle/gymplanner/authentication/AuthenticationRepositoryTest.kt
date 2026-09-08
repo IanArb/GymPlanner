@@ -7,15 +7,14 @@ import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.RegisterDomainResponses
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.RegisterResponses
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.Registers
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class AuthenticationRepositoryTest {
-
     private lateinit var repository: AuthenticationRepository
     private lateinit var fakeRemoteDataSource: FakeAuthenticationRemoteDataSource
 

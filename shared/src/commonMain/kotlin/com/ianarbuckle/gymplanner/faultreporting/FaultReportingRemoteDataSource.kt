@@ -26,7 +26,6 @@ class DefaultFaultReportingRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : FaultReportingRemoteDataSource {
-
     override suspend fun reports(): List<FaultReportDto> {
         val token = authorisationToken()
         val response =
@@ -53,8 +52,7 @@ class DefaultFaultReportingRemoteDataSource(
         return response.body()
     }
 
-    private suspend fun authorisationToken(): String =
-        dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
+    private suspend fun authorisationToken(): String = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
 
     companion object Companion {
         private const val ENDPOINT = "/api/v1/fault"

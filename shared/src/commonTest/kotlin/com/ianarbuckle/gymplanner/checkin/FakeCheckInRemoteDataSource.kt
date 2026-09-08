@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.checkin.dto.CheckInResponseDto
  * interface.
  */
 class FakeCheckInRemoteDataSource : CheckInRemoteDataSource {
-
     var shouldThrowExceptionOnCheckIn = false
     var checkInException: Exception? = null
 

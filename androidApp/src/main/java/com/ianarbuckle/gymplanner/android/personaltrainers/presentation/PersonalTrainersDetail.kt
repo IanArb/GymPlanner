@@ -39,7 +39,7 @@ fun PersonalTrainersDetail(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.background(MaterialTheme.colorScheme.surface).padding(contentPadding)
+        modifier = modifier.background(MaterialTheme.colorScheme.surface).padding(contentPadding),
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
@@ -52,14 +52,14 @@ fun PersonalTrainersDetail(
             // Added a scrim to ensure the text has enough contrast to be legible.
             Box(
                 modifier =
-                    Modifier.fillMaxWidth()
-                        .height(300.dp)
-                        .background(
-                            brush =
-                                Brush.verticalGradient(
-                                    listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
-                                )
-                        )
+                Modifier.fillMaxWidth()
+                    .height(300.dp)
+                    .background(
+                        brush =
+                        Brush.verticalGradient(
+                            listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
+                        ),
+                    ),
             )
 
             Text(
@@ -73,9 +73,9 @@ fun PersonalTrainersDetail(
             IconButton(onClick = onBackClick, modifier = Modifier.align(Alignment.TopStart)) {
                 Icon(
                     imageVector =
-                        ImageVector.vectorResource(
-                            com.ianarbuckle.gymplanner.android.R.drawable.ic_arrow_back
-                        ),
+                    ImageVector.vectorResource(
+                        com.ianarbuckle.gymplanner.android.R.drawable.ic_arrow_back,
+                    ),
                     contentDescription = "Back",
                     tint = Color.White,
                 )

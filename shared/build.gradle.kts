@@ -23,7 +23,7 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = "SharedGymPlanner"
-            binaryOption("bundleId", "com.ianarbuckle.${xcframeworkName}")
+            binaryOption("bundleId", "com.ianarbuckle.$xcframeworkName")
             xcf.add(this)
             isStatic = true
         }

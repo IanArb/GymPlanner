@@ -22,7 +22,6 @@ class ClientsRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) {
-
     suspend fun clients(): List<ClientDto> {
         val token = authorisationToken()
         val response =
@@ -85,8 +84,7 @@ class ClientsRemoteDataSource(
         }
     }
 
-    private suspend fun authorisationToken() =
-        dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
+    private suspend fun authorisationToken() = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
 
     companion object {
         private const val ENDPOINT = "/api/v1/clients"

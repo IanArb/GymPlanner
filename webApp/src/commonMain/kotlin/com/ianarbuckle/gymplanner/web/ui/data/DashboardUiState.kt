@@ -10,9 +10,13 @@ sealed class DashboardUiState {
 
     object Loading : DashboardUiState()
 
-    data class Success(val facilities: ImmutableList<FacilityStatus>) : DashboardUiState()
+    data class Success(
+        val facilities: ImmutableList<FacilityStatus>,
+    ) : DashboardUiState()
 
-    data class Error(val message: String) : DashboardUiState()
+    data class Error(
+        val message: String,
+    ) : DashboardUiState()
 }
 
 sealed class TrainersUiState {
@@ -20,9 +24,13 @@ sealed class TrainersUiState {
 
     object Loading : TrainersUiState()
 
-    data class Success(val trainers: ImmutableList<TrainerItem>) : TrainersUiState()
+    data class Success(
+        val trainers: ImmutableList<TrainerItem>,
+    ) : TrainersUiState()
 
-    data class Error(val message: String) : TrainersUiState()
+    data class Error(
+        val message: String,
+    ) : TrainersUiState()
 }
 
 sealed class ClassesUiState {
@@ -30,7 +38,11 @@ sealed class ClassesUiState {
 
     object Loading : ClassesUiState()
 
-    data class Success(val classes: ImmutableList<FitnessClassItem>) : ClassesUiState()
+    data class Success(
+        val classes: ImmutableList<FitnessClassItem>,
+    ) : ClassesUiState()
 
-    data class Error(val message: String) : ClassesUiState()
+    data class Error(
+        val message: String,
+    ) : ClassesUiState()
 }

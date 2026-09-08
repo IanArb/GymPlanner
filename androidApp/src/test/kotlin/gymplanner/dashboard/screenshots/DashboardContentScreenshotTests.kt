@@ -34,7 +34,6 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [34])
 class DashboardContentScreenshotTests {
-
     @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
     @get:Rule
@@ -50,9 +49,7 @@ class DashboardContentScreenshotTests {
     @Category(DashboardContentScreenshotTests::class)
     fun verify_book_trainers_card_is_displayed_correctly_in_light_mode() {
         composeTestRule.setContent {
-            ScreenTestPreview {
-                Surface { BookPersonalTrainerCard(onBookPersonalTrainerClick = {}) }
-            }
+            ScreenTestPreview { Surface { BookPersonalTrainerCard(onBookPersonalTrainerClick = {}) } }
         }
 
         composeTestRule.onRoot().captureRoboImage()

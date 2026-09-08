@@ -8,8 +8,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsGridTag
 
-class GymLocationsVerifier(private val composeTestRule: ComposeTestRule) {
-
+class GymLocationsVerifier(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun verifyGymLocationsScreenIsDisplayed() {
         composeTestRule.onNodeWithText("Gym Locations").assertIsDisplayed()
     }

@@ -25,10 +25,10 @@ fun Modifier.shimmerEffect(): Modifier {
             initialValue = 0f,
             targetValue = 1f,
             animationSpec =
-                infiniteRepeatable(
-                    animation = tween(AnimationDuration, easing = LinearEasing),
-                    repeatMode = RepeatMode.Restart,
-                ),
+            infiniteRepeatable(
+                animation = tween(AnimationDuration, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
             label = "shimmerProgress",
         )
 
@@ -40,8 +40,7 @@ private data class ShimmerElement(
     private val inboundColor: Long = InboundColor,
     private val outboundColor: Long = OutboundColor,
 ) : ModifierNodeElement<ShimmerNode>() {
-    override fun create() =
-        ShimmerNode(progress = progress, inboundColor = inboundColor, outboundColor = outboundColor)
+    override fun create() = ShimmerNode(progress = progress, inboundColor = inboundColor, outboundColor = outboundColor)
 
     override fun update(node: ShimmerNode) {
         node.progress = progress
@@ -53,7 +52,8 @@ private data class ShimmerElement(
 }
 
 private class ShimmerNode(var progress: Float, val inboundColor: Long, val outboundColor: Long) :
-    DrawModifierNode, Modifier.Node() {
+    Modifier.Node(),
+    DrawModifierNode {
 
     override fun ContentDrawScope.draw() {
         val width = size.width

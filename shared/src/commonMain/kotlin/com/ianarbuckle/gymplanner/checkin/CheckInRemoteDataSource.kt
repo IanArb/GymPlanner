@@ -13,7 +13,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 interface CheckInRemoteDataSource {
-    suspend fun checkIn(trainerId: String, request: CheckInRequestDto): CheckInResponseDto
+    suspend fun checkIn(
+        trainerId: String,
+        request: CheckInRequestDto,
+    ): CheckInResponseDto
 }
 
 class DefaultCheckInRemoteDataSource(
@@ -21,7 +24,6 @@ class DefaultCheckInRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : CheckInRemoteDataSource {
-
     override suspend fun checkIn(
         trainerId: String,
         request: CheckInRequestDto,

@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @TestInstallIn(components = [SingletonComponent::class], replaces = [AvailabilityModule::class])
 @Module
 class FakeAvailabilityModule {
-
     @Singleton
     @Provides
-    fun providesAvailabilityRepository(): AvailabilityRepository {
-        return FakeAvailabilityRepository()
-    }
+    fun providesAvailabilityRepository(): AvailabilityRepository = FakeAvailabilityRepository()
 }

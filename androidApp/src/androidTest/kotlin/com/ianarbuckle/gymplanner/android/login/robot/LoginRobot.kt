@@ -6,9 +6,13 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
 
-class LoginRobot(private val composeTestRule: ComposeTestRule) {
-
-    fun enterUsernamePassword(username: String, password: String) {
+class LoginRobot(
+    private val composeTestRule: ComposeTestRule,
+) {
+    fun enterUsernamePassword(
+        username: String,
+        password: String,
+    ) {
         composeTestRule.onNodeWithText("Username").performTextInput(username)
         composeTestRule.onNodeWithText("Username").performImeAction()
         composeTestRule.onNodeWithText("Password").performTextInput(password)

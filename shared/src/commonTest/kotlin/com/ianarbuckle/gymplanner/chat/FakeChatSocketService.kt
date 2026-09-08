@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.emptyFlow
 
 /** Fake implementation for testing ChatRepository Implements the ChatSocketService interface */
 class FakeChatSocketService : ChatSocketService {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnInitSession = false
     var shouldThrowExceptionOnSendMessage = false
@@ -25,7 +24,10 @@ class FakeChatSocketService : ChatSocketService {
     var sendMessageResult: Result<Unit> = Result.success(Unit)
     var observeMessagesFlow: Flow<Message> = emptyFlow()
 
-    override suspend fun initSession(username: String, userId: String): Result<Unit> {
+    override suspend fun initSession(
+        username: String,
+        userId: String,
+    ): Result<Unit> {
         initSessionCalls.add(Pair(username, userId))
 
         if (shouldThrowExceptionOnInitSession) {
@@ -45,9 +47,7 @@ class FakeChatSocketService : ChatSocketService {
         return sendMessageResult
     }
 
-    override fun observeMessages(): Flow<Message> {
-        return observeMessagesFlow
-    }
+    override fun observeMessages(): Flow<Message> = observeMessagesFlow
 
     override suspend fun closeSession() {
         closeSessionCalls.add(Unit)

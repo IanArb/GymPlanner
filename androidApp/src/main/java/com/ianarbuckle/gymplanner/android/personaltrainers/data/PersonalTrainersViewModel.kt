@@ -14,13 +14,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = PersonalTrainersViewModel.Factory::class)
-class PersonalTrainersViewModel
-@AssistedInject
-constructor(
+class PersonalTrainersViewModel @AssistedInject constructor(
     private val personalTrainersRepository: PersonalTrainersRepository,
     @Assisted private val gymLocation: GymLocation,
 ) : ViewModel() {
-
     @AssistedFactory
     interface Factory {
         fun create(gymLocation: GymLocation): PersonalTrainersViewModel

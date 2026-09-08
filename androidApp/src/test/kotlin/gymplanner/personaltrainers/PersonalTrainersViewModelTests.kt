@@ -16,36 +16,33 @@ import org.junit.Rule
 import org.junit.Test
 
 class PersonalTrainersViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val personalTrainersRepository = mockk<PersonalTrainersRepository>()
 
     @Test
-    fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() =
-        runTest {
-            // Arrange
-            val personalTrainers = persistentListOf(mockk<PersonalTrainer>())
-            coEvery {
-                personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF)
-            } returns Result.success(personalTrainers)
+    fun `fetchPersonalTrainers should update uiState to Success when API call succeeds`() = runTest {
+        // Arrange
+        val personalTrainers = persistentListOf(mockk<PersonalTrainer>())
+        coEvery { personalTrainersRepository.fetchPersonalTrainers(GymLocation.CLONTARF) } returns
+            Result.success(personalTrainers)
 
-            val viewModel =
-                PersonalTrainersViewModel(
-                    personalTrainersRepository = personalTrainersRepository,
-                    gymLocation = GymLocation.CLONTARF,
-                )
+        val viewModel =
+            PersonalTrainersViewModel(
+                personalTrainersRepository = personalTrainersRepository,
+                gymLocation = GymLocation.CLONTARF,
+            )
 
-            viewModel.fetchPersonalTrainers()
+        viewModel.fetchPersonalTrainers()
 
-            // Assert
-            viewModel.uiState.test {
-                assertEquals(PersonalTrainersUiState.Loading, awaitItem())
-                val successState = awaitItem() as PersonalTrainersUiState.Success
-                assertEquals(personalTrainers, successState.personalTrainers)
-                cancelAndIgnoreRemainingEvents()
-            }
+        // Assert
+        viewModel.uiState.test {
+            assertEquals(PersonalTrainersUiState.Loading, awaitItem())
+            val successState = awaitItem() as PersonalTrainersUiState.Success
+            assertEquals(personalTrainers, successState.personalTrainers)
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
     fun `fetchPersonalTrainers should update uiState to Failure when API call fails`() = runTest {

@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.availability.dto.CheckAvailabilityDto
  * AvailabilityRemoteDataSource interface
  */
 class FakeAvailabilityRemoteDataSource : AvailabilityRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnFetchAvailability = false
     var shouldThrowExceptionOnCheckAvailability = false

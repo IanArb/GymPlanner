@@ -21,7 +21,6 @@ class DefaultAuthenticationRemoteDataSource(
     private val baseurl: String,
     private val httpClient: HttpClient,
 ) : AuthenticationRemoteDataSource {
-
     override suspend fun login(login: Login): LoginResponseDto {
         val response =
             httpClient.post(baseurl.plus(LOGIN_ENDPOINT)) {

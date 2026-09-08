@@ -5,7 +5,6 @@ import com.ianarbuckle.gymplanner.gymlocations.dto.GymLocationsDto
 
 /** Provides test data for GymLocationsRepository tests */
 object GymLocationsTestDataProvider {
-
     // ========== Gym Location DTOs ==========
 
     object GymLocationDtos {
@@ -15,7 +14,7 @@ object GymLocationsTestDataProvider {
                 title = "Clontarf",
                 subTitle = "Coastal Dublin Location",
                 description =
-                    "Modern gym facility located on the beautiful Clontarf seafront with stunning bay views. Features state-of-the-art equipment and spacious workout areas.",
+                "Modern gym facility located on the beautiful Clontarf seafront with stunning bay views. Features state-of-the-art equipment and spacious workout areas.",
                 imageUrl = "https://example.com/clontarf.jpg",
             )
 
@@ -25,7 +24,7 @@ object GymLocationsTestDataProvider {
                 title = "Aston Quay",
                 subTitle = "City Centre Location",
                 description =
-                    "Prime city centre location on the River Liffey. Perfect for professionals looking for a convenient workout before or after work.",
+                "Prime city centre location on the River Liffey. Perfect for professionals looking for a convenient workout before or after work.",
                 imageUrl = "https://example.com/astonquay.jpg",
             )
 
@@ -35,7 +34,7 @@ object GymLocationsTestDataProvider {
                 title = "Leopardstown",
                 subTitle = "South Dublin Location",
                 description =
-                    "Large premium facility in South Dublin's business district. Offers extensive cardio and weights areas plus group fitness studio.",
+                "Large premium facility in South Dublin's business district. Offers extensive cardio and weights areas plus group fitness studio.",
                 imageUrl = "https://example.com/leopardstown.jpg",
             )
 
@@ -45,7 +44,7 @@ object GymLocationsTestDataProvider {
                 title = "Sandymount",
                 subTitle = "Seaside Location",
                 description =
-                    "Boutique gym with a focus on personal training and small group classes. Located minutes from Sandymount Strand.",
+                "Boutique gym with a focus on personal training and small group classes. Located minutes from Sandymount Strand.",
                 imageUrl = "https://example.com/sandymount.jpg",
             )
 
@@ -55,7 +54,7 @@ object GymLocationsTestDataProvider {
                 title = "Dun Laoghaire",
                 subTitle = "Harbor Town Location",
                 description =
-                    "Full-service gym in the heart of Dun Laoghaire with pool, sauna, and recovery facilities. Family-friendly environment.",
+                "Full-service gym in the heart of Dun Laoghaire with pool, sauna, and recovery facilities. Family-friendly environment.",
                 imageUrl = "https://example.com/dunlaoghaire.jpg",
             )
 
@@ -65,7 +64,7 @@ object GymLocationsTestDataProvider {
                 title = "Westmanstown",
                 subTitle = "West Dublin Location",
                 description =
-                    "Community-focused gym with excellent parking and accessibility. Offers programs for all ages and fitness levels.",
+                "Community-focused gym with excellent parking and accessibility. Offers programs for all ages and fitness levels.",
                 imageUrl = "https://example.com/westmanstown.jpg",
             )
     }
@@ -78,7 +77,7 @@ object GymLocationsTestDataProvider {
                 title = "Clontarf",
                 subTitle = "Coastal Dublin Location",
                 description =
-                    "Modern gym facility located on the beautiful Clontarf seafront with stunning bay views. Features state-of-the-art equipment and spacious workout areas.",
+                "Modern gym facility located on the beautiful Clontarf seafront with stunning bay views. Features state-of-the-art equipment and spacious workout areas.",
                 imageUrl = "https://example.com/clontarf.jpg",
             )
 
@@ -87,7 +86,7 @@ object GymLocationsTestDataProvider {
                 title = "Aston Quay",
                 subTitle = "City Centre Location",
                 description =
-                    "Prime city centre location on the River Liffey. Perfect for professionals looking for a convenient workout before or after work.",
+                "Prime city centre location on the River Liffey. Perfect for professionals looking for a convenient workout before or after work.",
                 imageUrl = "https://example.com/astonquay.jpg",
             )
 
@@ -96,7 +95,7 @@ object GymLocationsTestDataProvider {
                 title = "Leopardstown",
                 subTitle = "South Dublin Location",
                 description =
-                    "Large premium facility in South Dublin's business district. Offers extensive cardio and weights areas plus group fitness studio.",
+                "Large premium facility in South Dublin's business district. Offers extensive cardio and weights areas plus group fitness studio.",
                 imageUrl = "https://example.com/leopardstown.jpg",
             )
 
@@ -105,7 +104,7 @@ object GymLocationsTestDataProvider {
                 title = "Sandymount",
                 subTitle = "Seaside Location",
                 description =
-                    "Boutique gym with a focus on personal training and small group classes. Located minutes from Sandymount Strand.",
+                "Boutique gym with a focus on personal training and small group classes. Located minutes from Sandymount Strand.",
                 imageUrl = "https://example.com/sandymount.jpg",
             )
 
@@ -114,7 +113,7 @@ object GymLocationsTestDataProvider {
                 title = "Dun Laoghaire",
                 subTitle = "Harbor Town Location",
                 description =
-                    "Full-service gym in the heart of Dun Laoghaire with pool, sauna, and recovery facilities. Family-friendly environment.",
+                "Full-service gym in the heart of Dun Laoghaire with pool, sauna, and recovery facilities. Family-friendly environment.",
                 imageUrl = "https://example.com/dunlaoghaire.jpg",
             )
 
@@ -123,7 +122,7 @@ object GymLocationsTestDataProvider {
                 title = "Westmanstown",
                 subTitle = "West Dublin Location",
                 description =
-                    "Community-focused gym with excellent parking and accessibility. Offers programs for all ages and fitness levels.",
+                "Community-focused gym with excellent parking and accessibility. Offers programs for all ages and fitness levels.",
                 imageUrl = "https://example.com/westmanstown.jpg",
             )
     }

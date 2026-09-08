@@ -35,7 +35,6 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [34])
 class ReportingFormContentScreenshotTests {
-
     @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
     @get:Rule
@@ -53,9 +52,10 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -80,9 +80,10 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -108,9 +109,10 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -136,9 +138,10 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormFields(
                         machineNumber = "1",
@@ -163,18 +166,19 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormResponseCard(
                         faultReport =
-                            FaultReport(
-                                machineNumber = 1,
-                                description = "description",
-                                photoUri = "https://www.example.com/image.jpg",
-                                date = "2022-01-01",
-                            ),
+                        FaultReport(
+                            machineNumber = 1,
+                            description = "description",
+                            photoUri = "https://www.example.com/image.jpg",
+                            date = "2022-01-01",
+                        ),
                         onClick = {},
                     )
                 }
@@ -190,18 +194,19 @@ class ReportingFormContentScreenshotTests {
             ScreenTestPreview(isDarkTheme = true) {
                 Column(
                     modifier =
-                        Modifier.fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(start = 16.dp, end = 16.dp)
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(start = 16.dp, end = 16.dp),
                 ) {
                     FormResponseCard(
                         faultReport =
-                            FaultReport(
-                                machineNumber = 1,
-                                description = "description",
-                                photoUri = "https://www.example.com/image.jpg",
-                                date = "2022-01-01",
-                            ),
+                        FaultReport(
+                            machineNumber = 1,
+                            description = "description",
+                            photoUri = "https://www.example.com/image.jpg",
+                            date = "2022-01-01",
+                        ),
                         onClick = {},
                     )
                 }

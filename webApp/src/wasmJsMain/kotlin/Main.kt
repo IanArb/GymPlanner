@@ -54,7 +54,6 @@ import com.ianarbuckle.gymplanner.web.ui.sidebar.SidebarNavigation
 import com.ianarbuckle.gymplanner.web.ui.theme.GymPlannerColorScheme
 import com.ianarbuckle.gymplanner.web.ui.theme.OffWhite
 import com.ianarbuckle.gymplanner.web.ui.trainers.TodaysTeamSection
-import kotlin.time.Clock
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.collections.immutable.persistentListOf
@@ -62,6 +61,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 import org.koin.dsl.module
+import kotlin.time.Clock
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
@@ -75,15 +75,14 @@ fun main() {
             modules(
                 module { single<AuthenticationRepository> { DefaultAuthenticationRepository() } },
                 module { single<FacilitiesRepository> { DefaultFacilitiesRepository() } },
-                module {
-                    single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() }
-                },
+                module { single<PersonalTrainersRepository> { DefaultPersonalTrainersRepository() } },
                 module { single<FitnessClassRepository> { DefaultFitnessClassRepository() } },
             )
         },
     )
     SingletonImageLoader.setSafe { context ->
-        ImageLoader.Builder(context)
+        ImageLoader
+            .Builder(context)
             .components { add(KtorNetworkFetcherFactory()) }
             .crossfade(true)
             .build()
@@ -99,15 +98,15 @@ fun main() {
             val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
             val isCheckingAuth by loginViewModel.isCheckingAuth.collectAsState()
 
-            val dashboardViewModel = remember {
-                fun proxyBase(path: String): String =
-                    if (path.isNotEmpty()) "${window.location.origin}$path" else ""
-                DashboardViewModel(
-                    scope = scope,
-                    imageProxyBase = proxyBase(BuildConfig.IMAGE_PROXY_PATH),
-                    ddgImageProxyBase = proxyBase(BuildConfig.DDG_PROXY_PATH),
-                )
-            }
+            val dashboardViewModel =
+                remember {
+                    fun proxyBase(path: String): String = if (path.isNotEmpty()) "${window.location.origin}$path" else ""
+                    DashboardViewModel(
+                        scope = scope,
+                        imageProxyBase = proxyBase(BuildConfig.IMAGE_PROXY_PATH),
+                        ddgImageProxyBase = proxyBase(BuildConfig.DDG_PROXY_PATH),
+                    )
+                }
 
             if (isCheckingAuth) return@MaterialTheme
 
@@ -115,7 +114,7 @@ fun main() {
                 LoginScreen(
                     onSignInClick = { username, password ->
                         loginViewModel.dispatchAction(
-                            LoginAction.Login(username = username, password = password)
+                            LoginAction.Login(username = username, password = password),
                         )
                     },
                     onForgotPasswordClick = {},
@@ -136,8 +135,7 @@ fun main() {
                 )
 
                 Column(
-                    modifier =
-                        Modifier.weight(1f).fillMaxHeight().verticalScroll(rememberScrollState())
+                    modifier = Modifier.weight(1f).fillMaxHeight().verticalScroll(rememberScrollState()),
                 ) {
                     DashboardHeader(userName = "Ben", userRole = "Gym Manager", onProfileClick = {})
 
@@ -156,31 +154,30 @@ fun main() {
                         FacilityStatusSection(
                             modifier = Modifier.weight(0.6f),
                             items =
-                                (facilitiesState as? DashboardUiState.Success)
-                                    ?.facilities
-                                    ?.take(5)
-                                    ?.toImmutableList() ?: persistentListOf(),
+                            (facilitiesState as? DashboardUiState.Success)
+                                ?.facilities
+                                ?.take(5)
+                                ?.toImmutableList() ?: persistentListOf(),
                             isLoading =
-                                facilitiesState is DashboardUiState.Idle ||
-                                    facilitiesState is DashboardUiState.Loading,
+                            facilitiesState is DashboardUiState.Idle ||
+                                facilitiesState is DashboardUiState.Loading,
                             onViewAllClick = {},
                             brush = shimmerBrush,
                         )
 
                         Spacer(modifier = Modifier.width(24.dp))
 
-                        val trainersState =
-                            dashboardViewModel.trainersUiState.collectAsState().value
+                        val trainersState = dashboardViewModel.trainersUiState.collectAsState().value
                         TodaysTeamSection(
                             modifier = Modifier.weight(0.4f),
                             trainers =
-                                when (trainersState) {
-                                    is TrainersUiState.Success -> trainersState.trainers
-                                    else -> persistentListOf()
-                                },
+                            when (trainersState) {
+                                is TrainersUiState.Success -> trainersState.trainers
+                                else -> persistentListOf()
+                            },
                             isLoading =
-                                trainersState is TrainersUiState.Idle ||
-                                    trainersState is TrainersUiState.Loading,
+                            trainersState is TrainersUiState.Idle ||
+                                trainersState is TrainersUiState.Loading,
                             brush = shimmerBrush,
                         )
                     }
@@ -188,17 +185,17 @@ fun main() {
                     val classesState = dashboardViewModel.classesUiState.collectAsState().value
                     UpcomingClassesSection(
                         modifier =
-                            Modifier.fillMaxWidth()
-                                .padding(horizontal = 24.dp, vertical = 8.dp)
-                                .padding(bottom = 24.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 8.dp)
+                            .padding(bottom = 24.dp),
                         classes =
-                            when (classesState) {
-                                is ClassesUiState.Success -> classesState.classes
-                                else -> persistentListOf()
-                            },
+                        when (classesState) {
+                            is ClassesUiState.Success -> classesState.classes
+                            else -> persistentListOf()
+                        },
                         isLoading =
-                            classesState is ClassesUiState.Idle ||
-                                classesState is ClassesUiState.Loading,
+                        classesState is ClassesUiState.Idle || classesState is ClassesUiState.Loading,
                         errorMessage = (classesState as? ClassesUiState.Error)?.message,
                         brush = shimmerBrush,
                     )

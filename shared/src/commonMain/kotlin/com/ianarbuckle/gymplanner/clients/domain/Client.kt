@@ -17,7 +17,10 @@ data class GymPlan(
     val sessions: List<Session>,
 )
 
-data class Session(val name: String, val workout: List<Workout>)
+data class Session(
+    val name: String,
+    val workout: List<Workout>,
+)
 
 data class Workout(
     val name: String,
@@ -27,4 +30,7 @@ data class Workout(
     val note: String,
 )
 
-data class Weight(val value: Double, val unit: String)
+data class Weight(
+    val value: Double,
+    val unit: String,
+)

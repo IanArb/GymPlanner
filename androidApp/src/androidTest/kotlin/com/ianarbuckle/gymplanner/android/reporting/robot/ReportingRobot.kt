@@ -8,8 +8,9 @@ import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
 import com.ianarbuckle.gymplanner.android.reporting.presentation.ImageSelectionTestTag
 
-class ReportingRobot(private val composeTestRule: ComposeTestRule) {
-
+class ReportingRobot(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun tapOnReportNavTab() {
         composeTestRule.onNodeWithText("Report Machine").performClick()
     }

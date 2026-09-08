@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class StorageModule {
-
     @Provides
     @Singleton
-    fun providesDataStoreRepository(): DataStoreRepository {
-        return DefaultDataStoreRepository()
-    }
+    fun providesDataStoreRepository(): DataStoreRepository = DefaultDataStoreRepository()
 }

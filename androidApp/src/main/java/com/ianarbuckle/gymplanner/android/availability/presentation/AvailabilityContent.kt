@@ -102,7 +102,7 @@ private fun BookingContentPreview() {
             name = "John Doe",
             imageUrl = "https://randomuser.me/api/port",
             qualifications =
-                listOf("Certified Personal Trainer", "Certified Nutritionist").toImmutableList(),
+            listOf("Certified Personal Trainer", "Certified Nutritionist").toImmutableList(),
             daysOfWeek = daysOfWeek,
             availableTimes = timeSlots,
             isAvailable = true,
@@ -118,11 +118,11 @@ private fun BookingContentPreview() {
                 paddingValues = innerPadding,
                 contentState = contentState,
                 calendarPagerState =
-                    rememberPagerState { (daysOfWeek.size + calendarPagerSize) / pagerOffset },
+                rememberPagerState { (daysOfWeek.size + calendarPagerSize) / pagerOffset },
                 timeSlotPagerState =
-                    rememberPagerState {
-                        availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
-                    },
+                rememberPagerState {
+                    availableTimes.chunked(timeslotPickerPageSize * timeslotPickerPageSize).size
+                },
                 verticalScrollState = rememberScrollState(),
                 onSelectedDateChange = {},
                 onTimeSlotChange = { _, _ -> },

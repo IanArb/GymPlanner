@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.profile.dto.ProfileDto
  * interface
  */
 class FakeProfileRemoteDataSource : ProfileRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnFetchProfile = false
     var fetchProfileException: Exception? = null

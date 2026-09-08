@@ -1,15 +1,14 @@
 package com.ianarbuckle.gymplanner.chat
 
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class MessagesRepositoryTest {
-
     private lateinit var repository: MessagesRepository
     private lateinit var fakeRemoteDataSource: FakeMessagesRemoteDataSource
 
@@ -29,14 +28,14 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages with conversation returns success with list of messages`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isSuccess, "Result should be successful")
-        assertEquals(ChatTestDataProvider.DomainMessageLists.conversation, result.getOrNull())
+        assertEquals(MessagesTestDataProvider.DomainMessageLists.conversation, result.getOrNull())
         assertEquals(1, fakeRemoteDataSource.getMessagesCalls.size)
     }
 
@@ -52,7 +51,7 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages with multiple messages returns correct count`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()
@@ -66,28 +65,28 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages with single message returns list with one item`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.singleMessage
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.singleMessage
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isSuccess)
-        assertEquals(ChatTestDataProvider.DomainMessageLists.singleMessage, result.getOrNull())
+        assertEquals(MessagesTestDataProvider.DomainMessageLists.singleMessage, result.getOrNull())
         assertEquals(1, result.getOrNull()?.size)
     }
 
     @Test
     fun `getMessages with no messages returns empty list`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.emptyList
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.emptyList
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isSuccess)
-        assertEquals(ChatTestDataProvider.DomainMessageLists.emptyList, result.getOrNull())
+        assertEquals(MessagesTestDataProvider.DomainMessageLists.emptyList, result.getOrNull())
         assertTrue(result.getOrNull()?.isEmpty() == true)
     }
 
@@ -95,48 +94,48 @@ class MessagesRepositoryTest {
     fun `getMessages with network error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnGetMessages = true
-        fakeRemoteDataSource.getMessagesException = ChatTestDataProvider.Exceptions.networkError
+        fakeRemoteDataSource.getMessagesException = MessagesTestDataProvider.Exceptions.networkError
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isFailure, "Result should be failure")
-        assertEquals(ChatTestDataProvider.Exceptions.networkError, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.networkError, result.exceptionOrNull())
     }
 
     @Test
     fun `getMessages with server error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnGetMessages = true
-        fakeRemoteDataSource.getMessagesException = ChatTestDataProvider.Exceptions.serverError
+        fakeRemoteDataSource.getMessagesException = MessagesTestDataProvider.Exceptions.serverError
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.serverError, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.serverError, result.exceptionOrNull())
     }
 
     @Test
     fun `getMessages with unauthorized error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnGetMessages = true
-        fakeRemoteDataSource.getMessagesException = ChatTestDataProvider.Exceptions.unauthorized
+        fakeRemoteDataSource.getMessagesException = MessagesTestDataProvider.Exceptions.unauthorized
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.unauthorized, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.unauthorized, result.exceptionOrNull())
     }
 
     @Test
     fun `getMessages maps DTOs to domain models correctly`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()
@@ -153,14 +152,14 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages with messages from multiple users is handled`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.multipleUsers
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.multipleUsers
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isSuccess)
-        assertEquals(ChatTestDataProvider.DomainMessageLists.multipleUsers, result.getOrNull())
+        assertEquals(MessagesTestDataProvider.DomainMessageLists.multipleUsers, result.getOrNull())
         val messages = result.getOrNull()
         assertNotNull(messages)
         assertEquals(3, messages.size)
@@ -169,7 +168,7 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages returns immutable list`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()
@@ -179,17 +178,17 @@ class MessagesRepositoryTest {
         assertNotNull(messages)
         assertTrue(
             messages::class.simpleName?.contains("Immutable") == true ||
-                messages::class.simpleName?.contains("Persistent") == true
+                messages::class.simpleName?.contains("Persistent") == true,
         )
     }
 
     @Test
     fun `multiple getMessages calls work independently`() = runTest {
         // When
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
         val result1 = repository.getMessages()
 
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.singleMessage
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.singleMessage
         val result2 = repository.getMessages()
 
         // Then
@@ -205,7 +204,7 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage with valid message returns success`() = runTest {
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.messageToSend)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.messageToSend)
 
         // Then
         assertTrue(result.isSuccess, "Result should be successful")
@@ -216,7 +215,7 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage calls remote data source with correct data`() = runTest {
         // When
-        repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertEquals(1, fakeRemoteDataSource.sendMessageCalls.size)
@@ -229,15 +228,15 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage converts domain message to DTO correctly`() = runTest {
         // When
-        repository.sendMessage(ChatTestDataProvider.Messages.messageToSend)
+        repository.sendMessage(MessagesTestDataProvider.Messages.messageToSend)
 
         // Then
         val sentMessage = fakeRemoteDataSource.sendMessageCalls[0]
-        assertEquals(ChatTestDataProvider.Messages.messageToSend.text, sentMessage.content)
-        assertEquals(ChatTestDataProvider.Messages.messageToSend.username, sentMessage.username)
-        assertEquals(ChatTestDataProvider.Messages.messageToSend.userId, sentMessage.userId)
+        assertEquals(MessagesTestDataProvider.Messages.messageToSend.text, sentMessage.content)
+        assertEquals(MessagesTestDataProvider.Messages.messageToSend.username, sentMessage.username)
+        assertEquals(MessagesTestDataProvider.Messages.messageToSend.userId, sentMessage.userId)
         assertEquals(
-            ChatTestDataProvider.Messages.messageToSend.formattedTime,
+            MessagesTestDataProvider.Messages.messageToSend.formattedTime,
             sentMessage.timestamp,
         )
     }
@@ -246,15 +245,15 @@ class MessagesRepositoryTest {
     fun `sendMessage with network error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnSendMessage = true
-        fakeRemoteDataSource.sendMessageException = ChatTestDataProvider.Exceptions.networkError
+        fakeRemoteDataSource.sendMessageException = MessagesTestDataProvider.Exceptions.networkError
 
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertTrue(result.isFailure, "Result should be failure")
         assertEquals(
-            expected = ChatTestDataProvider.Exceptions.networkError,
+            expected = MessagesTestDataProvider.Exceptions.networkError,
             actual = result.exceptionOrNull(),
         )
     }
@@ -263,50 +262,50 @@ class MessagesRepositoryTest {
     fun `sendMessage with message not sent error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnSendMessage = true
-        fakeRemoteDataSource.sendMessageException = ChatTestDataProvider.Exceptions.messageNotSent
+        fakeRemoteDataSource.sendMessageException = MessagesTestDataProvider.Exceptions.messageNotSent
 
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.messageNotSent, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.messageNotSent, result.exceptionOrNull())
     }
 
     @Test
     fun `sendMessage with unauthorized error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnSendMessage = true
-        fakeRemoteDataSource.sendMessageException = ChatTestDataProvider.Exceptions.unauthorized
+        fakeRemoteDataSource.sendMessageException = MessagesTestDataProvider.Exceptions.unauthorized
 
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.unauthorized, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.unauthorized, result.exceptionOrNull())
     }
 
     @Test
     fun `sendMessage with server error returns failure`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnSendMessage = true
-        fakeRemoteDataSource.sendMessageException = ChatTestDataProvider.Exceptions.serverError
+        fakeRemoteDataSource.sendMessageException = MessagesTestDataProvider.Exceptions.serverError
 
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.serverError, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.serverError, result.exceptionOrNull())
     }
 
     @Test
     fun `multiple sendMessage calls work independently`() = runTest {
         // When
-        val result1 = repository.sendMessage(ChatTestDataProvider.Messages.message1)
-        val result2 = repository.sendMessage(ChatTestDataProvider.Messages.message2)
-        val result3 = repository.sendMessage(ChatTestDataProvider.Messages.message3)
+        val result1 = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
+        val result2 = repository.sendMessage(MessagesTestDataProvider.Messages.message2)
+        val result3 = repository.sendMessage(MessagesTestDataProvider.Messages.message3)
 
         // Then
         assertTrue(result1.isSuccess)
@@ -318,7 +317,7 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage with empty text is handled`() = runTest {
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.emptyTextMessage)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.emptyTextMessage)
 
         // Then
         assertTrue(result.isSuccess)
@@ -329,7 +328,7 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage with long text is handled`() = runTest {
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.longMessage)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.longMessage)
 
         // Then
         assertTrue(result.isSuccess)
@@ -343,24 +342,24 @@ class MessagesRepositoryTest {
     fun `getMessages handles generic exceptions gracefully`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnGetMessages = true
-        fakeRemoteDataSource.getMessagesException = ChatTestDataProvider.Exceptions.timeout
+        fakeRemoteDataSource.getMessagesException = MessagesTestDataProvider.Exceptions.timeout
 
         // When
         val result = repository.getMessages()
 
         // Then
         assertTrue(result.isFailure)
-        assertEquals(ChatTestDataProvider.Exceptions.timeout, result.exceptionOrNull())
+        assertEquals(MessagesTestDataProvider.Exceptions.timeout, result.exceptionOrNull())
     }
 
     @Test
     fun `sendMessage handles generic exceptions gracefully`() = runTest {
         // Given
         fakeRemoteDataSource.shouldThrowExceptionOnSendMessage = true
-        fakeRemoteDataSource.sendMessageException = ChatTestDataProvider.Exceptions.invalidMessage
+        fakeRemoteDataSource.sendMessageException = MessagesTestDataProvider.Exceptions.invalidMessage
 
         // When
-        val result = repository.sendMessage(ChatTestDataProvider.Messages.message1)
+        val result = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
 
         // Then
         assertTrue(result.isFailure)
@@ -386,7 +385,7 @@ class MessagesRepositoryTest {
         // When
         var exception: Exception? = null
         try {
-            repository.sendMessage(ChatTestDataProvider.Messages.message1)
+            repository.sendMessage(MessagesTestDataProvider.Messages.message1)
         } catch (e: Exception) {
             exception = e
         }
@@ -400,7 +399,7 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages response contains all message fields`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()
@@ -419,7 +418,7 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage preserves all message fields`() = runTest {
         // Given
-        val originalMessage = ChatTestDataProvider.Messages.messageToSend
+        val originalMessage = MessagesTestDataProvider.Messages.messageToSend
 
         // When
         repository.sendMessage(originalMessage)
@@ -436,7 +435,7 @@ class MessagesRepositoryTest {
     fun `getMessages followed by sendMessage works correctly`() = runTest {
         // When
         val getResult = repository.getMessages()
-        val sendResult = repository.sendMessage(ChatTestDataProvider.Messages.messageToSend)
+        val sendResult = repository.sendMessage(MessagesTestDataProvider.Messages.messageToSend)
 
         // Then
         assertTrue(getResult.isSuccess)
@@ -448,8 +447,8 @@ class MessagesRepositoryTest {
     @Test
     fun `sendMessage with different users works independently`() = runTest {
         // When
-        val result1 = repository.sendMessage(ChatTestDataProvider.Messages.message1)
-        val result2 = repository.sendMessage(ChatTestDataProvider.Messages.messageFromJane)
+        val result1 = repository.sendMessage(MessagesTestDataProvider.Messages.message1)
+        val result2 = repository.sendMessage(MessagesTestDataProvider.Messages.messageFromJane)
 
         // Then
         assertTrue(result1.isSuccess)
@@ -462,7 +461,7 @@ class MessagesRepositoryTest {
     @Test
     fun `getMessages order is preserved`() = runTest {
         // Given
-        fakeRemoteDataSource.getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        fakeRemoteDataSource.getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
 
         // When
         val result = repository.getMessages()

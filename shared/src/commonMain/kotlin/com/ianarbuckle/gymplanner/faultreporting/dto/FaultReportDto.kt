@@ -11,12 +11,10 @@ data class FaultReportDto(
     val photoUri: String,
     val date: String,
 ) {
-
-    fun toFaultReport(): FaultReport =
-        FaultReport(
-            description = description,
-            photoUri = photoUri,
-            machineNumber = machineNumber,
-            date = date,
-        )
+    fun toFaultReport(): FaultReport = FaultReport(
+        description = description,
+        photoUri = photoUri,
+        machineNumber = machineNumber,
+        date = date,
+    )
 }

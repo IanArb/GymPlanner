@@ -8,7 +8,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 object DataProvider {
-
     fun carouselItems(
         classes: ImmutableList<FitnessClass> =
             persistentListOf(
@@ -39,7 +38,7 @@ object DataProvider {
                     endTime = "08:00:00",
                     duration = Duration(value = 3600, unit = "SECONDS"),
                 ),
-            )
+            ),
     ) = classes
 
     private fun createFitnessClass(
@@ -50,17 +49,15 @@ object DataProvider {
         startTime: String = "07:00:00",
         endTime: String = "08:00:00",
         duration: Duration = Duration(value = 3600, unit = "SECONDS"),
-    ): FitnessClass {
-        return FitnessClass(
-            dayOfWeek = dayOfWeek,
-            name = name,
-            description = description,
-            imageUrl = imageUrl,
-            startTime = startTime,
-            endTime = endTime,
-            duration = duration,
-        )
-    }
+    ): FitnessClass = FitnessClass(
+        dayOfWeek = dayOfWeek,
+        name = name,
+        description = description,
+        imageUrl = imageUrl,
+        startTime = startTime,
+        endTime = endTime,
+        duration = duration,
+    )
 
     fun personalTrainers(
         trainers: ImmutableList<PersonalTrainer> =
@@ -83,7 +80,7 @@ object DataProvider {
                     bio = "Bio",
                     imageUrl = IMAGE_URL,
                 ),
-            )
+            ),
     ) = trainers
 
     private fun createPersonalTrainer(
@@ -95,17 +92,15 @@ object DataProvider {
         socials: Map<String, String> =
             mapOf("instagram" to "https://www.instagram.com", "tiktok" to "https://www.tiktok.com"),
         gymLocation: GymLocation = GymLocation.CLONTARF,
-    ): PersonalTrainer {
-        return PersonalTrainer(
-            firstName = firstName,
-            lastName = lastName,
-            bio = bio,
-            imageUrl = imageUrl,
-            qualifications = qualifications,
-            socials = socials,
-            gymLocation = gymLocation,
-        )
-    }
+    ): PersonalTrainer = PersonalTrainer(
+        firstName = firstName,
+        lastName = lastName,
+        bio = bio,
+        imageUrl = imageUrl,
+        qualifications = qualifications,
+        socials = socials,
+        gymLocation = gymLocation,
+    )
 
     const val IMAGE_URL =
         "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.libm.co.uk%2Fwp-content%2Fuploads%2F2017%2F09%2F35-Personal-Trainer-Fitness-Instructor-Course.jpg&f=1&nofb=1&ipt=4a7dd2591bf00e81d8ef2268a91853c3d8d7d4eee73c567d6230fd5a44711716&ipo=images"

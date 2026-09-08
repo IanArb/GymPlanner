@@ -10,9 +10,6 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 @Module
 class GymLocationsModule {
-
     @Provides
-    fun providesGymLocationsRepository(): GymLocationsRepository {
-        return DefaultGymLocationsRepository()
-    }
+    fun providesGymLocationsRepository(): GymLocationsRepository = DefaultGymLocationsRepository()
 }

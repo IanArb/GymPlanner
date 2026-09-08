@@ -27,10 +27,10 @@ fun rememberShimmerBrush(): Brush {
             initialValue = 0f,
             targetValue = 1200f,
             animationSpec =
-                infiniteRepeatable(
-                    animation = tween(durationMillis = 1400, easing = LinearEasing),
-                    repeatMode = RepeatMode.Restart,
-                ),
+            infiniteRepeatable(
+                animation = tween(durationMillis = 1400, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
             label = "shimmer_translate",
         )
     return Brush.linearGradient(

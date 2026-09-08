@@ -12,7 +12,6 @@ import kotlin.time.Instant
 @TestInstallIn(components = [SingletonComponent::class], replaces = [GymPlannerModule::class])
 @Module
 class FakeGymPlannerModule {
-
     @OptIn(ExperimentalTime::class)
     @Provides
     @Singleton
@@ -23,7 +22,11 @@ class FakeGymPlannerModule {
 }
 
 @OptIn(ExperimentalTime::class)
-class FixedClock @OptIn(ExperimentalTime::class) constructor(private val fixedInstant: Instant) :
-    Clock {
-    @OptIn(ExperimentalTime::class) override fun now(): Instant = fixedInstant
+class FixedClock
+@OptIn(ExperimentalTime::class)
+constructor(
+    private val fixedInstant: Instant,
+) : Clock {
+    @OptIn(ExperimentalTime::class)
+    override fun now(): Instant = fixedInstant
 }

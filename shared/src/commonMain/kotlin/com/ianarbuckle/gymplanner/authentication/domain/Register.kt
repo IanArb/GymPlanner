@@ -8,4 +8,6 @@ data class Register(
     val lastName: String,
 )
 
-data class RegisterResponse(val message: String)
+data class RegisterResponse(
+    val message: String,
+)

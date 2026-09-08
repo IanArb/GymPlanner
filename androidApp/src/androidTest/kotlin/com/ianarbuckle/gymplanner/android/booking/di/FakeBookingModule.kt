@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @TestInstallIn(components = [SingletonComponent::class], replaces = [BookingModule::class])
 @Module
 class FakeBookingModule {
-
     @Singleton
     @Provides
-    fun provideBookingRepository(): BookingRepository {
-        return FakeBookingRepository()
-    }
+    fun provideBookingRepository(): BookingRepository = FakeBookingRepository()
 }

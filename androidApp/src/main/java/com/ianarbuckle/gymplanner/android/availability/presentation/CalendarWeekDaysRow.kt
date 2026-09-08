@@ -55,9 +55,7 @@ fun CalendarWeekDaysRow(
                     val isCurrentDay = day.isCurrentDay() && selectedDate.isEmpty()
 
                     Box(
-                        modifier =
-                            Modifier.clickable { onSelectedDateChange(day) }
-                                .padding(vertical = 12.dp),
+                        modifier = Modifier.clickable { onSelectedDateChange(day) }.padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         val textColor =
@@ -76,19 +74,19 @@ fun CalendarWeekDaysRow(
                             color = textColor,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier =
-                                Modifier.drawBehind {
-                                    // Draw a line underneath the text
-                                    val lineThickness = 2.dp.toPx() // Thickness of the underline
-                                    val yOffset = size.height // Line position just below the text
-                                    if (isCurrentDay || selectedDate == day) {
-                                        drawLine(
-                                            color = primary,
-                                            start = Offset(0f, yOffset),
-                                            end = Offset(size.width, yOffset),
-                                            strokeWidth = lineThickness,
-                                        )
-                                    }
-                                },
+                            Modifier.drawBehind {
+                                // Draw a line underneath the text
+                                val lineThickness = 2.dp.toPx() // Thickness of the underline
+                                val yOffset = size.height // Line position just below the text
+                                if (isCurrentDay || selectedDate == day) {
+                                    drawLine(
+                                        color = primary,
+                                        start = Offset(0f, yOffset),
+                                        end = Offset(size.width, yOffset),
+                                        strokeWidth = lineThickness,
+                                    )
+                                }
+                            },
                         )
                     }
                 }

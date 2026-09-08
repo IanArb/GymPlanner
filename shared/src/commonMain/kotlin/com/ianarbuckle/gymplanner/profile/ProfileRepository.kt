@@ -10,8 +10,9 @@ interface ProfileRepository {
     suspend fun fetchProfile(userId: String): Result<Profile>
 }
 
-class DefaultProfileRepository : ProfileRepository, KoinComponent {
-
+class DefaultProfileRepository :
+    ProfileRepository,
+    KoinComponent {
     private val remoteDataSource: ProfileRemoteDataSource by inject()
 
     override suspend fun fetchProfile(userId: String): Result<Profile> {

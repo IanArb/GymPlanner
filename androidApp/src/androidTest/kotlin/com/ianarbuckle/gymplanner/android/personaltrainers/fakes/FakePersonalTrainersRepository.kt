@@ -7,39 +7,28 @@ import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import kotlinx.collections.immutable.ImmutableList
 
 class FakePersonalTrainersRepository : PersonalTrainersRepository {
-
     var shouldReturnError = false
 
-    override suspend fun fetchPersonalTrainers(
-        gymLocation: GymLocation
-    ): Result<ImmutableList<PersonalTrainer>> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            mockPersonalTrainers()
-        }
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        mockPersonalTrainers()
     }
 
-    private fun mockPersonalTrainers(): Result<ImmutableList<PersonalTrainer>> {
-        return Result.success(DataProvider.personalTrainers())
-    }
+    private fun mockPersonalTrainers(): Result<ImmutableList<PersonalTrainer>> = Result.success(DataProvider.personalTrainers())
 
-    override suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            Result.success(DataProvider.personalTrainers().first())
-        }
+    override suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        Result.success(DataProvider.personalTrainers().first())
     }
 
     override suspend fun fetchTrainerSchedules(
         date: String,
         gymLocation: GymLocation,
-    ): Result<ImmutableList<PersonalTrainer>> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            mockPersonalTrainers()
-        }
+    ): Result<ImmutableList<PersonalTrainer>> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        mockPersonalTrainers()
     }
 }

@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @TestInstallIn(components = [SingletonComponent::class], replaces = [GymLocationsModule::class])
 @Module
 class FakeGymLocationsModule {
-
     @Singleton
     @Provides
-    fun provideGymLocationsRepository(): GymLocationsRepository {
-        return FakeGymLocationsRepository()
-    }
+    fun provideGymLocationsRepository(): GymLocationsRepository = FakeGymLocationsRepository()
 }

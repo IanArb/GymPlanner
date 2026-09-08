@@ -10,9 +10,6 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 @Module
 class LoginModule {
-
     @Provides
-    fun providesAuthenticationRepository(): AuthenticationRepository {
-        return DefaultAuthenticationRepository()
-    }
+    fun providesAuthenticationRepository(): AuthenticationRepository = DefaultAuthenticationRepository()
 }

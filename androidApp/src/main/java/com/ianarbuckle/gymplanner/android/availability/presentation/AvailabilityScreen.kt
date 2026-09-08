@@ -20,6 +20,7 @@ import com.ianarbuckle.gymplanner.android.ui.common.RetryErrorScreen
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import com.ianarbuckle.gymplanner.android.utils.isCurrentDay
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
+import com.ianarbuckle.gymplanner.availability.domain.Slot
 import com.ianarbuckle.gymplanner.availability.domain.Time
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -35,7 +36,7 @@ fun AvailabilityScreen(
         hiltViewModel(
             creationCallback = { factory: AvailabilityViewModel.Factory ->
                 factory.create(availabilityScreenState.personalTrainer.personalTrainerId)
-            }
+            },
         ),
 ) {
     val bookingState by availabilityViewModel.availabilityUiState.collectAsStateWithLifecycle()
@@ -70,12 +71,10 @@ fun AvailabilityScreen(
             val availabilitySlots = state.availability.slots
             val isAvailable = state.isPersonalTrainerAvailable
 
-            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> {
-                return availabilitySlots.find { it.date.contains(selectedDate) }?.times
-                    ?: emptyList()
-            }
-
-            availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
+            availableTimes.value = getAvailableTimesForSelectedDate(
+                selectedDate = selectedDate.value,
+                slots = availabilitySlots,
+            )
 
             val calendarPagerState = rememberPagerState {
                 (daysOfWeek.size + CalendarPagerSize) / PagerOffset
@@ -96,7 +95,7 @@ fun AvailabilityScreen(
                     name = availabilityScreenState.personalTrainer.name,
                     imageUrl = availabilityScreenState.personalTrainer.imageUrl,
                     qualifications =
-                        availabilityScreenState.personalTrainer.qualifications.toImmutableList(),
+                    availabilityScreenState.personalTrainer.qualifications.toImmutableList(),
                     daysOfWeek = daysOfWeek,
                     availableTimes = availableTimes.value.toImmutableList(),
                     selectedDate = selectedDate.value,
@@ -124,13 +123,16 @@ fun AvailabilityScreen(
                             timeSlotId = selectedTimeSlotId.value,
                             selectedDate = selectedDate.value,
                             selectedTimeSlot = selectedTimeSlot.value.toLocalTime(),
-                        )
+                        ),
                     )
                 },
             )
         }
     }
 }
+
+@Suppress("MaxLineLength")
+private fun getAvailableTimesForSelectedDate(selectedDate: String, slots: ImmutableList<Slot>): List<Time> = slots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
 
 private const val CalendarPagerSize = 4
 private const val PagerOffset = 5

@@ -10,20 +10,17 @@ import com.ianarbuckle.gymplanner.booking.domain.PersonalTrainer
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class BookingViewModel
-@Inject
-constructor(
+class BookingViewModel @Inject constructor(
     private val bookingRepository: BookingRepository,
     private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
-
     private val _bookingUiState = MutableStateFlow<BookingUiState>(BookingUiState.Idle)
     val bookingUiState = _bookingUiState.asStateFlow()
 
@@ -39,12 +36,12 @@ constructor(
                     bookingDate = bookingDetailsData.selectedDate,
                     startTime = bookingDetailsData.selectedTimeSlot,
                     personalTrainer =
-                        PersonalTrainer(
-                            id = bookingDetailsData.personalTrainerId,
-                            name = bookingDetailsData.personalTrainerName,
-                            imageUrl = bookingDetailsData.personalTrainerAvatarUrl,
-                            gymLocation = bookingDetailsData.location.toGymLocation(),
-                        ),
+                    PersonalTrainer(
+                        id = bookingDetailsData.personalTrainerId,
+                        name = bookingDetailsData.personalTrainerName,
+                        imageUrl = bookingDetailsData.personalTrainerAvatarUrl,
+                        gymLocation = bookingDetailsData.location.toGymLocation(),
+                    ),
                     userId = userId,
                 )
 

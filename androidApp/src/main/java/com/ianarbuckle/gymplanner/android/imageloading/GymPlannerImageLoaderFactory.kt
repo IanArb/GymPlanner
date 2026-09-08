@@ -9,20 +9,18 @@ import coil3.request.crossfade
 import okio.Path.Companion.toOkioPath
 
 class GymPlannerImageLoaderFactory : SingletonImageLoader.Factory {
-
-    override fun newImageLoader(context: Context): ImageLoader =
-        ImageLoader.Builder(context)
-            .crossfade(true)
-            .memoryCache {
-                MemoryCache.Builder().maxSizePercent(context, MEMORY_CACHE_PERCENT).build()
-            }
-            .diskCache {
-                DiskCache.Builder()
-                    .directory(context.cacheDir.resolve(DISK_CACHE_DIRECTORY).toOkioPath())
-                    .maxSizePercent(DISK_CACHE_PERCENT)
-                    .build()
-            }
-            .build()
+    override fun newImageLoader(context: Context): ImageLoader = ImageLoader
+        .Builder(context)
+        .crossfade(true)
+        .memoryCache {
+            MemoryCache.Builder().maxSizePercent(context, MEMORY_CACHE_PERCENT).build()
+        }.diskCache {
+            DiskCache
+                .Builder()
+                .directory(context.cacheDir.resolve(DISK_CACHE_DIRECTORY).toOkioPath())
+                .maxSizePercent(DISK_CACHE_PERCENT)
+                .build()
+        }.build()
 
     private companion object {
         const val DISK_CACHE_DIRECTORY = "image_cache"

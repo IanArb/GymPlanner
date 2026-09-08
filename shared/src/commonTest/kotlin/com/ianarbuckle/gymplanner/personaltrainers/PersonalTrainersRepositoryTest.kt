@@ -14,16 +14,15 @@ import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvi
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledTrainerLists
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.ScheduledTrainers
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersTestDataProvider.TrainerIds
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class PersonalTrainersRepositoryTest {
-
     private lateinit var repository: FakePersonalTrainersRepository
     private lateinit var fakeRemoteDataSource: FakePersonalTrainersRemoteDataSource
 
@@ -41,21 +40,19 @@ class PersonalTrainersRepositoryTest {
     // ========== Get Personal Trainers Tests ==========
 
     @Test
-    fun `getPersonalTrainers with Clontarf location returns success with trainers list`() =
-        runTest {
-            // Given
-            fakeRemoteDataSource.fetchPersonalTrainersResponse =
-                PersonalTrainerLists.clontarfTrainers
+    fun `getPersonalTrainers with Clontarf location returns success with trainers list`() = runTest {
+        // Given
+        fakeRemoteDataSource.fetchPersonalTrainersResponse = PersonalTrainerLists.clontarfTrainers
 
-            // When
-            val result = repository.getPersonalTrainers(GymLocation.CLONTARF)
+        // When
+        val result = repository.getPersonalTrainers(GymLocation.CLONTARF)
 
-            // Then
-            assertTrue(result.isSuccess, "Result should be successful")
-            assertEquals(DomainPersonalTrainerLists.clontarfTrainers, result.getOrNull())
-            assertEquals(1, fakeRemoteDataSource.fetchPersonalTrainersCalls.size)
-            assertEquals(GymLocation.CLONTARF, fakeRemoteDataSource.fetchPersonalTrainersCalls[0])
-        }
+        // Then
+        assertTrue(result.isSuccess, "Result should be successful")
+        assertEquals(DomainPersonalTrainerLists.clontarfTrainers, result.getOrNull())
+        assertEquals(1, fakeRemoteDataSource.fetchPersonalTrainersCalls.size)
+        assertEquals(GymLocation.CLONTARF, fakeRemoteDataSource.fetchPersonalTrainersCalls[0])
+    }
 
     @Test
     fun `getPersonalTrainers calls remote data source with correct location`() = runTest {
@@ -575,8 +572,7 @@ class PersonalTrainersRepositoryTest {
     @Test
     fun `getTrainerSchedules maps schedule slots correctly`() = runTest {
         // Given
-        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
-            listOf(ScheduledTrainerDtos.johnAvailable)
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = listOf(ScheduledTrainerDtos.johnAvailable)
 
         // When
         val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
@@ -593,8 +589,7 @@ class PersonalTrainersRepositoryTest {
     @Test
     fun `getTrainerSchedules maps AVAILABLE status correctly`() = runTest {
         // Given
-        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
-            listOf(ScheduledTrainerDtos.johnAvailable)
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = listOf(ScheduledTrainerDtos.johnAvailable)
 
         // When
         val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)
@@ -622,8 +617,7 @@ class PersonalTrainersRepositoryTest {
     @Test
     fun `getTrainerSchedules maps UNKNOWN status correctly`() = runTest {
         // Given
-        fakeRemoteDataSource.fetchTrainerSchedulesResponse =
-            listOf(ScheduledTrainerDtos.unknownStatus)
+        fakeRemoteDataSource.fetchTrainerSchedulesResponse = listOf(ScheduledTrainerDtos.unknownStatus)
 
         // When
         val result = repository.getTrainerSchedules(Dates.date1, GymLocation.CLONTARF)

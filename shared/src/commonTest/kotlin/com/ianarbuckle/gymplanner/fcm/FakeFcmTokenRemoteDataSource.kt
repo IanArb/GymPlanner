@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.fcm.dto.FcmTokenResponseDto
  * interface
  */
 class FakeFcmTokenRemoteDataSource : FcmTokenRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnRegisterToken = false
     var registerTokenException: Exception? = null

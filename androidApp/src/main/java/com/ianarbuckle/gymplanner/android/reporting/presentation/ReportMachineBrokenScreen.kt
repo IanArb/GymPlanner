@@ -38,9 +38,7 @@ fun ReportMachineBrokenScreen(
     var hasPhotoInteracted by rememberSaveable { mutableStateOf(false) }
 
     val launchCamera =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.TakePicturePreview()
-        ) { bitmap ->
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
             imageBitmap = bitmap
         }
 
@@ -142,15 +140,15 @@ fun ReportMachineBrokenScreen(
                                 machineNumber = machineNumber.toInt(),
                                 description = description,
                                 photoUri =
-                                    imageBitmap
-                                        ?.asImageBitmap()
-                                        ?.imageBitmapToUri(
-                                            context,
-                                            "machine_fault_report-$machineNumber.png",
-                                        )
-                                        .toString(),
+                                imageBitmap
+                                    ?.asImageBitmap()
+                                    ?.imageBitmapToUri(
+                                        context,
+                                        "machine_fault_report-$machineNumber.png",
+                                    )
+                                    .toString(),
                                 date = System.currentTimeMillis().toString(),
-                            )
+                            ),
                         )
                     }
                 },
@@ -200,15 +198,15 @@ fun ReportMachineBrokenScreen(
                                 machineNumber = machineNumber.toInt(),
                                 description = description,
                                 photoUri =
-                                    imageBitmap
-                                        ?.asImageBitmap()
-                                        ?.imageBitmapToUri(
-                                            context,
-                                            "machine_fault_report-$machineNumber.png",
-                                        )
-                                        .toString(),
+                                imageBitmap
+                                    ?.asImageBitmap()
+                                    ?.imageBitmapToUri(
+                                        context,
+                                        "machine_fault_report-$machineNumber.png",
+                                    )
+                                    .toString(),
                                 date = System.currentTimeMillis().toString(),
-                            )
+                            ),
                         )
                     }
                 },

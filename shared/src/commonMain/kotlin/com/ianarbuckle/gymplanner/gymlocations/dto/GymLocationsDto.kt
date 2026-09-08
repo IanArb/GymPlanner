@@ -11,12 +11,10 @@ data class GymLocationsDto(
     val description: String,
     val imageUrl: String,
 ) {
-
-    fun transformToGymLocations(): GymLocations =
-        GymLocations(
-            title = title,
-            subTitle = subTitle,
-            description = description,
-            imageUrl = imageUrl,
-        )
+    fun transformToGymLocations(): GymLocations = GymLocations(
+        title = title,
+        subTitle = subTitle,
+        description = description,
+        imageUrl = imageUrl,
+    )
 }

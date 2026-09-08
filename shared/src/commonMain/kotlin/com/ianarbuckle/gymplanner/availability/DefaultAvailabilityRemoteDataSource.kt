@@ -11,9 +11,15 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 
 interface AvailabilityRemoteDataSource {
-    suspend fun fetchAvailability(personalTrainerId: String, month: String): AvailabilityDto
+    suspend fun fetchAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): AvailabilityDto
 
-    suspend fun checkAvailability(personalTrainerId: String, month: String): CheckAvailabilityDto
+    suspend fun checkAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): CheckAvailabilityDto
 }
 
 class DefaultAvailabilityRemoteDataSource(
@@ -21,7 +27,6 @@ class DefaultAvailabilityRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : AvailabilityRemoteDataSource {
-
     override suspend fun fetchAvailability(
         personalTrainerId: String,
         month: String,

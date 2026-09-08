@@ -43,36 +43,36 @@ fun GymLocationCardLoadingShimmer(modifier: Modifier = Modifier) {
         Column {
             Box(
                 modifier =
-                    Modifier.height(120.dp)
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.surfaceVariant,
-                            RoundedCornerShape(16.dp),
-                        )
-                        .shimmerEffect()
+                Modifier.height(120.dp)
+                    .fillMaxWidth()
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        RoundedCornerShape(16.dp),
+                    )
+                    .shimmerEffect(),
             )
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Box(
                     modifier =
-                        Modifier.height(20.dp)
-                            .fillMaxWidth(WidthSizeMedium)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(4.dp),
-                            )
-                            .shimmerEffect()
+                    Modifier.height(20.dp)
+                        .fillMaxWidth(WidthSizeMedium)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+                        .shimmerEffect(),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier =
-                        Modifier.height(16.dp)
-                            .fillMaxWidth(WidthSizeLarge)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(4.dp),
-                            )
-                            .shimmerEffect()
+                    Modifier.height(16.dp)
+                        .fillMaxWidth(WidthSizeLarge)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+                        .shimmerEffect(),
                 )
             }
         }

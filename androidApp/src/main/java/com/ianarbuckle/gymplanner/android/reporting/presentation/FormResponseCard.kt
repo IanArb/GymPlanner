@@ -78,12 +78,12 @@ private fun FormResponseCardPreview() {
         Surface {
             FormResponseCard(
                 faultReport =
-                    FaultReport(
-                        machineNumber = 1,
-                        description = "description",
-                        photoUri = "https://www.example.com/image.jpg",
-                        date = "2022-01-01",
-                    ),
+                FaultReport(
+                    machineNumber = 1,
+                    description = "description",
+                    photoUri = "https://www.example.com/image.jpg",
+                    date = "2022-01-01",
+                ),
                 onClick = {
                     // Handle click
                 },

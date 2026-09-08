@@ -77,7 +77,7 @@ fun FormFields(
             modifier = Modifier.fillMaxWidth(),
             isError = !isMachineNumberValid && hasMachineNumberInteracted,
             keyboardOptions =
-                KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions { focusManager.moveFocus(FocusDirection.Down) },
         )
 
@@ -125,9 +125,9 @@ private fun FormFieldsPreview() {
     GymAppTheme {
         Column(
             modifier =
-                Modifier.fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(start = 16.dp, end = 16.dp)
+            Modifier.fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(start = 16.dp, end = 16.dp),
         ) {
             FormFields(
                 machineNumber = "123",

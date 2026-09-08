@@ -72,11 +72,17 @@ fun initKoin(
 }
 
 // init iOS
-fun initKoinIOS(baseUrl: String, websocketBaseUrl: String) {
+fun initKoinIOS(
+    baseUrl: String,
+    websocketBaseUrl: String,
+) {
     initKoin(enableNetworkLogs = false, baseUrl = baseUrl, websocketBaseUrl = websocketBaseUrl) {}
 }
 
-fun networkModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
+fun networkModule(
+    enableNetworkLogs: Boolean,
+    baseUrl: String,
+) = module {
     singleOf(::createJson)
     single {
         HttpClient(get()) {
@@ -191,7 +197,10 @@ fun availabilityModule(baseUrl: String) = module {
     }
 }
 
-fun chatModule(baseUrl: String, websocketBaseUrl: String) = module {
+fun chatModule(
+    baseUrl: String,
+    websocketBaseUrl: String,
+) = module {
     single<ChatSocketService> {
         ChatSocketServiceImpl(httpClient = get(), baseUrl = websocketBaseUrl)
     }

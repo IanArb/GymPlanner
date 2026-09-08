@@ -64,11 +64,11 @@ fun SidebarNavigation(
 
     Column(
         modifier =
-            modifier
-                .width(180.dp)
-                .fillMaxHeight()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(vertical = 24.dp, horizontal = 12.dp)
+        modifier
+            .width(180.dp)
+            .fillMaxHeight()
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(vertical = 24.dp, horizontal = 12.dp),
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -105,11 +105,11 @@ private fun NavItemRow(item: NavItem, isSelected: Boolean, onClick: () -> Unit) 
 
     Row(
         modifier =
-            Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .background(backgroundColor)
-                .clickable(onClick = onClick)
-                .padding(horizontal = 12.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(backgroundColor)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -133,10 +133,10 @@ private fun NavItemRow(item: NavItem, isSelected: Boolean, onClick: () -> Unit) 
 private fun BottomNavItem(label: String, icon: DrawableResource, onClick: () -> Unit) {
     Row(
         modifier =
-            Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = onClick)
-                .padding(horizontal = 12.dp, vertical = 10.dp),
+        Modifier.fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
