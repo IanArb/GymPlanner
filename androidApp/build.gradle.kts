@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
