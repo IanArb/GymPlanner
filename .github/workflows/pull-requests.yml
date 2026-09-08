@@ -63,7 +63,6 @@ jobs:
           path: |
             androidApp/build/reports/tests/
             shared/build/reports/tests/
-            webApp/build/reports/tests/
 
       - name: Publish test summary
         if: always()
