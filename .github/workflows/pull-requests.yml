@@ -63,7 +63,6 @@ jobs:
           path: |
             androidApp/build/reports/tests/
             shared/build/reports/tests/
-            webApp/build/reports/tests/
 
       - name: Publish test summary
         if: always()
@@ -72,7 +71,6 @@ jobs:
           files: |
             androidApp/build/test-results/**/*.xml
             shared/build/test-results/**/*.xml
-            webApp/build/test-results/**/*.xml
 
       - name: Verify screenshot tests with Roborazzi
         run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace
@@ -83,9 +81,3 @@ jobs:
           name: roborazzi-report
           path: app/build/reports/roborazzi/debug/
 
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: firebase-test-results
-          path: .

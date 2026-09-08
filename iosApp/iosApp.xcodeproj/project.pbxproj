@@ -10,7 +10,6 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		417CD6CC2F0170180016BBC8 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6CB2F0170130016BBC8 /* DashboardView.swift */; };
 		417CD6CF2F0170490016BBC8 /* SharedGymPlanner in Frameworks */ = {isa = PBXBuildFile; productRef = 417CD6CE2F0170490016BBC8 /* SharedGymPlanner */; };
 		417CD6D22F0170590016BBC8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 417CD6D12F0170590016BBC8 /* Swinject */; };
 		417CD6D62F01707B0016BBC8 /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6D52F0170750016BBC8 /* RepositoryAssembly.swift */; };
@@ -19,6 +18,14 @@
 		417CD6DC2F0170FC0016BBC8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6DB2F0170F90016BBC8 /* LoginViewModel.swift */; };
 		417CD6DE2F01711F0016BBC8 /* LoginUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6DD2F0171190016BBC8 /* LoginUiState.swift */; };
 		417CD6E12F01D5A80016BBC8 /* .swiftformat in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6E02F01D59D0016BBC8 /* .swiftformat */; };
+		419CCB172FD9E10C007375E2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB162FD9E10C007375E2 /* MainTabView.swift */; };
+		419CCB232FDF1B30007375E2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB222FDF1B30007375E2 /* DashboardView.swift */; };
+		419CCB252FDF1BB8007375E2 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB242FDF1BB8007375E2 /* ScheduleView.swift */; };
+		419CCB272FDF1BB8007375E2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB262FDF1BB8007375E2 /* ProfileView.swift */; };
+		419CCB292FDF1C23007375E2 /* FitnessClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB282FDF1C23007375E2 /* FitnessClass.swift */; };
+		419CCB322FDF1DD7007375E2 /* GymClassesCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB312FDF1DD7007375E2 /* GymClassesCarousel.swift */; };
+		419CCB342FDF1F02007375E2 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB332FDF1EFB007375E2 /* DashboardViewModel.swift */; };
+		419CCB362FDF1F2F007375E2 /* DashboardUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB352FDF1F28007375E2 /* DashboardUiState.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,13 +46,20 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		417CD6CB2F0170130016BBC8 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		417CD6D52F0170750016BBC8 /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
 		417CD6D72F0170840016BBC8 /* ViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelAssembly.swift; sourceTree = "<group>"; };
 		417CD6D92F0170DB0016BBC8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		417CD6DB2F0170F90016BBC8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		417CD6DD2F0171190016BBC8 /* LoginUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUiState.swift; sourceTree = "<group>"; };
 		417CD6E02F01D59D0016BBC8 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		419CCB162FD9E10C007375E2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		419CCB222FDF1B30007375E2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		419CCB242FDF1BB8007375E2 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		419CCB262FDF1BB8007375E2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		419CCB282FDF1C23007375E2 /* FitnessClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessClass.swift; sourceTree = "<group>"; };
+		419CCB312FDF1DD7007375E2 /* GymClassesCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymClassesCarousel.swift; sourceTree = "<group>"; };
+		419CCB332FDF1EFB007375E2 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		419CCB352FDF1F28007375E2 /* DashboardUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardUiState.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,14 +86,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		417CD6CA2F01700C0016BBC8 /* dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				417CD6CB2F0170130016BBC8 /* DashboardView.swift */,
-			);
-			path = dashboard;
-			sourceTree = "<group>";
-		};
 		417CD6D32F0170610016BBC8 /* login */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +103,28 @@
 				417CD6D52F0170750016BBC8 /* RepositoryAssembly.swift */,
 			);
 			path = di;
+			sourceTree = "<group>";
+		};
+		419CCB1C2FD9E141007375E2 /* navigation */ = {
+			isa = PBXGroup;
+			children = (
+				419CCB162FD9E10C007375E2 /* MainTabView.swift */,
+				419CCB242FDF1BB8007375E2 /* ScheduleView.swift */,
+				419CCB262FDF1BB8007375E2 /* ProfileView.swift */,
+				419CCB282FDF1C23007375E2 /* FitnessClass.swift */,
+			);
+			path = navigation;
+			sourceTree = "<group>";
+		};
+		419CCB2A2FDF1CAC007375E2 /* dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				419CCB352FDF1F28007375E2 /* DashboardUiState.swift */,
+				419CCB332FDF1EFB007375E2 /* DashboardViewModel.swift */,
+				419CCB222FDF1B30007375E2 /* DashboardView.swift */,
+				419CCB312FDF1DD7007375E2 /* GymClassesCarousel.swift */,
+			);
+			path = dashboard;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -119,9 +147,10 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				419CCB2A2FDF1CAC007375E2 /* dashboard */,
+				419CCB1C2FD9E141007375E2 /* navigation */,
 				417CD6D42F01706B0016BBC8 /* di */,
 				417CD6D32F0170610016BBC8 /* login */,
-				417CD6CA2F01700C0016BBC8 /* dashboard */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -257,12 +286,19 @@
 			files = (
 				417CD6DA2F0170DE0016BBC8 /* LoginView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				417CD6CC2F0170180016BBC8 /* DashboardView.swift in Sources */,
 				417CD6D82F0170880016BBC8 /* ViewModelAssembly.swift in Sources */,
+				419CCB172FD9E10C007375E2 /* MainTabView.swift in Sources */,
+				419CCB272FDF1BB8007375E2 /* ProfileView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				419CCB342FDF1F02007375E2 /* DashboardViewModel.swift in Sources */,
 				417CD6DE2F01711F0016BBC8 /* LoginUiState.swift in Sources */,
+				419CCB362FDF1F2F007375E2 /* DashboardUiState.swift in Sources */,
 				417CD6D62F01707B0016BBC8 /* RepositoryAssembly.swift in Sources */,
+				419CCB232FDF1B30007375E2 /* DashboardView.swift in Sources */,
 				417CD6DC2F0170FC0016BBC8 /* LoginViewModel.swift in Sources */,
+				419CCB322FDF1DD7007375E2 /* GymClassesCarousel.swift in Sources */,
+				419CCB252FDF1BB8007375E2 /* ScheduleView.swift in Sources */,
+				419CCB292FDF1C23007375E2 /* FitnessClass.swift in Sources */,
 				417CD6E12F01D5A80016BBC8 /* .swiftformat in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

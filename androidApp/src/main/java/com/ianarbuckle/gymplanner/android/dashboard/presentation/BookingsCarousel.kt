@@ -73,6 +73,30 @@ fun BookingCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row {
+                Avatar(
+                    imageUrl = personalTrainerImageUrl,
+                    contentDescription = null,
+                    modifier = Modifier.size(80.dp).padding(8.dp),
+                )
+
+                Column {
+                    Text(
+                        text = personalTrainerName,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                    )
+
+                    Text(
+                        text = location,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Row {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_date_range_filled),
                     contentDescription = null,
@@ -100,30 +124,6 @@ fun BookingCard(
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(start = 8.dp),
                 )
-            }
-
-            Spacer(Modifier.height(8.dp))
-
-            Row {
-                Avatar(
-                    imageUrl = personalTrainerImageUrl,
-                    contentDescription = null,
-                    modifier = Modifier.size(80.dp).padding(8.dp),
-                )
-
-                Column {
-                    Text(
-                        text = personalTrainerName,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                    )
-
-                    Text(
-                        text = location,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(start = 8.dp, top = 8.dp),
-                    )
-                }
             }
         }
     }

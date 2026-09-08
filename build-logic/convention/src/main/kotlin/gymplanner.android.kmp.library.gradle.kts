@@ -6,7 +6,7 @@ plugins {
 kotlin {
     jvmToolchain(17)
     android {
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 24
     }
 }

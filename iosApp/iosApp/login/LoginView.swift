@@ -59,13 +59,11 @@ struct LoginView: View {
 
                     })
                 case .success:
-                    NavigationLink(destination: DashboardView()) {
-                        DashboardView()
-                     }
+                    MainTabView()
+                        .navigationBarHidden(true)
                 case .signedIn:
-                    NavigationLink(destination: DashboardView()) {
-                        DashboardView()
-                    }
+                    MainTabView()
+                        .navigationBarHidden(true)
                 }
             }
         }

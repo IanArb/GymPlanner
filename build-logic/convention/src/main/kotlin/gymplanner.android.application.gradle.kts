@@ -3,10 +3,10 @@ plugins { id("com.android.application") }
 java { toolchain { languageVersion.set(JavaLanguageVersion.of(17)) } }
 
 android {
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
     }
     packaging {
         resources {

@@ -1,39 +1,37 @@
 [versions]
-agp = "9.2.1"
+agp = "9.4.0"
 androidx-activityCompose = "1.13.0"
-androidx-navigation3 = "1.1.2"
-androix-navigation3-lifecycle = "2.10.0"
-androidx-test-uiautomator = "2.3.0"
-compose-multiplatform = "1.11.1"
+androidx-navigation3 = "1.1.7"
+androix-navigation3-lifecycle = "2.11.0"
+androidx-test-uiautomator = "2.4.0"
+compose-multiplatform = "1.12.0"
 compose-material3-jetbrains-version = "1.9.0"
 compose-material3 = "1.4.0"
-compose-bom = "2026.05.01"
+compose-bom = "2026.08.00"
 coroutines = "1.11.0"
 core = "1.7.0"
-coil = "2.7.0"
-coil3 = "3.4.0"
+coil3 = "3.6.2"
 datastore = "1.2.1"
 espressoIntents = "3.6.0"
-firebase-bom = "34.14.0"
-hilt = "2.59.2"
-hilt-navigation = "1.3.0"
+firebase-bom = "34.18.0"
+hilt = "2.60.1"
+hilt-navigation = "1.4.0"
 kermit = "2.1.0"
-koinTest = "4.2.1"
-kotest = "6.1.11"
-kotlin = "2.3.20"
+koinTest = "4.2.2"
+kotest = "6.2.4"
+kotlin = "2.4.10"
 kotlin-datetime = "0.8.0"
-kotlinx-immutable-collections = "0.4.0"
-ktor = "3.5.0"
-koin = "4.2.1"
-mockwebserver = "5.3.2"
-roborazzi = "1.63.0"
+kotlinx-immutable-collections = "0.5.2"
+ktor = "3.5.2"
+koin = "4.2.2"
+mockwebserver = "5.5.0"
+roborazzi = "1.73.0"
 junit = "4.13.2"
 mockk = "1.14.11"
 runner = "1.7.0"
 serialization = "1.11.0"
 espressoIdlingResource = "3.7.0"
-tracing = "1.3.0"
-kotlinStdlib = "2.3.21"
+tracing = "2.0.1"
 webPackPlugin = "9.1.0"
 detektPlugin = "1.23.8"
 spotless = "7.0.4"
@@ -64,9 +62,10 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform"}
 compose-components = { module = "org.jetbrains.compose.components:components", version.ref = "compose-multiplatform"}
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil3-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 coil3-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
+coil3-test = { module = "io.coil-kt.coil3:coil-test", version.ref = "coil3" }
 detekt-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.22"}
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
@@ -76,7 +75,6 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
@@ -108,7 +106,6 @@ turbine = { module = "app.cash.turbine:turbine", version = "1.2.1"}
 junit = { module = "junit:junit", version.ref = "junit" }
 junit-android-ext = { module = "androidx.test.ext:junit", version = "junit"}
 androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoIdlingResource" }
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "core" }
 
 # Gradle plugin classpath entries used by build-logic convention plugins
@@ -128,9 +125,8 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
-ksp = { id = "com.google.devtools.ksp", version = "2.3.6" }
+ksp = { id = "com.google.devtools.ksp", version = "2.3.10" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-skie = { id = "co.touchlab.skie", version = "0.10.11" }
-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.7.2" }
+skie = { id = "co.touchlab.skie", version = "0.10.14" }
+stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.13.0" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
-

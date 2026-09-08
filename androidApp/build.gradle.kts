@@ -40,6 +40,12 @@ android {
 }
 
 dependencies {
+    constraints {
+        implementation("androidx.concurrent:concurrent-futures:1.2.0") {
+            because("Hilt testing 2.60.1 requires it in the instrumented-test runtime")
+        }
+    }
+
     implementation(projects.shared)
 
     detektPlugins(libs.detekt.compose)
@@ -54,7 +60,8 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.viewmodel)
 
-    implementation(libs.coil)
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
 
     implementation(libs.kotlinx.datetime)
     debugImplementation(libs.compose.ui.tooling)
@@ -65,6 +72,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
@@ -90,6 +98,7 @@ dependencies {
     androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.androidx.espresso.intents)
     androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.coil3.test)
 
     testImplementation(libs.compose.ui.test)
     testImplementation(libs.kotlinx.coroutines.test)
@@ -102,6 +111,7 @@ dependencies {
     testImplementation(libs.roborazzi.junit.rule)
     testImplementation(libs.roboelectric)
     testImplementation(libs.koin.test)
+    testImplementation(libs.coil3.test)
     testImplementation(kotlin("test"))
 }
 

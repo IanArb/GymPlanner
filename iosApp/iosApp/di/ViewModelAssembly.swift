@@ -16,5 +16,11 @@ class ViewModelAssembly: Assembly {
                 dataStoreRepository: resolver.resolve(DataStoreRepository.self)!,
             )
         }
+        
+        container.register(DashboardViewModel.self) { (resolver) in
+            DashboardViewModel(
+                repository: resolver.resolve(FitnessClassRepository.self)!
+            )
+        }
     }
 }

@@ -1,5 +1,6 @@
 @file:OptIn(ExperimentalWasmDsl::class)
 
+import co.touchlab.skie.configuration.annotations.SealedInterop
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
@@ -13,7 +14,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary { namespace = "com.ianarbuckle.gymplanner" }
+    android { namespace = "com.ianarbuckle.gymplanner" }
     wasmJs { browser { commonWebpackConfig { outputFileName = "gymplanner.js" } } }
 
     val xcframeworkName = "SharedGymPlanner"
@@ -76,6 +77,15 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(devNpm("copy-webpack-plugin", libs.versions.webPackPlugin.get()))
             implementation(libs.ktor.client.js)
+        }
+    }
+}
+
+skie {
+    features {
+        group {
+            SealedInterop.Enabled()
+            SealedInterop.EntireHierarchyExport()
         }
     }
 }
