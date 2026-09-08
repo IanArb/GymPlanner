@@ -9,9 +9,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface PersonalTrainersRepository {
-    suspend fun fetchPersonalTrainers(
-        gymLocation: GymLocation
-    ): Result<ImmutableList<PersonalTrainer>>
+    suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>>
 
     suspend fun findPersonalTrainerById(id: String): Result<PersonalTrainer>
 
@@ -21,13 +19,12 @@ interface PersonalTrainersRepository {
     ): Result<ImmutableList<PersonalTrainer>>
 }
 
-class DefaultPersonalTrainersRepository : PersonalTrainersRepository, KoinComponent {
-
+class DefaultPersonalTrainersRepository :
+    PersonalTrainersRepository,
+    KoinComponent {
     private val remoteDataSource: PersonalTrainersRemoteDataSource by inject()
 
-    override suspend fun fetchPersonalTrainers(
-        gymLocation: GymLocation
-    ): Result<ImmutableList<PersonalTrainer>> {
+    override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): Result<ImmutableList<PersonalTrainer>> {
         try {
             val personalTrainers = remoteDataSource.fetchPersonalTrainers(gymLocation)
             val trainers = personalTrainers.map { trainer -> trainer.toPersonalTrainer() }

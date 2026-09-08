@@ -14,25 +14,23 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
 @OptIn(ExperimentalForeignApi::class)
-actual val platformModule: Module = module {
-    single<DataStore<Preferences>> {
-        PreferenceDataStoreFactory.createWithPath(
-            produceFile = {
-                val documentDirectory =
-                    NSFileManager.defaultManager.URLForDirectory(
-                        directory = NSDocumentDirectory,
-                        inDomain = NSUserDomainMask,
-                        appropriateForURL = null,
-                        create = true,
-                        error = null,
-                    )
-                (requireNotNull(documentDirectory).path + "/gym_planner_settings.preferences_pb")
-                    .toPath()
-            }
-        )
-    }
+actual val platformModule: Module =
+    module {
+        single<DataStore<Preferences>> {
+            PreferenceDataStoreFactory.createWithPath(
+                produceFile = {
+                    val documentDirectory =
+                        NSFileManager.defaultManager.URLForDirectory(
+                            directory = NSDocumentDirectory,
+                            inDomain = NSUserDomainMask,
+                            appropriateForURL = null,
+                            create = true,
+                            error = null,
+                        )
+                    (requireNotNull(documentDirectory).path + "/gym_planner_settings.preferences_pb").toPath()
+                },
+            )
+        }
 
-    single<HttpClientEngine> {
-        Darwin.create { configureRequest { setAllowsCellularAccess(true) } }
+        single<HttpClientEngine> { Darwin.create { configureRequest { setAllowsCellularAccess(true) } } }
     }
-}

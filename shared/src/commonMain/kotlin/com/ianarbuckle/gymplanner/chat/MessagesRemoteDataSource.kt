@@ -27,7 +27,6 @@ class DefaultMessagesRemoteDataSource(
     private val dataStoreRepository: DataStoreRepository,
     private val json: Json = Json { prettyPrint = true },
 ) : MessagesRemoteDataSource {
-
     override suspend fun getMessages(): List<MessageDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val url = baseUrl.plus(MESSAGES_ENDPOINT)

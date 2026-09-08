@@ -56,8 +56,7 @@ fun GymClassesCarousel(
 
             Card(
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                colors =
-                    CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 modifier = Modifier.fillMaxHeight(),
             ) {
                 AsyncImage(

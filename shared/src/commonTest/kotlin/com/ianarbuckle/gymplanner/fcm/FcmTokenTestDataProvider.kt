@@ -39,8 +39,7 @@ object FcmTokenTestDataProvider {
         val emptyUserIdRequest =
             FcmTokenRequest(userId = UserIds.emptyUserId, token = FcmTokens.validToken1)
 
-        val emptyTokenRequest =
-            FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.emptyToken)
+        val emptyTokenRequest = FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.emptyToken)
 
         val expiredTokenRequest =
             FcmTokenRequest(userId = UserIds.user1, token = FcmTokens.expiredToken)

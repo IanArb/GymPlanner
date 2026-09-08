@@ -13,9 +13,7 @@ plugins {
 }
 
 kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
-    }
+    compilerOptions { freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode") }
 }
 
 android {

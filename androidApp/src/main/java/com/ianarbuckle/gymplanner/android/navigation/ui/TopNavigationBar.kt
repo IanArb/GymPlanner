@@ -49,7 +49,8 @@ fun TopNavigationBar(
             is PersonalTrainersScreen,
             is AvailabilityScreen,
             is BookingScreen,
-            is ConversationScreen -> true
+            is ConversationScreen,
+            -> true
             else -> false
         }
 

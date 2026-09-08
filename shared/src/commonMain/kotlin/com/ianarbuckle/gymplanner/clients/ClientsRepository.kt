@@ -19,8 +19,9 @@ interface ClientsRepository {
     suspend fun deleteClient(id: String): Result<Unit>
 }
 
-class DefaultClientsRepository : ClientsRepository, KoinComponent {
-
+class DefaultClientsRepository :
+    ClientsRepository,
+    KoinComponent {
     private val remoteDataSource: ClientsRemoteDataSource by inject()
 
     override suspend fun saveClient(client: Client): Result<Client> {

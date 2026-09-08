@@ -3,7 +3,6 @@ package com.ianarbuckle.gymplanner.facilities
 import com.ianarbuckle.gymplanner.facilities.dto.FacilityStatusDto
 
 class FakeFacilitiesRemoteDataSource : FacilitiesRemoteDataSource {
-
     var shouldThrowException = false
     var exception: Exception? = null
 

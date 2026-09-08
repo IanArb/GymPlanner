@@ -37,9 +37,7 @@ fun BookingDetailsScreen(
                 )
             }
             is BookingUiState.Failed -> {
-                BookingFailedContent(
-                    onRetry = { saveBooking(bookingViewModel, bookingDetailsData) }
-                )
+                BookingFailedContent(onRetry = { saveBooking(bookingViewModel, bookingDetailsData) })
             }
             is BookingUiState.Loading -> {
                 BookingDetailsContent(

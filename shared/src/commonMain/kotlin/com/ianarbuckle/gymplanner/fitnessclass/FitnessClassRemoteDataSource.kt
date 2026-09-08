@@ -19,7 +19,6 @@ class DefaultFitnessClassRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : FitnessClassRemoteDataSource {
-
     override suspend fun fitnessClasses(dayOfWeek: String): List<FitnessClassDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =

@@ -28,13 +28,11 @@ class DashboardViewModel(
     private val imageProxyBase: String = "",
     private val ddgImageProxyBase: String = "",
 ) : KoinComponent {
-
     private val facilitiesRepository by inject<FacilitiesRepository>()
     private val personalTrainersRepository by inject<PersonalTrainersRepository>()
     private val fitnessClassRepository by inject<FitnessClassRepository>()
 
-    private val _uiState: MutableStateFlow<DashboardUiState> =
-        MutableStateFlow(DashboardUiState.Idle)
+    private val _uiState: MutableStateFlow<DashboardUiState> = MutableStateFlow(DashboardUiState.Idle)
     val uiState: StateFlow<DashboardUiState> = _uiState
 
     private val _trainersUiState: MutableStateFlow<TrainersUiState> =
@@ -52,13 +50,9 @@ class DashboardViewModel(
                 val result = facilitiesRepository.getFacilitiesStatus(gymLocation)
                 _uiState.update {
                     if (result.isSuccess) {
-                        DashboardUiState.Success(
-                            result.getOrNull()?.toImmutableList() ?: persistentListOf()
-                        )
+                        DashboardUiState.Success(result.getOrNull()?.toImmutableList() ?: persistentListOf())
                     } else {
-                        DashboardUiState.Error(
-                            result.exceptionOrNull()?.message ?: "Failed to load facilities"
-                        )
+                        DashboardUiState.Error(result.exceptionOrNull()?.message ?: "Failed to load facilities")
                     }
                 }
             } catch (e: Exception) {
@@ -78,23 +72,22 @@ class DashboardViewModel(
                             result
                                 .getOrNull()
                                 ?.map { it.toFitnessClassItem(ddgImageProxyBase) }
-                                ?.toImmutableList() ?: persistentListOf()
+                                ?.toImmutableList() ?: persistentListOf(),
                         )
                     } else {
-                        ClassesUiState.Error(
-                            result.exceptionOrNull()?.message ?: "Failed to load classes"
-                        )
+                        ClassesUiState.Error(result.exceptionOrNull()?.message ?: "Failed to load classes")
                     }
                 }
             } catch (e: Exception) {
-                _classesUiState.update {
-                    ClassesUiState.Error(e.message ?: "An unknown error occurred")
-                }
+                _classesUiState.update { ClassesUiState.Error(e.message ?: "An unknown error occurred") }
             }
         }
     }
 
-    fun fetchTrainerSchedules(date: String, gymLocation: GymLocation) {
+    fun fetchTrainerSchedules(
+        date: String,
+        gymLocation: GymLocation,
+    ) {
         scope.launch {
             _trainersUiState.update { TrainersUiState.Loading }
             try {
@@ -105,43 +98,36 @@ class DashboardViewModel(
                             result
                                 .getOrNull()
                                 ?.map { it.toTrainerItem(imageProxyBase) }
-                                ?.sortedByDescending {
-                                    it.availability == TrainerAvailability.AVAILABLE
-                                }
+                                ?.sortedByDescending { it.availability == TrainerAvailability.AVAILABLE }
                                 ?.take(5)
-                                ?.toImmutableList() ?: persistentListOf()
+                                ?.toImmutableList() ?: persistentListOf(),
                         )
                     } else {
-                        TrainersUiState.Error(
-                            result.exceptionOrNull()?.message ?: "Failed to load trainers"
-                        )
+                        TrainersUiState.Error(result.exceptionOrNull()?.message ?: "Failed to load trainers")
                     }
                 }
             } catch (e: Exception) {
-                _trainersUiState.update {
-                    TrainersUiState.Error(e.message ?: "An unknown error occurred")
-                }
+                _trainersUiState.update { TrainersUiState.Error(e.message ?: "An unknown error occurred") }
             }
         }
     }
 }
 
-private fun FitnessClass.toFitnessClassItem(ddgImageProxyBase: String): FitnessClassItem =
-    FitnessClassItem(
-        name = name,
-        description = description,
-        timeSlot = "${startTime.toAmPm()} - ${endTime.toAmPm()}",
-        imageUrl =
-            imageUrl
-                .takeIf { it.isNotBlank() }
-                ?.let { url ->
-                    if (ddgImageProxyBase.isNotEmpty()) {
-                        url.replace("https://external-content.duckduckgo.com", ddgImageProxyBase)
-                    } else {
-                        url
-                    }
-                } ?: "",
-    )
+private fun FitnessClass.toFitnessClassItem(ddgImageProxyBase: String): FitnessClassItem = FitnessClassItem(
+    name = name,
+    description = description,
+    timeSlot = "${startTime.toAmPm()} - ${endTime.toAmPm()}",
+    imageUrl =
+    imageUrl
+        .takeIf { it.isNotBlank() }
+        ?.let { url ->
+            if (ddgImageProxyBase.isNotEmpty()) {
+                url.replace("https://external-content.duckduckgo.com", ddgImageProxyBase)
+            } else {
+                url
+            }
+        } ?: "",
+)
 
 private fun String.toAmPm(): String {
     val parts = split(":")
@@ -158,22 +144,21 @@ private fun String.toAmPm(): String {
     return "$displayHour:$minute $period"
 }
 
-private fun PersonalTrainer.toTrainerItem(imageProxyBase: String): TrainerItem =
-    TrainerItem(
-        name = "$firstName $lastName",
-        availability =
-            when (availabilityStatus) {
-                AvailabilityStatus.AVAILABLE -> TrainerAvailability.AVAILABLE
-                else -> TrainerAvailability.IN_SESSION
-            },
-        imageUrl =
-            imageUrl
-                .takeIf { it.isNotBlank() }
-                ?.let { url ->
-                    if (imageProxyBase.isNotEmpty()) {
-                        url.replace("https://westwood.ie", imageProxyBase)
-                    } else {
-                        url
-                    }
-                },
-    )
+private fun PersonalTrainer.toTrainerItem(imageProxyBase: String): TrainerItem = TrainerItem(
+    name = "$firstName $lastName",
+    availability =
+    when (availabilityStatus) {
+        AvailabilityStatus.AVAILABLE -> TrainerAvailability.AVAILABLE
+        else -> TrainerAvailability.IN_SESSION
+    },
+    imageUrl =
+    imageUrl
+        .takeIf { it.isNotBlank() }
+        ?.let { url ->
+            if (imageProxyBase.isNotEmpty()) {
+                url.replace("https://westwood.ie", imageProxyBase)
+            } else {
+                url
+            }
+        },
+)

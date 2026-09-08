@@ -11,13 +11,10 @@ data class MessageDto(
     val userId: String,
     val content: String,
 ) {
-
-    fun toMessage(): Message {
-        return Message(
-            text = content,
-            username = username,
-            userId = userId,
-            formattedTime = timestamp,
-        )
-    }
+    fun toMessage(): Message = Message(
+        text = content,
+        username = username,
+        userId = userId,
+        formattedTime = timestamp,
+    )
 }

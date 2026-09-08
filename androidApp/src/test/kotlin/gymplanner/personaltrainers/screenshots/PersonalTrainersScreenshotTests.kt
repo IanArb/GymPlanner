@@ -28,7 +28,6 @@ import org.robolectric.annotation.GraphicsMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [34])
 class PersonalTrainersScreenshotTests {
-
     @get:Rule val roborazziRule: RoborazziRule = createRoborazziRule()
 
     @get:Rule

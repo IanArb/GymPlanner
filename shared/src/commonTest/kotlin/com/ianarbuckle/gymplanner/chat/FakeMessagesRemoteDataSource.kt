@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.chat.dto.MessageDto
  * interface
  */
 class FakeMessagesRemoteDataSource : MessagesRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnGetMessages = false
     var shouldThrowExceptionOnSendMessage = false
@@ -19,7 +18,7 @@ class FakeMessagesRemoteDataSource : MessagesRemoteDataSource {
     val sendMessageCalls = mutableListOf<MessageDto>()
 
     // Configurable responses
-    var getMessagesResponse: List<MessageDto> = ChatTestDataProvider.MessageLists.conversation
+    var getMessagesResponse: List<MessageDto> = MessagesTestDataProvider.MessageLists.conversation
 
     override suspend fun getMessages(): List<MessageDto> {
         getMessagesCalls.add(Unit)
@@ -49,6 +48,6 @@ class FakeMessagesRemoteDataSource : MessagesRemoteDataSource {
         getMessagesCalls.clear()
         sendMessageCalls.clear()
 
-        getMessagesResponse = ChatTestDataProvider.MessageLists.conversation
+        getMessagesResponse = MessagesTestDataProvider.MessageLists.conversation
     }
 }

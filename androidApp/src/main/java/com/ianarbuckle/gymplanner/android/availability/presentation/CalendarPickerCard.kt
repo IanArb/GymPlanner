@@ -39,9 +39,9 @@ import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.displayTime
 import com.ianarbuckle.gymplanner.android.utils.toLocalTime
 import com.ianarbuckle.gymplanner.availability.domain.Time
-import java.util.Calendar
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import java.util.Calendar
 
 @Suppress("LongMethod")
 @Composable
@@ -145,36 +145,32 @@ fun TimeSlotsBox(
                     val borderColor =
                         when {
                             timeSlot.id == selectedTimeSlotId -> MaterialTheme.colorScheme.primary
-                            timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" ->
-                                Color.Gray
+                            timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" -> Color.Gray
                             else -> Color.Gray
                         }
 
                     Box(
                         modifier =
-                            Modifier.border(
-                                    width = 1.dp,
-                                    color = borderColor,
-                                    shape = RoundedCornerShape(8.dp),
-                                )
-                                .clickable {
-                                    if (timeSlot.status == "AVAILABLE") {
-                                        onTimeSlotClick(timeSlot.id, timeSlot.startTime)
-                                    }
+                        Modifier.border(
+                            width = 1.dp,
+                            color = borderColor,
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                            .clickable {
+                                if (timeSlot.status == "AVAILABLE") {
+                                    onTimeSlotClick(timeSlot.id, timeSlot.startTime)
                                 }
-                                .padding(vertical = 12.dp),
+                            }
+                            .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         val slot = timeSlot.startTime.toLocalTime().displayTime()
 
                         val textColor =
                             when {
-                                timeSlot.id == selectedTimeSlotId ->
-                                    MaterialTheme.colorScheme.primary
-                                timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" ->
-                                    Color.Gray
-                                timeSlot.status == "AVAILABLE" ->
-                                    MaterialTheme.colorScheme.onSurface
+                                timeSlot.id == selectedTimeSlotId -> MaterialTheme.colorScheme.primary
+                                timeSlot.status == "BOOKED" || timeSlot.status == "UNAVAILABLE" -> Color.Gray
+                                timeSlot.status == "AVAILABLE" -> MaterialTheme.colorScheme.onSurface
                                 else -> MaterialTheme.colorScheme.onSurface
                             }
                         Text(

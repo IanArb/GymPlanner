@@ -184,9 +184,9 @@ private fun TrainerAvatar(availability: TrainerAvailability, imageUrl: String?) 
     Box {
         Box(
             modifier =
-                Modifier.size(52.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+            Modifier.size(52.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
             if (!imageUrl.isNullOrBlank()) {
@@ -207,18 +207,18 @@ private fun TrainerAvatar(availability: TrainerAvailability, imageUrl: String?) 
         }
         Box(
             modifier =
-                Modifier.size(12.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .align(Alignment.BottomEnd)
-                    .offset(x = 2.dp, y = 2.dp)
+            Modifier.size(12.dp)
+                .clip(CircleShape)
+                .background(Color.White)
+                .align(Alignment.BottomEnd)
+                .offset(x = 2.dp, y = 2.dp),
         ) {
             Box(
                 modifier =
-                    Modifier.size(8.dp)
-                        .clip(CircleShape)
-                        .background(statusColor)
-                        .align(Alignment.Center)
+                Modifier.size(8.dp)
+                    .clip(CircleShape)
+                    .background(statusColor)
+                    .align(Alignment.Center),
             )
         }
     }

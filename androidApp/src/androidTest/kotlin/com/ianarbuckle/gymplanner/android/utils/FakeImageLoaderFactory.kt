@@ -9,11 +9,11 @@ import coil3.SingletonImageLoader
 import coil3.test.FakeImageLoaderEngine
 import coil3.test.default
 
-class FakeImageLoaderFactory(private val defaultDrawable: Drawable = ColorDrawable(Color.LTGRAY)) :
-    SingletonImageLoader.Factory {
-
-    override fun newImageLoader(context: Context): ImageLoader =
-        ImageLoader.Builder(context)
-            .components { add(FakeImageLoaderEngine.Builder().default(defaultDrawable).build()) }
-            .build()
+class FakeImageLoaderFactory(
+    private val defaultDrawable: Drawable = ColorDrawable(Color.LTGRAY),
+) : SingletonImageLoader.Factory {
+    override fun newImageLoader(context: Context): ImageLoader = ImageLoader
+        .Builder(context)
+        .components { add(FakeImageLoaderEngine.Builder().default(defaultDrawable).build()) }
+        .build()
 }

@@ -16,11 +16,11 @@ import androidx.compose.ui.unit.dp
 import com.ianarbuckle.gymplanner.android.ui.theme.GymAppTheme
 import com.ianarbuckle.gymplanner.android.utils.PreviewsCombined
 import com.ianarbuckle.gymplanner.chat.domain.Message
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,51 +74,51 @@ private fun ChatScreenContentPreview() {
         Surface {
             ChatScreenContent(
                 messages =
-                    listOf(
-                            Message(
-                                text = "Hello",
-                                username = "Support",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "support_user_id",
-                            ),
-                            Message(
-                                text = "Hey! I have a question about my last workout.",
-                                username = "You",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "your_user_id",
-                            ),
-                            Message(
-                                text = "Sure! What would you like to know?",
-                                username = "Support",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "support_user_id",
-                            ),
-                            Message(
-                                text = "I want to know how to improve my deadlift technique.",
-                                username = "You",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "your_user_id",
-                            ),
-                            Message(
-                                text = "When are you free?.",
-                                username = "Support",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "support_user_id",
-                            ),
-                            Message(
-                                text = "Now. I'm here at the gym.",
-                                username = "You",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "your_user_id",
-                            ),
-                            Message(
-                                text = "Sweet! let's go to the deadlift platform.",
-                                username = "Support",
-                                formattedTime = Clock.System.now().toString(),
-                                userId = "support_user_id",
-                            ),
-                        )
-                        .toImmutableList(),
+                listOf(
+                    Message(
+                        text = "Hello",
+                        username = "Support",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "support_user_id",
+                    ),
+                    Message(
+                        text = "Hey! I have a question about my last workout.",
+                        username = "You",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "your_user_id",
+                    ),
+                    Message(
+                        text = "Sure! What would you like to know?",
+                        username = "Support",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "support_user_id",
+                    ),
+                    Message(
+                        text = "I want to know how to improve my deadlift technique.",
+                        username = "You",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "your_user_id",
+                    ),
+                    Message(
+                        text = "When are you free?.",
+                        username = "Support",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "support_user_id",
+                    ),
+                    Message(
+                        text = "Now. I'm here at the gym.",
+                        username = "You",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "your_user_id",
+                    ),
+                    Message(
+                        text = "Sweet! let's go to the deadlift platform.",
+                        username = "Support",
+                        formattedTime = Clock.System.now().toString(),
+                        userId = "support_user_id",
+                    ),
+                )
+                    .toImmutableList(),
                 username = "You",
                 onSendMessage = {},
                 onMessageChange = {},

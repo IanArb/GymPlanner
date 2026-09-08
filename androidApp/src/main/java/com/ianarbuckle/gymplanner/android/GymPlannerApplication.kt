@@ -11,8 +11,9 @@ import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 
 @HiltAndroidApp
-class GymPlannerApplication : BaseApplication(), SingletonImageLoader.Factory {
-
+class GymPlannerApplication :
+    BaseApplication(),
+    SingletonImageLoader.Factory {
     private val imageLoaderFactory = GymPlannerImageLoaderFactory()
 
     override fun onCreate() {
@@ -22,6 +23,5 @@ class GymPlannerApplication : BaseApplication(), SingletonImageLoader.Factory {
         }
     }
 
-    override fun newImageLoader(context: Context): ImageLoader =
-        imageLoaderFactory.newImageLoader(context)
+    override fun newImageLoader(context: Context): ImageLoader = imageLoaderFactory.newImageLoader(context)
 }

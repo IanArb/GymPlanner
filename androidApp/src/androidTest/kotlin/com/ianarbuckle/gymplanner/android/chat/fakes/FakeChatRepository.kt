@@ -7,10 +7,12 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 
 class FakeChatRepository : ChatRepository {
-
     var shouldReturnError = false
 
-    override suspend fun initSession(username: String, userId: String): Result<Unit> {
+    override suspend fun initSession(
+        username: String,
+        userId: String,
+    ): Result<Unit> {
         return if (shouldReturnError) {
             Result.failure(Exception("Error"))
         } else {
@@ -26,19 +28,17 @@ class FakeChatRepository : ChatRepository {
         }
     }
 
-    override fun observeMessages(): Flow<Message> {
-        return if (shouldReturnError) {
-            emptyFlow()
-        } else {
-            flowOf(
-                Message(
-                    username = "Test User",
-                    text = "Hello, this is a test message!",
-                    userId = "test-user",
-                    formattedTime = "2025-09-12T20:08:55.806Z",
-                )
-            )
-        }
+    override fun observeMessages(): Flow<Message> = if (shouldReturnError) {
+        emptyFlow()
+    } else {
+        flowOf(
+            Message(
+                username = "Test User",
+                text = "Hello, this is a test message!",
+                userId = "test-user",
+                formattedTime = "2025-09-12T20:08:55.806Z",
+            ),
+        )
     }
 
     override suspend fun closeSession() {

@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.common.GymLocation
  * PersonalTrainersRemoteDataSource interface
  */
 class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnFetchPersonalTrainers = false
     var shouldThrowExceptionOnFindPersonalTrainerById = false
@@ -34,8 +33,7 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         fetchPersonalTrainersCalls.add(gymLocation)
 
         if (shouldThrowExceptionOnFetchPersonalTrainers) {
-            throw fetchPersonalTrainersException
-                ?: RuntimeException("Fetch personal trainers failed")
+            throw fetchPersonalTrainersException ?: RuntimeException("Fetch personal trainers failed")
         }
 
         return fetchPersonalTrainersResponse
@@ -45,8 +43,7 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         findPersonalTrainerByIdCalls.add(id)
 
         if (shouldThrowExceptionOnFindPersonalTrainerById) {
-            throw findPersonalTrainerByIdException
-                ?: RuntimeException("Find personal trainer failed")
+            throw findPersonalTrainerByIdException ?: RuntimeException("Find personal trainer failed")
         }
 
         return findPersonalTrainerByIdResponse
@@ -59,8 +56,7 @@ class FakePersonalTrainersRemoteDataSource : PersonalTrainersRemoteDataSource {
         fetchTrainerSchedulesCalls.add(date to gymLocation)
 
         if (shouldThrowExceptionOnFetchTrainerSchedules) {
-            throw fetchTrainerSchedulesException
-                ?: RuntimeException("Fetch trainer schedules failed")
+            throw fetchTrainerSchedulesException ?: RuntimeException("Fetch trainer schedules failed")
         }
 
         return fetchTrainerSchedulesResponse

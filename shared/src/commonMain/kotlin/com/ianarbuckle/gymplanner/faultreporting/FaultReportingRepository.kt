@@ -12,8 +12,9 @@ interface FaultReportingRepository {
     suspend fun saveFaultReport(report: FaultReport): Result<FaultReport>
 }
 
-class DefaultFaultReportingRepository : FaultReportingRepository, KoinComponent {
-
+class DefaultFaultReportingRepository :
+    FaultReportingRepository,
+    KoinComponent {
     private val remoteDataSource: DefaultFaultReportingRemoteDataSource by inject()
 
     override suspend fun fetchFaultReports(): Result<List<FaultReport>> {

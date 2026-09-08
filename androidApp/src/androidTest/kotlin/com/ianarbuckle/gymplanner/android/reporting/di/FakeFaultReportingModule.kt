@@ -11,10 +11,7 @@ import javax.inject.Singleton
 @TestInstallIn(components = [SingletonComponent::class], replaces = [FaultReportingModule::class])
 @Module
 class FakeFaultReportingModule {
-
     @Singleton
     @Provides
-    fun provideFaultReportingRepository(): FaultReportingRepository {
-        return FakeFaultRepository()
-    }
+    fun provideFaultReportingRepository(): FaultReportingRepository = FakeFaultRepository()
 }

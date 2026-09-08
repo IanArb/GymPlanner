@@ -29,7 +29,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class NavigationViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val dataStoreRepository = mockk<DataStoreRepository>()
@@ -92,15 +91,14 @@ class NavigationViewModelTests {
     }
 
     @Test
-    fun `onNavigate with NavigateToAvailability should add AvailabilityScreen to back stack`() =
-        runTest {
-            // Act
-            val viewModel = createViewModel()
-            val event = createNavigateToAvailabilityEvent()
-            viewModel.onNavigate(event)
+    fun `onNavigate with NavigateToAvailability should add AvailabilityScreen to back stack`() = runTest {
+        // Act
+        val viewModel = createViewModel()
+        val event = createNavigateToAvailabilityEvent()
+        viewModel.onNavigate(event)
 
-            assertEquals(createAvailabilityScreen(), viewModel.navigationBackStack.last())
-        }
+        assertEquals(createAvailabilityScreen(), viewModel.navigationBackStack.last())
+    }
 
     @Test
     fun `onNavigate with NavigateToBooking should add BookingScreen to back stack`() = runTest {
@@ -125,15 +123,14 @@ class NavigationViewModelTests {
     }
 
     @Test
-    fun `onNavigate with NavigateToGymLocations should add GymLocationsScreen to back stack`() =
-        runTest {
-            // Act
-            val viewModel = createViewModel()
-            viewModel.onNavigate(NavigationEvent.NavigateToGymLocations)
+    fun `onNavigate with NavigateToGymLocations should add GymLocationsScreen to back stack`() = runTest {
+        // Act
+        val viewModel = createViewModel()
+        viewModel.onNavigate(NavigationEvent.NavigateToGymLocations)
 
-            // Assert
-            assertEquals(GymLocationsScreen, viewModel.navigationBackStack.last())
-        }
+        // Assert
+        assertEquals(GymLocationsScreen, viewModel.navigationBackStack.last())
+    }
 
     @Test
     fun `onNavigate with NavigateToLogin should add LoginScreen to back stack`() = runTest {
@@ -146,39 +143,36 @@ class NavigationViewModelTests {
     }
 
     @Test
-    fun `onNavigate with NavigateToPersonalTrainers should add PersonalTrainersScreen to back stack`() =
-        runTest {
-            // Act
-            val viewModel = createViewModel()
-            val event = createNavigateToPersonalTrainersEvent()
-            viewModel.onNavigate(event)
+    fun `onNavigate with NavigateToPersonalTrainers should add PersonalTrainersScreen to back stack`() = runTest {
+        // Act
+        val viewModel = createViewModel()
+        val event = createNavigateToPersonalTrainersEvent()
+        viewModel.onNavigate(event)
 
-            // Assert
-            assertEquals(createPersonalTrainersScreen(), viewModel.navigationBackStack.last())
-        }
-
-    @Test
-    fun `onNavigate with NavigateToReportMachineBroken should add ReportMachineBroken to back stack`() =
-        runTest {
-            // Act
-            val viewModel = createViewModel()
-            viewModel.onNavigate(NavigationEvent.NavigateToReportMachineBroken)
-
-            // Assert
-            assertEquals(ReportMachineBroken, viewModel.navigationBackStack.last())
-        }
+        // Assert
+        assertEquals(createPersonalTrainersScreen(), viewModel.navigationBackStack.last())
+    }
 
     @Test
-    fun `onNavigate with NavigateToPersonalTrainersDetails should add PersonalTrainersDetailScreen to back stack`() =
-        runTest {
-            // Act
-            val viewModel = createViewModel()
-            val event = createNavigateToPersonalTrainersDetailsEvent()
-            viewModel.onNavigate(event)
+    fun `onNavigate with NavigateToReportMachineBroken should add ReportMachineBroken to back stack`() = runTest {
+        // Act
+        val viewModel = createViewModel()
+        viewModel.onNavigate(NavigationEvent.NavigateToReportMachineBroken)
 
-            // Assert
-            assertEquals(createPersonalTrainersDetailScreen(), viewModel.navigationBackStack.last())
-        }
+        // Assert
+        assertEquals(ReportMachineBroken, viewModel.navigationBackStack.last())
+    }
+
+    @Test
+    fun `onNavigate with NavigateToPersonalTrainersDetails should add PersonalTrainersDetailScreen to back stack`() = runTest {
+        // Act
+        val viewModel = createViewModel()
+        val event = createNavigateToPersonalTrainersDetailsEvent()
+        viewModel.onNavigate(event)
+
+        // Assert
+        assertEquals(createPersonalTrainersDetailScreen(), viewModel.navigationBackStack.last())
+    }
 
     @Test
     fun `onNavigate with NavigationBottomBar should add destination to back stack`() = runTest {

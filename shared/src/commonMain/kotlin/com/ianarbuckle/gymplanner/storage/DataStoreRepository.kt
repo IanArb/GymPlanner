@@ -14,9 +14,15 @@ val REMEMBER_ME_KEY = booleanPreferencesKey("remember_me")
 val USER_ID = stringPreferencesKey("user_id")
 
 interface DataStoreRepository {
-    suspend fun saveData(key: Preferences.Key<String>, value: String)
+    suspend fun saveData(
+        key: Preferences.Key<String>,
+        value: String,
+    )
 
-    suspend fun saveData(key: Preferences.Key<Boolean>, value: Boolean)
+    suspend fun saveData(
+        key: Preferences.Key<Boolean>,
+        value: Boolean,
+    )
 
     suspend fun getStringData(key: Preferences.Key<String>): String?
 
@@ -25,15 +31,22 @@ interface DataStoreRepository {
     suspend fun clearAllData()
 }
 
-class DefaultDataStoreRepository : DataStoreRepository, KoinComponent {
-
+class DefaultDataStoreRepository :
+    DataStoreRepository,
+    KoinComponent {
     private val dataStore: DataStore<Preferences> by inject()
 
-    override suspend fun saveData(key: Preferences.Key<String>, value: String) {
+    override suspend fun saveData(
+        key: Preferences.Key<String>,
+        value: String,
+    ) {
         dataStore.edit { preferences -> preferences[key] = value }
     }
 
-    override suspend fun saveData(key: Preferences.Key<Boolean>, value: Boolean) {
+    override suspend fun saveData(
+        key: Preferences.Key<Boolean>,
+        value: Boolean,
+    ) {
         dataStore.edit { preferences -> preferences[key] = value }
     }
 

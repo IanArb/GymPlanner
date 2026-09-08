@@ -39,10 +39,10 @@ fun AnimatedIcon(
         contentDescription = state.contentDescription,
         tint = tintColor,
         modifier =
-            modifier.size(state.iconSize).graphicsLayer {
-                scaleX = scale.value
-                scaleY = scale.value
-            },
+        modifier.size(state.iconSize).graphicsLayer {
+            scaleX = scale.value
+            scaleY = scale.value
+        },
     )
 }
 
@@ -51,9 +51,9 @@ fun AnimatedIcon(
 private fun AnimatedIconPreview() {
     AnimatedIcon(
         state =
-            AnimatedIconState(
-                vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline)
-            )
+        AnimatedIconState(
+            vectorIcon = ImageVector.vectorResource(R.drawable.ic_check_circle_outline),
+        ),
     )
 }
 

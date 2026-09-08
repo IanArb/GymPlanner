@@ -40,7 +40,7 @@ import com.ianarbuckle.gymplanner.web.ui.common.ShimmerBox
 import org.jetbrains.compose.resources.painterResource
 
 enum class ClassFilter {
-    ALL
+    ALL,
 }
 
 data class FitnessClassItem(
@@ -148,13 +148,16 @@ private fun FilterButton(label: String, isSelected: Boolean, onClick: () -> Unit
         onClick = onClick,
         shape = RoundedCornerShape(8.dp),
         colors =
-            ButtonDefaults.outlinedButtonColors(
-                containerColor =
-                    if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
-                contentColor =
-                    if (isSelected) MaterialTheme.colorScheme.surface
-                    else MaterialTheme.colorScheme.onSurface,
-            ),
+        ButtonDefaults.outlinedButtonColors(
+            containerColor =
+            if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+            contentColor =
+            if (isSelected) {
+                MaterialTheme.colorScheme.surface
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            },
+        ),
     ) {
         Text(text = label, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
     }
@@ -213,9 +216,9 @@ private fun ClassCard(item: FitnessClassItem, modifier: Modifier = Modifier) {
 private fun ClassImageCard(item: FitnessClassItem) {
     Box(
         modifier =
-            Modifier.fillMaxWidth()
-                .height(180.dp)
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+        Modifier.fillMaxWidth()
+            .height(180.dp)
+            .background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         if (item.imageUrl.isNotBlank()) {
             AsyncImage(
@@ -228,14 +231,14 @@ private fun ClassImageCard(item: FitnessClassItem) {
 
         Box(
             modifier =
-                Modifier.fillMaxWidth()
-                    .height(80.dp)
-                    .align(Alignment.BottomCenter)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
-                        )
-                    )
+            Modifier.fillMaxWidth()
+                .height(80.dp)
+                .align(Alignment.BottomCenter)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
+                    ),
+                ),
         )
 
         Text(

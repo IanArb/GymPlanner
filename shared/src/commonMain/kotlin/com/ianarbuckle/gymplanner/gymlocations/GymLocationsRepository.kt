@@ -12,15 +12,15 @@ interface GymLocationsRepository {
     suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>>
 }
 
-class DefaultGymLocationsRepository : GymLocationsRepository, KoinComponent {
-
+class DefaultGymLocationsRepository :
+    GymLocationsRepository,
+    KoinComponent {
     private val remoteDataSource: GymLocationsRemoteDataSource by inject()
 
     override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> {
         try {
             val remoteGymLocations = remoteDataSource.gymLocations()
-            val gymLocations =
-                remoteGymLocations.map { it.transformToGymLocations() }.toImmutableList()
+            val gymLocations = remoteGymLocations.map { it.transformToGymLocations() }.toImmutableList()
             return Result.success(gymLocations)
         } catch (ex: Exception) {
             if (ex is CancellationException) {

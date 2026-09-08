@@ -42,14 +42,14 @@ fun Composer(
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
             keyboardActions =
-                KeyboardActions(
-                    onSend = {
-                        if (isEnabled) {
-                            onSendMessage()
-                            keyboardController?.hide()
-                        }
+            KeyboardActions(
+                onSend = {
+                    if (isEnabled) {
+                        onSendMessage()
+                        keyboardController?.hide()
                     }
-                ),
+                },
+            ),
             trailingIcon = {
                 if (isEnabled) {
                     IconButton(
@@ -70,9 +70,9 @@ fun Composer(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_send),
                         contentDescription = "Send message",
                         tint =
-                            androidx.compose.material3.MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = 0.38f
-                            ),
+                        androidx.compose.material3.MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.38f,
+                        ),
                     )
                 }
             },
@@ -85,7 +85,7 @@ fun Composer(
 private fun ComposerPreview() {
     GymAppTheme {
         Scaffold(
-            bottomBar = { Composer(onMessageChange = {}, onSendMessage = {}, isEnabled = true) }
+            bottomBar = { Composer(onMessageChange = {}, onSendMessage = {}, isEnabled = true) },
         ) { paddingValues ->
             Column(modifier = Modifier.fillMaxWidth().padding(paddingValues)) {}
         }

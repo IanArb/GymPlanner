@@ -10,9 +10,6 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 @TestInstallIn(components = [ViewModelComponent::class], replaces = [LoginModule::class])
 class FakeLoginModule {
-
     @Provides
-    fun providesAuthenticationRepository(): AuthenticationRepository {
-        return FakeAuthenticationRepository()
-    }
+    fun providesAuthenticationRepository(): AuthenticationRepository = FakeAuthenticationRepository()
 }

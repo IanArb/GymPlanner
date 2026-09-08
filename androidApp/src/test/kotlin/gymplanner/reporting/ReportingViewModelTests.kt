@@ -14,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class ReportingViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val reportingRepository = mockk<FaultReportingRepository>()
@@ -25,8 +24,7 @@ class ReportingViewModelTests {
     fun `submitFault should update uiState to FormSuccess when API call succeeds`() = runTest {
         // Arrange
         val faultReport = mockk<FaultReport>()
-        coEvery { reportingRepository.saveFaultReport(faultReport) } returns
-            Result.success(faultReport)
+        coEvery { reportingRepository.saveFaultReport(faultReport) } returns Result.success(faultReport)
 
         // Act
         viewModel.submitFault(faultReport)

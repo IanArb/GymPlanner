@@ -16,24 +16,22 @@ data class BookingResponseDto(
     val personalTrainer: PersonalTrainerDto,
     val status: BookingStatusDto,
 ) {
-    fun toBookingResponse(): BookingResponse =
-        BookingResponse(
-            userId = this.userId,
-            timeSlotId = this.timeSlotId,
-            bookingDate = this.bookingDate,
-            startTime = this.startTime,
-            personalTrainer = this.personalTrainer.toPersonalTrainer(),
-            status = this.status.toBookingStatus(),
-        )
+    fun toBookingResponse(): BookingResponse = BookingResponse(
+        userId = this.userId,
+        timeSlotId = this.timeSlotId,
+        bookingDate = this.bookingDate,
+        startTime = this.startTime,
+        personalTrainer = this.personalTrainer.toPersonalTrainer(),
+        status = this.status.toBookingStatus(),
+    )
 
-    private fun BookingStatusDto.toBookingStatus(): BookingStatus =
-        when (this) {
-            BookingStatusDto.PENDING -> BookingStatus.PENDING
-            BookingStatusDto.CONFIRMED -> BookingStatus.CONFIRMED
-            BookingStatusDto.CANCELLED -> BookingStatus.CANCELLED
-            BookingStatusDto.COMPLETED -> BookingStatus.COMPLETED
-            else -> BookingStatus.UNKNOWN
-        }
+    private fun BookingStatusDto.toBookingStatus(): BookingStatus = when (this) {
+        BookingStatusDto.PENDING -> BookingStatus.PENDING
+        BookingStatusDto.CONFIRMED -> BookingStatus.CONFIRMED
+        BookingStatusDto.CANCELLED -> BookingStatus.CANCELLED
+        BookingStatusDto.COMPLETED -> BookingStatus.COMPLETED
+        else -> BookingStatus.UNKNOWN
+    }
 }
 
 @Serializable
@@ -43,15 +41,12 @@ data class PersonalTrainerDto(
     val imageUrl: String,
     val gymLocation: GymLocation,
 ) {
-
-    fun toPersonalTrainer(): PersonalTrainer {
-        return PersonalTrainer(
-            id = this.id,
-            name = this.name,
-            imageUrl = this.imageUrl,
-            gymLocation = this.gymLocation,
-        )
-    }
+    fun toPersonalTrainer(): PersonalTrainer = PersonalTrainer(
+        id = this.id,
+        name = this.name,
+        imageUrl = this.imageUrl,
+        gymLocation = this.gymLocation,
+    )
 }
 
 enum class BookingStatusDto {

@@ -4,7 +4,6 @@ import com.ianarbuckle.gymplanner.chat.domain.Message
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface ChatUiState {
-
     data object Idle : ChatUiState
 
     data object Failed : ChatUiState

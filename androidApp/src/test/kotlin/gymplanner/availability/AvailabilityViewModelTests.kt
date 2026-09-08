@@ -11,19 +11,18 @@ import gymplanner.utils.TestCoroutineRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 class AvailabilityViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val availabilityRepository: AvailabilityRepository = mockk()
@@ -45,9 +44,7 @@ class AvailabilityViewModelTests {
                 month = month,
             )
         } returns
-            Result.success(
-                CheckAvailability(personalTrainerId = personalTrainerId, isAvailable = true)
-            )
+            Result.success(CheckAvailability(personalTrainerId = personalTrainerId, isAvailable = true))
         coEvery {
             availabilityRepository.getAvailability(
                 personalTrainerId = personalTrainerId,
@@ -55,7 +52,7 @@ class AvailabilityViewModelTests {
             )
         } returns
             Result.success(
-                DataProvider.availability(personalTrainerId = personalTrainerId, month = month)
+                DataProvider.availability(personalTrainerId = personalTrainerId, month = month),
             )
 
         val viewModel =

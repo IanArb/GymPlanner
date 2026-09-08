@@ -73,9 +73,7 @@ fun ChatScreen(
                 username = username,
                 onSendMessage = { chatScreenViewModel.dispatchAction(ChatAction.SendMessage) },
                 onMessageChange = { messageText ->
-                    chatScreenViewModel.dispatchAction(
-                        ChatAction.MessageChanged(message = messageText)
-                    )
+                    chatScreenViewModel.dispatchAction(ChatAction.MessageChanged(message = messageText))
                 },
                 messageText = messageText.value,
                 modifier = modifier.padding(paddingValues).imePadding(),

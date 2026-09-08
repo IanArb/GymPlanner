@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.booking.dto.BookingResponseDto
  * interface
  */
 class FakeBookingRemoteDataSource : BookingRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnSaveBooking = false
     var shouldThrowExceptionOnFindBookings = false

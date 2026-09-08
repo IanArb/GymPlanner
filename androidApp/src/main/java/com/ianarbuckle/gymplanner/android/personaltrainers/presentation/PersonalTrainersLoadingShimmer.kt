@@ -39,46 +39,46 @@ fun PersonalTrainerItemShimmer(modifier: Modifier = Modifier) {
             Row {
                 Box(
                     modifier =
-                        Modifier.size(64.dp)
-                            .background(
-                                MaterialTheme.colorScheme.surfaceVariant,
-                                RoundedCornerShape(4.dp),
-                            )
-                            .shimmerEffect()
+                    Modifier.size(64.dp)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp),
+                        )
+                        .shimmerEffect(),
                 )
 
                 Column(modifier = Modifier.padding(start = 16.dp)) {
                     Box(
                         modifier =
-                            Modifier.height(20.dp)
-                                .fillMaxWidth(WidthSizeMedium)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(20.dp)
+                            .fillMaxWidth(WidthSizeMedium)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
                     Spacer(modifier = Modifier.padding(4.dp))
                     Box(
                         modifier =
-                            Modifier.height(16.dp)
-                                .fillMaxWidth(WidthSizeSmall)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(16.dp)
+                            .fillMaxWidth(WidthSizeSmall)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
                     Box(
                         modifier =
-                            Modifier.height(16.dp)
-                                .fillMaxWidth(WidthSizeLarge)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceVariant,
-                                    RoundedCornerShape(4.dp),
-                                )
-                                .shimmerEffect()
+                        Modifier.height(16.dp)
+                            .fillMaxWidth(WidthSizeLarge)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceVariant,
+                                RoundedCornerShape(4.dp),
+                            )
+                            .shimmerEffect(),
                     )
                 }
             }
@@ -87,13 +87,13 @@ fun PersonalTrainerItemShimmer(modifier: Modifier = Modifier) {
 
             Box(
                 modifier =
-                    Modifier.height(48.dp)
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.surfaceVariant,
-                            RoundedCornerShape(4.dp),
-                        )
-                        .shimmerEffect()
+                Modifier.height(48.dp)
+                    .fillMaxWidth()
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        RoundedCornerShape(4.dp),
+                    )
+                    .shimmerEffect(),
             )
         }
     }

@@ -9,16 +9,15 @@ import com.ianarbuckle.gymplanner.facilities.FacilitiesTestDataProvider.GymLocat
 import com.ianarbuckle.gymplanner.facilities.dto.FaultType
 import com.ianarbuckle.gymplanner.facilities.dto.Location
 import com.ianarbuckle.gymplanner.facilities.dto.MachineStatus
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class FacilitiesRepositoryTest {
-
     private lateinit var repository: FacilitiesRepository
     private lateinit var fakeRemoteDataSource: FakeFacilitiesRemoteDataSource
 
@@ -214,21 +213,20 @@ class FacilitiesRepositoryTest {
     }
 
     @Test
-    fun `getFacilitiesStatus sort order is out of order then under maintenance then operational`() =
-        runTest {
-            // Given
-            fakeRemoteDataSource.facilitiesResponse = FacilityLists.multipleStatuses
+    fun `getFacilitiesStatus sort order is out of order then under maintenance then operational`() = runTest {
+        // Given
+        fakeRemoteDataSource.facilitiesResponse = FacilityLists.multipleStatuses
 
-            // When
-            val result = repository.getFacilitiesStatus(GymLocations.clontarf)
+        // When
+        val result = repository.getFacilitiesStatus(GymLocations.clontarf)
 
-            // Then
-            val facilities = result.getOrNull()
-            assertNotNull(facilities)
-            assertEquals(FacilityStatuses.rowerOutOfOrder, facilities[0])
-            assertEquals(FacilityStatuses.ellipticalUnderMaintenance, facilities[1])
-            assertEquals(FacilityStatuses.treadmillOperational, facilities[2])
-        }
+        // Then
+        val facilities = result.getOrNull()
+        assertNotNull(facilities)
+        assertEquals(FacilityStatuses.rowerOutOfOrder, facilities[0])
+        assertEquals(FacilityStatuses.ellipticalUnderMaintenance, facilities[1])
+        assertEquals(FacilityStatuses.treadmillOperational, facilities[2])
+    }
 
     // ========== Gym Location Forwarding Tests ==========
 

@@ -24,7 +24,7 @@ fun PersonalTrainersScreen(
         hiltViewModel(
             creationCallback = { factory: PersonalTrainersViewModel.Factory ->
                 factory.create(gymLocation)
-            }
+            },
         ),
 ) {
     val uiState by personalTrainersViewModel.uiState.collectAsStateWithLifecycle()

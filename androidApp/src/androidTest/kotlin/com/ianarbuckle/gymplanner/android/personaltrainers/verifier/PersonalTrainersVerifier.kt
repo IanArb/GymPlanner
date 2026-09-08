@@ -9,8 +9,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersItemsTag
 
-class PersonalTrainersVerifier(private val composeTestRule: ComposeTestRule) {
-
+class PersonalTrainersVerifier(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun verifyPersonalTrainersScreenIsDisplayed() {
         composeTestRule.onNodeWithText("Personal Trainers").assertExists()
     }
@@ -31,7 +32,10 @@ class PersonalTrainersVerifier(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText("Tap to retry").assertExists()
     }
 
-    fun verifyPersonalTrainerDetail(name: String, description: String) {
+    fun verifyPersonalTrainerDetail(
+        name: String,
+        description: String,
+    ) {
         composeTestRule.onNodeWithText(name).assertExists()
         composeTestRule.onNodeWithText(description).assertExists()
         composeTestRule.onNodeWithText("Book now")

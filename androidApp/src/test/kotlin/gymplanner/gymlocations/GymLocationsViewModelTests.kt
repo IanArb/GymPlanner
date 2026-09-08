@@ -15,7 +15,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class GymLocationsViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val gymLocationsRepository = mockk<GymLocationsRepository>()

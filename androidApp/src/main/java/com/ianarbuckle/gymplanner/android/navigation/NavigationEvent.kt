@@ -10,7 +10,9 @@ sealed interface NavigationEvent {
 
     object NavigateToGymLocations : NavigationEvent
 
-    data class NavigateToPersonalTrainers(val gymLocation: GymLocation) : NavigationEvent
+    data class NavigateToPersonalTrainers(
+        val gymLocation: GymLocation,
+    ) : NavigationEvent
 
     data class NavigateToPersonalTrainersDetails(
         val name: String,
@@ -36,11 +38,16 @@ sealed interface NavigationEvent {
         val location: String,
     ) : NavigationEvent
 
-    data class NavigateToChat(val username: String, val userId: String) : NavigationEvent
+    data class NavigateToChat(
+        val username: String,
+        val userId: String,
+    ) : NavigationEvent
 
     object NavigateBack : NavigationEvent
 
     object NavigateToLogin : NavigationEvent
 
-    data class NavigationBottomBar(val destination: NavKey) : NavigationEvent
+    data class NavigationBottomBar(
+        val destination: NavKey,
+    ) : NavigationEvent
 }

@@ -91,9 +91,9 @@ private fun UserAvatar(onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Box(
             modifier =
-                Modifier.size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+            Modifier.size(40.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center,
         ) {
             Text(

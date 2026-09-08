@@ -4,9 +4,9 @@ import com.ianarbuckle.gymplanner.common.PersonalTrainer
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface PersonalTrainersUiState {
-
-    data class Success(val personalTrainers: ImmutableList<PersonalTrainer>) :
-        PersonalTrainersUiState
+    data class Success(
+        val personalTrainers: ImmutableList<PersonalTrainer>,
+    ) : PersonalTrainersUiState
 
     data object Failure : PersonalTrainersUiState
 

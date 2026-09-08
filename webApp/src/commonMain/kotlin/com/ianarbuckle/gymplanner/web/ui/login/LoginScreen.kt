@@ -208,10 +208,10 @@ private fun LoginCard(
                     checked = rememberWorkstation,
                     onCheckedChange = onRememberChange,
                     colors =
-                        CheckboxDefaults.colors(
-                            uncheckedColor = Color(0xFFBDBDBD),
-                            checkedColor = Black,
-                        ),
+                    CheckboxDefaults.colors(
+                        uncheckedColor = Color(0xFFBDBDBD),
+                        checkedColor = Black,
+                    ),
                 )
                 Text(
                     text = "Remember this workstation",
@@ -246,11 +246,11 @@ private fun LocationDropdown(
     Box {
         Row(
             modifier =
-                Modifier.fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(8.dp))
-                    .clickable { expanded = true }
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(8.dp))
+                .clickable { expanded = true }
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -280,8 +280,11 @@ private fun LocationDropdown(
                             text = location.displayName,
                             fontSize = 14.sp,
                             fontWeight =
-                                if (location == selectedLocation) FontWeight.SemiBold
-                                else FontWeight.Normal,
+                            if (location == selectedLocation) {
+                                FontWeight.SemiBold
+                            } else {
+                                FontWeight.Normal
+                            },
                             color = Black,
                         )
                     },
@@ -337,20 +340,20 @@ private fun UnderlineTextField(
             modifier = Modifier.fillMaxWidth(),
             placeholder = { Text(text = placeholder, fontSize = 14.sp, color = Color(0xFFBDBDBD)) },
             visualTransformation =
-                if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
             singleLine = true,
             isError = errorMessage != null,
             colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    errorContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Black,
-                    unfocusedIndicatorColor = Color(0xFFE0E0E0),
-                    cursorColor = Black,
-                    focusedTextColor = Color(0xFF0D0D0D),
-                    unfocusedTextColor = Color(0xFF0D0D0D),
-                ),
+            TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
+                focusedIndicatorColor = Black,
+                unfocusedIndicatorColor = Color(0xFFE0E0E0),
+                cursorColor = Black,
+                focusedTextColor = Color(0xFF0D0D0D),
+                unfocusedTextColor = Color(0xFF0D0D0D),
+            ),
         )
         if (errorMessage != null) {
             Text(
@@ -367,11 +370,11 @@ private fun UnderlineTextField(
 private fun SignInButton(onClick: () -> Unit, isLoading: Boolean = false) {
     Box(
         modifier =
-            Modifier.fillMaxWidth()
-                .height(54.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(if (isLoading) Color(0xFF616161) else Black)
-                .clickable(enabled = !isLoading, onClick = onClick),
+        Modifier.fillMaxWidth()
+            .height(54.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (isLoading) Color(0xFF616161) else Black)
+            .clickable(enabled = !isLoading, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         if (isLoading) {

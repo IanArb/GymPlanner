@@ -10,9 +10,6 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 @Module
 class AvailabilityModule {
-
     @Provides
-    fun providesAvailabilityRepository(): AvailabilityRepository {
-        return DefaultAvailabilityRepository()
-    }
+    fun providesAvailabilityRepository(): AvailabilityRepository = DefaultAvailabilityRepository()
 }

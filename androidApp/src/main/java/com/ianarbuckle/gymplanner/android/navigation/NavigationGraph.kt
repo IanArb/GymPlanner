@@ -12,11 +12,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable object GymLocationsScreen : NavKey
 
-@Serializable data class PersonalTrainersScreen(val gymLocation: GymLocation) : NavKey
+@Serializable data class PersonalTrainersScreen(
+    val gymLocation: GymLocation,
+) : NavKey
 
 @Serializable
-data class PersonalTrainersDetailScreen(val name: String, val bio: String, val imageUrl: String) :
-    NavKey
+data class PersonalTrainersDetailScreen(
+    val name: String,
+    val bio: String,
+    val imageUrl: String,
+) : NavKey
 
 @Serializable object LoginScreen : NavKey
 
@@ -40,4 +45,7 @@ data class BookingScreen(
     val location: String,
 ) : NavKey
 
-@Serializable data class ConversationScreen(val username: String, val userId: String) : NavKey
+@Serializable data class ConversationScreen(
+    val username: String,
+    val userId: String,
+) : NavKey

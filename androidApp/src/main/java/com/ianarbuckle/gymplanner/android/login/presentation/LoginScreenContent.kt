@@ -63,14 +63,14 @@ fun LoginScreenContent(
 
     Box(
         modifier =
-            modifier
-                .padding(innerPaddingValues)
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
+        modifier
+            .padding(innerPaddingValues)
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface),
     ) {
         SubcomposeAsyncImage(
             model =
-                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D100064453849645&f=1&nofb=1&ipt=956c582251b3095306494eab9d93e7c34c7629841134fa12b97bf1af1a82ca44",
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flookaside.fbsbx.com%2Flookaside%2Fcrawler%2Fmedia%2F%3Fmedia_id%3D100064453849645&f=1&nofb=1&ipt=956c582251b3095306494eab9d93e7c34c7629841134fa12b97bf1af1a82ca44",
             contentDescription = "Backdrop",
             modifier = Modifier.fillMaxWidth().height(350.dp),
             contentScale = ContentScale.Crop,
@@ -85,10 +85,10 @@ fun LoginScreenContent(
         )
         Column(
             modifier =
-                Modifier.padding(top = 350.dp)
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-                    .padding(16.dp),
+            Modifier.padding(top = 350.dp)
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
         ) {
             OutlinedTextField(
@@ -99,7 +99,7 @@ fun LoginScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions =
-                    KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+                KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
             )
             if (!isUsernameValid) {
                 Spacer(modifier = Modifier.height(4.dp))

@@ -14,16 +14,15 @@ data class FacilityStatusDto(
     val faultType: FaultType,
     val status: MachineStatus,
 ) {
-    fun toFacilityStatus(): FacilityStatus =
-        FacilityStatus(
-            id = this.id,
-            machineName = this.machineName,
-            machineNumber = this.machineNumber,
-            gymLocation = this.gymLocation,
-            location = this.location,
-            faultType = this.faultType,
-            status = this.status,
-        )
+    fun toFacilityStatus(): FacilityStatus = FacilityStatus(
+        id = this.id,
+        machineName = this.machineName,
+        machineNumber = this.machineNumber,
+        gymLocation = this.gymLocation,
+        location = this.location,
+        faultType = this.faultType,
+        status = this.status,
+    )
 }
 
 enum class MachineStatus {
@@ -32,14 +31,18 @@ enum class MachineStatus {
     UNDER_MAINTENANCE,
 }
 
-enum class Location(val displayName: String) {
+enum class Location(
+    val displayName: String,
+) {
     MAIN_GYM_FLOOR("Main Gym Floor"),
     BLUE_GYM_FLOOR("Blue Gym Floor"),
     FREE_WEIGHTS_AREA("Free Weights Area"),
     BOX_GYM_FLOOR("Box Gym Floor"),
 }
 
-enum class FaultType(val displayName: String) {
+enum class FaultType(
+    val displayName: String,
+) {
     MECHANICAL("Mechanical"),
     ELECTRICAL("Electrical"),
     SOFTWARE("Software"),

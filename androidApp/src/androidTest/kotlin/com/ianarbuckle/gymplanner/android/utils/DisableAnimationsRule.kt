@@ -9,7 +9,6 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class DisableAnimationsRule : TestWatcher() {
-
     private val context: Context = InstrumentationRegistry.getInstrumentation().context
     private val uiDevice: UiDevice =
         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -38,12 +37,10 @@ class DisableAnimationsRule : TestWatcher() {
         }
     }
 
-    private fun isAnimationSupportGranted(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            context.checkCallingOrSelfPermission("android.permission.CHANGE_CONFIGURATION") ==
-                PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
+    private fun isAnimationSupportGranted(): Boolean = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        context.checkCallingOrSelfPermission("android.permission.CHANGE_CONFIGURATION") ==
+            PackageManager.PERMISSION_GRANTED
+    } else {
+        true
     }
 }

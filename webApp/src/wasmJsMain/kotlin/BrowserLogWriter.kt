@@ -2,15 +2,22 @@ import co.touchlab.kermit.LogWriter
 import co.touchlab.kermit.Severity
 
 class BrowserLogWriter : LogWriter() {
-    override fun log(severity: Severity, message: String, tag: String, throwable: Throwable?) {
+    override fun log(
+        severity: Severity,
+        message: String,
+        tag: String,
+        throwable: Throwable?,
+    ) {
         val formatted = "[$tag] $message"
         when (severity) {
             Severity.Verbose,
-            Severity.Debug -> consoleLog(formatted)
+            Severity.Debug,
+            -> consoleLog(formatted)
             Severity.Info -> consoleInfo(formatted)
             Severity.Warn -> consoleWarn(formatted)
             Severity.Error,
-            Severity.Assert -> consoleError(formatted)
+            Severity.Assert,
+            -> consoleError(formatted)
         }
         throwable?.let { consoleError(it.stackTraceToString()) }
     }

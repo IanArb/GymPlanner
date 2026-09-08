@@ -7,16 +7,17 @@ import androidx.navigation3.runtime.NavKey
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class NavigationViewModel
 @Inject
-constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() {
-
+constructor(
+    private val dataStoreRepository: DataStoreRepository,
+) : ViewModel() {
     private val _isLoggedIn = Channel<Boolean>()
     val isLoggedIn = _isLoggedIn.receiveAsFlow()
 
@@ -44,7 +45,7 @@ constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() 
                         imageUrl = event.imageUrl,
                         gymLocation = event.gymLocation,
                         qualifications = event.qualifications,
-                    )
+                    ),
                 )
             }
             is NavigationEvent.NavigateToBooking -> {
@@ -57,12 +58,12 @@ constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() 
                         personalTrainerName = event.personalTrainerName,
                         personalTrainerAvatarUrl = event.personalTrainerAvatarUrl,
                         location = event.location,
-                    )
+                    ),
                 )
             }
             is NavigationEvent.NavigateToChat -> {
                 navigationBackStack.add(
-                    ConversationScreen(username = event.username, userId = event.userId)
+                    ConversationScreen(username = event.username, userId = event.userId),
                 )
             }
             NavigationEvent.NavigateToGymLocations -> {
@@ -83,7 +84,7 @@ constructor(private val dataStoreRepository: DataStoreRepository) : ViewModel() 
                         name = event.name,
                         bio = event.bio,
                         imageUrl = event.imageUrl,
-                    )
+                    ),
                 )
             }
 

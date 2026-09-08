@@ -3,13 +3,17 @@ package com.ianarbuckle.gymplanner.android.reporting.verifier
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 
-class ReportingVerifier(private val testComposeRule: ComposeTestRule) {
-
+class ReportingVerifier(
+    private val testComposeRule: ComposeTestRule,
+) {
     fun verifyReportingScreenIsDisplayed() {
         testComposeRule.onNodeWithText("Report Machine").assertExists()
     }
 
-    fun verifyFormSuccessResponse(machineNumber: String, description: String) {
+    fun verifyFormSuccessResponse(
+        machineNumber: String,
+        description: String,
+    ) {
         testComposeRule.onNodeWithText(machineNumber).assertExists()
         testComposeRule.onNodeWithText(description)
         testComposeRule.onNodeWithText("Report again").assertExists()

@@ -5,17 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class ReportingViewModel
-@Inject
-constructor(private val faultReportingRepository: FaultReportingRepository) : ViewModel() {
-
+class ReportingViewModel @Inject constructor(
+    private val faultReportingRepository: FaultReportingRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow<FormFaultReportUiState>(FormFaultReportUiState.FormIdle)
 
     val uiState = _uiState.asStateFlow()

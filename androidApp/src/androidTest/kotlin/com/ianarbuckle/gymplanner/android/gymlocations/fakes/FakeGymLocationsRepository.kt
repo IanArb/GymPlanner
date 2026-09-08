@@ -6,18 +6,13 @@ import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import kotlinx.collections.immutable.ImmutableList
 
 class FakeGymLocationsRepository : GymLocationsRepository {
-
     var shouldReturnError = false
 
-    override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> {
-        return if (shouldReturnError) {
-            Result.failure(Exception("Error"))
-        } else {
-            mockGymLocationsSuccess()
-        }
+    override suspend fun fetchGymLocations(): Result<ImmutableList<GymLocations>> = if (shouldReturnError) {
+        Result.failure(Exception("Error"))
+    } else {
+        mockGymLocationsSuccess()
     }
 
-    private fun mockGymLocationsSuccess(): Result<ImmutableList<GymLocations>> {
-        return Result.success(DataProvider.gymLocations())
-    }
+    private fun mockGymLocationsSuccess(): Result<ImmutableList<GymLocations>> = Result.success(DataProvider.gymLocations())
 }

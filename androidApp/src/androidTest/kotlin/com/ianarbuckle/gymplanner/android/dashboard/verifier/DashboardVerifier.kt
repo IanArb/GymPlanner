@@ -5,8 +5,9 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 
-class DashboardVerifier(private val testComposeRule: ComposeTestRule) {
-
+class DashboardVerifier(
+    private val testComposeRule: ComposeTestRule,
+) {
     fun verifyBookPersonalTrainerTextExists() {
         testComposeRule.onNodeWithText("Book a personal trainer").assertIsDisplayed()
         testComposeRule.onNodeWithText("Book a six week personal trainer program today")

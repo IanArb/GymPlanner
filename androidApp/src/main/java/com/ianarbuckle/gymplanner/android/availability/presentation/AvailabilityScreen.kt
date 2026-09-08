@@ -35,7 +35,7 @@ fun AvailabilityScreen(
         hiltViewModel(
             creationCallback = { factory: AvailabilityViewModel.Factory ->
                 factory.create(availabilityScreenState.personalTrainer.personalTrainerId)
-            }
+            },
         ),
 ) {
     val bookingState by availabilityViewModel.availabilityUiState.collectAsStateWithLifecycle()
@@ -70,10 +70,7 @@ fun AvailabilityScreen(
             val availabilitySlots = state.availability.slots
             val isAvailable = state.isPersonalTrainerAvailable
 
-            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> {
-                return availabilitySlots.find { it.date.contains(selectedDate) }?.times
-                    ?: emptyList()
-            }
+            fun getAvailableTimesForSelectedDate(selectedDate: String): List<Time> = availabilitySlots.find { it.date.contains(selectedDate) }?.times ?: emptyList()
 
             availableTimes.value = getAvailableTimesForSelectedDate(selectedDate.value)
 
@@ -96,7 +93,7 @@ fun AvailabilityScreen(
                     name = availabilityScreenState.personalTrainer.name,
                     imageUrl = availabilityScreenState.personalTrainer.imageUrl,
                     qualifications =
-                        availabilityScreenState.personalTrainer.qualifications.toImmutableList(),
+                    availabilityScreenState.personalTrainer.qualifications.toImmutableList(),
                     daysOfWeek = daysOfWeek,
                     availableTimes = availableTimes.value.toImmutableList(),
                     selectedDate = selectedDate.value,
@@ -124,7 +121,7 @@ fun AvailabilityScreen(
                             timeSlotId = selectedTimeSlotId.value,
                             selectedDate = selectedDate.value,
                             selectedTimeSlot = selectedTimeSlot.value.toLocalTime(),
-                        )
+                        ),
                     )
                 },
             )

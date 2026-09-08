@@ -47,12 +47,12 @@ fun ConnectionBanner(
     AnimatedVisibility(visible = visible, exit = fadeOut(), modifier = modifier) {
         Box(
             modifier =
-                Modifier.fillMaxWidth().drawBehind {
-                    drawRoundRect(
-                        cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx()),
-                        color = backgroundColor,
-                    )
-                }
+            Modifier.fillMaxWidth().drawBehind {
+                drawRoundRect(
+                    cornerRadius = CornerRadius(12.dp.toPx(), 12.dp.toPx()),
+                    color = backgroundColor,
+                )
+            },
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),

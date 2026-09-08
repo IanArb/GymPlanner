@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.gymlocations.dto.GymLocationsDto
  * GymLocationsRemoteDataSource interface
  */
 class FakeGymLocationsRemoteDataSource : GymLocationsRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnGymLocations = false
     var gymLocationsException: Exception? = null

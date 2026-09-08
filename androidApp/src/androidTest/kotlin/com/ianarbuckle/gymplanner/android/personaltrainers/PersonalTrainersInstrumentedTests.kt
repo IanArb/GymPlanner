@@ -14,42 +14,45 @@ import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
 import com.ianarbuckle.gymplanner.android.personaltrainers.fakes.FakePersonalTrainersRepository
 import com.ianarbuckle.gymplanner.android.personaltrainers.robot.PersonalTrainersRobot
 import com.ianarbuckle.gymplanner.android.personaltrainers.verifier.PersonalTrainersVerifier
-import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.android.utils.PermissionRule
 import com.ianarbuckle.gymplanner.personaltrainers.PersonalTrainersRepository
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
 import io.mockk.mockk
-import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.dsl.module
+import javax.inject.Inject
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class PersonalTrainersInstrumentedTests {
+    @get:Rule(order = 1)
+    val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1) val hiltTestRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 2) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 2)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 3)
     val postNotificationsPermissionRule =
-        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
+        PermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
     @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField
+    val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-    @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue @JvmField
+    val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
     @Inject lateinit var personalTrainersRepository: PersonalTrainersRepository
 

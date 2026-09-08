@@ -13,7 +13,6 @@ import org.junit.Before
 import org.junit.Test
 
 class GymPlannerNotificationManagerTest {
-
     private lateinit var gymPlannerNotificationManager: GymPlannerNotificationManager
 
     private val context = mockk<Context>(relaxed = true)

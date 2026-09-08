@@ -5,16 +5,15 @@ import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.Exce
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationDtos
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationLists
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsTestDataProvider.GymLocationsDomain
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class GymLocationsRepositoryTest {
-
     private lateinit var repository: FakeGymLocationsRepository
     private lateinit var fakeRemoteDataSource: FakeGymLocationsRemoteDataSource
 
@@ -384,7 +383,7 @@ class GymLocationsRepositoryTest {
         assertTrue(
             descriptions.any {
                 it.contains("seafront") || it.contains("strand") || it.contains("harbor")
-            }
+            },
         )
     }
 }

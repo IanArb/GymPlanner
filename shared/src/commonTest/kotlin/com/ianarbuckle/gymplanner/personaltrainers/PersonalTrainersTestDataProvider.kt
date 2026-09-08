@@ -38,10 +38,9 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Murphy",
                 imageUrl = "https://example.com/sarah.jpg",
                 bio =
-                    "Certified personal trainer with 8 years experience specializing in strength training and nutrition. Passionate about helping clients achieve their fitness goals.",
+                "Certified personal trainer with 8 years experience specializing in strength training and nutrition. Passionate about helping clients achieve their fitness goals.",
                 socials = mapOf("instagram" to "@sarahmurphy_pt", "twitter" to "@sarahfit"),
-                qualifications =
-                    listOf("NASM-CPT", "Precision Nutrition Level 1", "CrossFit Level 2"),
+                qualifications = listOf("NASM-CPT", "Precision Nutrition Level 1", "CrossFit Level 2"),
                 gymLocation = GymLocationDto.CLONTARF,
             )
 
@@ -52,7 +51,7 @@ object PersonalTrainersTestDataProvider {
                 lastName = "O'Brien",
                 imageUrl = "https://example.com/john.jpg",
                 bio =
-                    "Former professional athlete turned personal trainer. Specializes in athletic performance and injury rehabilitation.",
+                "Former professional athlete turned personal trainer. Specializes in athletic performance and injury rehabilitation.",
                 socials = mapOf("instagram" to "@johnobrien_fitness"),
                 qualifications = listOf("CSCS", "ACSM-CPT", "Sports Massage Therapy"),
                 gymLocation = GymLocationDto.ASTONQUAY,
@@ -65,9 +64,8 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Walsh",
                 imageUrl = "https://example.com/emma.jpg",
                 bio =
-                    "Yoga instructor and wellness coach focusing on holistic fitness and mindfulness-based training approaches.",
-                socials =
-                    mapOf("instagram" to "@emmawalsh_yoga", "facebook" to "EmmaWalshWellness"),
+                "Yoga instructor and wellness coach focusing on holistic fitness and mindfulness-based training approaches.",
+                socials = mapOf("instagram" to "@emmawalsh_yoga", "facebook" to "EmmaWalshWellness"),
                 qualifications = listOf("RYT-500", "Pilates Instructor", "Nutrition Coach"),
                 gymLocation = GymLocationDto.LEOPARDSTOWN,
             )
@@ -79,7 +77,7 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Kelly",
                 imageUrl = "https://example.com/michael.jpg",
                 bio =
-                    "High-intensity interval training specialist with focus on weight loss and cardiovascular fitness.",
+                "High-intensity interval training specialist with focus on weight loss and cardiovascular fitness.",
                 socials = null,
                 qualifications = listOf("ACE-CPT", "HIIT Specialist", "TRX Certified"),
                 gymLocation = GymLocationDto.SANDYMOUNT,
@@ -92,14 +90,14 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Ryan",
                 imageUrl = "https://example.com/lisa.jpg",
                 bio =
-                    "Pre and postnatal fitness specialist helping new mothers regain strength and confidence.",
+                "Pre and postnatal fitness specialist helping new mothers regain strength and confidence.",
                 socials = mapOf("instagram" to "@lisaryan_pt"),
                 qualifications =
-                    listOf(
-                        "NASM-CPT",
-                        "Pre/Postnatal Specialist",
-                        "Corrective Exercise Specialist",
-                    ),
+                listOf(
+                    "NASM-CPT",
+                    "Pre/Postnatal Specialist",
+                    "Corrective Exercise Specialist",
+                ),
                 gymLocation = GymLocationDto.DUNLOAGHAIRE,
             )
 
@@ -110,11 +108,10 @@ object PersonalTrainersTestDataProvider {
                 lastName = "McCarthy",
                 imageUrl = "https://example.com/david.jpg",
                 bio =
-                    "Bodybuilding coach and nutrition expert helping clients build muscle and transform their physiques.",
+                "Bodybuilding coach and nutrition expert helping clients build muscle and transform their physiques.",
                 socials =
-                    mapOf("instagram" to "@davidmccarthy_bb", "youtube" to "DavidMcCarthyFitness"),
-                qualifications =
-                    listOf("ISSA-CFT", "Bodybuilding Specialist", "Sports Nutritionist"),
+                mapOf("instagram" to "@davidmccarthy_bb", "youtube" to "DavidMcCarthyFitness"),
+                qualifications = listOf("ISSA-CFT", "Bodybuilding Specialist", "Sports Nutritionist"),
                 gymLocation = GymLocationDto.WESTMANSTOWN,
             )
     }
@@ -129,10 +126,9 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Murphy",
                 imageUrl = "https://example.com/sarah.jpg",
                 bio =
-                    "Certified personal trainer with 8 years experience specializing in strength training and nutrition. Passionate about helping clients achieve their fitness goals.",
+                "Certified personal trainer with 8 years experience specializing in strength training and nutrition. Passionate about helping clients achieve their fitness goals.",
                 socials = mapOf("instagram" to "@sarahmurphy_pt", "twitter" to "@sarahfit"),
-                qualifications =
-                    listOf("NASM-CPT", "Precision Nutrition Level 1", "CrossFit Level 2"),
+                qualifications = listOf("NASM-CPT", "Precision Nutrition Level 1", "CrossFit Level 2"),
                 gymLocation = GymLocation.CLONTARF,
             )
 
@@ -143,7 +139,7 @@ object PersonalTrainersTestDataProvider {
                 lastName = "O'Brien",
                 imageUrl = "https://example.com/john.jpg",
                 bio =
-                    "Former professional athlete turned personal trainer. Specializes in athletic performance and injury rehabilitation.",
+                "Former professional athlete turned personal trainer. Specializes in athletic performance and injury rehabilitation.",
                 socials = mapOf("instagram" to "@johnobrien_fitness"),
                 qualifications = listOf("CSCS", "ACSM-CPT", "Sports Massage Therapy"),
                 gymLocation = GymLocation.ASTONQUAY,
@@ -156,9 +152,8 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Walsh",
                 imageUrl = "https://example.com/emma.jpg",
                 bio =
-                    "Yoga instructor and wellness coach focusing on holistic fitness and mindfulness-based training approaches.",
-                socials =
-                    mapOf("instagram" to "@emmawalsh_yoga", "facebook" to "EmmaWalshWellness"),
+                "Yoga instructor and wellness coach focusing on holistic fitness and mindfulness-based training approaches.",
+                socials = mapOf("instagram" to "@emmawalsh_yoga", "facebook" to "EmmaWalshWellness"),
                 qualifications = listOf("RYT-500", "Pilates Instructor", "Nutrition Coach"),
                 gymLocation = GymLocation.LEOPARDSTOWN,
             )
@@ -170,7 +165,7 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Kelly",
                 imageUrl = "https://example.com/michael.jpg",
                 bio =
-                    "High-intensity interval training specialist with focus on weight loss and cardiovascular fitness.",
+                "High-intensity interval training specialist with focus on weight loss and cardiovascular fitness.",
                 socials = emptyMap(),
                 qualifications = listOf("ACE-CPT", "HIIT Specialist", "TRX Certified"),
                 gymLocation = GymLocation.SANDYMOUNT,
@@ -183,14 +178,14 @@ object PersonalTrainersTestDataProvider {
                 lastName = "Ryan",
                 imageUrl = "https://example.com/lisa.jpg",
                 bio =
-                    "Pre and postnatal fitness specialist helping new mothers regain strength and confidence.",
+                "Pre and postnatal fitness specialist helping new mothers regain strength and confidence.",
                 socials = mapOf("instagram" to "@lisaryan_pt"),
                 qualifications =
-                    listOf(
-                        "NASM-CPT",
-                        "Pre/Postnatal Specialist",
-                        "Corrective Exercise Specialist",
-                    ),
+                listOf(
+                    "NASM-CPT",
+                    "Pre/Postnatal Specialist",
+                    "Corrective Exercise Specialist",
+                ),
                 gymLocation = GymLocation.DUNLOAGHAIRE,
             )
 
@@ -201,11 +196,10 @@ object PersonalTrainersTestDataProvider {
                 lastName = "McCarthy",
                 imageUrl = "https://example.com/david.jpg",
                 bio =
-                    "Bodybuilding coach and nutrition expert helping clients build muscle and transform their physiques.",
+                "Bodybuilding coach and nutrition expert helping clients build muscle and transform their physiques.",
                 socials =
-                    mapOf("instagram" to "@davidmccarthy_bb", "youtube" to "DavidMcCarthyFitness"),
-                qualifications =
-                    listOf("ISSA-CFT", "Bodybuilding Specialist", "Sports Nutritionist"),
+                mapOf("instagram" to "@davidmccarthy_bb", "youtube" to "DavidMcCarthyFitness"),
+                qualifications = listOf("ISSA-CFT", "Bodybuilding Specialist", "Sports Nutritionist"),
                 gymLocation = GymLocation.WESTMANSTOWN,
             )
     }
@@ -316,19 +310,18 @@ object PersonalTrainersTestDataProvider {
                 imageUrl = "https://cdn.gymplanner.com/trainers/john-doe.jpg",
                 bio = "Strength and conditioning coach with 10+ years of experience.",
                 socials =
-                    mapOf(
-                        "instagram" to "https://instagram.com/john.doe.pt",
-                        "linkedin" to "https://linkedin.com/in/johndoept",
-                    ),
+                mapOf(
+                    "instagram" to "https://instagram.com/john.doe.pt",
+                    "linkedin" to "https://linkedin.com/in/johndoept",
+                ),
                 qualifications =
-                    listOf(
-                        "NSCA Certified Strength and Conditioning Specialist",
-                        "Precision Nutrition Level 1",
-                        "BSc Sports Science",
-                    ),
+                listOf(
+                    "NSCA Certified Strength and Conditioning Specialist",
+                    "Precision Nutrition Level 1",
+                    "BSc Sports Science",
+                ),
                 gymLocation = GymLocationDto.CLONTARF,
-                schedule =
-                    listOf(ScheduleSlotDtos.mondayMorning, ScheduleSlotDtos.wednesdayAfternoon),
+                schedule = listOf(ScheduleSlotDtos.mondayMorning, ScheduleSlotDtos.wednesdayAfternoon),
                 availabilityStatus = AvailabilityStatusDto.AVAILABLE,
             )
 
@@ -341,7 +334,7 @@ object PersonalTrainersTestDataProvider {
                 bio = "Mobility and rehabilitation specialist.",
                 socials = null,
                 qualifications =
-                    listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
+                listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
                 gymLocation = GymLocationDto.CLONTARF,
                 schedule = listOf(ScheduleSlotDtos.mondayEarly),
                 availabilityStatus = AvailabilityStatusDto.UNAVAILABLE,
@@ -373,16 +366,16 @@ object PersonalTrainersTestDataProvider {
                 imageUrl = "https://cdn.gymplanner.com/trainers/john-doe.jpg",
                 bio = "Strength and conditioning coach with 10+ years of experience.",
                 socials =
-                    mapOf(
-                        "instagram" to "https://instagram.com/john.doe.pt",
-                        "linkedin" to "https://linkedin.com/in/johndoept",
-                    ),
+                mapOf(
+                    "instagram" to "https://instagram.com/john.doe.pt",
+                    "linkedin" to "https://linkedin.com/in/johndoept",
+                ),
                 qualifications =
-                    listOf(
-                        "NSCA Certified Strength and Conditioning Specialist",
-                        "Precision Nutrition Level 1",
-                        "BSc Sports Science",
-                    ),
+                listOf(
+                    "NSCA Certified Strength and Conditioning Specialist",
+                    "Precision Nutrition Level 1",
+                    "BSc Sports Science",
+                ),
                 gymLocation = GymLocation.CLONTARF,
                 schedule = listOf(ScheduleSlots.mondayMorning, ScheduleSlots.wednesdayAfternoon),
                 availabilityStatus = AvailabilityStatus.AVAILABLE,
@@ -397,7 +390,7 @@ object PersonalTrainersTestDataProvider {
                 bio = "Mobility and rehabilitation specialist.",
                 socials = emptyMap(),
                 qualifications =
-                    listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
+                listOf("NASM Corrective Exercise Specialist", "FRC Mobility Specialist"),
                 gymLocation = GymLocation.CLONTARF,
                 schedule = listOf(ScheduleSlots.mondayEarly),
                 availabilityStatus = AvailabilityStatus.UNAVAILABLE,

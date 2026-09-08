@@ -212,9 +212,9 @@ private fun StatusBadge(status: MachineStatus) {
 
     Box(
         modifier =
-            Modifier.clip(RoundedCornerShape(4.dp))
-                .background(backgroundColor)
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+        Modifier.clip(RoundedCornerShape(4.dp))
+            .background(backgroundColor)
+            .padding(horizontal = 8.dp, vertical = 4.dp),
     ) {
         Text(
             text = label,

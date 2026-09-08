@@ -12,20 +12,18 @@ data class CheckInResponseDto(
     val checkInTime: LocalDateTime,
     val status: CheckInStatusDto,
 ) {
-    fun toCheckIn(): CheckIn =
-        CheckIn(
-            id = this.id,
-            trainerId = this.trainerId,
-            checkInTime = this.checkInTime,
-            status = this.status.toCheckInStatus(),
-        )
+    fun toCheckIn(): CheckIn = CheckIn(
+        id = this.id,
+        trainerId = this.trainerId,
+        checkInTime = this.checkInTime,
+        status = this.status.toCheckInStatus(),
+    )
 
-    private fun CheckInStatusDto.toCheckInStatus(): CheckInStatus =
-        when (this) {
-            CheckInStatusDto.ON_TIME -> CheckInStatus.ON_TIME
-            CheckInStatusDto.LATE -> CheckInStatus.LATE
-            else -> CheckInStatus.UNKNOWN
-        }
+    private fun CheckInStatusDto.toCheckInStatus(): CheckInStatus = when (this) {
+        CheckInStatusDto.ON_TIME -> CheckInStatus.ON_TIME
+        CheckInStatusDto.LATE -> CheckInStatus.LATE
+        else -> CheckInStatus.UNKNOWN
+    }
 }
 
 enum class CheckInStatusDto {

@@ -12,15 +12,17 @@ import androidx.compose.ui.res.painterResource
  * [ImageVector]. This allows for a flexible and stable representation of icons in data classes.
  */
 sealed interface IconSource {
-    data class FromVector(val imageVector: ImageVector) : IconSource
+    data class FromVector(
+        val imageVector: ImageVector,
+    ) : IconSource
 
-    data class FromResource(@DrawableRes val id: Int) : IconSource
+    data class FromResource(
+        @DrawableRes val id: Int,
+    ) : IconSource
 
     @Composable
-    fun asPainter(): Painter {
-        return when (this) {
-            is FromVector -> rememberVectorPainter(imageVector)
-            is FromResource -> painterResource(id)
-        }
+    fun asPainter(): Painter = when (this) {
+        is FromVector -> rememberVectorPainter(imageVector)
+        is FromResource -> painterResource(id)
     }
 }

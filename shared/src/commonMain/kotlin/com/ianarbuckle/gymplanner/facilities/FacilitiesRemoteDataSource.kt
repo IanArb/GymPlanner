@@ -19,7 +19,6 @@ class DefaultFacilitiesRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : FacilitiesRemoteDataSource {
-
     override suspend fun findMachinesByGymLocation(gymLocation: String): List<FacilityStatusDto> {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =

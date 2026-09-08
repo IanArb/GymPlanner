@@ -12,9 +12,6 @@ import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
@@ -28,19 +25,18 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
-class DashboardViewModel
-@OptIn(ExperimentalTime::class)
-@Inject
-constructor(
+class DashboardViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val fitnessClassRepository: FitnessClassRepository,
     private val bookingRepository: BookingRepository,
     private val dataStoreRepository: DataStoreRepository,
     private val clock: Clock,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Idle)
 
     val uiState = _uiState.asStateFlow()
@@ -66,8 +62,7 @@ constructor(
 
                 val newState =
                     when {
-                        profileResult.isFailure || classesResult.isFailure ->
-                            DashboardUiState.Failure
+                        profileResult.isFailure || classesResult.isFailure -> DashboardUiState.Failure
                         else -> {
                             val profile = profileResult.getOrThrow()
                             val classes = classesResult.getOrThrow()

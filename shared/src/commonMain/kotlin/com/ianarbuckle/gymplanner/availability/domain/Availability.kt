@@ -9,6 +9,15 @@ data class Availability(
     val slots: ImmutableList<Slot>,
 )
 
-data class Slot(val date: String, val id: String, val times: ImmutableList<Time>)
+data class Slot(
+    val date: String,
+    val id: String,
+    val times: ImmutableList<Time>,
+)
 
-data class Time(val id: String, val endTime: String, val startTime: String, val status: String)
+data class Time(
+    val id: String,
+    val endTime: String,
+    val startTime: String,
+    val status: String,
+)

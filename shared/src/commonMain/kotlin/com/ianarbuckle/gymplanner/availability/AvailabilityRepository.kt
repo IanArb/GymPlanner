@@ -8,7 +8,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface AvailabilityRepository {
-    suspend fun getAvailability(personalTrainerId: String, month: String): Result<Availability>
+    suspend fun getAvailability(
+        personalTrainerId: String,
+        month: String,
+    ): Result<Availability>
 
     suspend fun checkAvailability(
         personalTrainerId: String,
@@ -16,8 +19,9 @@ interface AvailabilityRepository {
     ): Result<CheckAvailability>
 }
 
-class DefaultAvailabilityRepository : AvailabilityRepository, KoinComponent {
-
+class DefaultAvailabilityRepository :
+    AvailabilityRepository,
+    KoinComponent {
     private val remoteDataSource: AvailabilityRemoteDataSource by inject()
 
     override suspend fun getAvailability(

@@ -6,16 +6,15 @@ import com.ianarbuckle.gymplanner.profile.ProfileTestDataProvider.ProfileDtos
 import com.ianarbuckle.gymplanner.profile.ProfileTestDataProvider.Profiles
 import com.ianarbuckle.gymplanner.profile.ProfileTestDataProvider.UserIds
 import com.ianarbuckle.gymplanner.profile.ProfileTestDataProvider.Usernames
+import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.runTest
 
 class ProfileRepositoryTest {
-
     private lateinit var repository: FakeProfileRepository
     private lateinit var fakeRemoteDataSource: FakeProfileRemoteDataSource
 

@@ -21,7 +21,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class BookingViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val bookingRepository: BookingRepository = mockk()

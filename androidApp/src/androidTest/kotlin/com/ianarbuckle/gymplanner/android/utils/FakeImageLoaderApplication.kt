@@ -6,8 +6,9 @@ import coil3.SingletonImageLoader
 import com.ianarbuckle.gymplanner.android.BaseApplication
 import com.ianarbuckle.gymplanner.di.initKoin
 
-open class FakeImageLoaderApplication : BaseApplication(), SingletonImageLoader.Factory {
-
+open class FakeImageLoaderApplication :
+    BaseApplication(),
+    SingletonImageLoader.Factory {
     private val imageLoaderFactory = FakeImageLoaderFactory()
 
     override fun onCreate() {
@@ -15,6 +16,5 @@ open class FakeImageLoaderApplication : BaseApplication(), SingletonImageLoader.
         initKoin(baseUrl = "http://localhost:8080/", websocketBaseUrl = "wss://localhost:8000/")
     }
 
-    override fun newImageLoader(context: Context): ImageLoader =
-        imageLoaderFactory.newImageLoader(context)
+    override fun newImageLoader(context: Context): ImageLoader = imageLoaderFactory.newImageLoader(context)
 }

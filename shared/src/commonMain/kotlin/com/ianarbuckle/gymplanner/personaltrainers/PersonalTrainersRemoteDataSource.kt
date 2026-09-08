@@ -27,7 +27,6 @@ class DefaultPersonalTrainersRemoteDataSource(
     private val baseUrl: String,
     private val dataStoreRepository: DataStoreRepository,
 ) : PersonalTrainersRemoteDataSource {
-
     override suspend fun fetchPersonalTrainers(gymLocation: GymLocation): List<PersonalTrainerDto> {
         val authorisationToken = dataStoreRepository.getStringData(AUTH_TOKEN_KEY) ?: ""
         val response =

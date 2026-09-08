@@ -39,58 +39,52 @@ data class PersonalTrainerDto(
     val schedule: List<ScheduleSlotDto>? = null,
     val availabilityStatus: AvailabilityStatusDto? = null,
 ) {
+    fun toPersonalTrainer(): PersonalTrainer = PersonalTrainer(
+        id = id,
+        firstName = firstName,
+        lastName = lastName,
+        imageUrl = imageUrl,
+        bio = bio,
+        socials = socials ?: emptyMap(),
+        qualifications = qualifications,
+        gymLocation = gymLocation.toGymLocation(),
+        schedule = schedule?.map { it.toScheduleSlot() },
+        availabilityStatus = availabilityStatus?.toAvailabilityStatus(),
+    )
 
-    fun toPersonalTrainer(): PersonalTrainer =
-        PersonalTrainer(
-            id = id,
-            firstName = firstName,
-            lastName = lastName,
-            imageUrl = imageUrl,
-            bio = bio,
-            socials = socials ?: emptyMap(),
-            qualifications = qualifications,
-            gymLocation = gymLocation.toGymLocation(),
-            schedule = schedule?.map { it.toScheduleSlot() },
-            availabilityStatus = availabilityStatus?.toAvailabilityStatus(),
-        )
-
-    private fun GymLocationDto.toGymLocation(): GymLocation =
-        this.let {
-            when (it) {
-                GymLocationDto.CLONTARF -> GymLocation.CLONTARF
-                GymLocationDto.ASTONQUAY -> GymLocation.ASTONQUAY
-                GymLocationDto.LEOPARDSTOWN -> GymLocation.LEOPARDSTOWN
-                GymLocationDto.DUNLOAGHAIRE -> GymLocation.DUNLOAGHAIRE
-                GymLocationDto.SANDYMOUNT -> GymLocation.SANDYMOUNT
-                GymLocationDto.WESTMANSTOWN -> GymLocation.WESTMANSTOWN
-                GymLocationDto.UNKNOWN -> GymLocation.UNKNOWN
-            }
+    private fun GymLocationDto.toGymLocation(): GymLocation = this.let {
+        when (it) {
+            GymLocationDto.CLONTARF -> GymLocation.CLONTARF
+            GymLocationDto.ASTONQUAY -> GymLocation.ASTONQUAY
+            GymLocationDto.LEOPARDSTOWN -> GymLocation.LEOPARDSTOWN
+            GymLocationDto.DUNLOAGHAIRE -> GymLocation.DUNLOAGHAIRE
+            GymLocationDto.SANDYMOUNT -> GymLocation.SANDYMOUNT
+            GymLocationDto.WESTMANSTOWN -> GymLocation.WESTMANSTOWN
+            GymLocationDto.UNKNOWN -> GymLocation.UNKNOWN
         }
+    }
 
-    private fun ScheduleSlotDto.toScheduleSlot(): ScheduleSlot =
-        ScheduleSlot(
-            dayOfWeek = this.dayOfWeek.toDayOfWeek(),
-            startTime = this.startTime,
-            endTime = this.endTime,
-        )
+    private fun ScheduleSlotDto.toScheduleSlot(): ScheduleSlot = ScheduleSlot(
+        dayOfWeek = this.dayOfWeek.toDayOfWeek(),
+        startTime = this.startTime,
+        endTime = this.endTime,
+    )
 
-    private fun DayOfWeekDto.toDayOfWeek(): DayOfWeek =
-        when (this) {
-            DayOfWeekDto.MONDAY -> DayOfWeek.MONDAY
-            DayOfWeekDto.TUESDAY -> DayOfWeek.TUESDAY
-            DayOfWeekDto.WEDNESDAY -> DayOfWeek.WEDNESDAY
-            DayOfWeekDto.THURSDAY -> DayOfWeek.THURSDAY
-            DayOfWeekDto.FRIDAY -> DayOfWeek.FRIDAY
-            DayOfWeekDto.SATURDAY -> DayOfWeek.SATURDAY
-            DayOfWeekDto.SUNDAY -> DayOfWeek.SUNDAY
-        }
+    private fun DayOfWeekDto.toDayOfWeek(): DayOfWeek = when (this) {
+        DayOfWeekDto.MONDAY -> DayOfWeek.MONDAY
+        DayOfWeekDto.TUESDAY -> DayOfWeek.TUESDAY
+        DayOfWeekDto.WEDNESDAY -> DayOfWeek.WEDNESDAY
+        DayOfWeekDto.THURSDAY -> DayOfWeek.THURSDAY
+        DayOfWeekDto.FRIDAY -> DayOfWeek.FRIDAY
+        DayOfWeekDto.SATURDAY -> DayOfWeek.SATURDAY
+        DayOfWeekDto.SUNDAY -> DayOfWeek.SUNDAY
+    }
 
-    private fun AvailabilityStatusDto.toAvailabilityStatus(): AvailabilityStatus =
-        when (this) {
-            AvailabilityStatusDto.AVAILABLE -> AvailabilityStatus.AVAILABLE
-            AvailabilityStatusDto.UNAVAILABLE -> AvailabilityStatus.UNAVAILABLE
-            else -> AvailabilityStatus.UNKNOWN
-        }
+    private fun AvailabilityStatusDto.toAvailabilityStatus(): AvailabilityStatus = when (this) {
+        AvailabilityStatusDto.AVAILABLE -> AvailabilityStatus.AVAILABLE
+        AvailabilityStatusDto.UNAVAILABLE -> AvailabilityStatus.UNAVAILABLE
+        else -> AvailabilityStatus.UNKNOWN
+    }
 }
 
 @Serializable
@@ -126,7 +120,10 @@ enum class GymLocationDto {
     UNKNOWN,
 }
 
-@Serializable data class SessionDto(val name: String, val workouts: List<WorkoutDto>)
+@Serializable data class SessionDto(
+    val name: String,
+    val workouts: List<WorkoutDto>,
+)
 
 @Serializable
 data class WorkoutDto(
@@ -137,4 +134,7 @@ data class WorkoutDto(
     val note: String,
 )
 
-@Serializable data class WeightDto(val value: Double, val unit: String)
+@Serializable data class WeightDto(
+    val value: Double,
+    val unit: String,
+)

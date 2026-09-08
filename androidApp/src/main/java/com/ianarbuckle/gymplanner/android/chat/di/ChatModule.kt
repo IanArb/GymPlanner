@@ -13,15 +13,10 @@ import kotlin.time.ExperimentalTime
 @Module
 @InstallIn(ViewModelComponent::class)
 class ChatModule {
-
     @Provides
-    fun providesChatRepository(): ChatRepository {
-        return DefaultChatRepository()
-    }
+    fun providesChatRepository(): ChatRepository = DefaultChatRepository()
 
     @OptIn(ExperimentalTime::class)
     @Provides
-    fun providesMessageRepository(): MessagesRepository {
-        return DefaultMessagesRepository()
-    }
+    fun providesMessageRepository(): MessagesRepository = DefaultMessagesRepository()
 }

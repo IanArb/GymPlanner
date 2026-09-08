@@ -18,11 +18,11 @@ import com.ianarbuckle.gymplanner.android.login.robot.LoginRobot
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersUiState
 import com.ianarbuckle.gymplanner.android.personaltrainers.data.PersonalTrainersViewModel
 import com.ianarbuckle.gymplanner.android.utils.ComposeIdlingResource
-import com.ianarbuckle.gymplanner.android.utils.ConditionalPermissionRule
 import com.ianarbuckle.gymplanner.android.utils.DataProvider
 import com.ianarbuckle.gymplanner.android.utils.DisableAnimationsRule
 import com.ianarbuckle.gymplanner.android.utils.FakeDataStore
 import com.ianarbuckle.gymplanner.android.utils.KoinTestRule
+import com.ianarbuckle.gymplanner.android.utils.PermissionRule
 import com.ianarbuckle.gymplanner.android.utils.currentMonth
 import com.ianarbuckle.gymplanner.android.utils.currentWeekDates
 import com.ianarbuckle.gymplanner.availability.AvailabilityRepository
@@ -34,35 +34,39 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import jakarta.inject.Inject
-import java.util.Calendar
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.dsl.module
+import java.util.Calendar
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class AvailabilityInstrumentedTests {
+    @get:Rule(order = 1)
+    val disableAnimationsRule = DisableAnimationsRule()
 
-    @get:Rule(order = 1) val disableAnimationsRule = DisableAnimationsRule()
+    @get:Rule(order = 2)
+    val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 2) val hiltTestRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 3) val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule(order = 3)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @get:Rule(order = 4)
     val postNotificationsPermissionRule =
-        ConditionalPermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
+        PermissionRule(permission = Manifest.permission.POST_NOTIFICATIONS, minSdk = 33)
 
     private val testModule = module { single<DataStore<Preferences>> { FakeDataStore() } }
 
     @get:Rule val koinTestRule = KoinTestRule(modules = listOf(testModule))
 
-    @BindValue @JvmField val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
+    @BindValue @JvmField
+    val dashboardViewModel = mockk<DashboardViewModel>(relaxed = true)
 
-    @BindValue @JvmField val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
+    @BindValue @JvmField
+    val gymLocationsViewModel = mockk<GymLocationsViewModel>(relaxed = true)
 
     val personalTrainersViewModel = mockk<PersonalTrainersViewModel>(relaxed = true)
 
@@ -203,8 +207,7 @@ class AvailabilityInstrumentedTests {
         coEvery { personalTrainersViewModel.uiState.value } returns
             PersonalTrainersUiState.Success(personalTrainers = DataProvider.personalTrainers())
 
-        coEvery { availabilityViewModel.availabilityUiState.value } returns
-            AvailabilityUiState.Failed
+        coEvery { availabilityViewModel.availabilityUiState.value } returns AvailabilityUiState.Failed
 
         availabilityRobot.apply {
             clickOnPersonalTrainersNavTab()

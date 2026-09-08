@@ -18,7 +18,11 @@ data class PersonalTrainer(
 )
 
 @Serializable
-data class ScheduleSlot(val dayOfWeek: DayOfWeek, val startTime: LocalTime, val endTime: LocalTime)
+data class ScheduleSlot(
+    val dayOfWeek: DayOfWeek,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
+)
 
 enum class DayOfWeek {
     MONDAY,

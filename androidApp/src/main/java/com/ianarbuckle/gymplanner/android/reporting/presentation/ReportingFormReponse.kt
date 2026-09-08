@@ -85,7 +85,7 @@ private fun ReportingFormResponsePreview() {
                 FloatingActionButton(
                     onClick = {
                         // TODO
-                    }
+                    },
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.ic_add_filled),
@@ -103,9 +103,7 @@ private fun ReportingFormResponsePreview() {
                             icon = {
                                 Icon(
                                     imageVector =
-                                        ImageVector.vectorResource(
-                                            R.drawable.ic_groups_icon_outlined
-                                        ),
+                                    ImageVector.vectorResource(R.drawable.ic_groups_icon_outlined),
                                     contentDescription = item.title,
                                 )
                             },
@@ -117,12 +115,12 @@ private fun ReportingFormResponsePreview() {
             ReportingFormResponse(
                 innerPadding = it,
                 faultReport =
-                    FaultReport(
-                        machineNumber = 123,
-                        description = "The machine is broken",
-                        photoUri = "https://www.google.com",
-                        date = "2022-01-01",
-                    ),
+                FaultReport(
+                    machineNumber = 123,
+                    description = "The machine is broken",
+                    photoUri = "https://www.google.com",
+                    date = "2022-01-01",
+                ),
                 onClick = {},
             )
         }

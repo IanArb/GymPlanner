@@ -22,7 +22,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class LoginViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val authenticationRepository = mockk<AuthenticationRepository>()

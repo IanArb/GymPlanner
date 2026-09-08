@@ -15,8 +15,9 @@ interface AuthenticationRepository {
     suspend fun register(register: Register): Result<RegisterResponse>
 }
 
-class DefaultAuthenticationRepository : AuthenticationRepository, KoinComponent {
-
+class DefaultAuthenticationRepository :
+    AuthenticationRepository,
+    KoinComponent {
     private val remoteDataSource: AuthenticationRemoteDataSource by inject()
 
     override suspend fun login(login: Login): Result<LoginResponse> {

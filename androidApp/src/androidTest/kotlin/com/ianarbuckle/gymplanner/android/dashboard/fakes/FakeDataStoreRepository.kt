@@ -5,12 +5,17 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 
 class FakeDataStoreRepository : DataStoreRepository {
-
-    override suspend fun saveData(key: Preferences.Key<String>, value: String) {
+    override suspend fun saveData(
+        key: Preferences.Key<String>,
+        value: String,
+    ) {
         // noop
     }
 
-    override suspend fun saveData(key: Preferences.Key<Boolean>, value: Boolean) {
+    override suspend fun saveData(
+        key: Preferences.Key<Boolean>,
+        value: Boolean,
+    ) {
         // noop
     }
 

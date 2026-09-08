@@ -8,17 +8,18 @@ import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DefaultFirebaseMessagingService : FirebaseMessagingService() {
-
     @Inject lateinit var dataStoreRepository: DataStoreRepository
+
     @Inject lateinit var fcmTokenRepository: FcmTokenRepository
+
     @Inject lateinit var gymPlannerNotificationManager: GymPlannerNotificationManager
 
     private val job = Job()

@@ -13,16 +13,11 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(components = [SingletonComponent::class], replaces = [DashboardModule::class])
 class FakeDashboardModule {
+    @Singleton
+    @Provides
+    fun providesFitnessClassesRepository(): FitnessClassRepository = FakeFitnessClassRepository()
 
     @Singleton
     @Provides
-    fun providesFitnessClassesRepository(): FitnessClassRepository {
-        return FakeFitnessClassRepository()
-    }
-
-    @Singleton
-    @Provides
-    fun providesProfileRepository(): ProfileRepository {
-        return FakeProfileRepository()
-    }
+    fun providesProfileRepository(): ProfileRepository = FakeProfileRepository()
 }

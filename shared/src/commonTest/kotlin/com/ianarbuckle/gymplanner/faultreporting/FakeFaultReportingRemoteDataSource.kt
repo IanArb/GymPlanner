@@ -8,7 +8,6 @@ import com.ianarbuckle.gymplanner.faultreporting.dto.FaultReportDto
  * FaultReportingRemoteDataSource interface
  */
 class FakeFaultReportingRemoteDataSource : FaultReportingRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnReports = false
     var shouldThrowExceptionOnSaveReport = false

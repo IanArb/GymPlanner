@@ -11,13 +11,11 @@ data class ProfileDto(
     val surname: String,
     val email: String,
 ) {
-
-    fun toProfile(): Profile =
-        Profile(
-            userId = userId,
-            username = username,
-            firstName = firstName,
-            surname = surname,
-            email = email,
-        )
+    fun toProfile(): Profile = Profile(
+        userId = userId,
+        username = username,
+        firstName = firstName,
+        surname = surname,
+        email = email,
+    )
 }

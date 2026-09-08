@@ -15,7 +15,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import kotlin.test.assertEquals
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -25,10 +24,10 @@ import kotlinx.io.IOException
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ChatViewModelTests {
-
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     private val chatRepository: ChatRepository = mockk()

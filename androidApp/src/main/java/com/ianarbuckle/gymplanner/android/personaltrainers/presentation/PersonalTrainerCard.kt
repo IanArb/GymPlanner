@@ -36,15 +36,15 @@ fun PersonalTrainerItem(
 ) {
     Card(
         modifier =
-            modifier.padding(16.dp).fillMaxWidth().clickable {
-                onItemClick(
-                    Triple(
-                        personalTrainer.firstName + " " + personalTrainer.lastName,
-                        personalTrainer.bio,
-                        personalTrainer.imageUrl,
-                    )
-                )
-            },
+        modifier.padding(16.dp).fillMaxWidth().clickable {
+            onItemClick(
+                Triple(
+                    personalTrainer.firstName + " " + personalTrainer.lastName,
+                    personalTrainer.bio,
+                    personalTrainer.imageUrl,
+                ),
+            )
+        },
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -86,18 +86,14 @@ fun PersonalTrainerItem(
                                             SocialImage(
                                                 socials = social,
                                                 drawable = R.drawable.ic_instagram,
-                                                onSocialLinkClick = {
-                                                    onSocialLinkClick(social.value)
-                                                },
+                                                onSocialLinkClick = { onSocialLinkClick(social.value) },
                                             )
                                         }
                                         "tiktok" -> {
                                             SocialImage(
                                                 socials = social,
                                                 drawable = R.drawable.ic_tiktok,
-                                                onSocialLinkClick = {
-                                                    onSocialLinkClick(social.value)
-                                                },
+                                                onSocialLinkClick = { onSocialLinkClick(social.value) },
                                             )
                                         }
                                     }
@@ -144,19 +140,19 @@ private fun PersonalTrainerItemPreview() {
         Surface {
             PersonalTrainerItem(
                 personalTrainer =
-                    PersonalTrainer(
-                        firstName = "John",
-                        lastName = "Doe",
-                        bio = "Bio",
-                        imageUrl = "https://www.example.com/image.jpg",
-                        qualifications = listOf("Qualification 1", "Qualification 2"),
-                        socials =
-                            mapOf(
-                                "instagram" to "https://www.instagram.com",
-                                "tiktok" to "https://www.tiktok.com",
-                            ),
-                        gymLocation = GymLocation.CLONTARF,
+                PersonalTrainer(
+                    firstName = "John",
+                    lastName = "Doe",
+                    bio = "Bio",
+                    imageUrl = "https://www.example.com/image.jpg",
+                    qualifications = listOf("Qualification 1", "Qualification 2"),
+                    socials =
+                    mapOf(
+                        "instagram" to "https://www.instagram.com",
+                        "tiktok" to "https://www.tiktok.com",
                     ),
+                    gymLocation = GymLocation.CLONTARF,
+                ),
                 onSocialLinkClick = {},
                 onBookTrainerClick = {},
                 onItemClick = {},

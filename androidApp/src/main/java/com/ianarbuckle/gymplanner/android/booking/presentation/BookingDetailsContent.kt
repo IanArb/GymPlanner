@@ -199,9 +199,7 @@ fun BookingDetailSlot(
 @Composable
 private fun BookingDetailsPreview() {
     GymAppTheme {
-        Column(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp)
-        ) {
+        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp)) {
             BookingDetailsContent(
                 selectedDate = "2025-02-13",
                 selectedTimeSlot = LocalTime.parse("10:00:00"),

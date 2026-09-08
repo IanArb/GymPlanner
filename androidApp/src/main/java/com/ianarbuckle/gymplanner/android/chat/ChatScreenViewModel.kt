@@ -8,10 +8,6 @@ import com.ianarbuckle.gymplanner.chat.ChatRepository
 import com.ianarbuckle.gymplanner.chat.MessagesRepository
 import com.ianarbuckle.gymplanner.chat.domain.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,16 +15,17 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 @HiltViewModel
-class ChatScreenViewModel
-@Inject
-constructor(
+class ChatScreenViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val messagesRepository: MessagesRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
     private val _chatUiState = MutableStateFlow<ChatUiState>(ChatUiState.Idle)
     val chatUiState = _chatUiState.asStateFlow()
 
@@ -58,12 +55,9 @@ constructor(
                                         "ChatScreenViewModel",
                                         "Updated messages: $updatedMessages",
                                     )
-                                    ChatUiState.Messages(
-                                        messages = updatedMessages.toImmutableList()
-                                    )
+                                    ChatUiState.Messages(messages = updatedMessages.toImmutableList())
                                 }
-                            }
-                            .launchIn(viewModelScope)
+                            }.launchIn(viewModelScope)
                     },
                     onFailure = {
                         Log.e("ChatScreenViewModel", "Failed to connect: ${it.message}")
@@ -92,7 +86,11 @@ constructor(
         viewModelScope.launch {
             val messageText = _messageText.value
 
-            val timestamp = Clock.System.now().plus(1.seconds).toString()
+            val timestamp =
+                Clock.System
+                    .now()
+                    .plus(1.seconds)
+                    .toString()
 
             val message =
                 Message(
@@ -141,9 +139,7 @@ constructor(
             messages.fold(
                 onSuccess = { messages ->
                     Log.d("ChatScreenViewModel", "Loaded messages: $messages")
-                    _chatUiState.update {
-                        ChatUiState.Messages(messages = messages.toImmutableList())
-                    }
+                    _chatUiState.update { ChatUiState.Messages(messages = messages.toImmutableList()) }
                 },
                 onFailure = {
                     _chatUiState.update { ChatUiState.Failed }

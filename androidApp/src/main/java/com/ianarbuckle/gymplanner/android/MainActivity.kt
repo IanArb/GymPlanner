@@ -95,8 +95,7 @@ class MainActivity : ComponentActivity() {
 
             val currentScreen: NavKey? = navigationViewModel.navigationBackStack.lastOrNull()
 
-            val user by
-                profileViewModel.user.collectAsStateWithLifecycle(initialValue = Pair("", ""))
+            val user by profileViewModel.user.collectAsStateWithLifecycle(initialValue = Pair("", ""))
 
             val permissionLauncher =
                 rememberLauncherForActivityResult(
@@ -161,20 +160,19 @@ private fun BottomNavigationBar(
         persistentListOf(DashboardScreen, ReportMachineBroken, GymLocationsScreen)
     }
 
-    if (
-        currentScreen !is PersonalTrainersScreen &&
-            currentScreen !is PersonalTrainersDetailScreen &&
-            currentScreen !is LoginScreen &&
-            currentScreen !is AvailabilityScreen &&
-            currentScreen !is BookingScreen &&
-            currentScreen !is ConversationScreen
+    if (currentScreen !is PersonalTrainersScreen &&
+        currentScreen !is PersonalTrainersDetailScreen &&
+        currentScreen !is LoginScreen &&
+        currentScreen !is AvailabilityScreen &&
+        currentScreen !is BookingScreen &&
+        currentScreen !is ConversationScreen
     ) {
         BottomNavigationBar(
             destinations = bottomNavItems,
             currentDestination = currentScreen,
             onNavigate = { destination ->
                 navigationViewModel.onNavigate(
-                    event = NavigationEvent.NavigationBottomBar(destination = destination as NavKey)
+                    event = NavigationEvent.NavigationBottomBar(destination = destination as NavKey),
                 )
             },
         )
@@ -193,10 +191,10 @@ private fun FloatingActionButton(
                 if (user.first.isNotEmpty() && user.second.isNotEmpty()) {
                     navigationViewModel.onNavigate(
                         event =
-                            NavigationEvent.NavigateToChat(
-                                username = user.first,
-                                userId = user.second,
-                            )
+                        NavigationEvent.NavigateToChat(
+                            username = user.first,
+                            userId = user.second,
+                        ),
                     )
                 }
             },
@@ -218,10 +216,10 @@ private fun NavigationRoot(
     NavDisplay(
         backStack = navigationViewModel.navigationBackStack,
         entryDecorators =
-            listOf(
-                rememberSaveableStateHolderNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator(),
-            ),
+        listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator(),
+        ),
         transitionSpec = {
             // Slide in from right when navigating forward
             slideInHorizontally(initialOffsetX = { it }) togetherWith
@@ -248,8 +246,7 @@ private fun NavigationRoot(
                             },
                         )
                     }
-                is DashboardScreen ->
-                    NavEntry(key) { DashboardScreen(contentPadding = contentPadding) }
+                is DashboardScreen -> NavEntry(key) { DashboardScreen(contentPadding = contentPadding) }
                 is ReportMachineBroken ->
                     NavEntry(key) { ReportMachineBrokenScreen(contentPadding = contentPadding) }
                 is GymLocationsScreen ->
@@ -259,9 +256,9 @@ private fun NavigationRoot(
                             onNavigateTo = { gymLocationEnum ->
                                 navigationViewModel.onNavigate(
                                     event =
-                                        NavigationEvent.NavigateToPersonalTrainers(
-                                            gymLocation = gymLocationEnum
-                                        )
+                                    NavigationEvent.NavigateToPersonalTrainers(
+                                        gymLocation = gymLocationEnum,
+                                    ),
                                 )
                             },
                         )
@@ -274,26 +271,23 @@ private fun NavigationRoot(
                             onNavigateTo = { trainer ->
                                 navigationViewModel.onNavigate(
                                     event =
-                                        NavigationEvent.NavigateToPersonalTrainersDetails(
-                                            name = trainer.first,
-                                            bio = trainer.second,
-                                            imageUrl = trainer.third,
-                                        )
+                                    NavigationEvent.NavigateToPersonalTrainersDetails(
+                                        name = trainer.first,
+                                        bio = trainer.second,
+                                        imageUrl = trainer.third,
+                                    ),
                                 )
                             },
                             onBookClick = { personalTrainer ->
                                 navigationViewModel.onNavigate(
                                     event =
-                                        NavigationEvent.NavigateToAvailability(
-                                            personalTrainerId = personalTrainer.id ?: "",
-                                            name =
-                                                personalTrainer.firstName +
-                                                    " " +
-                                                    personalTrainer.lastName,
-                                            imageUrl = personalTrainer.imageUrl,
-                                            qualifications = personalTrainer.qualifications,
-                                            gymLocation = key.gymLocation.name,
-                                        )
+                                    NavigationEvent.NavigateToAvailability(
+                                        personalTrainerId = personalTrainer.id ?: "",
+                                        name = personalTrainer.firstName + " " + personalTrainer.lastName,
+                                        imageUrl = personalTrainer.imageUrl,
+                                        qualifications = personalTrainer.qualifications,
+                                        gymLocation = key.gymLocation.name,
+                                    ),
                                 )
                             },
                         )
@@ -302,40 +296,38 @@ private fun NavigationRoot(
                     NavEntry(
                         key = key,
                         metadata =
-                            NavDisplay.transitionSpec {
-                                // Slide new content up, keeping the old content in place underneath
-                                slideInVertically(
-                                    initialOffsetY = { it },
-                                    animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
-                                ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                        NavDisplay.transitionSpec {
+                            // Slide new content up, keeping the old content in place underneath
+                            slideInVertically(
+                                initialOffsetY = { it },
+                                animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                            ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                        } +
+                            NavDisplay.popTransitionSpec {
+                                // Slide old content down, revealing the new content in place
+                                // underneath
+                                EnterTransition.None togetherWith
+                                    slideOutVertically(
+                                        targetOffsetY = { it },
+                                        animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                                    )
                             } +
-                                NavDisplay.popTransitionSpec {
-                                    // Slide old content down, revealing the new content in place
-                                    // underneath
-                                    EnterTransition.None togetherWith
-                                        slideOutVertically(
-                                            targetOffsetY = { it },
-                                            animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
-                                        )
-                                } +
-                                NavDisplay.predictivePopTransitionSpec {
-                                    // Slide old content down, revealing the new content in place
-                                    // underneath
-                                    EnterTransition.None togetherWith
-                                        slideOutVertically(
-                                            targetOffsetY = { it },
-                                            animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
-                                        )
-                                },
+                            NavDisplay.predictivePopTransitionSpec {
+                                // Slide old content down, revealing the new content in place
+                                // underneath
+                                EnterTransition.None togetherWith
+                                    slideOutVertically(
+                                        targetOffsetY = { it },
+                                        animationSpec = tween(TWEEN_DURATION_MILLIS_SECONDS),
+                                    )
+                            },
                     ) {
                         PersonalTrainersDetailScreen(
                             contentPadding = contentPadding,
                             name = key.name,
                             bio = key.bio,
                             imageUrl = key.imageUrl,
-                            onNavigateTo = {
-                                navigationViewModel.onNavigate(NavigationEvent.NavigateBack)
-                            },
+                            onNavigateTo = { navigationViewModel.onNavigate(NavigationEvent.NavigateBack) },
                             onBookClick = {},
                         )
                     }
@@ -345,13 +337,13 @@ private fun NavigationRoot(
                         val availabilityScreenState =
                             AvailabilityScreenState(
                                 personalTrainer =
-                                    PersonalTrainer(
-                                        personalTrainerId = key.personalTrainerId,
-                                        name = key.name,
-                                        imageUrl = key.imageUrl,
-                                        gymLocation = key.gymLocation,
-                                        qualifications = key.qualifications,
-                                    )
+                                PersonalTrainer(
+                                    personalTrainerId = key.personalTrainerId,
+                                    name = key.name,
+                                    imageUrl = key.imageUrl,
+                                    gymLocation = key.gymLocation,
+                                    qualifications = key.qualifications,
+                                ),
                             )
                         AvailabilityScreen(
                             paddingValues = contentPadding,
@@ -359,16 +351,15 @@ private fun NavigationRoot(
                             onBookingClick = { availabilityData ->
                                 navigationViewModel.onNavigate(
                                     event =
-                                        NavigationEvent.NavigateToBooking(
-                                            personalTrainerId = key.personalTrainerId,
-                                            timeSlotId = availabilityData.timeSlotId,
-                                            selectedDate = availabilityData.selectedDate,
-                                            selectedTimeSlot =
-                                                availabilityData.selectedTimeSlot.toString(),
-                                            personalTrainerName = key.name,
-                                            personalTrainerAvatarUrl = key.imageUrl,
-                                            location = key.gymLocation,
-                                        )
+                                    NavigationEvent.NavigateToBooking(
+                                        personalTrainerId = key.personalTrainerId,
+                                        timeSlotId = availabilityData.timeSlotId,
+                                        selectedDate = availabilityData.selectedDate,
+                                        selectedTimeSlot = availabilityData.selectedTimeSlot.toString(),
+                                        personalTrainerName = key.name,
+                                        personalTrainerAvatarUrl = key.imageUrl,
+                                        location = key.gymLocation,
+                                    ),
                                 )
                             },
                         )
@@ -395,9 +386,7 @@ private fun NavigationRoot(
                         )
                     }
                 is ConversationScreen ->
-                    NavEntry(key) {
-                        ChatScreen(paddingValues = contentPadding, username = key.username)
-                    }
+                    NavEntry(key) { ChatScreen(paddingValues = contentPadding, username = key.username) }
                 else -> NavEntry(key) { IllegalArgumentException("Unknown key: $key") }
             }
         },

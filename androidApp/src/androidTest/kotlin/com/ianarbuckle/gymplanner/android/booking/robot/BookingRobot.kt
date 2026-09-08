@@ -8,8 +8,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsGridTag
 
-class BookingRobot(private val composeTestRule: ComposeTestRule) {
-
+class BookingRobot(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun clickOnBookPersonalTrainer() {
         composeTestRule.onAllNodesWithText("Book now")[0].performClick()
     }

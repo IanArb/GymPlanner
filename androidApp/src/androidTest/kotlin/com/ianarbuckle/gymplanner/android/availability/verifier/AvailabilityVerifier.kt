@@ -9,9 +9,13 @@ import androidx.compose.ui.test.onNodeWithText
 import com.ianarbuckle.gymplanner.android.availability.presentation.AvailableTimesGrid
 import com.ianarbuckle.gymplanner.android.availability.presentation.CalendarGridTestTag
 
-class AvailabilityVerifier(private val composeTestRule: ComposeTestRule) {
-
-    fun verifyPersonalTrainerNameAndDescription(name: String, qualifications: List<String>) {
+class AvailabilityVerifier(
+    private val composeTestRule: ComposeTestRule,
+) {
+    fun verifyPersonalTrainerNameAndDescription(
+        name: String,
+        qualifications: List<String>,
+    ) {
         val items = qualifications.joinToString(", ")
         composeTestRule.onNodeWithText(name).assertExists()
         composeTestRule.onNodeWithText(items)
@@ -50,7 +54,11 @@ class AvailabilityVerifier(private val composeTestRule: ComposeTestRule) {
         composeTestRule.onNodeWithText("Confirm Booking").assertIsDisplayed()
     }
 
-    fun verifyBookingDetails(location: String, bookingDate: String, bookingTime: String) {
+    fun verifyBookingDetails(
+        location: String,
+        bookingDate: String,
+        bookingTime: String,
+    ) {
         composeTestRule.onNodeWithText("Location: $location").assertIsDisplayed()
         composeTestRule.onNodeWithText("Date: $bookingDate").assertIsDisplayed()
         composeTestRule.onNodeWithText("Time: $bookingTime").assertIsDisplayed()

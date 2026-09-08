@@ -24,7 +24,6 @@ class DefaultBookingRemoteDataSource(
     private val httpClient: HttpClient,
     private val dataStoreRepository: DataStoreRepository,
 ) : BookingRemoteDataSource {
-
     override suspend fun saveBooking(bookingDto: BookingDto): BookingResponseDto {
         val token = dataStoreRepository.getStringData(AUTH_TOKEN_KEY)
         val response =

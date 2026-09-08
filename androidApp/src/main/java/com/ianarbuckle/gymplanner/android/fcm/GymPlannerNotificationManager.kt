@@ -10,8 +10,9 @@ import javax.inject.Inject
 
 class GymPlannerNotificationManager
 @Inject
-constructor(private val notificationManager: NotificationManager) {
-
+constructor(
+    private val notificationManager: NotificationManager,
+) {
     fun createNotificationChannel() {
         val channel =
             NotificationChannel(
@@ -22,9 +23,14 @@ constructor(private val notificationManager: NotificationManager) {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun showNotification(context: Context, title: String, message: String) {
+    fun showNotification(
+        context: Context,
+        title: String,
+        message: String,
+    ) {
         val builder =
-            NotificationCompat.Builder(context, CHANNEL_ID)
+            NotificationCompat
+                .Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_chat_bubble)
                 .setContentTitle(title)
                 .setContentText(message)

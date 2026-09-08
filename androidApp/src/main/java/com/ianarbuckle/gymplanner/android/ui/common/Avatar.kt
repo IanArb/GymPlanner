@@ -35,11 +35,11 @@ fun Avatar(
         if (isAvailable) {
             Box(
                 modifier =
-                    Modifier.size(16.dp)
-                        .offset(x = (-16).dp)
-                        .clip(CircleShape)
-                        .background(Color.Green)
-                        .align(Alignment.BottomEnd)
+                Modifier.size(16.dp)
+                    .offset(x = (-16).dp)
+                    .clip(CircleShape)
+                    .background(Color.Green)
+                    .align(Alignment.BottomEnd),
             )
         }
     }

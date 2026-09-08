@@ -16,20 +16,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FcmModule {
+    @Provides
+    fun providesFcmTokenRepository(): FcmTokenRepository = FcmTokenRepository()
 
     @Provides
-    fun providesFcmTokenRepository(): FcmTokenRepository {
-        return FcmTokenRepository()
-    }
-
-    @Provides
-    fun providesFirebaseMessaging(): FirebaseMessaging {
-        return Firebase.messaging
-    }
+    fun providesFirebaseMessaging(): FirebaseMessaging = Firebase.messaging
 
     @Provides
     @Singleton
-    fun provideNotificationManager(@ApplicationContext context: Context): NotificationManager {
-        return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
+    fun provideNotificationManager(
+        @ApplicationContext context: Context,
+    ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }

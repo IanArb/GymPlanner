@@ -15,21 +15,21 @@ data class FitnessClassDto(
     val name: String,
     val startTime: String,
 ) {
-
-    fun transformToFitnessClass(): FitnessClass =
-        FitnessClass(
-            dayOfWeek = dayOfWeek,
-            description = description,
-            name = name,
-            imageUrl = imageUrl,
-            startTime = startTime,
-            endTime = endTime,
-            duration = durationDto.transformDuration(),
-        )
+    fun transformToFitnessClass(): FitnessClass = FitnessClass(
+        dayOfWeek = dayOfWeek,
+        description = description,
+        name = name,
+        imageUrl = imageUrl,
+        startTime = startTime,
+        endTime = endTime,
+        duration = durationDto.transformDuration(),
+    )
 }
 
 @Serializable
-data class DurationDto(val unit: String, val value: Int) {
-
+data class DurationDto(
+    val unit: String,
+    val value: Int,
+) {
     fun transformDuration(): Duration = Duration(value = value, unit = unit)
 }

@@ -7,7 +7,6 @@ import com.ianarbuckle.gymplanner.fitnessclass.dto.FitnessClassDto
  * FitnessClassRemoteDataSource interface
  */
 class FakeFitnessClassRemoteDataSource : FitnessClassRemoteDataSource {
-
     // Control flags for test scenarios
     var shouldThrowExceptionOnFitnessClasses = false
     var fitnessClassesException: Exception? = null

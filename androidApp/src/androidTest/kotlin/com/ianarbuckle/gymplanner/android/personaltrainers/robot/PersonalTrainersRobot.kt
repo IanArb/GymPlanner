@@ -8,8 +8,9 @@ import androidx.compose.ui.test.performClick
 import com.ianarbuckle.gymplanner.android.gymlocations.presentation.GymLocationsGridTag
 import com.ianarbuckle.gymplanner.android.personaltrainers.presentation.PersonalTrainersItemsTag
 
-class PersonalTrainersRobot(private val composeTestRule: ComposeTestRule) {
-
+class PersonalTrainersRobot(
+    private val composeTestRule: ComposeTestRule,
+) {
     fun clickOnPersonalTrainersNavTab() {
         composeTestRule.onNodeWithText("Personal Trainers").performClick()
     }

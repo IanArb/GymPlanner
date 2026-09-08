@@ -28,7 +28,7 @@ fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
                 if (pagerState.currentPage > 0) {
                     scope.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
                 }
-            }
+            },
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_back),
@@ -43,7 +43,7 @@ fun NextPrevIndicators(pagerState: PagerState, modifier: Modifier = Modifier) {
                 if (pagerState.currentPage < pagerState.pageCount - 1) {
                     scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
                 }
-            }
+            },
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_forward),

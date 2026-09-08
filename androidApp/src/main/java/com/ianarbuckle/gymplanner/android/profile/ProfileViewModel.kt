@@ -6,19 +6,16 @@ import com.ianarbuckle.gymplanner.profile.ProfileRepository
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel
-@Inject
-constructor(
+class ProfileViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
     private val profileRepository: ProfileRepository,
 ) : ViewModel() {
-
     private val _user = MutableStateFlow(Pair("", ""))
     val user = _user.asSharedFlow()
 

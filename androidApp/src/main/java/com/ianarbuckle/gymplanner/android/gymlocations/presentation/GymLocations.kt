@@ -42,17 +42,17 @@ fun GymLocationsSelection(
                     title = gym.title,
                     subTitle = gym.subTitle,
                     modifier =
-                        Modifier.clickable {
-                            when (gym.title) {
-                                "Clontarf" -> onClick(GymLocation.CLONTARF)
-                                "Aston Quay" -> onClick(GymLocation.ASTONQUAY)
-                                "Leonardstown" -> onClick(GymLocation.LEOPARDSTOWN)
-                                "Sandymount" -> onClick(GymLocation.SANDYMOUNT)
-                                "Dunloaghaire" -> onClick(GymLocation.DUNLOAGHAIRE)
-                                "Westmanstown" -> onClick(GymLocation.WESTMANSTOWN)
-                                else -> onClick(GymLocation.UNKNOWN)
-                            }
-                        },
+                    Modifier.clickable {
+                        when (gym.title) {
+                            "Clontarf" -> onClick(GymLocation.CLONTARF)
+                            "Aston Quay" -> onClick(GymLocation.ASTONQUAY)
+                            "Leonardstown" -> onClick(GymLocation.LEOPARDSTOWN)
+                            "Sandymount" -> onClick(GymLocation.SANDYMOUNT)
+                            "Dunloaghaire" -> onClick(GymLocation.DUNLOAGHAIRE)
+                            "Westmanstown" -> onClick(GymLocation.WESTMANSTOWN)
+                            else -> onClick(GymLocation.UNKNOWN)
+                        }
+                    },
                 )
             }
         }

@@ -14,8 +14,7 @@ import org.junit.runners.model.Statement
  *   android.Manifest.permission.POST_NOTIFICATIONS).
  * @param minSdk The minimum SDK level on which to grant the permission.
  */
-class ConditionalPermissionRule(private val permission: String, private val minSdk: Int) :
-    TestRule {
+class PermissionRule(private val permission: String, private val minSdk: Int) : TestRule {
 
     override fun apply(base: Statement?, description: Description?): Statement? {
         if (Build.VERSION.SDK_INT < minSdk) {

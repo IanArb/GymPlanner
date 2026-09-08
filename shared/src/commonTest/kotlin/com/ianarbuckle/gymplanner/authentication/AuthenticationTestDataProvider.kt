@@ -9,7 +9,6 @@ import com.ianarbuckle.gymplanner.authentication.dto.RegisterResponseDto
 
 /** Provides test data for AuthenticationRepository tests */
 object AuthenticationTestDataProvider {
-
     // ========== Login Test Data ==========
 
     object Logins {
