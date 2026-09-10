@@ -17,7 +17,7 @@ This app leverages the power of Kotlin Multiplatform to provide a consistent exp
 - **Ktor**: A lightweight framework for building RESTful APIs, used for network communication in the KMP module.
 - **Compose**: A declarative UI framework for building native user interfaces with Kotlin.
 - **MockK**: A Kotlin-first mocking library used for unit testing and mocking dependencies.
-- **Roborazzi**: A JVM-based screenshot testing library used to validate and ensure the consistent appearance of the app's UI across different versions and environments.
+- **Compose Preview Screenshot Testing**: Google's host-side screenshot testing tool. It renders `@PreviewTest` composable previews with Layoutlib and compares them against committed reference images to keep the app's UI consistent across changes.
 - **Dagger**: Dagger helps manage dependencies in a project by automating the process of creating and injecting objects, promoting a clean and decoupled architecture. It is primarily used in the Android module of the project, where it integrates with Hilt—an official Android DI library built on top of Dagger—for simplified setup and improved usability.
 - **Koin**: A lightweight, intuitive dependency injection framework for Kotlin, designed with simplicity and ease of use in mind. Koin is primarily utilized in the Kotlin Multiplatform (KMP) module, offering a flexible and concise way to manage dependencies across multiple platforms with minimal configuration.
 
@@ -98,8 +98,8 @@ The main dashboard displays gym classes carousel and quick access to book person
 
 <table>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.dashboard.screenshots.DashboardContentScreenshotTests/verify_gym_carousel_is_displayed_correctly_in_dark_mode.png" width="300" alt="Dashboard Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.dashboard.screenshots.DashboardContentScreenshotTests/verify_book_trainers_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Dashboard Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/dashboard/DashboardContentScreenshotsKt/GymClassesCarouselScreenshot_dark_05ee7a6d_0.png" width="300" alt="Dashboard Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/dashboard/DashboardContentScreenshotsKt/BookPersonalTrainerCardScreenshot_light_38cd53e8_0.png" width="300" alt="Dashboard Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Dashboard - Dark Mode</td>
@@ -112,8 +112,8 @@ Browse and select from available gym locations.
 
 <table>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.gymlocations.screenshots.GymLocationsScreenshotTests/verify_gym_location_card_is_displayed_correctly_in_dark_mode.png" width="300" alt="Gym Locations Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.gymlocations.screenshots.GymLocationsScreenshotTests/verify_gym_location_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Gym Locations Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/gymlocations/GymLocationsScreenshotsKt/GymLocationCardScreenshot_dark_05ee7a6d_0.png" width="300" alt="Gym Locations Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/gymlocations/GymLocationsScreenshotsKt/GymLocationCardScreenshot_light_38cd53e8_0.png" width="300" alt="Gym Locations Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Gym Locations - Dark Mode</td>
@@ -126,8 +126,8 @@ View available personal trainers and their profiles.
 
 <table>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.personaltrainers.screenshots.PersonalTrainersScreenshotTests/verify_personal_trainers_card_is_displayed_correctly_in_night_mode.png" width="300" alt="Personal Trainers Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.personaltrainers.screenshots.PersonalTrainersScreenshotTests/verify_personal_trainers_card_is_displayed_correctly_in_light_mode.png" width="300" alt="Personal Trainers Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/personaltrainers/PersonalTrainersScreenshotsKt/PersonalTrainerItemScreenshot_dark_05ee7a6d_0.png" width="300" alt="Personal Trainers Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/personaltrainers/PersonalTrainersScreenshotsKt/PersonalTrainerItemScreenshot_light_38cd53e8_0.png" width="300" alt="Personal Trainers Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Personal Trainers - Dark Mode</td>
@@ -140,16 +140,16 @@ Check trainer availability and book time slots through an interactive calendar i
 
 <table>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_header_is_displayed_correctly_in_dark_mode.png" width="300" alt="Booking Calendar Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_header_is_displayed_correctly_in_light_mode.png" width="300" alt="Booking Calendar Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/availability/BookingContentScreenshotsKt/CalendarWeekDaysRowScreenshot_dark_05ee7a6d_0.png" width="300" alt="Booking Calendar Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/availability/BookingContentScreenshotsKt/CalendarWeekDaysRowScreenshot_light_38cd53e8_0.png" width="300" alt="Booking Calendar Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Booking Calendar - Dark Mode</td>
     <td align="center">Booking Calendar - Light Mode</td>
   </tr>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_time_slots_is_displayed_correctly_in_dark_mode.png" width="300" alt="Time Slots Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.availability.screenshots.BookingContentScreenshotTests/verify_booking_calendar_time_slots_is_displayed_correctly_in_light_mode.png" width="300" alt="Time Slots Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/availability/BookingContentScreenshotsKt/TimeSlotsBoxScreenshot_dark_05ee7a6d_0.png" width="300" alt="Time Slots Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/availability/BookingContentScreenshotsKt/TimeSlotsBoxScreenshot_light_38cd53e8_0.png" width="300" alt="Time Slots Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Time Slots - Dark Mode</td>
@@ -162,8 +162,8 @@ Real-time chat interface for communicating with gym staff.
 
 <table>
   <tr>
-    <td><img src="androidApp/screenshots/gymplanner.chat.screenshots.ChatScreenContentScreenshotTests/verify_composer_in_dark_mode.png" width="300" alt="Chat Dark Mode"/></td>
-    <td><img src="androidApp/screenshots/gymplanner.chat.screenshots.ChatScreenContentScreenshotTests/verify_composer_in_light_mode.png" width="300" alt="Chat Light Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/chat/ChatScreenshotsKt/ChatScreenContentScreenshot_dark_05ee7a6d_0.png" width="300" alt="Chat Dark Mode"/></td>
+    <td><img src="androidApp/src/screenshotTestDebug/reference/gymplanner/screenshots/chat/ChatScreenshotsKt/ChatScreenContentScreenshot_light_38cd53e8_0.png" width="300" alt="Chat Light Mode"/></td>
   </tr>
   <tr>
     <td align="center">Chat Interface - Dark Mode</td>

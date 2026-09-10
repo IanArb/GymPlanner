@@ -43,8 +43,11 @@ GymPlanner is a **Kotlin Multiplatform (KMP)** project targeting Android, iOS, a
 # Run a single test class
 ./gradlew :androidApp:testDebugUnitTest --tests "com.ianarbuckle.gymplanner.android.SomeTest"
 
-# Roborazzi screenshot tests
-./gradlew :androidApp:testDebugUnitTest
+# Compose preview screenshot tests (verify against committed reference images)
+./gradlew :androidApp:validateDebugScreenshotTest
+
+# Record/update the screenshot reference images
+./gradlew :androidApp:updateDebugScreenshotTest
 
 # Android instrumented tests
 ./gradlew :androidApp:connectedAndroidTest

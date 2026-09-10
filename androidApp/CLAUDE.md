@@ -21,7 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Testing
 
 ```bash
-# All unit tests (includes Roborazzi screenshot tests)
+# All unit tests
 ./gradlew :androidApp:testDebugUnitTest
 
 # Run a single test class
@@ -30,24 +30,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Instrumented tests (requires connected device/emulator)
 ./gradlew :androidApp:connectedAndroidTest
 
-# Record new screenshot baselines
-./gradlew :androidApp:recordRoborazziDebug
-```
+# Verify screenshots against the committed reference images
+./gradlew :androidApp:validateDebugScreenshotTest
 
-Note: `testReleaseUnitTest` is explicitly disabled (Roborazzi compatibility).
+# Record/update the screenshot reference images
+./gradlew :androidApp:updateDebugScreenshotTest
+```
 
 ### Test Infrastructure
 
-Shared test utilities live in `src/test/kotlin/gymplanner/utils/`:
+Shared unit test utilities live in `src/test/kotlin/gymplanner/utils/`:
 
 | File | Purpose |
 |---|---|
 | `TestCoroutineRule.kt` | JUnit rule for `UnconfinedTestDispatcher` |
-| `KoinTestRule.kt` | JUnit rule to start/stop a Koin context per test |
-| `FakeDataStore.kt` | In-memory `DataStore<Preferences>` for tests |
-| `RoborazziRule.kt` | Wrapper rule for Roborazzi screenshot capture |
-| `ComposeTestRules.kt` | Factory for `AndroidComposeTestRule` |
-| `PreviewUtils.kt` | `ScreenTestPreview` composable for light/dark previews |
 
 ### ViewModel Tests
 
@@ -57,10 +53,28 @@ Shared test utilities live in `src/test/kotlin/gymplanner/utils/`:
 
 ### Screenshot Tests
 
-- Run with Robolectric (`@RunWith(AndroidJUnit4::class)`, `@GraphicsMode(NATIVE)`, `@Config(sdk = [34])`).
-- Reference images are stored in `src/screenshots/`.
-- Dark-mode variants use `@Config(qualifiers = "+night")`.
-- Provide a `KoinTestRule` with a `testModule` that supplies fakes (e.g. `FakeDataStore`) for any Koin dependencies the composable needs.
+Screenshot tests use [Compose Preview Screenshot Testing](https://developer.android.com/studio/preview/compose-screenshot-testing) — host-side rendering via Layoutlib, no Robolectric and no emulator.
+
+- Tests are `@PreviewTest`-annotated composable previews in the `screenshotTest` source set: `src/screenshotTest/kotlin/gymplanner/screenshots/<feature>/`.
+- Reference images are committed under `src/screenshotTestDebug/reference/`, named after the fully-qualified preview function plus a hash of its preview parameters.
+- `src/screenshotTest/kotlin/gymplanner/screenshots/ScreenshotPreview.kt` holds the two shared pieces:
+  - `ScreenshotPreview` — wraps content in `GymAppTheme(dynamicColor = false)` and a `Surface`. Dynamic colour is off so reference images are reproducible across machines.
+  - `@ScreenshotPreviews` — multipreview producing `light`, `dark` and `largeFont` (1.5x font scale) variants.
+- Preview data comes from `com.ianarbuckle.gymplanner.android.utils.DataProvider` in `main`, the same object the in-app `@Preview`s use.
+- Previews render under `LocalInspectionMode`, so Coil never hits the network — no fake image loader or DI container is needed.
+
+Adding a screenshot test:
+
+```kotlin
+@PreviewTest
+@ScreenshotPreviews
+@Composable
+private fun MyComponentScreenshot() {
+    ScreenshotPreview { MyComponent(/* ... */) }
+}
+```
+
+Then run `./gradlew :androidApp:updateDebugScreenshotTest` and commit the generated PNGs. Renaming a preview function invalidates its reference images, so re-record after a rename.
 
 ### Instrumented Tests
 

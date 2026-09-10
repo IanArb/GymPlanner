@@ -14,8 +14,10 @@ Quick reference for AI agents working in this repo. Prefer reading code over re-
 ## Essential Commands
 
 ```bash
-./gradlew :shared:test                   # shared tests
-./gradlew :androidApp:testDebugUnitTest  # Android unit + screenshot tests
+./gradlew :shared:test                          # shared tests
+./gradlew :androidApp:testDebugUnitTest         # Android unit tests
+./gradlew :androidApp:validateDebugScreenshotTest  # verify screenshot references
+./gradlew :androidApp:updateDebugScreenshotTest    # re-record screenshot references
 ./gradlew spotlessApply                  # format (run before committing)
 ./gradlew spotlessCheck                  # verify formatting without applying
 ./gradlew detekt                         # static analysis
@@ -49,6 +51,11 @@ Android features need: `<Feature>ViewModel` (`@HiltViewModel`) + `<Feature>UiSta
 - `<Feature>TestDataProvider` — all test data in one `object`
 
 **Android unit tests** — MockK + Turbine for StateFlow assertions, `TestCoroutineRule`.
+
+**Android screenshot tests** — Compose Preview Screenshot Testing. `@PreviewTest` composables live in
+`androidApp/src/screenshotTest/kotlin/gymplanner/screenshots/`, wrapped in `ScreenshotPreview` and
+annotated `@ScreenshotPreviews` (light / dark / 1.5x font). Reference images are committed under
+`androidApp/src/screenshotTestDebug/reference/`; re-record them whenever a preview is added or renamed.
 
 **Do not** mock `CancellationException` — always rethrow it in catch blocks.
 
