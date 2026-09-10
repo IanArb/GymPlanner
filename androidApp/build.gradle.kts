@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.roborazzi)
+    alias(libs.plugins.screenshot)
     alias(libs.plugins.google.services.gms)
     alias(libs.plugins.stability.analyzer)
 }
@@ -18,6 +18,7 @@ kotlin {
 
 android {
     namespace = "com.ianarbuckle.gymplanner.android"
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
     defaultConfig {
         applicationId = "com.ianarbuckle.gymplanner.android"
         versionCode = 1
@@ -98,19 +99,16 @@ dependencies {
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.coil3.test)
 
-    testImplementation(libs.compose.ui.test)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.junit)
     testImplementation(libs.turbine)
-    testImplementation(libs.junit.android.ext)
-    testImplementation(libs.roborazzi)
-    testImplementation(libs.roborazzi.compose)
-    testImplementation(libs.roborazzi.junit.rule)
-    testImplementation(libs.roboelectric)
-    testImplementation(libs.koin.test)
-    testImplementation(libs.coil3.test)
     testImplementation(kotlin("test"))
+
+    screenshotTestImplementation(libs.screenshot.validation.api)
+    screenshotTestImplementation(libs.compose.ui.tooling)
+    screenshotTestImplementation(libs.kotlinx.immutable.collections)
+    screenshotTestImplementation(libs.kotlinx.datetime)
 }
 
 composeCompiler {
@@ -118,15 +116,4 @@ composeCompiler {
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
-roborazzi {
-    // Directory for reference images
-    outputDir.set(file("src/screenshots"))
-}
-
-tasks.withType<Test> {
-    // Disable tests for release build for Roborazzi compatibility
-    if (name == "testReleaseUnitTest") {
-        enabled = false
-    }
-    useJUnit()
-}
+tasks.withType<Test> { useJUnit() }

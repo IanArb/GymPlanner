@@ -25,7 +25,7 @@ kotlinx-immutable-collections = "0.5.2"
 ktor = "3.5.2"
 koin = "4.2.2"
 mockwebserver = "5.5.0"
-roborazzi = "1.73.0"
+screenshot = "0.0.1-alpha16"
 junit = "4.13.2"
 mockk = "1.14.11"
 runner = "1.7.0"
@@ -96,9 +96,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
 
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
-roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
-roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
-roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+screenshot-validation-api = { module = "com.android.tools.screenshot:screenshot-validation-api", version.ref = "screenshot" }
 roboelectric = { module = "org.robolectric:robolectric", version = "4.16"}
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
@@ -124,7 +122,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
+screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.10" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 skie = { id = "co.touchlab.skie", version = "0.10.14" }

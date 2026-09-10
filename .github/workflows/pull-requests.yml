@@ -72,12 +72,13 @@ jobs:
             androidApp/build/test-results/**/*.xml
             shared/build/test-results/**/*.xml
 
-      - name: Verify screenshot tests with Roborazzi
-        run: ./gradlew androidApp:verifyRoborazziDebug --stacktrace
+      - name: Verify Compose preview screenshot tests
+        run: ./gradlew :androidApp:validateDebugScreenshotTest --stacktrace
 
-      - name: Upload Roborazzi report
+      - name: Upload screenshot test report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: roborazzi-report
-          path: app/build/reports/roborazzi/debug/
+          name: screenshot-test-report
+          path: androidApp/build/reports/screenshotTest/preview/debug/
 
