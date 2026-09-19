@@ -135,15 +135,29 @@ Common scopes in this project:
    - Creates GitHub release
    - Publishes artifacts
 
-### Manual Release (Emergency)
+### On-Demand Release
 
-If you need to release manually:
+The **Release** workflow can also be run by hand — GitHub Actions → *Release* → **Run workflow**, or:
 
 ```bash
-# Create a version tag
-git tag v1.2.3
-git push origin v1.2.3
+gh workflow run release.yml --ref main
+gh workflow run release.yml --ref main -f release_type=minor
+gh workflow run release.yml --ref main -f dry_run=true
 ```
+
+| Input | Default | Effect |
+|---|---|---|
+| `release_type` | `auto` | `auto` derives the bump from the commits since the last release. `patch` / `minor` / `major` force at least that bump. |
+| `dry_run` | `false` | Works out the next version and release notes, then stops. Nothing is tagged, published or pushed. |
+
+The run otherwise behaves exactly like the automatic one — changelog, version files, XCFramework, GitHub release.
+
+Two things to know:
+
+- **`release_type` is a floor, not an override.** It is combined with the commit analysis and the *higher* bump wins, so forcing `patch` on a branch holding a `feat:` commit still produces a minor release. It can only raise the bump, never lower it.
+- **Manual runs are restricted to `main`.** The run-workflow dialog still lets you pick any ref, so the workflow checks it up front and fails immediately with an error if it is anything other than `main`. Beta releases from `develop` are unaffected — those still happen automatically on push.
+
+Forcing a bump is how you reach a specific version — to release `2.0.0` from `1.9.0`, dispatch with `release_type=major`. semantic-release always derives the number from the last tag, so it cannot skip versions (there is no way to jump `1.9.0` straight to `3.0.0`).
 
 ## Version Numbers
 
