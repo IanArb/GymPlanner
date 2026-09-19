@@ -59,6 +59,7 @@
     [
       "@semantic-release/exec",
       {
+        "analyzeCommitsCmd": "echo \"$FORCE_RELEASE_TYPE\"",
         "prepareCmd": "./scripts/update-version.sh ${nextRelease.version}",
         "publishCmd": "./build-xcframework.sh ${nextRelease.version}"
       }

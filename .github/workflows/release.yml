@@ -5,6 +5,21 @@ on:
     branches:
       - main
       - develop
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Version bump to force. "auto" derives it from the commits since the last release.'
+        type: choice
+        default: auto
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+      dry_run:
+        description: 'Dry run — work out the next version and release notes without tagging, publishing or pushing anything'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -17,6 +32,18 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - name: Restrict manual runs to main
+        id: branch-guard
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          {
+            echo "## 🚫 Release blocked"
+            echo "Manual releases can only be run from \`main\`, but this run targeted \`${{ github.ref_name }}\`."
+            echo "Re-run the workflow with **main** selected as the branch."
+          } >> $GITHUB_STEP_SUMMARY
+          echo "::error::Manual releases can only be run from main (this run targeted ${{ github.ref_name }})."
+          exit 1
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -55,16 +82,18 @@ jobs:
           echo "✅ semantic-release installed successfully"
 
       - name: Run semantic-release (Dry Run)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || inputs.dry_run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_RELEASE_TYPE: ${{ inputs.release_type != 'auto' && inputs.release_type || '' }}
         run: |
           npx semantic-release --dry-run
 
       - name: Run semantic-release
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && !inputs.dry_run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_RELEASE_TYPE: ${{ inputs.release_type != 'auto' && inputs.release_type || '' }}
           GIT_AUTHOR_NAME: github-actions[bot]
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
@@ -86,7 +115,7 @@ jobs:
           fi
 
       - name: Update Swift Package manifest in repository
-        if: steps.get-version.outputs.version != ''
+        if: steps.get-version.outputs.version != '' && !inputs.dry_run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -105,10 +134,15 @@ jobs:
           fi
 
       - name: Summary
-        if: always()
+        if: always() && steps.branch-guard.outcome != 'failure'
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           echo "## 🎉 Release Summary" >> $GITHUB_STEP_SUMMARY
-          if [ -f "version.properties" ]; then
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "🧪 **Dry run** — nothing was tagged, published or pushed." >> $GITHUB_STEP_SUMMARY
+            echo "See the *Run semantic-release (Dry Run)* step above for the version that would be released." >> $GITHUB_STEP_SUMMARY
+          elif [ -f "version.properties" ]; then
             VERSION=$(grep "^version=" version.properties | cut -d'=' -f2)
             echo "✅ Released version: **$VERSION**" >> $GITHUB_STEP_SUMMARY
             echo "📦 XCFramework available in GitHub Releases" >> $GITHUB_STEP_SUMMARY
