@@ -1,3 +1,5 @@
+# [1.10.0](https://github.com/IanArb/GymPlanner/compare/v1.9.0...v1.10.0) (2026-09-19)
+
 # [1.9.0](https://github.com/IanArb/GymPlanner/compare/v1.8.0...v1.9.0) (2026-05-07)
 
 
