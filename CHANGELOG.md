@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/IanArb/GymPlanner/compare/v1.11.0...v1.12.0) (2026-09-23)
+
+
+### Features
+
+* Add Dashboard and Login screens ([#42](https://github.com/IanArb/GymPlanner/issues/42)) ([8af279d](https://github.com/IanArb/GymPlanner/commit/8af279dac4eb4f77f9f94bfcee0defb5c7edf79c))
+
 # [1.11.0](https://github.com/IanArb/GymPlanner/compare/v1.10.1...v1.11.0) (2026-09-23)
 
 
