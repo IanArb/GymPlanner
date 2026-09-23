@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "SharedGymPlanner",
-            url: "https://github.com/IanArb/GymPlanner/releases/download/v1.10.0/SharedGymPlanner.xcframework.zip",
-            checksum: "6dcd0733ccb81fcd8a1946c651905f9085957d1e4923805234b8aa8c3b23f919"
+            url: "https://github.com/IanArb/GymPlanner/releases/download/v1.11.0/SharedGymPlanner.xcframework.zip",
+            checksum: "8bb2b8f91d72be6d24467caef9859a473532fcc5834610023ebc7fd96adc7b59"
         )
     ]
 )
