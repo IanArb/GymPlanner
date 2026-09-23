@@ -6,6 +6,7 @@ import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.authentication.domain.Register
 import com.ianarbuckle.gymplanner.authentication.domain.RegisterResponse
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.USER_ID
@@ -111,7 +112,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `login success sets uiState to Success and isAuthenticated to true`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
 
@@ -127,7 +128,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `login success saves token and userId to storage`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
 
@@ -141,7 +142,7 @@ class LoginViewModelTest : KoinTest {
 
     @Test
     fun `login failure sets uiState to Error`() = testScope.runTest {
-        fakeAuthRepository.loginResult = Result.failure(RuntimeException("Invalid credentials"))
+        fakeAuthRepository.loginResult = ApiResult.Failure(RuntimeException("Invalid credentials"))
 
         val viewModel = LoginViewModel(testScope)
         viewModel.dispatchAction(
@@ -158,7 +159,7 @@ class LoginViewModelTest : KoinTest {
 
     @Test
     fun `login failure does not set isAuthenticated to true`() = testScope.runTest {
-        fakeAuthRepository.loginResult = Result.failure(RuntimeException("Invalid credentials"))
+        fakeAuthRepository.loginResult = ApiResult.Failure(RuntimeException("Invalid credentials"))
 
         val viewModel = LoginViewModel(testScope)
         viewModel.dispatchAction(
@@ -187,7 +188,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `logout resets uiState to Idle`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
 
@@ -219,7 +220,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `login sets uiState to Error when saving token fails`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
         fakeDataStoreRepository.shouldThrowOnSaveString = true
@@ -238,7 +239,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `login does not set isAuthenticated to true when saving token fails`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
         fakeDataStoreRepository.shouldThrowOnSaveString = true
@@ -253,7 +254,7 @@ class LoginViewModelTest : KoinTest {
     @Test
     fun `login attempts clearAllData when saving token fails`() = testScope.runTest {
         fakeAuthRepository.loginResult =
-            Result.success(
+            ApiResult.Success(
                 LoginResponse(userId = "user-123", token = "jwt-token", expiration = 3600L),
             )
         fakeDataStoreRepository.shouldThrowOnSaveString = true
@@ -299,11 +300,11 @@ class LoginViewModelTest : KoinTest {
 // ========== Fakes ==========
 
 private class FakeAuthenticationRepository : AuthenticationRepository {
-    var loginResult: Result<LoginResponse> = Result.failure(RuntimeException("Not configured"))
+    var loginResult: ApiResult<LoginResponse> = ApiResult.Failure(RuntimeException("Not configured"))
 
-    override suspend fun login(login: Login): Result<LoginResponse> = loginResult
+    override suspend fun login(login: Login): ApiResult<LoginResponse> = loginResult
 
-    override suspend fun register(register: Register): Result<RegisterResponse> = Result.failure(NotImplementedError())
+    override suspend fun register(register: Register): ApiResult<RegisterResponse> = ApiResult.Failure(NotImplementedError())
 }
 
 private class FakeWebDataStoreRepository : DataStoreRepository {
