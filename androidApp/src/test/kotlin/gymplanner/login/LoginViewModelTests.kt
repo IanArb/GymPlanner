@@ -7,6 +7,7 @@ import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
@@ -42,7 +43,7 @@ class LoginViewModelTests {
         // Arrange
         val login = Login("username", "password")
         val loginResponse = LoginResponse("token", "userId", 500L)
-        coEvery { authenticationRepository.login(login) } returns Result.success(loginResponse)
+        coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
 
@@ -62,7 +63,7 @@ class LoginViewModelTests {
         // Arrange
         val login = Login("username", "password")
         coEvery { authenticationRepository.login(login) } returns
-            Result.failure(Exception("Login failed"))
+            ApiResult.Failure(Exception("Login failed"))
 
         // Act
         viewModel.login(login)

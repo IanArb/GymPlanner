@@ -7,6 +7,10 @@ import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.RegisterDomainResponses
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.RegisterResponses
 import com.ianarbuckle.gymplanner.authentication.AuthenticationTestDataProvider.Registers
+import com.ianarbuckle.gymplanner.common.exceptionOrNull
+import com.ianarbuckle.gymplanner.common.getOrNull
+import com.ianarbuckle.gymplanner.common.isFailure
+import com.ianarbuckle.gymplanner.common.isSuccess
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

@@ -10,10 +10,6 @@ class LoginVerifier(
         composeTestRule.onNodeWithText(errorText).assertExists()
     }
 
-    fun checkErrorTextIsNotDisplayed(errorText: String) {
-        composeTestRule.onNodeWithText(errorText).assertDoesNotExist()
-    }
-
     fun verifyDashboardScreenIsDisplayed(text: String) {
         composeTestRule.onNodeWithText(text).assertExists()
     }

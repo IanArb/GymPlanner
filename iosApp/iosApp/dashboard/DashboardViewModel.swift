@@ -27,27 +27,35 @@ class DashboardViewModel: ObservableObject {
         
         do {
             let result = try await repository.fetchFitnessClasses(dayOfWeek: dayOfWeek)
-            
+
+            // The repository returns a Kotlin `ApiResult` sealed type. It's exposed to Swift
+            // as an existential, so match on its concrete SKIE-generated subtypes.
             switch result {
-            case .success(let fitnessClasses):
+            case let success as ApiResultSuccess<AnyObject>:
                 // Convert Kotlin FitnessClass to Swift FitnessClass
-                let swiftClasses = fitnessClasses.map { kotlinClass in
+                let kotlinClasses = success.value as? [SharedGymPlanner.FitnessClass] ?? []
+                let swiftClasses = kotlinClasses.map { kotlinClass in
                     FitnessClass(
-                        id: kotlinClass.id,
+                        id: "\(kotlinClass.name)-\(kotlinClass.startTime)",
                         name: kotlinClass.name,
                         description: kotlinClass.description_,
                         imageUrl: kotlinClass.imageUrl,
-                        startTime: Date(timeIntervalSince1970: TimeInterval(kotlinClass.startTime / 1000)),
-                        endTime: Date(timeIntervalSince1970: TimeInterval(kotlinClass.endTime / 1000))
+                        startTime: Self.parseTime(kotlinClass.startTime),
+                        endTime: Self.parseTime(kotlinClass.endTime)
                     )
                 }
-                
+
                 await MainActor.run {
                     self.uiState = .success(swiftClasses)
                 }
-                
-            case .failure(let error):
-                print("Error loading classes: \(error)")
+
+            case let failure as ApiResultFailure:
+                print("Error loading classes: \(failure.error)")
+                await MainActor.run {
+                    self.uiState = .error
+                }
+
+            default:
                 await MainActor.run {
                     self.uiState = .error
                 }
@@ -58,6 +66,14 @@ class DashboardViewModel: ObservableObject {
                 uiState = .error
             }
         }
+    }
+
+    /// Parses a "HH:mm" time string (as returned by the API) into a `Date`.
+    private static func parseTime(_ value: String) -> Date {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "HH:mm"
+        return formatter.date(from: value) ?? Date()
     }
 }
 

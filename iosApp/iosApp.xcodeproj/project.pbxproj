@@ -18,6 +18,8 @@
 		417CD6DC2F0170FC0016BBC8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6DB2F0170F90016BBC8 /* LoginViewModel.swift */; };
 		417CD6DE2F01711F0016BBC8 /* LoginUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6DD2F0171190016BBC8 /* LoginUiState.swift */; };
 		417CD6E12F01D5A80016BBC8 /* .swiftformat in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6E02F01D59D0016BBC8 /* .swiftformat */; };
+		417DA3EE306063D500821097 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 417DA3ED306063D500821097 /* Swinject */; };
+		417DA3F1306063F200821097 /* SharedGymPlanner in Frameworks */ = {isa = PBXBuildFile; productRef = 417DA3F0306063F200821097 /* SharedGymPlanner */; };
 		419CCB172FD9E10C007375E2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB162FD9E10C007375E2 /* MainTabView.swift */; };
 		419CCB232FDF1B30007375E2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB222FDF1B30007375E2 /* DashboardView.swift */; };
 		419CCB252FDF1BB8007375E2 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB242FDF1BB8007375E2 /* ScheduleView.swift */; };
@@ -70,8 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				417DA3F1306063F200821097 /* SharedGymPlanner in Frameworks */,
 				417CD6CF2F0170490016BBC8 /* SharedGymPlanner in Frameworks */,
 				417CD6D22F0170590016BBC8 /* Swinject in Frameworks */,
+				417DA3EE306063D500821097 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +220,8 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				417CD6CD2F0170490016BBC8 /* XCRemoteSwiftPackageReference "GymPlanner" */,
-				417CD6D02F0170590016BBC8 /* XCRemoteSwiftPackageReference "Swinject" */,
+				417DA3EC306063D500821097 /* XCRemoteSwiftPackageReference "Swinject" */,
+				417DA3EF306063F200821097 /* XCRemoteSwiftPackageReference "GymPlanner" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -428,6 +432,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 56J2MD9T9K;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -439,7 +444,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ianarbuckle.gymplanner.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -452,6 +457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = 56J2MD9T9K;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -463,7 +469,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.iosApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ianarbuckle.gymplanner.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -498,7 +504,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/IanArb/GymPlanner/";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 1.0.0;
 			};
 		};
@@ -506,8 +512,24 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 2.10.0;
+			};
+		};
+		417DA3EC306063D500821097 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+		417DA3EF306063F200821097 /* XCRemoteSwiftPackageReference "GymPlanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/IanArb/GymPlanner/";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -522,6 +544,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 417CD6D02F0170590016BBC8 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		417DA3ED306063D500821097 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 417DA3EC306063D500821097 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		417DA3F0306063F200821097 /* SharedGymPlanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 417DA3EF306063F200821097 /* XCRemoteSwiftPackageReference "GymPlanner" */;
+			productName = SharedGymPlanner;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
