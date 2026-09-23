@@ -8,15 +8,13 @@ import com.ianarbuckle.gymplanner.authentication.domain.RegisterResponse
 import com.ianarbuckle.gymplanner.common.ApiResult
 
 class FakeAuthenticationRepository : AuthenticationRepository {
-    override suspend fun login(login: Login): ApiResult<LoginResponse> =
-        if (login.username == "invaliduser" && login.password == "wrongpassword") {
-            ApiResult.Failure(Exception("Error logging in. Please try again."))
-        } else {
-            mockLoginApiSuccess()
-        }
+    override suspend fun login(login: Login): ApiResult<LoginResponse> = if (login.username == "invaliduser" && login.password == "wrongpassword") {
+        ApiResult.Failure(Exception("Error logging in. Please try again."))
+    } else {
+        mockLoginApiSuccess()
+    }
 
-    override suspend fun register(register: Register): ApiResult<RegisterResponse> =
-        mockRegisterApiSuccess()
+    override suspend fun register(register: Register): ApiResult<RegisterResponse> = mockRegisterApiSuccess()
 
     private fun mockLoginApiSuccess(): ApiResult<LoginResponse> = ApiResult.Success(
         LoginResponse(
@@ -26,6 +24,5 @@ class FakeAuthenticationRepository : AuthenticationRepository {
         ),
     )
 
-    private fun mockRegisterApiSuccess(): ApiResult<RegisterResponse> =
-        ApiResult.Success(RegisterResponse(message = "Registered"))
+    private fun mockRegisterApiSuccess(): ApiResult<RegisterResponse> = ApiResult.Success(RegisterResponse(message = "Registered"))
 }
