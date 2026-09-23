@@ -18,12 +18,16 @@ struct DashboardViewModelTests {
     }
 
     private func successClasses(_ state: DashboardUiState) -> [iosApp.FitnessClass]? {
-        if case let .success(classes) = state { return classes }
+        if case let .success(classes) = state {
+            return classes
+        }
         return nil
     }
 
     private func isError(_ state: DashboardUiState) -> Bool {
-        if case .error = state { return true }
+        if case .error = state {
+            return true
+        }
         return false
     }
 
