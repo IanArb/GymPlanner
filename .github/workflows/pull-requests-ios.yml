@@ -1,4 +1,4 @@
-name: iOS - Run Unit Tests
+name: iOS - Run Unit Tests and Swift Lint
 
 on:
   pull_request:
@@ -13,6 +13,22 @@ permissions:
   contents: read
 
 jobs:
+  swiftformat-lint:
+    name: SwiftFormat lint
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install SwiftFormat
+        run: brew install swiftformat
+
+      - name: Check formatting
+        run: |
+          cd iosApp
+          swiftformat --lint .
+
   ios-unit-tests:
     name: Run iOS unit tests
     runs-on: macos-latest
