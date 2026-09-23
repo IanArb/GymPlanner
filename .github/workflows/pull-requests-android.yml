@@ -7,22 +7,22 @@ on:
 
 permissions:
   contents: read
-  checks: write
-  pull-requests: write
 
 jobs:
-  build:
+  lint:
+    name: Spotless and Detekt
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Add google-services.json
         run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > androidApp/google-services.json
@@ -30,11 +30,36 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Run spotless check Android
-        run : ./gradlew spotlessCheck --no-configuration-cache
+      - name: Run spotless check
+        run: ./gradlew spotlessCheck --no-configuration-cache
 
       - name: Run detekt check
-        run : ./gradlew detekt
+        run: ./gradlew detekt
+
+  unit-tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Add google-services.json
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > androidApp/google-services.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Run Android unit tests
         run: ./gradlew androidApp:testDebugUnitTest
@@ -72,6 +97,27 @@ jobs:
             androidApp/build/test-results/**/*.xml
             shared/build/test-results/**/*.xml
 
+  screenshot-tests:
+    name: Verify Compose screenshot tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Add google-services.json
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > androidApp/google-services.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Verify Compose preview screenshot tests
         run: ./gradlew :androidApp:validateDebugScreenshotTest --stacktrace
 
@@ -81,4 +127,3 @@ jobs:
         with:
           name: screenshot-test-report
           path: androidApp/build/reports/screenshotTest/preview/debug/
-
