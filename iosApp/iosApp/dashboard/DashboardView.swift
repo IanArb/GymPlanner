@@ -6,16 +6,16 @@
 //  Copyright © 2026 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct DashboardView: View {
     @State private var selectedDay: String = "Monday"
     @State private var isLoading: Bool = false
-    
+
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
-    // Sample data
+
+    /// Sample data
     let sampleClasses: [FitnessClass] = [
         FitnessClass(
             id: "1",
@@ -48,9 +48,9 @@ struct DashboardView: View {
             imageUrl: "https://images.unsplash.com/photo-1518611012118-696072aa579a",
             startTime: Date().addingTimeInterval(25200),
             endTime: Date().addingTimeInterval(28800)
-        )
+        ),
     ]
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -62,9 +62,8 @@ struct DashboardView: View {
         }
     }
 
-    
     // MARK: - Content View
-    
+
     @ViewBuilder
     private var contentView: some View {
         if isLoading {
@@ -73,32 +72,32 @@ struct DashboardView: View {
             successView(classes: sampleClasses)
         }
     }
-    
+
     private var idleView: some View {
         VStack(spacing: 16) {
             Image(systemName: "figure.strengthtraining.traditional")
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
-            
+
             Text("Select a day to view classes")
                 .font(.headline)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
+
     private var loadingView: some View {
         VStack(spacing: 16) {
             ProgressView()
                 .scaleEffect(1.5)
-            
+
             Text("Loading classes...")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
+
     private func successView(classes: [FitnessClass]) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -106,9 +105,9 @@ struct DashboardView: View {
                 HStack {
                     Text("Today's Classes")
                         .font(.system(size: 16, weight: .bold))
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         // TODO: Navigate to weekly schedule
                     }) {
@@ -118,7 +117,7 @@ struct DashboardView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 // Carousel
                 if classes.isEmpty {
                     emptyStateView
@@ -126,24 +125,24 @@ struct DashboardView: View {
                     GymClassesCarousel(classes: classes)
                         .frame(height: 350)
                 }
-                
+
                 Spacer()
                     .frame(height: 16)
             }
             .padding(.top, 16)
         }
     }
-    
+
     private var emptyStateView: some View {
         VStack(spacing: 16) {
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
-            
+
             Text("No classes scheduled")
                 .font(.headline)
                 .foregroundColor(.secondary)
-            
+
             Text("Check back later or try another day")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
@@ -151,21 +150,21 @@ struct DashboardView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
     }
-    
+
     private var errorView: some View {
         VStack(spacing: 16) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 60))
                 .foregroundColor(.red)
-            
+
             Text("Oops! Something went wrong")
                 .font(.headline)
                 .foregroundColor(.primary)
-            
+
             Text("Unable to load fitness classes")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            
+
             Button(action: {
                 // Retry action - for now just toggle loading
                 isLoading.toggle()

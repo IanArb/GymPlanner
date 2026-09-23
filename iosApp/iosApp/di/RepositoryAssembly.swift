@@ -5,8 +5,8 @@
 //  Created by Ian Arbuckle on 24/12/2025.
 //  Copyright © 2025 orgName. All rights reserved.
 //
-import Swinject
 import SharedGymPlanner
+import Swinject
 
 class RepositoryAssembly: Assembly {
     func assemble(container: Container) {
@@ -17,7 +17,7 @@ class RepositoryAssembly: Assembly {
         container.register(DataStoreRepository.self) { _ in
             DefaultDataStoreRepository()
         }.inObjectScope(.container)
-        
+
         container.register(FitnessClassRepository.self) { _ in
             DefaultFitnessClassRepository()
         }.inObjectScope(.container)

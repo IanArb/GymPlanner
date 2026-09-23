@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GymClassesCarousel: View {
     let classes: [FitnessClass]
-    
+
     var body: some View {
         if classes.isEmpty {
             Text("No classes available at the moment.")
@@ -35,7 +35,7 @@ struct GymClassesCarousel: View {
 
 struct GymClassCarouselCard: View {
     let fitnessClass: FitnessClass
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Image
@@ -47,7 +47,7 @@ struct GymClassCarouselCard: View {
                         .overlay(
                             ProgressView()
                         )
-                case .success(let image):
+                case let .success(image):
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -65,25 +65,25 @@ struct GymClassCarouselCard: View {
             }
             .frame(height: 200)
             .clipped()
-            
+
             // Content
             VStack(alignment: .leading, spacing: 8) {
                 Text(fitnessClass.name)
                     .font(.headline)
                     .foregroundStyle(.primary)
-                
+
                 Text(fitnessClass.description)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
-                
+
                 Spacer()
                     .frame(height: 10)
-                
+
                 Label(classTimeString, systemImage: "clock")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                
+
                 Spacer()
                     .frame(height: 4)
             }
@@ -92,7 +92,7 @@ struct GymClassCarouselCard: View {
         .background(Color(.secondarySystemGroupedBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
-    
+
     private var classTimeString: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -138,10 +138,10 @@ struct GymClassCarouselCard: View {
                 imageUrl: "https://images.unsplash.com/photo-1518611012118-696072aa579a",
                 startTime: Date().addingTimeInterval(25200),
                 endTime: Date().addingTimeInterval(28800)
-            )
+            ),
         ])
         .frame(height: 350)
-        
+
         Spacer()
     }
 }

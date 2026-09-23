@@ -1,5 +1,5 @@
 {
-  "originHash" : "208c9cb7214943b2a2e5b7165237e957b89038c58ec281b801c0aea8cdc63b80",
+  "originHash" : "46eb42d8a7c3f61246864e397bd25f87930e47aca74972cb7e8b0ac969c43c00",
   "pins" : [
     {
       "identity" : "gymplanner",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/IanArb/GymPlanner/",
       "state" : {
         "branch" : "main",
-        "revision" : "4be5f0f237d99aa8086c9b84ded08f9716b006de"
+        "revision" : "5faa7767d1221a6fde59e834802b4daa6e2c72a7"
       }
     },
     {

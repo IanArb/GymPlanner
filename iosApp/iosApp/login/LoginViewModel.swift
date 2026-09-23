@@ -8,8 +8,7 @@
 import Combine
 import SharedGymPlanner
 
-class LoginViewModel : ObservableObject {
-
+class LoginViewModel: ObservableObject {
     @Published var state: LoginUiState = .idle
 
     private let authRepository: AuthenticationRepository
@@ -17,7 +16,7 @@ class LoginViewModel : ObservableObject {
 
     init(
         authRepository: AuthenticationRepository,
-        dataStoreRepository: DataStoreRepository,
+        dataStoreRepository: DataStoreRepository
     ) {
         self.authRepository = authRepository
         self.dataStoreRepository = dataStoreRepository
@@ -25,12 +24,14 @@ class LoginViewModel : ObservableObject {
 
     func checkExistingUser() async {
         do {
-            let isAlreadySignedIn = try await dataStoreRepository.getBooleanData(key: DataStoreRepositoryKt.REMEMBER_ME_KEY)
+            let isAlreadySignedIn = try await dataStoreRepository
+                .getBooleanData(key: DataStoreRepositoryKt.REMEMBER_ME_KEY)
 
             if isAlreadySignedIn != nil {
-                let token = try await dataStoreRepository.getStringData(key: DataStoreRepositoryKt.AUTH_TOKEN_KEY)
+                let token = try await dataStoreRepository
+                    .getStringData(key: DataStoreRepositoryKt.AUTH_TOKEN_KEY)
 
-                if let token = token, !token.isEmpty {
+                if let token, !token.isEmpty {
                     state = .signedIn
                 }
             }
@@ -46,19 +47,24 @@ class LoginViewModel : ObservableObject {
         let isUsernameValid = validateUsername(username)
         let isPasswordValid = validatePassword(password)
 
-        if isUsernameValid && isPasswordValid {
+        if isUsernameValid, isPasswordValid {
             let login = Login(username: username, password: password)
 
             do {
-                _ = try await authRepository.login(login: login)
-                await persistLogin(shouldRememberMe: shouldRemmeberMe)
-                state = .success
+                let result = try await authRepository.login(login: login)
+
+                if result.isSuccess {
+                    await persistLogin(shouldRememberMe: shouldRemmeberMe)
+                    state = .success
+                } else {
+                    print("Login failed: \(String(describing: result.exceptionOrNull()))")
+                    state = .error
+                }
             } catch {
                 state = .error
             }
         }
     }
-
 
     func validateUsername(_ value: String) -> Bool {
         if value.isEmpty {

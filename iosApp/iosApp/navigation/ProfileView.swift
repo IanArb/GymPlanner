@@ -15,11 +15,11 @@ struct ProfileView: View {
                 Image(systemName: "person.circle.fill")
                     .font(.system(size: 80))
                     .foregroundColor(.blue)
-                
+
                 Text("Profile")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                
+
                 Text("Your profile information will appear here")
                     .font(.body)
                     .foregroundColor(.secondary)
