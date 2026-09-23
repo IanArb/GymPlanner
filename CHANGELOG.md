@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/IanArb/GymPlanner/compare/v1.10.1...v1.11.0) (2026-09-23)
+
+
+### Features
+
+* **github:** Add ApiResult to login repository ([#41](https://github.com/IanArb/GymPlanner/issues/41)) ([aad1b86](https://github.com/IanArb/GymPlanner/commit/aad1b86746840dc7921a9873de52cf96dfbebe5a))
+
 # [1.10.0](https://github.com/IanArb/GymPlanner/compare/v1.9.0...v1.10.0) (2026-09-19)
 
 # [1.9.0](https://github.com/IanArb/GymPlanner/compare/v1.8.0...v1.9.0) (2026-05-07)
