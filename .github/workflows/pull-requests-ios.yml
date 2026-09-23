@@ -1,4 +1,4 @@
-name: iOS - Run Unit Tests and Swift Lint
+name: iOS - Quality Checks
 
 on:
   pull_request:
