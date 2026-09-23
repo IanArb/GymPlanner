@@ -1,13 +1,13 @@
 {
-  "originHash" : "46eb42d8a7c3f61246864e397bd25f87930e47aca74972cb7e8b0ac969c43c00",
+  "originHash" : "208c9cb7214943b2a2e5b7165237e957b89038c58ec281b801c0aea8cdc63b80",
   "pins" : [
     {
       "identity" : "gymplanner",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/IanArb/GymPlanner/",
       "state" : {
-        "revision" : "86e3168f288168b2195b61a2748e0c9cefaec0c1",
-        "version" : "1.1.0"
+        "branch" : "main",
+        "revision" : "4be5f0f237d99aa8086c9b84ded08f9716b006de"
       }
     },
     {

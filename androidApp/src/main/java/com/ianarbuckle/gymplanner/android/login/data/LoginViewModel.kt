@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ianarbuckle.gymplanner.authentication.AuthenticationRepository
 import com.ianarbuckle.gymplanner.authentication.domain.Login
+import com.ianarbuckle.gymplanner.common.fold
 import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
 import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY

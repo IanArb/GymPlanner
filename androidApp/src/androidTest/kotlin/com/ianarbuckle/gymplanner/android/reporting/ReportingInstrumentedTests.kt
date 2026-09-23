@@ -6,7 +6,7 @@ import android.app.Instrumentation
 import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.espresso.IdlingRegistry
