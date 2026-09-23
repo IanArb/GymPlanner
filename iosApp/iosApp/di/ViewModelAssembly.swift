@@ -5,19 +5,19 @@
 //  Created by Ian Arbuckle on 24/12/2025.
 //  Copyright © 2025 orgName. All rights reserved.
 //
-import Swinject
 import SharedGymPlanner
+import Swinject
 
 class ViewModelAssembly: Assembly {
     func assemble(container: Container) {
-        container.register(LoginViewModel.self) { (resolver) in
+        container.register(LoginViewModel.self) { resolver in
             LoginViewModel(
                 authRepository: resolver.resolve(AuthenticationRepository.self)!,
-                dataStoreRepository: resolver.resolve(DataStoreRepository.self)!,
+                dataStoreRepository: resolver.resolve(DataStoreRepository.self)!
             )
         }
-        
-        container.register(DashboardViewModel.self) { (resolver) in
+
+        container.register(DashboardViewModel.self) { resolver in
             DashboardViewModel(
                 repository: resolver.resolve(FitnessClassRepository.self)!
             )

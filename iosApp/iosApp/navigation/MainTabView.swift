@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selectedTab = 0
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // Content
@@ -26,7 +26,7 @@ struct MainTabView: View {
                     DashboardView()
                 }
             }
-            
+
             // Custom Tab Bar
             CustomTabBar(selectedTab: $selectedTab)
         }
@@ -38,7 +38,7 @@ struct MainTabView: View {
 
 struct CustomTabBar: View {
     @Binding var selectedTab: Int
-    
+
     var body: some View {
         HStack(spacing: 0) {
             // Home Tab
@@ -49,7 +49,7 @@ struct CustomTabBar: View {
             ) {
                 selectedTab = 0
             }
-            
+
             // Schedule Tab
             TabBarItem(
                 icon: "calendar",
@@ -58,7 +58,7 @@ struct CustomTabBar: View {
             ) {
                 selectedTab = 1
             }
-            
+
             // Profile Tab
             TabBarItem(
                 icon: "person.fill",
@@ -86,13 +86,13 @@ struct TabBarItem: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 20))
-                
+
                 Text(title)
                     .font(.system(size: 10))
             }

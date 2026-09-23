@@ -1,10 +1,8 @@
-//
-//  .swiftformat
-//  iosApp
-//
-//  Created by Ian Arbuckle on 28/12/2025.
-//  Copyright © 2025 orgName. All rights reserved.
-//
+# .swiftformat
+# iosApp
+#
+# Created by Ian Arbuckle on 28/12/2025.
+# Copyright © 2025 orgName. All rights reserved.
 --swiftversion 5.9
 --indent 4
 --maxwidth 100

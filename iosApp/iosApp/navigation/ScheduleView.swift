@@ -1,5 +1,5 @@
 //
-//  ProfileView.swift
+//  ScheduleView.swift
 //  iosApp
 //
 //  Created by Ian Arbuckle on 10/06/2026.
@@ -8,29 +8,29 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct ScheduleView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Image(systemName: "person.circle.fill")
+                Image(systemName: "calendar")
                     .font(.system(size: 80))
                     .foregroundColor(.blue)
 
-                Text("Profile")
+                Text("Schedule")
                     .font(.largeTitle)
                     .fontWeight(.bold)
 
-                Text("Your profile information will appear here")
+                Text("Your scheduled classes will appear here")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
             }
-            .navigationTitle("Profile")
+            .navigationTitle("Schedule")
         }
     }
 }
 
 #Preview {
-    ProfileView()
+    ScheduleView()
 }

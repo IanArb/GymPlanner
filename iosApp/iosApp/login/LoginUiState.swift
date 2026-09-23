@@ -16,9 +16,9 @@ enum LoginUiState: Equatable {
     static func == (lhs: LoginUiState, rhs: LoginUiState) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle), (.loading, .loading), (.error, .error), (.success, .success):
-            return true
+            true
         default:
-            return false
+            false
         }
     }
 }
