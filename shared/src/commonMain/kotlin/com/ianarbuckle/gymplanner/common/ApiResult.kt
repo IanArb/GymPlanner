@@ -37,3 +37,17 @@ inline fun <T, R> ApiResult<T>.fold(
     is ApiResult.Success -> onSuccess(value)
     is ApiResult.Failure -> onFailure(error)
 }
+
+inline fun <T> ApiResult<T>.onSuccess(action: (value: T) -> Unit): ApiResult<T> {
+    if (this is ApiResult.Success) {
+        action(value)
+    }
+    return this
+}
+
+inline fun <T> ApiResult<T>.onFailure(action: (error: Throwable) -> Unit): ApiResult<T> {
+    if (this is ApiResult.Failure) {
+        action(error)
+    }
+    return this
+}

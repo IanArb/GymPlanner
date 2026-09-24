@@ -1,21 +1,22 @@
 package com.ianarbuckle.gymplanner.android.reporting.fakes
 
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 class FakeFaultRepository : FaultReportingRepository {
     var shouldReturnError = false
 
-    override suspend fun fetchFaultReports(): Result<List<FaultReport>> = if (shouldReturnError) {
-        Result.failure(Exception("Error"))
+    override suspend fun fetchFaultReports(): ApiResult<List<FaultReport>> = if (shouldReturnError) {
+        ApiResult.Failure(Exception("Error"))
     } else {
-        Result.success(listOf(mockFaultReport()))
+        ApiResult.Success(listOf(mockFaultReport()))
     }
 
-    override suspend fun saveFaultReport(report: FaultReport): Result<FaultReport> = if (shouldReturnError) {
-        Result.failure(Exception("Error"))
+    override suspend fun saveFaultReport(report: FaultReport): ApiResult<FaultReport> = if (shouldReturnError) {
+        ApiResult.Failure(Exception("Error"))
     } else {
-        Result.success(mockFaultReport())
+        ApiResult.Success(mockFaultReport())
     }
 
     private fun mockFaultReport(): FaultReport = FaultReport(

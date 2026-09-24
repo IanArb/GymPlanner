@@ -2,6 +2,8 @@ package com.ianarbuckle.gymplanner.android.reporting.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ianarbuckle.gymplanner.common.onFailure
+import com.ianarbuckle.gymplanner.common.onSuccess
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import dagger.hilt.android.lifecycle.HiltViewModel

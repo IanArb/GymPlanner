@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   swiftformat-lint:
-    name: SwiftFormat lint
+    name: Run SwiftFormat lint
     runs-on: macos-latest
 
     steps:

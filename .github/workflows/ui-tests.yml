@@ -1,4 +1,4 @@
-name: UI Tests for Android
+name: Android - UI Tests
 
 on:
   pull_request:

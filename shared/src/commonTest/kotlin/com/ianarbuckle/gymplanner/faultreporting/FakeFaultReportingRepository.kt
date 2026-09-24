@@ -1,23 +1,24 @@
 package com.ianarbuckle.gymplanner.faultreporting
 
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 
 /** Fake implementation of FaultReportingRepository for testing */
 class FakeFaultReportingRepository(
     private val remoteDataSource: FaultReportingRemoteDataSource,
 ) : FaultReportingRepository {
-    override suspend fun fetchFaultReports(): Result<List<FaultReport>> = try {
+    override suspend fun fetchFaultReports(): ApiResult<List<FaultReport>> = try {
         val reports = remoteDataSource.reports()
         val faultReports = reports.map { it.toFaultReport() }
-        Result.success(faultReports)
+        ApiResult.Success(faultReports)
     } catch (ex: Exception) {
-        Result.failure(ex)
+        ApiResult.Failure(ex)
     }
 
-    override suspend fun saveFaultReport(report: FaultReport): Result<FaultReport> = try {
+    override suspend fun saveFaultReport(report: FaultReport): ApiResult<FaultReport> = try {
         val faultReport = remoteDataSource.saveReport(report)
-        Result.success(faultReport.toFaultReport())
+        ApiResult.Success(faultReport.toFaultReport())
     } catch (ex: Exception) {
-        Result.failure(ex)
+        ApiResult.Failure(ex)
     }
 }
