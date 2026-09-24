@@ -3,6 +3,7 @@ package gymplanner.reporting
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.reporting.data.FormFaultReportUiState
 import com.ianarbuckle.gymplanner.android.reporting.data.ReportingViewModel
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.faultreporting.FaultReportingRepository
 import com.ianarbuckle.gymplanner.faultreporting.domain.FaultReport
 import gymplanner.utils.TestCoroutineRule
@@ -24,7 +25,7 @@ class ReportingViewModelTests {
     fun `submitFault should update uiState to FormSuccess when API call succeeds`() = runTest {
         // Arrange
         val faultReport = mockk<FaultReport>()
-        coEvery { reportingRepository.saveFaultReport(faultReport) } returns Result.success(faultReport)
+        coEvery { reportingRepository.saveFaultReport(faultReport) } returns ApiResult.Success(faultReport)
 
         // Act
         viewModel.submitFault(faultReport)
@@ -43,7 +44,7 @@ class ReportingViewModelTests {
         // Arrange
         val faultReport = mockk<FaultReport>()
         coEvery { reportingRepository.saveFaultReport(faultReport) } returns
-            Result.failure(Exception("Submission failed"))
+            ApiResult.Failure(Exception("Submission failed"))
 
         // Act
         viewModel.submitFault(faultReport)
