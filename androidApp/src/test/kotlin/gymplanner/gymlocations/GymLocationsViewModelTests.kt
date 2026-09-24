@@ -3,6 +3,7 @@ package gymplanner.gymlocations
 import app.cash.turbine.test
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsUiState
 import com.ianarbuckle.gymplanner.android.gymlocations.data.GymLocationsViewModel
+import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import com.ianarbuckle.gymplanner.gymlocations.domain.GymLocations
 import gymplanner.utils.TestCoroutineRule
@@ -23,7 +24,7 @@ class GymLocationsViewModelTests {
     fun `fetchGymLocations should update uiState to Success when API call succeeds`() = runTest {
         // Arrange
         val gymLocations = persistentListOf(mockk<GymLocations>())
-        coEvery { gymLocationsRepository.fetchGymLocations() } returns Result.success(gymLocations)
+        coEvery { gymLocationsRepository.fetchGymLocations() } returns ApiResult.Success(gymLocations)
 
         val viewModel = GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
 
@@ -48,7 +49,7 @@ class GymLocationsViewModelTests {
     fun `fetchGymLocations should update uiState to Failure when API call fails`() = runTest {
         // Arrange
         coEvery { gymLocationsRepository.fetchGymLocations() } returns
-            Result.failure(Exception("Fetch failed"))
+            ApiResult.Failure(Exception("Fetch failed"))
 
         val viewModel = GymLocationsViewModel(gymLocationsRepository = gymLocationsRepository)
 

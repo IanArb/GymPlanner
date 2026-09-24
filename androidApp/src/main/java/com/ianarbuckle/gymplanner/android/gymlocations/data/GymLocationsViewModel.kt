@@ -2,6 +2,7 @@ package com.ianarbuckle.gymplanner.android.gymlocations.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ianarbuckle.gymplanner.common.fold
 import com.ianarbuckle.gymplanner.gymlocations.GymLocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
