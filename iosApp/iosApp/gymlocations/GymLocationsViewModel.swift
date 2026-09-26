@@ -11,7 +11,6 @@ import Foundation
 import SharedGymPlanner
 
 class GymLocationsViewModel: ObservableObject {
-
     @Published
     var uiState: GymLocationsUiState = .idle
 
@@ -31,7 +30,6 @@ class GymLocationsViewModel: ObservableObject {
 
             switch result {
             case let success as ApiResultSuccess<AnyObject>:
-                // Convert Kotlin GymLocations to Swift GymLocation.
                 let kotlinLocations = success.value as? [SharedGymPlanner.GymLocations] ?? []
                 let locations = kotlinLocations.map { location in
                     GymLocation(
