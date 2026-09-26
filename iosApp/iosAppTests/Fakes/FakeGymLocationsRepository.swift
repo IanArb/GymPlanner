@@ -15,7 +15,7 @@ final class FakeGymLocationsRepository: GymLocationsRepository {
 
     private(set) var fetchCallCount = 0
 
-    func __fetchGymLocations() async throws -> Any? {
+    func __fetchGymLocations() async throws -> any ApiResult {
         fetchCallCount += 1
         if let errorToThrow {
             throw errorToThrow
