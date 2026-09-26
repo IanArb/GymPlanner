@@ -1,10 +1,10 @@
 [versions]
-agp = "9.4.0"
+agp = "9.4.1"
 androidx-activityCompose = "1.13.0"
-androidx-navigation3 = "1.1.7"
+androidx-navigation3 = "1.2.0"
 androix-navigation3-lifecycle = "2.11.0"
 androidx-test-uiautomator = "2.4.0"
-compose-multiplatform = "1.12.0"
+compose-multiplatform = "1.12.1"
 compose-material3-jetbrains-version = "1.9.0"
 compose-material3 = "1.4.0"
 compose-bom = "2026.08.00"
@@ -13,16 +13,16 @@ core = "1.7.0"
 coil3 = "3.6.2"
 datastore = "1.2.1"
 espressoIntents = "3.6.0"
-firebase-bom = "34.18.0"
+firebase-bom = "34.19.0"
 hilt = "2.60.1"
 hilt-navigation = "1.4.0"
-kermit = "2.1.0"
+kermit = "2.2.0"
 koinTest = "4.2.2"
-kotest = "6.2.4"
+kotest = "6.2.5"
 kotlin = "2.4.10"
 kotlin-datetime = "0.8.0"
 kotlinx-immutable-collections = "0.5.2"
-ktor = "3.5.2"
+ktor = "3.6.0"
 koin = "4.2.2"
 mockwebserver = "5.5.0"
 screenshot = "0.0.1-alpha16"
@@ -31,7 +31,7 @@ mockk = "1.14.11"
 runner = "1.7.0"
 serialization = "1.11.0"
 espressoIdlingResource = "3.7.0"
-tracing = "2.0.1"
+tracing = "2.0.3"
 webPackPlugin = "9.1.0"
 detektPlugin = "1.23.8"
 spotless = "7.0.4"
@@ -97,7 +97,6 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
 
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
 screenshot-validation-api = { module = "com.android.tools.screenshot:screenshot-validation-api", version.ref = "screenshot" }
-roboelectric = { module = "org.robolectric:robolectric", version = "4.16"}
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 turbine = { module = "app.cash.turbine:turbine", version = "1.2.1"}
@@ -117,14 +116,14 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
-google-services-gms = { id = "com.google.gms.google-services", version = "4.4.4" }
+google-services-gms = { id = "com.google.gms.google-services", version = "4.5.0" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
-ksp = { id = "com.google.devtools.ksp", version = "2.3.10" }
+ksp = { id = "com.google.devtools.ksp", version = "2.3.11" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 skie = { id = "co.touchlab.skie", version = "0.10.14" }
-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.13.0" }
+stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.15.0" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }

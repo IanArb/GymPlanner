@@ -19,7 +19,7 @@ struct MainTabView: View {
                 case 0:
                     DashboardView()
                 case 1:
-                    ScheduleView()
+                    GymLocationsView()
                 case 2:
                     ProfileView()
                 default:
@@ -50,10 +50,10 @@ struct CustomTabBar: View {
                 selectedTab = 0
             }
 
-            // Schedule Tab
+            // Gym Locations Tab
             TabBarItem(
-                icon: "calendar",
-                title: "Schedule",
+                icon: "mappin.and.ellipse",
+                title: "Locations",
                 isSelected: selectedTab == 1
             ) {
                 selectedTab = 1

@@ -37,14 +37,18 @@ struct LoginViewModelTests {
 
     @Test func handleLoginSuccessSetsSuccessAndPersists() async {
         let (sut, auth, dataStore) = makeSUT()
-        auth.loginResultToReturn = TestDataProvider.success([])
+        auth.loginResultToReturn = TestDataProvider.loginSuccess(
+            TestDataProvider.loginResponse(userId: "user-1", token: "jwt-abc")
+        )
 
         await sut.handleLogin(username: "ian", password: "secret", shouldRemmeberMe: true)
 
         #expect(sut.state == .success)
         #expect(auth.loginCalls.count == 1)
         #expect(auth.loginCalls.first?.username == "ian")
-        // persistLogin should have written the remember-me flag.
+        // persistLogin should have written the JWT token, user id and remember-me flag.
+        #expect(dataStore.savedStrings.contains("jwt-abc"))
+        #expect(dataStore.savedStrings.contains("user-1"))
         #expect(dataStore.savedBooleans == [true])
     }
 

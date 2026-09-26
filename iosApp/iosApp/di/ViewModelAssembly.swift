@@ -22,5 +22,11 @@ class ViewModelAssembly: Assembly {
                 repository: resolver.resolve(FitnessClassRepository.self)!
             )
         }
+
+        container.register(GymLocationsViewModel.self) { resolver in
+            GymLocationsViewModel(
+                repository: resolver.resolve(GymLocationsRepository.self)!
+            )
+        }
     }
 }

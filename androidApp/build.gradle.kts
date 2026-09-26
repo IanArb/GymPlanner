@@ -25,7 +25,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "com.ianarbuckle.gymplanner.android.utils.CustomTestRunner"
 
-        buildConfigField("String", "BASE_URL", "\"https://c6ee5300188f.ngrok-free.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://3954-86-45-28-173.ngrok-free.app\"")
         buildConfigField("String", "WEBSOCKET_URL", "\"wss://775372c5564a.ngrok-free.app\"")
     }
     buildFeatures {

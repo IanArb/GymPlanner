@@ -53,14 +53,19 @@ class LoginViewModel: ObservableObject {
             do {
                 let result = try await authRepository.login(login: login)
 
-                if result.isSuccess {
-                    await persistLogin(shouldRememberMe: shouldRemmeberMe)
+                // On success the repository returns an ApiResultSuccess wrapping a
+                // LoginResponse. We must persist its JWT token so the shared data
+                // sources can attach it to subsequent authenticated requests.
+                if let success = result as? ApiResultSuccess<AnyObject>,
+                   let response = success.value as? LoginResponse {
+                    await persistLogin(response: response, shouldRememberMe: shouldRemmeberMe)
                     state = .success
                 } else {
                     print("Login failed: \(String(describing: result.exceptionOrNull()))")
                     state = .error
                 }
             } catch {
+                print("Login failed")
                 state = .error
             }
         }
@@ -80,14 +85,23 @@ class LoginViewModel: ObservableObject {
         return true
     }
 
-    func persistLogin(shouldRememberMe: Bool) async {
+    func persistLogin(response: LoginResponse, shouldRememberMe: Bool) async {
         do {
+            // Persist the JWT token (and user id) so authenticated requests succeed.
+            try await dataStoreRepository.saveData(
+                key: DataStoreRepositoryKt.AUTH_TOKEN_KEY,
+                value: response.token
+            )
+            try await dataStoreRepository.saveData(
+                key: DataStoreRepositoryKt.USER_ID,
+                value: response.userId
+            )
             try await dataStoreRepository.saveData(
                 key: DataStoreRepositoryKt.REMEMBER_ME_KEY,
                 value: shouldRememberMe
             )
         } catch {
-            print("Failed to save remember me: \(error)")
+            print("Failed to persist login: \(error)")
         }
     }
 }

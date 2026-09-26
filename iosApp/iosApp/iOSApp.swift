@@ -18,7 +18,7 @@ struct iOSApp: App {
 
     init() {
         KoinKt.doInitKoinIOS(
-            baseUrl: "https://ae15f80bb69d.ngrok-free.app",
+            baseUrl: "https://3954-86-45-28-173.ngrok-free.app",
             websocketBaseUrl: "wss://0fe5dce64a68.ngrok-free.app"
         )
     }
