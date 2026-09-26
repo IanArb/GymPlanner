@@ -2,7 +2,6 @@ plugins {
     id("gymplanner.android.application")
     id("gymplanner.spotless")
     id("gymplanner.detekt")
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
@@ -31,6 +30,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
     buildTypes {
         getByName("release") { resValue("string", "clear_text_config", "false") }
