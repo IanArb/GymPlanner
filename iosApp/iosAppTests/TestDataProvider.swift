@@ -46,6 +46,46 @@ enum TestDataProvider {
         ApiResultFailure(error: KotlinThrowable(message: message))
     }
 
+    // MARK: - Login
+
+    static func loginResponse(
+        userId: String = "user-1",
+        token: String = "jwt-token",
+        expiration: Int64 = 0
+    ) -> LoginResponse {
+        LoginResponse(userId: userId, token: token, expiration: expiration)
+    }
+
+    static func loginSuccess(_ response: LoginResponse = loginResponse()) -> any ApiResult {
+        ApiResultSuccess<AnyObject>(value: response)
+    }
+
+    // MARK: - Gym locations
+
+    static func kotlinGymLocation(
+        title: String = "City Centre",
+        subTitle: String = "Dublin 2",
+        description: String = "Our flagship gym.",
+        imageUrl: String = "https://example.com/gym.jpg"
+    ) -> SharedGymPlanner.GymLocations {
+        SharedGymPlanner.GymLocations(
+            title: title,
+            subTitle: subTitle,
+            description: description,
+            imageUrl: imageUrl
+        )
+    }
+
+    static let multipleGymLocations: [SharedGymPlanner.GymLocations] = [
+        kotlinGymLocation(title: "City Centre", subTitle: "Dublin 2"),
+        kotlinGymLocation(title: "Northside", subTitle: "Dublin 9"),
+        kotlinGymLocation(title: "Southside", subTitle: "Dublin 18"),
+    ]
+
+    static func gymLocationsSuccess(_ locations: [SharedGymPlanner.GymLocations]) -> any ApiResult {
+        ApiResultSuccess<AnyObject>(value: locations as AnyObject)
+    }
+
     // MARK: - Errors
 
     /// A bridgeable error for the "thrown" paths. Must be an `NSError` (not a

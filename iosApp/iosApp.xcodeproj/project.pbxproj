@@ -20,6 +20,10 @@
 		417CD6E12F01D5A80016BBC8 /* .swiftformat in Sources */ = {isa = PBXBuildFile; fileRef = 417CD6E02F01D59D0016BBC8 /* .swiftformat */; };
 		417DA3EE306063D500821097 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 417DA3ED306063D500821097 /* Swinject */; };
 		417DA3F1306063F200821097 /* SharedGymPlanner in Frameworks */ = {isa = PBXBuildFile; productRef = 417DA3F0306063F200821097 /* SharedGymPlanner */; };
+		417DA42C3065B4BF00821097 /* GymLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417DA42A3065B4BF00821097 /* GymLocationsViewModel.swift */; };
+		417DA42D3065B4BF00821097 /* GymLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417DA4293065B4BF00821097 /* GymLocationsView.swift */; };
+		417DA42E3065B4BF00821097 /* GymLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417DA4273065B4BF00821097 /* GymLocation.swift */; };
+		417DA42F3065B4BF00821097 /* GymLocationsUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417DA4283065B4BF00821097 /* GymLocationsUiState.swift */; };
 		419CCB172FD9E10C007375E2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB162FD9E10C007375E2 /* MainTabView.swift */; };
 		419CCB232FDF1B30007375E2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB222FDF1B30007375E2 /* DashboardView.swift */; };
 		419CCB252FDF1BB8007375E2 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419CCB242FDF1BB8007375E2 /* ScheduleView.swift */; };
@@ -65,6 +69,10 @@
 		417CD6DD2F0171190016BBC8 /* LoginUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUiState.swift; sourceTree = "<group>"; };
 		417CD6E02F01D59D0016BBC8 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		417DA3F6306461A100821097 /* iosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		417DA4273065B4BF00821097 /* GymLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymLocation.swift; sourceTree = "<group>"; };
+		417DA4283065B4BF00821097 /* GymLocationsUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymLocationsUiState.swift; sourceTree = "<group>"; };
+		417DA4293065B4BF00821097 /* GymLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymLocationsView.swift; sourceTree = "<group>"; };
+		417DA42A3065B4BF00821097 /* GymLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymLocationsViewModel.swift; sourceTree = "<group>"; };
 		419CCB162FD9E10C007375E2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		419CCB222FDF1B30007375E2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		419CCB242FDF1BB8007375E2 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -131,6 +139,17 @@
 			path = di;
 			sourceTree = "<group>";
 		};
+		417DA42B3065B4BF00821097 /* gymlocations */ = {
+			isa = PBXGroup;
+			children = (
+				417DA4273065B4BF00821097 /* GymLocation.swift */,
+				417DA4283065B4BF00821097 /* GymLocationsUiState.swift */,
+				417DA4293065B4BF00821097 /* GymLocationsView.swift */,
+				417DA42A3065B4BF00821097 /* GymLocationsViewModel.swift */,
+			);
+			path = gymlocations;
+			sourceTree = "<group>";
+		};
 		419CCB1C2FD9E141007375E2 /* navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +194,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				417DA42B3065B4BF00821097 /* gymlocations */,
 				419CCB2A2FDF1CAC007375E2 /* dashboard */,
 				419CCB1C2FD9E141007375E2 /* navigation */,
 				417CD6D42F01706B0016BBC8 /* di */,
@@ -361,6 +381,10 @@
 				419CCB272FDF1BB8007375E2 /* ProfileView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				419CCB342FDF1F02007375E2 /* DashboardViewModel.swift in Sources */,
+				417DA42C3065B4BF00821097 /* GymLocationsViewModel.swift in Sources */,
+				417DA42D3065B4BF00821097 /* GymLocationsView.swift in Sources */,
+				417DA42E3065B4BF00821097 /* GymLocation.swift in Sources */,
+				417DA42F3065B4BF00821097 /* GymLocationsUiState.swift in Sources */,
 				417CD6DE2F01711F0016BBC8 /* LoginUiState.swift in Sources */,
 				419CCB362FDF1F2F007375E2 /* DashboardUiState.swift in Sources */,
 				417CD6D62F01707B0016BBC8 /* RepositoryAssembly.swift in Sources */,

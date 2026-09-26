@@ -7,58 +7,39 @@
 //
 
 import Foundation
+import SharedGymPlanner
 import SwiftUI
 
 struct DashboardView: View {
-    @State private var selectedDay: String = "Monday"
-    @State private var isLoading: Bool = false
+    @StateObject private var viewModel: DashboardViewModel
 
-    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    init(
+        viewModel: DashboardViewModel = DashboardViewModel(
+            repository: DefaultFitnessClassRepository()
+        )
+    ) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
-    /// Sample data
-    let sampleClasses: [FitnessClass] = [
-        FitnessClass(
-            id: "1",
-            name: "Yoga Flow",
-            description: "Gentle flow yoga class perfect for all levels. Focus on breath and movement.",
-            imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b",
-            startTime: Date().addingTimeInterval(3600),
-            endTime: Date().addingTimeInterval(7200)
-        ),
-        FitnessClass(
-            id: "2",
-            name: "HIIT Training",
-            description: "High-intensity interval training to boost your metabolism and build strength.",
-            imageUrl: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb",
-            startTime: Date().addingTimeInterval(10800),
-            endTime: Date().addingTimeInterval(14400)
-        ),
-        FitnessClass(
-            id: "3",
-            name: "Spin Class",
-            description: "Indoor cycling class with energizing music and motivating instructors.",
-            imageUrl: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5",
-            startTime: Date().addingTimeInterval(18000),
-            endTime: Date().addingTimeInterval(21600)
-        ),
-        FitnessClass(
-            id: "4",
-            name: "Pilates Core",
-            description: "Strengthen your core with focused Pilates exercises and techniques.",
-            imageUrl: "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-            startTime: Date().addingTimeInterval(25200),
-            endTime: Date().addingTimeInterval(28800)
-        ),
-    ]
+    /// The current weekday as an uppercased English name (e.g. "MONDAY"),
+    /// matching the format the API expects (see the Android app's `DayOfWeek.name`).
+    private var currentDayOfWeek: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "EEEE"
+        return formatter.string(from: Date()).uppercased()
+    }
 
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Content
                 contentView
             }
             .navigationTitle("Dashboard")
             .navigationBarTitleDisplayMode(.large)
+        }
+        .task {
+            await viewModel.loadClasses(dayOfWeek: currentDayOfWeek)
         }
     }
 
@@ -66,24 +47,14 @@ struct DashboardView: View {
 
     @ViewBuilder
     private var contentView: some View {
-        if isLoading {
+        switch viewModel.uiState {
+        case .idle, .loading:
             loadingView
-        } else {
-            successView(classes: sampleClasses)
+        case let .success(classes):
+            successView(classes: classes)
+        case .error:
+            errorView
         }
-    }
-
-    private var idleView: some View {
-        VStack(spacing: 16) {
-            Image(systemName: "figure.strengthtraining.traditional")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-
-            Text("Select a day to view classes")
-                .font(.headline)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var loadingView: some View {
@@ -166,8 +137,7 @@ struct DashboardView: View {
                 .foregroundColor(.secondary)
 
             Button(action: {
-                // Retry action - for now just toggle loading
-                isLoading.toggle()
+                Task { await viewModel.loadClasses(dayOfWeek: currentDayOfWeek) }
             }) {
                 Text("Try Again")
                     .font(.headline)

@@ -21,5 +21,9 @@ class RepositoryAssembly: Assembly {
         container.register(FitnessClassRepository.self) { _ in
             DefaultFitnessClassRepository()
         }.inObjectScope(.container)
+
+        container.register(GymLocationsRepository.self) { _ in
+            DefaultGymLocationsRepository()
+        }.inObjectScope(.container)
     }
 }
