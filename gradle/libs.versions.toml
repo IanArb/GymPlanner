@@ -19,7 +19,7 @@ hilt-navigation = "1.4.0"
 kermit = "2.2.0"
 koinTest = "4.2.2"
 kotest = "6.2.5"
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 kotlin-datetime = "0.8.0"
 kotlinx-immutable-collections = "0.5.2"
 ktor = "3.6.0"
@@ -123,6 +123,6 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.11" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-skie = { id = "co.touchlab.skie", version = "0.10.14" }
+skie = { id = "co.touchlab.skie", version = "0.10.15" }
 stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.15.0" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }

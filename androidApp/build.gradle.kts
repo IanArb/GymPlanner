@@ -116,4 +116,11 @@ composeCompiler {
     metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
-tasks.withType<Test> { useJUnit() }
+tasks.withType<Test> {
+    useJUnit()
+    // Screenshot previews render timestamps via TimeZone.currentSystemDefault(), so the
+    // rendering JVM must be pinned or reference images differ per developer machine and CI.
+    // The TZ env var is what forked test JVMs inherit; user.timezone covers the in-process case.
+    environment("TZ", "UTC")
+    systemProperty("user.timezone", "UTC")
+}
