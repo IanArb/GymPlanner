@@ -1,6 +1,7 @@
 package gymplanner.login
 
 import app.cash.turbine.test
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ianarbuckle.gymplanner.android.login.data.LoginState
 import com.ianarbuckle.gymplanner.android.login.data.LoginViewModel
@@ -9,11 +10,14 @@ import com.ianarbuckle.gymplanner.authentication.domain.Login
 import com.ianarbuckle.gymplanner.authentication.domain.LoginResponse
 import com.ianarbuckle.gymplanner.common.ApiResult
 import com.ianarbuckle.gymplanner.fcm.FcmTokenRepository
+import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenRequest
+import com.ianarbuckle.gymplanner.fcm.domain.FcmTokenResponse
 import com.ianarbuckle.gymplanner.storage.AUTH_TOKEN_KEY
 import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import gymplanner.utils.TestCoroutineRule
+import io.mockk.every
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -46,9 +50,14 @@ class LoginViewModelTests {
         coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
+        every { firebaseMessaging.token } returns Tasks.forResult("push-token")
+        coEvery {
+            fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token"))
+        } returns Result.success(FcmTokenResponse(token = "push-token"))
 
         // Act
         viewModel.login(login)
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
 
         // Assert
         viewModel.loginState.test {
@@ -56,6 +65,7 @@ class LoginViewModelTests {
             assertEquals(LoginState.Success(loginResponse), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
+        coVerify { fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token")) }
     }
 
     @Test
@@ -74,6 +84,27 @@ class LoginViewModelTests {
             assertEquals(LoginState.Error, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    @Test
+    fun `login should still succeed when fetching the push token fails`() = runTest {
+        val login = Login("username", "password")
+        val loginResponse = LoginResponse("token", "userId", 500L)
+        coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
+        coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
+        coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
+        every { firebaseMessaging.token } returns Tasks.forException(IllegalStateException("token unavailable"))
+
+        viewModel.login(login)
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.loginState.test {
+            assertEquals(LoginState.Loading, awaitItem())
+            assertEquals(LoginState.Success(loginResponse), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        coVerify(exactly = 0) { fcmTokenRepository.registerToken(any()) }
     }
 
     @Test

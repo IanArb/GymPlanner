@@ -1,5 +1,6 @@
 package com.ianarbuckle.gymplanner.android.login.data
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,9 +56,16 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun registerPushToken(userId: String) {
-        val token = firebaseMessaging.token.await()
-        fcmTokenRepository.registerToken(
-            fcmTokenRequest = FcmTokenRequest(userId = userId, token = token),
-        )
+        try {
+            val token = firebaseMessaging.token.await()
+            fcmTokenRepository.registerToken(
+                fcmTokenRequest = FcmTokenRequest(userId = userId, token = token),
+            )
+        } catch (exception: Exception) {
+            if (exception is CancellationException) {
+                throw exception
+            }
+            Log.e("LoginViewModel", "Unable to register push token", exception)
+        }
     }
 }
