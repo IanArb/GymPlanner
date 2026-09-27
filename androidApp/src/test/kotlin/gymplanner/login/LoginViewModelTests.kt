@@ -117,7 +117,7 @@ class LoginViewModelTests {
         every { firebaseMessaging.token } returns Tasks.forResult("push-token")
         coEvery {
             fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token"))
-        } throws IllegalStateException("registration failed")
+        } returns Result.failure(IllegalStateException("registration failed"))
 
         viewModel.login(login)
         testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()

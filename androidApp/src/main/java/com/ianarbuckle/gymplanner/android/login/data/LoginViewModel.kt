@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
             val token = firebaseMessaging.token.await()
             fcmTokenRepository.registerToken(
                 fcmTokenRequest = FcmTokenRequest(userId = userId, token = token),
-            )
+            ).getOrThrow()
         } catch (exception: Exception) {
             if (exception is CancellationException) {
                 throw exception
