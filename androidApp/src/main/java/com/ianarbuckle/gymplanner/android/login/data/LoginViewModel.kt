@@ -14,12 +14,12 @@ import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,16 +56,27 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun registerPushToken(userId: String) {
-        try {
-            val token = firebaseMessaging.token.await()
-            fcmTokenRepository.registerToken(
-                fcmTokenRequest = FcmTokenRequest(userId = userId, token = token),
-            ).getOrThrow()
-        } catch (exception: Exception) {
-            if (exception is CancellationException) {
-                throw exception
+        val token = fetchPushToken() ?: return
+        fcmTokenRepository
+            .registerToken(fcmTokenRequest = FcmTokenRequest(userId = userId, token = token))
+            .onFailure { throwable ->
+                if (throwable is CancellationException) {
+                    throw throwable
+                }
+                Log.e(TAG, "Unable to register push token", throwable)
             }
-            Log.e("LoginViewModel", "Unable to register push token", exception)
+    }
+
+    private suspend fun fetchPushToken(): String? = runCatching {
+        firebaseMessaging.token.await()
+    }.onFailure { throwable ->
+        if (throwable is CancellationException) {
+            throw throwable
         }
+        Log.e(TAG, "Unable to fetch push token", throwable)
+    }.getOrNull()
+
+    private companion object {
+        const val TAG = "LoginViewModel"
     }
 }

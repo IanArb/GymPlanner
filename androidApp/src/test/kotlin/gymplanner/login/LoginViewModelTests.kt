@@ -17,9 +17,9 @@ import com.ianarbuckle.gymplanner.storage.DataStoreRepository
 import com.ianarbuckle.gymplanner.storage.REMEMBER_ME_KEY
 import com.ianarbuckle.gymplanner.storage.USER_ID
 import gymplanner.utils.TestCoroutineRule
-import io.mockk.every
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -46,7 +46,7 @@ class LoginViewModelTests {
     fun `login should update loginState to Success when API call succeeds`() = runTest {
         // Arrange
         val login = Login("username", "password")
-        val loginResponse = LoginResponse("token", "userId", 500L)
+        val loginResponse = LoginResponse(userId = "userId", token = "token", expiration = 500L)
         coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
@@ -55,16 +55,15 @@ class LoginViewModelTests {
             fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token"))
         } returns Result.success(FcmTokenResponse(token = "push-token"))
 
-        // Act
-        viewModel.login(login)
-        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
-
-        // Assert
         viewModel.loginState.test {
+            assertEquals(LoginState.Idle, awaitItem())
+            viewModel.login(login)
             assertEquals(LoginState.Loading, awaitItem())
             assertEquals(LoginState.Success(loginResponse), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
+
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
         coVerify { fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token")) }
     }
 
@@ -89,28 +88,28 @@ class LoginViewModelTests {
     @Test
     fun `login should still succeed when fetching the push token fails`() = runTest {
         val login = Login("username", "password")
-        val loginResponse = LoginResponse("token", "userId", 500L)
+        val loginResponse = LoginResponse(userId = "userId", token = "token", expiration = 500L)
         coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
         every { firebaseMessaging.token } returns Tasks.forException(IllegalStateException("token unavailable"))
 
-        viewModel.login(login)
-        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
-
         viewModel.loginState.test {
+            assertEquals(LoginState.Idle, awaitItem())
+            viewModel.login(login)
             assertEquals(LoginState.Loading, awaitItem())
             assertEquals(LoginState.Success(loginResponse), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
 
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
         coVerify(exactly = 0) { fcmTokenRepository.registerToken(any()) }
     }
 
     @Test
     fun `login should still succeed when registering the push token fails`() = runTest {
         val login = Login("username", "password")
-        val loginResponse = LoginResponse("token", "userId", 500L)
+        val loginResponse = LoginResponse(userId = "userId", token = "token", expiration = 500L)
         coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
         coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
         coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
@@ -119,14 +118,16 @@ class LoginViewModelTests {
             fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token"))
         } returns Result.failure(IllegalStateException("registration failed"))
 
-        viewModel.login(login)
-        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
-
         viewModel.loginState.test {
+            assertEquals(LoginState.Idle, awaitItem())
+            viewModel.login(login)
             assertEquals(LoginState.Loading, awaitItem())
             assertEquals(LoginState.Success(loginResponse), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
+
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
+        coVerify { fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token")) }
     }
 
     @Test
