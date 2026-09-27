@@ -108,6 +108,28 @@ class LoginViewModelTests {
     }
 
     @Test
+    fun `login should still succeed when registering the push token fails`() = runTest {
+        val login = Login("username", "password")
+        val loginResponse = LoginResponse("token", "userId", 500L)
+        coEvery { authenticationRepository.login(login) } returns ApiResult.Success(loginResponse)
+        coEvery { dataStoreRepository.saveData(key = AUTH_TOKEN_KEY, value = any()) } returns Unit
+        coEvery { dataStoreRepository.saveData(key = USER_ID, value = any()) } returns Unit
+        every { firebaseMessaging.token } returns Tasks.forResult("push-token")
+        coEvery {
+            fcmTokenRepository.registerToken(FcmTokenRequest(userId = "userId", token = "push-token"))
+        } throws IllegalStateException("registration failed")
+
+        viewModel.login(login)
+        testCoroutineRule.testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.loginState.test {
+            assertEquals(LoginState.Loading, awaitItem())
+            assertEquals(LoginState.Success(loginResponse), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `persistRememberMe should call saveRememberMe on gymPlanner`() = runTest {
         // Arrange
         val rememberMe = true
